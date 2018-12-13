@@ -35,4 +35,12 @@ public class CourseService {
     public List<Course> listCourseByTeacherId(BigInteger teacherId) {
         return courseDao.listCourseByTeacherId(teacherId);
     }
+
+    public List<Course> listCourseByCourseId(BigInteger courseId) {
+        return courseDao.listCourseByCourseId(courseId);
+    }
+
+    public void deleteCourseByCourseId(BigInteger courseId){
+        courseDao.deleteCourseByCourseId(courseId);
+    }
 }

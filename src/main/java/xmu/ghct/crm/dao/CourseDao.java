@@ -26,5 +26,17 @@ public class CourseDao {
         return courseList;
     }
 
+    public List<Course> listCourseByCourseId(BigInteger courseId){
+        List<Course> courseList=courseMapper.listCourseByCourseId(courseId);
+        if(courseList==null){
+            //throw new CourseNotFindException();
+        }
+        return courseList;
+    }
+
+    public void deleteCourseByCourseId(BigInteger courseId){
+        courseMapper.deleteCourseByCourseId(courseId);
+    }
+
 
 }
