@@ -1,4 +1,6 @@
 package xmu.ghct.crm.entity;
 
-public class Seminar {
+import java.io.Serializable;
+
+public class Seminar implements Serializable {
 }
