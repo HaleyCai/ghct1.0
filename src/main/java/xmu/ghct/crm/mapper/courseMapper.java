@@ -11,6 +11,7 @@ public class courseMapper {
     void insertCourseByUserId(@Param("course") Course course);
 
     List<Course> listCourseByTeacherId(@Param("teacherId")BigInteger teacherId);
+    void GEtCourseByUserId(@Param("course") Course course);
 
 
 }
