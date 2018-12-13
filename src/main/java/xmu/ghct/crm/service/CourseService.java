@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Team;
+import xmu.ghct.crm.entity.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.math.BigInteger;
@@ -48,6 +49,9 @@ public class CourseService {
         return courseDao.getTeamMessageByCourseId(courseId);
     }
 
+    public List<User> getNoTeamStudentByCourseId(BigInteger courseId) {
+        return courseDao.getNoTeamStudentByCourseId(courseId);
+    }
 
 
 }

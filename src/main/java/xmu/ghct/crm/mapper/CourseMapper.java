@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Team;
+import xmu.ghct.crm.entity.User;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface CourseMapper {
     void deleteCourseByCourseId(BigInteger courseId);
 
     List<Team> getTeamMessageByCourseId(BigInteger courseId);
+
+    List<User> getNoTeamStudentByCourseId(BigInteger courseId);
 }

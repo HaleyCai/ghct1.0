@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Team;
+import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.mapper.CourseMapper;
 
 import java.math.BigInteger;
@@ -45,6 +46,14 @@ public class CourseDao {
             //throw new TeamNotFindException();
         }
         return teamList;
+    }
+
+    public List<User> getNoTeamStudentByCourseId(BigInteger courseId){
+        List<User> studentList=courseMapper.getNoTeamStudentByCourseId(courseId);
+        if(studentList==null){
+            //throw new NoStudentNotFindException();
+        }
+        return studentList;
     }
 
 }
