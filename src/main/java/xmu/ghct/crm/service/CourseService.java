@@ -56,7 +56,7 @@ public class CourseService {
         return courseDao.listScoreByCourseId(courseId);
     }
 
-    public List<Klass> listKlassBycourseId(BigInteger courseId){
+    public List<Klass> listKlassByCourseId(BigInteger courseId){
         return courseDao.listKlassBycourseId(courseId);
     }
 

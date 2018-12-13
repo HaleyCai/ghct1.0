@@ -62,7 +62,7 @@ public class CourseController {
     @RequestMapping(value="/course/{courseId}/class",method = RequestMethod.GET)
     @ResponseBody
     public List<Klass> listKlassByCourseId(@PathVariable("courseId")BigInteger courseId){
-        return courseService.listKlassBycourseId(courseId);
+        return courseService.listKlassByCourseId(courseId);
     }
 
 
