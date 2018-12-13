@@ -30,8 +30,8 @@ public class CourseController {
 
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
     @ResponseBody
-    public List<Course>  listCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
-        return courseService.listCourseByCourseId(courseId);
+    public List<Course>  getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
+        return courseService.getCourseByCourseId(courseId);
     }
 
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.DELETE)

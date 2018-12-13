@@ -26,8 +26,8 @@ public class CourseDao {
         return courseList;
     }
 
-    public List<Course> listCourseByCourseId(BigInteger courseId){
-        List<Course> courseList=courseMapper.listCourseByCourseId(courseId);
+    public List<Course> getCourseByCourseId(BigInteger courseId){
+        List<Course> courseList=courseMapper.getCourseByCourseId(courseId);
         if(courseList==null){
             //throw new CourseNotFindException();
         }

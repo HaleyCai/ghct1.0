@@ -15,7 +15,7 @@ public interface CourseMapper {
 
     List<Course> listCourseByTeacherId(BigInteger teacherId);
 
-    List<Course> listCourseByCourseId(BigInteger courseId);
+    List<Course> getCourseByCourseId(BigInteger courseId);
 
     void deleteCourseByCourseId(BigInteger courseId);
 
