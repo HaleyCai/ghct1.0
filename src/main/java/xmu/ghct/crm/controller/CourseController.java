@@ -3,6 +3,7 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.entity.Course;
+import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.service.CourseService;
 
 import java.math.BigInteger;
@@ -38,5 +39,11 @@ public class CourseController {
     @ResponseBody
     public void deleteCourseByCourseId(@PathVariable("courseId")BigInteger courseId) {
         courseService.deleteCourseByCourseId(courseId);
+    }
+
+    @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Team>  getTeamMessageByCourseId(@PathVariable("courseId")BigInteger courseId){
+        return courseService.getTeamMessageByCourseId(courseId);
     }
 }

@@ -3,6 +3,7 @@ package xmu.ghct.crm.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.Course;
+import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.mapper.CourseMapper;
 
 import java.math.BigInteger;
@@ -38,5 +39,12 @@ public class CourseDao {
         courseMapper.deleteCourseByCourseId(courseId);
     }
 
+    public List<Team> getTeamMessageByCourseId(BigInteger courseId){
+        List<Team> teamList=courseMapper.getTeamMessageByCourseId(courseId);
+        if(teamList==null){
+            //throw new TeamNotFindException();
+        }
+        return teamList;
+    }
 
 }
