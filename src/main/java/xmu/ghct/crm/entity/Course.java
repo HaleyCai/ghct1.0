@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 public class Course implements Serializable {
+    private BigInteger courseId;
     private BigInteger teacherId;
     private String courseName;
     private String introduction;
