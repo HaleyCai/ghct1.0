@@ -27,5 +27,7 @@ public interface CourseMapper {
 
     List<User> getNoTeamStudentByCourseId(BigInteger courseId);
 
+    void deleteClassByCourseIdAndClassId(BigInteger courseId,BigInteger classId);
+
 
 }

@@ -62,12 +62,16 @@ public class CourseDao {
         return scoreList;
     }
 
-    public List<Klass> listKlassBycourseId(BigInteger courseId){
+    public List<Klass> listKlassByCourseId(BigInteger courseId){
         List<Klass> klassList=courseMapper.listKlassByCoursId(courseId);
         if(klassList==null){
             //throw new NoStudentNotFindException();
         }
         return klassList;
+    }
+
+    public void deleteClassByCourseIdAndClassId(BigInteger courseId,BigInteger classId){
+        courseMapper.deleteClassByCourseIdAndClassId(courseId,classId);
     }
 
 

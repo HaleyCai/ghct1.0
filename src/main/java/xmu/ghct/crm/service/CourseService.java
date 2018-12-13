@@ -57,7 +57,11 @@ public class CourseService {
     }
 
     public List<Klass> listKlassByCourseId(BigInteger courseId){
-        return courseDao.listKlassBycourseId(courseId);
+        return courseDao.listKlassByCourseId(courseId);
+    }
+
+    public void deleteClassByCourseIdAndClassId(BigInteger courseId,BigInteger classId){
+          courseDao.deleteClassByCourseIdAndClassId(courseId, classId);
     }
 
 

@@ -65,6 +65,10 @@ public class CourseController {
         return courseService.listKlassByCourseId(courseId);
     }
 
-
+    @RequestMapping(value="/course/{courseId}/class/{classId}",method = RequestMethod.GET)
+    @ResponseBody
+    public void deleteClassByCourseIdAndClassId(@PathVariable("courseId")BigInteger courseId,@PathVariable("classId")BigInteger classId){
+        courseService.deleteClassByCourseIdAndClassId(courseId, classId);
+    }
 
 }
