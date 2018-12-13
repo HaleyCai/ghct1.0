@@ -8,10 +8,11 @@ import java.util.List;
 
 public class courseMapper {
 
+    String s;
+
     void insertCourseByUserId(@Param("course") Course course);
 
     List<Course> listCourseByTeacherId(@Param("teacherId")BigInteger teacherId);
     void GEtCourseByUserId(@Param("course") Course course);
-
 
 }
