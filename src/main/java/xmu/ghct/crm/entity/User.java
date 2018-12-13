@@ -9,7 +9,7 @@ public class User implements Serializable {
     private String password;
     private String name;
     private String email;
-    private boolean sex;//sex默认false为男性
+    private boolean active;//默认未激活
 
     public BigInteger getId() {
         return id;
@@ -52,11 +52,11 @@ public class User implements Serializable {
     }
 
     public boolean isSex() {
-        return sex;
+        return active;
     }
 
     public void setSex(boolean sex) {
-        this.sex = sex;
+        this.active = sex;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", sex=" + sex +
+                ", active=" + active +
                 '}';
     }
 }

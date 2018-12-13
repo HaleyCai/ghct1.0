@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.ghct.crm.mapper.UserMapper">
+    <select id="getTeacherByAccount" resultMap="TeacherUserResult">
+        select id,account,password,teacher_name,email,is_active
+        from teacher
+        where account=#{account}
+    </select>
+    
+    <resultMap id="TeacherUserResult" type="xmu.ghct.crm.entity.User">
+        <id property="id" column="id"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="name" column="teacher_name"/>
+        <result property="email" column="email"/>
+        <result property="active" column="is_active"/>
+    </resultMap>
 
-</beans>
+    <select id="getStudentByAccount" resultMap="StudentUserResult">
+        select id,account,password,student_name,email,is_active
+        from student
+        where account=#{account}
+    </select>
+
+    <resultMap id="StudentUserResult" type="xmu.ghct.crm.entity.User">
+        <id property="id" column="id"/>
+        <result property="account" column="account"/>
+        <result property="password" column="password"/>
+        <result property="name" column="student_name"/>
+        <result property="email" column="email"/>
+        <result property="active" column="is_active"/>
+    </resultMap>
+</mapper>
