@@ -28,15 +28,6 @@ public class CourseController {
         return courseService.listCourseByTeacherId(teacherId);
     }
 
-    @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
-    @ResponseBody
-    public List<Course>  getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
-        return courseService.getCourseByCourseId(courseId);
-    }
 
-    @RequestMapping(value="/course/{courseId}",method = RequestMethod.DELETE)
-    @ResponseBody
-    public void deleteCourseByCourseId(@PathVariable("courseId")BigInteger courseId) {
-        courseService.deleteCourseByCourseId(courseId);
-    }
+
 }
