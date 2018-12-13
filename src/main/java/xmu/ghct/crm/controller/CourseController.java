@@ -24,6 +24,7 @@ public class CourseController {
         courseService.creatCourse(courseMap);
     }
 
+
     @RequestMapping(value="/course",method = RequestMethod.GET)
     @ResponseBody
     public List<Course> listCourseByTeacherId(BigInteger teacherId){
