@@ -3,6 +3,8 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.entity.Course;
+import xmu.ghct.crm.entity.Team;
+import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.service.CourseService;
 
 import java.math.BigInteger;
@@ -24,10 +26,31 @@ public class CourseController {
 
     @RequestMapping(value="/course",method = RequestMethod.GET)
     @ResponseBody
-    public List<Course>  listCourseByTeacherId(BigInteger teacherId){
+    public List<Course> listCourseByTeacherId(BigInteger teacherId){
         return courseService.listCourseByTeacherId(teacherId);
     }
 
+    @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Course> getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
+        return courseService.getCourseByCourseId(courseId);
+    }
 
+    @RequestMapping(value="/course/{courseId}",method = RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteCourseByCourseId(@PathVariable("courseId")BigInteger courseId) {
+        courseService.deleteCourseByCourseId(courseId);
+    }
 
+    @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Team> getTeamMessageByCourseId(@PathVariable("courseId")BigInteger courseId){
+        return courseService.getTeamMessageByCourseId(courseId);
+    }
+
+    @RequestMapping(value="/course/{courseId}/noTeam",method = RequestMethod.GET)
+    @ResponseBody
+    public List<User> getNoTeamStudentByCourseId(@PathVariable("courseId")BigInteger courseId){
+        return courseService.getNoTeamStudentByCourseId(courseId);
+    }
 }

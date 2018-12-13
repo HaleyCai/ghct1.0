@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.entity.Course;
-import xmu.ghct.crm.entity.Score;
-
+import xmu.ghct.crm.entity.Team;
+import xmu.ghct.crm.entity.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.math.BigInteger;
@@ -37,7 +37,21 @@ public class CourseService {
         return courseDao.listCourseByTeacherId(teacherId);
     }
 
-    public List<Score> listScoreByCourseId(BigInteger courseId){
-        return courseDao.listScoreByCourseId(courseId);
+    public List<Course> getCourseByCourseId(BigInteger courseId) {
+        return courseDao.getCourseByCourseId(courseId);
     }
+
+    public void deleteCourseByCourseId(BigInteger courseId){
+        courseDao.deleteCourseByCourseId(courseId);
+    }
+
+    public List<Team> getTeamMessageByCourseId(BigInteger courseId) {
+        return courseDao.getTeamMessageByCourseId(courseId);
+    }
+
+    public List<User> getNoTeamStudentByCourseId(BigInteger courseId) {
+        return courseDao.getNoTeamStudentByCourseId(courseId);
+    }
+
+
 }
