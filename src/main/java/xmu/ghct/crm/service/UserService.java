@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import xmu.ghct.crm.dao.UserDao;
 import xmu.ghct.crm.entity.User;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,18 +15,18 @@ public class UserService {
 
     /**
      * 正常登录，判断用户名密码是否匹配
-     * @param input
+     * @param user
      * @param isTeacher
      * @return
      */
-    public Map<String,Object> login(User input, boolean isTeacher){
+    public Map<String,Object> login(User user, boolean isTeacher){
         Map<String,Object> resultMap=new HashMap<>();
-        if(input.getAccount()==null||input.getPassword()==null){
+        if(user.getAccount()==null||user.getPassword()==null){
             resultMap.put("message","用户名或密码不能为空");
         }
         else{
-            User resultUser=userDao.getUserByAccount(input.getAccount(),isTeacher);
-            if(resultUser.getPassword().equals(input.getPassword())){
+            User resultUser=userDao.getUserByAccount(user.getAccount(),isTeacher);
+            if(resultUser.getPassword().equals(user.getPassword())){
                 resultMap.put("message","登录成功");
             }
             else
@@ -39,18 +38,50 @@ public class UserService {
 
     /**
      * 激活账号，设置对应密码，向邮箱发送信息
-     * @param input
+     * @param user
      * @param isTeacher
      */
-    public void active(User input, boolean isTeacher){}
+    public Map<String,Object> active(User user, boolean isTeacher){
+        Map<String,Object> resultMap=new HashMap<>();
+        if(userDao.activeByAccount(user,isTeacher))
+            resultMap.put("message","激活成功");
+        else resultMap.put("message","激活失败");
+        return resultMap;
+    }
 
     /**
-     * 根据用户ID和身份获取个人信息
-     * @param id
+     * 根据account获取个人信息
+     * @param account
      * @param isTeacher
      */
-    public void getInformation(BigInteger id,boolean isTeacher)
-    {}
+    public User getInformation(String account,boolean isTeacher)
+    {
+        return userDao.getUserByAccount(account,isTeacher);
+    }
 
+    /**
+     * 根据account修改密码
+     * @param user
+     * @param isTeacher
+     * @return
+     */
+    public Map<String,Object> modifyPassword(User user,boolean isTeacher)
+    {
+        Map<String,Object> resultMap=new HashMap<>();
+        if(userDao.setPasswordByAccount(user,isTeacher))
+            resultMap.put("message","修改密码成功");
+        else
+            resultMap.put("message","修改密码失败");
+        return resultMap;
+    }
 
+    public Map<String,Object> modifyEmail(User user,boolean isTeacher)
+    {
+        Map<String,Object> resultMap=new HashMap<>();
+        if(userDao.setEmailByAccount(user,isTeacher))
+            resultMap.put("message","修改邮箱成功");
+        else
+            resultMap.put("message","修改邮箱失败");
+        return resultMap;
+    }
 }
