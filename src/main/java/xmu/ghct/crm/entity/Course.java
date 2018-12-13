@@ -15,6 +15,14 @@ public class Course implements Serializable {
     private Date teamStartTime;
     private Date teamEndTime;
 
+    public BigInteger getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(BigInteger teacherId) {
+        this.courseId = courseId;
+    }
+
     public BigInteger getTeacherId() {
         return teacherId;
     }
