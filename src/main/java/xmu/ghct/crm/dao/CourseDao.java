@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.mapper.CourseMapper;
 
+import java.math.BigInteger;
+import java.util.List;
+
 @Component
 public class CourseDao {
 
@@ -13,6 +16,14 @@ public class CourseDao {
 
     public void insertCourse(Course course){
         courseMapper.insertCourse(course);
+    }
+
+    public List<Course> listCourseByTeacherId(BigInteger teacherId){
+        List<Course> courseList=courseMapper.listCourseByTeacherId(teacherId);
+        if(courseList==null){
+           //throw new CourseNotFindException();
+        }
+        return courseList;
     }
 
 

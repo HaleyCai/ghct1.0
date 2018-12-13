@@ -8,6 +8,7 @@ import xmu.ghct.crm.entity.Course;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -29,5 +30,9 @@ public class CourseService {
         course.setTeamEndTime(formatter.parse(courseMap.get("teamEndTime").toString()));
         course.setTeamStartTime(formatter.parse(courseMap.get("teamStartTime").toString()));
         courseDao.insertCourse(course);
+    }
+
+    public List<Course> listCourseByTeacherId(BigInteger teacherId) {
+        return courseDao.listCourseByTeacherId(teacherId);
     }
 }
