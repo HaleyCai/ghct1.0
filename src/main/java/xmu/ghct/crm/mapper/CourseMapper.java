@@ -23,4 +23,6 @@ public interface CourseMapper {
     List<Team> getTeamMessageByCourseId(BigInteger courseId);
 
     List<User> getNoTeamStudentByCourseId(BigInteger courseId);
+
+
 }
