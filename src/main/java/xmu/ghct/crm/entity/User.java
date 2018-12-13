@@ -13,6 +13,7 @@ public class User implements Serializable {
     private String password;
     private String name;
     private String email;
+    private boolean role;//默认false为教师
     private boolean sex;//sex默认false为男性
 
     public BigInteger getId() {
@@ -55,6 +56,14 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public boolean isRole() {
+        return role;
+    }
+
+    public void setRole(boolean role) {
+        this.role = role;
+    }
+
     public boolean isSex() {
         return sex;
     }
@@ -71,6 +80,7 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", role=" + role +
                 ", sex=" + sex +
                 '}';
     }
