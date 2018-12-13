@@ -3,10 +3,6 @@ package xmu.ghct.crm.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-/**
- * @author caiyq
- * User类对应数据库表的student,teacher两个类
- */
 public class User implements Serializable {
     private BigInteger id;
     private String account;
