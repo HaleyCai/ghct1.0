@@ -5,8 +5,9 @@ import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.mapper.UserMapper;
 
-import java.math.BigInteger;
-
+/**
+ * @author caiyq
+ */
 @Component
 public class UserDao {
     @Autowired

@@ -5,7 +5,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import xmu.ghct.crm.entity.User;
 
-import java.math.BigInteger;
+/**
+ * @author caiyq
+ */
 
 @Mapper     //声明是一个Mapper
 @Repository

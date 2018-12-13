@@ -8,6 +8,9 @@ import xmu.ghct.crm.entity.User;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author caiyq
+ */
 @Service
 public class UserService {
     @Autowired
