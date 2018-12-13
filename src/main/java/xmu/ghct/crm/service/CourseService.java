@@ -60,6 +60,15 @@ public class CourseService {
         return courseDao.listKlassByCourseId(courseId);
     }
 
+    public void createKlass( BigInteger courseId,Map<String,Object> klassMap)  {
+        Klass klass=new Klass();
+        klass.setGrade(new Integer(klassMap.get("grade").toString()));
+        klass.setKlassSerial(new Integer(klassMap.get("klassSerial").toString()));
+        klass.setKlassTime(klassMap.get("klassTime").toString());
+        klass.setKlassLocation(klassMap.get("klassLocation").toString());
+        courseDao.createKlass(courseId,klass);
+    }
+
     public void deleteClassByCourseIdAndClassId(BigInteger courseId,BigInteger classId){
           courseDao.deleteClassByCourseIdAndClassId(courseId, classId);
     }

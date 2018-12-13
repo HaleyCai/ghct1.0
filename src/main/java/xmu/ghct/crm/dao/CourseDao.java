@@ -63,12 +63,14 @@ public class CourseDao {
     }
 
     public List<Klass> listKlassByCourseId(BigInteger courseId){
-        List<Klass> klassList=courseMapper.listKlassByCoursId(courseId);
+        List<Klass> klassList=courseMapper.listKlassByCourseId(courseId);
         if(klassList==null){
             //throw new NoStudentNotFindException();
         }
         return klassList;
     }
+
+    public void createKlass(BigInteger courseId,Klass klass){ courseMapper.createKlass(courseId,klass); }
 
     public void deleteClassByCourseIdAndClassId(BigInteger courseId,BigInteger classId){
         courseMapper.deleteClassByCourseIdAndClassId(courseId,classId);
