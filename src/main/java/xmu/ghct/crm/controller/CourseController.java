@@ -2,9 +2,7 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.entity.Course;
-import xmu.ghct.crm.entity.Team;
-import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.service.CourseService;
 
 import java.math.BigInteger;
@@ -54,4 +52,19 @@ public class CourseController {
     public List<User> getNoTeamStudentByCourseId(@PathVariable("courseId")BigInteger courseId){
         return courseService.getNoTeamStudentByCourseId(courseId);
     }
+
+    @RequestMapping(value="/course/{courseId}/score",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Score> listScoreByCourseId(@PathVariable("courseId")BigInteger courseId){
+        return courseService.listScoreByCourseId(courseId);
+    }
+
+    @RequestMapping(value="/course/{courseId}/class",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Klass> listKlassByCourseId(@PathVariable("courseId")BigInteger courseId){
+        return courseService.listKlassBycourseId(courseId);
+    }
+
+
+
 }
