@@ -71,7 +71,7 @@ public class CourseController {
         courseService.createKlass(courseId,klassMap);
     }
 
-    @RequestMapping(value="/course/{courseId}/class/{classId}",method = RequestMethod.GET)
+    @RequestMapping(value="/course/{courseId}/class/{classId}",method = RequestMethod.DELETE)
     @ResponseBody
     public void deleteClassByCourseIdAndClassId(@PathVariable("courseId")BigInteger courseId,@PathVariable("classId")BigInteger classId){
         courseService.deleteClassByCourseIdAndClassId(courseId, classId);

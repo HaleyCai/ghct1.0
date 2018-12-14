@@ -19,7 +19,7 @@ public class Course implements Serializable {
         return courseId;
     }
 
-    public void setCourseId(BigInteger teacherId) {
+    public void setCourseId(BigInteger courseId) {
         this.courseId = courseId;
     }
 
