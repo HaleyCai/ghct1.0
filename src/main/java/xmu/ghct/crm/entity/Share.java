@@ -4,11 +4,16 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 public class Share implements Serializable {
+    private BigInteger shareId;
     private String shareType;
     private BigInteger mainCourseId;
     private BigInteger subCourseId;
     private BigInteger subCourseTeacherId;
     private Boolean status;
+
+    public BigInteger getshareId() { return shareId; }
+
+    public void setShareId(BigInteger shareId) { this.shareId = shareId; }
 
     public String getShareType() {
         return shareType;
@@ -39,7 +44,8 @@ public class Share implements Serializable {
     @Override
     public String toString() {
         return "Share{" +
-                "shareType=" + shareType +
+                "shareId=" + shareId +
+                ", shareType=" + shareType +
                 ", mainCourseId='" + mainCourseId + '\'' +
                 ", subCourseId='" + subCourseId + '\'' +
                 ", subCourseTeacherId=" + subCourseTeacherId +

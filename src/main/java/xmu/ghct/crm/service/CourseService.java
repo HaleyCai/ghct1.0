@@ -77,4 +77,8 @@ public class CourseService {
         return courseDao.getShareMessageByCourseId(courseId);
     }
 
+    public  void deleteShareByCourseIdAndShareId(BigInteger courseId,BigInteger shareId){
+        courseDao.deleteShareByCourseIdAndShareId(courseId, shareId);
+    }
+
 }

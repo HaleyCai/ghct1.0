@@ -33,4 +33,6 @@ public interface CourseMapper {
 
     List<Share> getShareMessageByCourseId(BigInteger courseId);
 
+    void deleteShareByCourseIdAndShareId(BigInteger courseId,BigInteger shareId);
+
 }

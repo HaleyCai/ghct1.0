@@ -83,4 +83,9 @@ public class CourseController {
         return courseService.getShareMessageByCourseId(courseId);
     }
 
+    @RequestMapping(value="/course/{courseId}/share/{shareId}",method = RequestMethod.DELETE)
+    @ResponseBody
+    public void deleteShareByCourseIdAndShareId(@PathVariable("courseId")BigInteger courseId,@PathVariable("shareId")BigInteger shareId){
+        courseService.deleteShareByCourseIdAndShareId(courseId, shareId);
+    }
 }

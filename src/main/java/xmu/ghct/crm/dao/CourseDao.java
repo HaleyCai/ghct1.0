@@ -84,5 +84,8 @@ public class CourseDao {
         return shareList;
     }
 
+    public void deleteShareByCourseIdAndShareId(BigInteger courseId,BigInteger shareId){
+        courseMapper.deleteShareByCourseIdAndShareId(courseId,shareId);
+    }
 
 }
