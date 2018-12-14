@@ -31,4 +31,6 @@ public interface CourseMapper {
 
     void createKlass(BigInteger courseId,Klass klass);
 
+    List<Share> getShareMessageByCourseId(BigInteger courseId);
+
 }

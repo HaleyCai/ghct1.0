@@ -76,5 +76,13 @@ public class CourseDao {
         courseMapper.deleteClassByCourseIdAndClassId(courseId,classId);
     }
 
+    public List<Share> getShareMessageByCourseId(BigInteger courseId){
+        List<Share> shareList=courseMapper.getShareMessageByCourseId(courseId);
+        if(shareList==null){
+            //throw new ShareNotFindException();
+        }
+        return shareList;
+    }
+
 
 }
