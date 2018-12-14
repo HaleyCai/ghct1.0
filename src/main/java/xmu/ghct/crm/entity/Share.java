@@ -10,7 +10,6 @@ public class Share implements Serializable {
     private BigInteger subCourseTeacherId;
     private Boolean status;
 
-
     public String getShareType() {
         return shareType;
     }
