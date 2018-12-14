@@ -35,4 +35,5 @@ public interface CourseMapper {
 
     void deleteShareByCourseIdAndShareId(BigInteger courseId,BigInteger shareId);
 
+    void launchShareRequest(BigInteger courseId, Share share);
 }

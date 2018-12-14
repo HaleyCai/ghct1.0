@@ -81,4 +81,15 @@ public class CourseService {
         courseDao.deleteShareByCourseIdAndShareId(courseId, shareId);
     }
 
+    public void launchShareRequest( BigInteger courseId,Map<String,Object> shareMap)  {
+        Share share=new Share();
+        share.setShareId(new BigInteger(shareMap.get("shareId").toString()));
+        share.setShareType(shareMap.get("shareType").toString());
+        share.setMainCourseId(new BigInteger(shareMap.get("mainCourseId").toString()));
+        share.setSubCourseId(new BigInteger(shareMap.get("subCourseId").toString()));
+        share.setSubCourseTeacherId(new BigInteger(shareMap.get("subCourseTeacherId").toString()));
+        share.setStatus(new Boolean(shareMap.get("status").toString()));
+        courseDao.launchShareRequest(courseId,share);
+    }
+
 }
