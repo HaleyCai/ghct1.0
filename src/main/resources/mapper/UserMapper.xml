@@ -30,4 +30,40 @@
         <result property="email" column="email"/>
         <result property="active" column="is_active"/>
     </resultMap>
+
+    <update id="setTeacherPasswordByAccount">
+        update teacher
+        set password = #{password}
+        where account=#{account}
+    </update>
+
+    <update id="setStudentPasswordByAccount">
+        update student
+        set password = #{password}
+        where account=#{account}
+    </update>
+
+    <update id="setTeacherEmailByAccount">
+        update teacher
+        set email = #{email}
+        where account=#{account}
+    </update>
+
+    <update id="setStudentPasswordByAccount">
+        update student
+        set email = #{email}
+        where account=#{account}
+    </update>
+
+    <update id="setTeacherActiveByAccount">
+        update teacher
+        set is_active = 1
+        where account=#{account}
+    </update>
+
+    <update id="setStudentActiveByAccount">
+        update student
+        set is_active = 1
+        where account=#{account}
+    </update>
 </mapper>

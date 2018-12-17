@@ -35,7 +35,6 @@ public class UserService {
             else
                 resultMap.put("message","用户名或密码错误");
         }
-        resultMap.put("kkk","调用service");
         return resultMap;
     }
 

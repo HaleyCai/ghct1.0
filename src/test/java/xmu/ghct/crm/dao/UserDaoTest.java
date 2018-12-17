@@ -24,4 +24,14 @@ public class UserDaoTest {
         else
             System.out.println(user.toString());
     }
+
+    @Test
+    public void setPassword()
+    {
+        User user=new User();
+        user.setAccount("24320162202333");
+        user.setPassword("2333333");
+        user.setEmail("ioooooooooo");
+        userDao.setPasswordByAccount(user,true);
+    }
 }
