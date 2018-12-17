@@ -29,7 +29,7 @@ public class UserController {
     public Map<String,Object> login(@RequestBody Map<String,Object> inMap)
     {
         return userService.login((String)inMap.get("account"),(boolean)inMap.get("isTeacher"),(String)inMap.get(("password")));
-        //如果登录成功，生成jwt，加入map
+        //如果登录成功，生成jwt，加入map，验证
     }
 
     /**
