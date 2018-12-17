@@ -32,13 +32,11 @@ public class UserDao {
     /**
      * 根据account激活用户
      * @param user
-     * @param isTeacher
      * @return
      */
-    public boolean activeByAccount(User user,boolean isTeacher)
+    public boolean activeByAccount(User user)
     {
-        //先从数据库中取出原信息，若修改有出错，则改回去？？？
-        if(isTeacher){
+        if(user.isTeacher()){
             userMapper.setTeacherActiveByAccount(user.getAccount());
             userMapper.setTeacherPasswordByAccount(user.getAccount(),user.getPassword());
             userMapper.setTeacherEmailByAccount(user.getAccount(),user.getEmail());
@@ -54,21 +52,20 @@ public class UserDao {
     /**
      * 根据account修改密码
      * @param user
-     * @param isTeacher
      * @return
      */
-    public boolean setPasswordByAccount(User user,boolean isTeacher)
+    public boolean setPasswordByAccount(User user)
     {
-        if(isTeacher)
+        if(user.isTeacher())
             userMapper.setTeacherPasswordByAccount(user.getAccount(),user.getPassword());
         else
             userMapper.setStudentPasswordByAccount(user.getAccount(),user.getPassword());
         return true;
     }
 
-    public boolean setEmailByAccount(User user, boolean isTeacher)
+    public boolean setEmailByAccount(User user)
     {
-        if(isTeacher)
+        if(user.isTeacher())
             userMapper.setTeacherEmailByAccount(user.getAccount(),user.getEmail());
         else
             userMapper.setStudentEmailByAccount(user.getAccount(),user.getEmail());

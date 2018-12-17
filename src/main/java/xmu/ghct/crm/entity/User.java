@@ -9,6 +9,7 @@ public class User implements Serializable {
     private String password;
     private String name;
     private String email;
+    private boolean teacher;//默认是学生
     private boolean active;//默认未激活
 
     public BigInteger getId() {
@@ -51,12 +52,20 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public boolean isSex() {
+    public boolean isTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(boolean teacher) {
+        this.teacher = teacher;
+    }
+
+    public boolean isActive() {
         return active;
     }
 
-    public void setSex(boolean sex) {
-        this.active = sex;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override
@@ -67,6 +76,7 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", teacher=" + teacher +
                 ", active=" + active +
                 '}';
     }

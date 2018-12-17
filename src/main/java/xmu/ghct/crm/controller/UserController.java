@@ -28,25 +28,19 @@ public class UserController {
     @RequestMapping(value="/login",method = RequestMethod.POST)
     public Map<String,Object> login(@RequestBody Map<String,Object> inMap)
     {
-        User user=new User();
-        user.setAccount((String)inMap.get("account"));
-        user.setPassword((String)inMap.get("password"));
-        return  userService.login(user,(boolean)inMap.get("isTeacher"));
+        return userService.login((String)inMap.get("account"),(boolean)inMap.get("isTeacher"),(String)inMap.get(("password")));
+        //如果登录成功，生成jwt，加入map
     }
 
     /**
-     * 激活账号，前端传参account,password,email,isTeacher
+     * 初次登录会激活账号
      * @param inMap
      * @return
      */
     @RequestMapping(value="/active",method = RequestMethod.PUT)
     public Map<String,Object> active(@RequestBody Map<String,Object> inMap){
         System.out.println("前端传来："+inMap.get("account"));
-        User user=new User();
-        user.setAccount((String)inMap.get("account"));
-        user.setPassword((String)inMap.get("password"));
-        user.setEmail((String)inMap.get("email"));
-        return userService.active(user,(boolean)inMap.get("isTeacher"));
+        return userService.active((String)inMap.get("account"),(String)inMap.get(("password")),(String)inMap.get("email"),(boolean)inMap.get("isTeacher"));
     }
 
     /**
@@ -54,7 +48,7 @@ public class UserController {
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/information")
+    @RequestMapping(value="/information",method = RequestMethod.GET)
     public User getInformation(@RequestBody Map<String,Object> inMap){
         return userService.getInformation((String)inMap.get("account"),(boolean)inMap.get("isTeacher"));
     }
@@ -64,12 +58,23 @@ public class UserController {
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/password")
+    @RequestMapping(value="/password",method = RequestMethod.PUT)
     public Map<String,Object> modifyPassword(@RequestBody Map<String,Object> inMap){
         User user=new User();
         user.setAccount((String)inMap.get("account"));
         user.setPassword((String)inMap.get("password"));
-        return userService.modifyPassword(user,(boolean)inMap.get("isTeacher"));
+        user.setTeacher((boolean)inMap.get("isTeacher"));
+        return userService.modifyPassword(user);
+    }
+
+    /**
+     * 忘记密码时，将密码发送到用户的邮箱中
+     * @param inMap
+     */
+    @RequestMapping(value="/password",method = RequestMethod.GET)
+    public void sendPasswordToEmail(@RequestBody Map<String,Object> inMap)
+    {
+        userService.sendPasswordToEmail((String)inMap.get("account"),(boolean)inMap.get("isTeacher"));
     }
 
     /**
@@ -82,6 +87,6 @@ public class UserController {
         User user=new User();
         user.setAccount((String)inMap.get("account"));
         user.setPassword((String)inMap.get("email"));
-        return userService.modifyEmail(user,(boolean)inMap.get("isTeacher"));
+        return userService.modifyEmail(user);
     }
 }

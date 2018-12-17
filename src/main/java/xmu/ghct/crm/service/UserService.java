@@ -18,36 +18,54 @@ public class UserService {
 
     /**
      * 正常登录，判断用户名密码是否匹配
-     * @param user
+     * @param account
+     * @param password
      * @param isTeacher
-     * @return
      */
-    public Map<String,Object> login(User user, boolean isTeacher){
+    public Map<String,Object> login(String account,boolean isTeacher,String password){
         Map<String,Object> resultMap=new HashMap<>();
-        if(user.getAccount()==null||user.getPassword()==null){
-            resultMap.put("message","用户名或密码不能为空");
-        }
-        else{
-            User resultUser=userDao.getUserByAccount(user.getAccount(),isTeacher);
-            if(resultUser.getPassword().equals(user.getPassword())){
-                resultMap.put("message","登录成功");
+        User user=userDao.getUserByAccount(account,isTeacher);
+
+        if(!user.isActive()&& "123456".equals(password))
+            //未激活，且初始密码正确，跳转到激活界面
+            resultMap.put("message","0");
+        else
+        {   //已激活，验证输入密码是否正确
+            if(user.isActive())
+            {
+                if(user.getPassword().equals(password))
+                {
+                    resultMap.put("message", "1");
+                   //生成Jwt，放在map中返回***
+                }
+                else
+                    resultMap.put("message","-1");
             }
-            else
-                resultMap.put("message","用户名或密码错误");
+            else//未激活且密码不正确的，刷新登录界面
+                resultMap.put("message","-1");
         }
+        //message返回1，登录成功，并且返回jwt；返回0，初次登录，跳转到激活页面；返回-1，用户名或密码错误
         return resultMap;
     }
 
     /**
-     * 激活账号，设置对应密码，向邮箱发送信息
-     * @param user
+     * 初次登录要激活账号，设置对应密码，填写邮箱
+     * @param account
+     * @param password
+     * @param email
      * @param isTeacher
      */
-    public Map<String,Object> active(User user, boolean isTeacher){
+    public Map<String,Object> active(String account, String password, String email,boolean isTeacher){
+        User user=new User();
+        user.setAccount(account);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setTeacher(isTeacher);
+
         Map<String,Object> resultMap=new HashMap<>();
-        if(userDao.activeByAccount(user,isTeacher))
-            resultMap.put("message","激活成功");
-        else resultMap.put("message","激活失败");
+        if(userDao.activeByAccount(user))
+            resultMap.put("message","1");
+        else resultMap.put("message","0");
         return resultMap;
     }
 
@@ -62,28 +80,43 @@ public class UserService {
     }
 
     /**
+     * 忘记密码，向邮箱发送密码
+     * @param account
+     * @param isTeacher
+     */
+    public void sendPasswordToEmail(String account,boolean isTeacher)
+    {
+        User user=userDao.getUserByAccount(account,isTeacher);
+        //查询到邮箱，和账户密码，向用户邮箱发邮件！！！
+    }
+
+    /**
      * 根据account修改密码
      * @param user
-     * @param isTeacher
      * @return
      */
-    public Map<String,Object> modifyPassword(User user,boolean isTeacher)
+    public Map<String,Object> modifyPassword(User user)
     {
         Map<String,Object> resultMap=new HashMap<>();
-        if(userDao.setPasswordByAccount(user,isTeacher))
-            resultMap.put("message","修改密码成功");
+        if(userDao.setPasswordByAccount(user))
+            resultMap.put("message","1");
         else
-            resultMap.put("message","修改密码失败");
+            resultMap.put("message","0");
         return resultMap;
     }
 
-    public Map<String,Object> modifyEmail(User user,boolean isTeacher)
+    /**
+     * 根据account修改邮箱
+     * @param user
+     * @return
+     */
+    public Map<String,Object> modifyEmail(User user)
     {
         Map<String,Object> resultMap=new HashMap<>();
-        if(userDao.setEmailByAccount(user,isTeacher))
-            resultMap.put("message","修改邮箱成功");
+        if(userDao.setEmailByAccount(user))
+            resultMap.put("message","1");
         else
-            resultMap.put("message","修改邮箱失败");
+            resultMap.put("message","0");
         return resultMap;
     }
 }

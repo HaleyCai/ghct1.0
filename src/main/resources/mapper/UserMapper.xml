@@ -31,7 +31,7 @@
         <result property="active" column="is_active"/>
     </resultMap>
 
-    <update id="setTeacherPasswordByAccount">
+    <update id="setTeacherPasswordByAccount" >
         update teacher
         set password = #{password}
         where account=#{account}
