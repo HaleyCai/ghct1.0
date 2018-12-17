@@ -15,7 +15,7 @@ public interface CourseMapper {
 
     List<Course> listCourseByTeacherId(BigInteger teacherId);
 
-    List<Course> getCourseByCourseId(BigInteger courseId);
+    Course getCourseByCourseId(BigInteger courseId);
 
     void deleteCourseByCourseId(BigInteger courseId);
 
@@ -23,7 +23,7 @@ public interface CourseMapper {
 
     List<Klass> listKlassByCourseId(BigInteger courseId);
 
-    List<Team> getTeamMessageByCourseId(BigInteger courseId);
+    List<Team> getTeamInfoByCourseId(BigInteger courseId);
 
     List<User> getNoTeamStudentByCourseId(BigInteger courseId);
 

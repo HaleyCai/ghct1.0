@@ -36,7 +36,7 @@ public class CourseService {
         return courseDao.listCourseByTeacherId(teacherId);
     }
 
-    public List<Course> getCourseByCourseId(BigInteger courseId) {
+    public Course getCourseByCourseId(BigInteger courseId) {
         return courseDao.getCourseByCourseId(courseId);
     }
 
@@ -44,8 +44,8 @@ public class CourseService {
         courseDao.deleteCourseByCourseId(courseId);
     }
 
-    public List<Team> getTeamMessageByCourseId(BigInteger courseId) {
-        return courseDao.getTeamMessageByCourseId(courseId);
+    public List<Team> getTeamInfoByCourseId(BigInteger courseId) {
+        return courseDao.getTeamInfoByCourseId(courseId);
     }
 
     public List<User> getNoTeamStudentByCourseId(BigInteger courseId) {

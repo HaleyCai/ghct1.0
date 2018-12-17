@@ -26,20 +26,20 @@ public class CourseDao {
         return courseList;
     }
 
-    public List<Course> getCourseByCourseId(BigInteger courseId){
-        List<Course> courseList=courseMapper.getCourseByCourseId(courseId);
-        if(courseList==null){
+    public Course getCourseByCourseId(BigInteger courseId){
+        Course course=courseMapper.getCourseByCourseId(courseId);
+        if(course==null){
             //throw new CourseNotFindException();
         }
-        return courseList;
+        return course;
     }
 
     public void deleteCourseByCourseId(BigInteger courseId){
         courseMapper.deleteCourseByCourseId(courseId);
     }
 
-    public List<Team> getTeamMessageByCourseId(BigInteger courseId){
-        List<Team> teamList=courseMapper.getTeamMessageByCourseId(courseId);
+    public List<Team> getTeamInfoByCourseId(BigInteger courseId){
+        List<Team> teamList=courseMapper.getTeamInfoByCourseId(courseId);
         if(teamList==null){
             //throw new TeamNotFindException();
         }

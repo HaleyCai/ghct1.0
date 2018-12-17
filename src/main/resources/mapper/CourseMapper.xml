@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.ghct.crm.mapper.CourseMapper">
+
+    <!--parameterType="BigInteger,xmu.ghct.crm.entity.Course"-->
+    <insert id="insertCourse" >
+        insert into course (
+            id,
+            teacher_id,
+            course_name,
+            introduction,
+            presentation_percentage,
+            question_percentage,
+            report_percentage,
+            team_start_time,
+            team_end_time,
+            team_main_course_id,
+            seminar_main_course_id
+        )
+        values (
+                   #{course.courseId},
+                   #{course.teacherId},
+                   #{course.introduction},
+                   #{course.presentationPercentage},
+                   #{course.questionPercentage},
+                   #{course.reportPercentage,},
+                   #{course.teamStartTime},
+                   #{course.teamEndTime},
+                   #{course.teamMainCourseId},
+                   #{course.seminarMainCourseId}
+               )
+
+    </insert>
+
+    <select id="listCourseByTeacherId" resultMap="courseResultMap">
+        select *
+        from course
+        where teacher_id = #{teacherId}
+    </select>
+
+    <select id="listCourseByTeacherId" resultMap="courseResultMap">
+        select *
+        from course
+        where course_id = #{courseId}
+    </select>
+
+    <delete id="deleteCourseByCourseId">
+        delete from course where course_id=#{courseId}
+    </delete>
+
+    <select id="getTeamInfoByCourseId" resultMap="teamMap">
+        select *
+        from team
+        where course_id=#{courseId}
+    </select>
+
+    <select id="getStudentIdByTeamId">
+        select student_id
+        from klass_student
+        where team_id=#{teamId}
+    </select>
+
+    <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">
+        <id property="teamId" column="id"/>
+        <result property="klassId" column="klass_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="leaderId" column="leader_id"/>
+        <result property="teamName" column="team_name"/>
+        <result property="teamSerial" column="team_serial"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <resultMap id="courseResultMap" type="xmu.ghct.crm.entity.Course">
+        <id property="courseId" column="id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="introduction" column="introduction"/>
+        <result property="presentationPercentage" column="presentation_percentage"/>
+        <result property="questionPercentage" column="question_percentage"/>
+        <result property="reportPercentage" column="report_percentage"/>
+        <result property="teamStartTime" column="team_start_time"/>
+        <result property="teamEndTime" column="team_end_time"/>
+        <result property="teamMainCourseId" column="team_main_course_id"/>
+        <result property="seminarMainCourseId" column="seminar_main_course_id"/>
+    </resultMap>
+
+</mapper>
