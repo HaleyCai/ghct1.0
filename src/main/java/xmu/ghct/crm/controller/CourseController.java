@@ -2,9 +2,12 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.service.CourseService;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.List;
@@ -31,7 +34,7 @@ public class CourseController {
 
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
     @ResponseBody
-    public List<Course> getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
+    public Course getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
         return courseService.getCourseByCourseId(courseId);
     }
 
@@ -43,8 +46,8 @@ public class CourseController {
 
     @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
     @ResponseBody
-    public List<Team> getTeamMessageByCourseId(@PathVariable("courseId")BigInteger courseId){
-        return courseService.getTeamMessageByCourseId(courseId);
+    public List<Team> getTeamInfoByCourseId(@PathVariable("courseId")BigInteger courseId){
+        return courseService.getTeamInfoByCourseId(courseId);
     }
 
     @RequestMapping(value="/course/{courseId}/noTeam",method = RequestMethod.GET)
@@ -89,9 +92,17 @@ public class CourseController {
         courseService.deleteShareByCourseIdAndShareId(courseId, shareId);
     }
 
-    @RequestMapping(value="/course/{courseId}/sharerequest",method = RequestMethod.POST)
+    @RequestMapping(value="/course/{courseId}/shareRequest",method = RequestMethod.POST)
     @ResponseBody
     public void launchShareRequest(@PathVariable("courseId")BigInteger courseId,@RequestBody Map<String,Object> shareMap)  {
         courseService.launchShareRequest(courseId,shareMap);
+    }
+
+    @RequestMapping(value = "singleFileUpload",method = RequestMethod.POST)
+    public void singleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        String filePath="C:/Users/huangzhenmin/Desktop/";
+        File fileDir = new File(filePath+fileName);
+        file.transferTo(fileDir);
     }
 }
