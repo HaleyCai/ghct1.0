@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.service.UserService;
-
 import java.util.Map;
 
 /**
