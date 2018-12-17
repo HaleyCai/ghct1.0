@@ -20,15 +20,10 @@ public class UserController {
 
     //***token做好后，放到httpRequest中，每个函数可以获得，jwt中有account和isTeacher的值，现在先假定从前端传入
 
-    /**
-     * 登录操作，前端传参account,password，isTeacher，返回map，message中写了操作成功与否
-     * @param inMap
-     * @return
-     */
     @RequestMapping(value="/login",method = RequestMethod.POST)
     public Map<String,Object> login(@RequestBody Map<String,Object> inMap)
     {
-        return userService.login((String)inMap.get("account"),(boolean)inMap.get("isTeacher"),(String)inMap.get(("password")));
+        return userService.login((String)inMap.get("account"),(int)inMap.get("isTeacher"),(String)inMap.get(("password")));
         //如果登录成功，生成jwt，加入map，验证
     }
 
@@ -39,8 +34,7 @@ public class UserController {
      */
     @RequestMapping(value="/active",method = RequestMethod.PUT)
     public Map<String,Object> active(@RequestBody Map<String,Object> inMap){
-        System.out.println("前端传来："+inMap.get("account"));
-        return userService.active((String)inMap.get("account"),(String)inMap.get(("password")),(String)inMap.get("email"),(boolean)inMap.get("isTeacher"));
+        return userService.active((String)inMap.get("account"),(String)inMap.get(("password")),(String)inMap.get("email"),(int)inMap.get("isTeacher"));
     }
 
     /**
@@ -50,7 +44,7 @@ public class UserController {
      */
     @RequestMapping(value="/information",method = RequestMethod.GET)
     public User getInformation(@RequestBody Map<String,Object> inMap){
-        return userService.getInformation((String)inMap.get("account"),(boolean)inMap.get("isTeacher"));
+        return userService.getInformation((String)inMap.get("account"),(int)inMap.get("isTeacher"));
     }
 
     /**
@@ -63,7 +57,7 @@ public class UserController {
         User user=new User();
         user.setAccount((String)inMap.get("account"));
         user.setPassword((String)inMap.get("password"));
-        user.setTeacher((boolean)inMap.get("isTeacher"));
+        user.setTeacher((int)inMap.get("isTeacher"));
         return userService.modifyPassword(user);
     }
 
@@ -74,7 +68,7 @@ public class UserController {
     @RequestMapping(value="/password",method = RequestMethod.GET)
     public void sendPasswordToEmail(@RequestBody Map<String,Object> inMap)
     {
-        userService.sendPasswordToEmail((String)inMap.get("account"),(boolean)inMap.get("isTeacher"));
+        userService.sendPasswordToEmail((String)inMap.get("account"),(int)inMap.get("isTeacher"));
     }
 
     /**

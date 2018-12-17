@@ -49,7 +49,7 @@
         where account=#{account}
     </update>
 
-    <update id="setStudentPasswordByAccount">
+    <update id="setStudentEmailByAccount">
         update student
         set email = #{email}
         where account=#{account}

@@ -19,10 +19,10 @@ public class UserDao {
      * @param isTeacher
      * @return
      */
-    public User getUserByAccount(String account, boolean isTeacher)
+    public User getUserByAccount(String account, int isTeacher)
     {
         User resultUser;
-        if(isTeacher)
+        if(isTeacher==1)
             resultUser=userMapper.getTeacherByAccount(account);
         else
             resultUser=userMapper.getStudentByAccount(account);
@@ -36,17 +36,20 @@ public class UserDao {
      */
     public boolean activeByAccount(User user)
     {
-        if(user.isTeacher()){
-            userMapper.setTeacherActiveByAccount(user.getAccount());
-            userMapper.setTeacherPasswordByAccount(user.getAccount(),user.getPassword());
-            userMapper.setTeacherEmailByAccount(user.getAccount(),user.getEmail());
+        int v1,v2,v3;
+        if(user.getTeacher()==1){
+            v1 = userMapper.setTeacherActiveByAccount(user.getAccount());
+            v2 = userMapper.setTeacherPasswordByAccount(user.getAccount(),user.getPassword());
+            v3 = userMapper.setTeacherEmailByAccount(user.getAccount(),user.getEmail());
         }
         else{
-            userMapper.setStudentActiveByAccount(user.getAccount());
-            userMapper.setStudentPasswordByAccount(user.getAccount(),user.getPassword());
-            userMapper.setStudentEmailByAccount(user.getAccount(),user.getEmail());
+            v1 = userMapper.setStudentActiveByAccount(user.getAccount());
+            v2 = userMapper.setStudentPasswordByAccount(user.getAccount(),user.getPassword());
+            v3 = userMapper.setStudentEmailByAccount(user.getAccount(),user.getEmail());
         }
-        return true;
+        if(v1==1 && v2==1 && v3==1)
+            return true;
+        else return false;
     }
 
     /**
@@ -56,19 +59,27 @@ public class UserDao {
      */
     public boolean setPasswordByAccount(User user)
     {
-        if(user.isTeacher())
-            userMapper.setTeacherPasswordByAccount(user.getAccount(),user.getPassword());
+        int v1;
+        if(user.getTeacher()==1)
+            v1 = userMapper.setTeacherPasswordByAccount(user.getAccount(),user.getPassword());
         else
-            userMapper.setStudentPasswordByAccount(user.getAccount(),user.getPassword());
-        return true;
+            v1 = userMapper.setStudentPasswordByAccount(user.getAccount(),user.getPassword());
+        if(v1==1)
+            return true;
+        else
+            return false;
     }
 
     public boolean setEmailByAccount(User user)
     {
-        if(user.isTeacher())
-            userMapper.setTeacherEmailByAccount(user.getAccount(),user.getEmail());
+        int v1;
+        if(user.getTeacher()==1)
+            v1 = userMapper.setTeacherEmailByAccount(user.getAccount(),user.getEmail());
         else
-            userMapper.setStudentEmailByAccount(user.getAccount(),user.getEmail());
-        return true;
+            v1 = userMapper.setStudentEmailByAccount(user.getAccount(),user.getEmail());
+        if(v1==1)
+            return true;
+        else
+            return false;
     }
 }

@@ -22,28 +22,32 @@ public class UserService {
      * @param password
      * @param isTeacher
      */
-    public Map<String,Object> login(String account,boolean isTeacher,String password){
+    public Map<String,Object> login(String account,int isTeacher,String password){
         Map<String,Object> resultMap=new HashMap<>();
         User user=userDao.getUserByAccount(account,isTeacher);
-
-        if(!user.isActive()&& "123456".equals(password))
-            //未激活，且初始密码正确，跳转到激活界面
-            resultMap.put("message","0");
-        else
-        {   //已激活，验证输入密码是否正确
-            if(user.isActive())
-            {
-                if(user.getPassword().equals(password))
+        if(user!=null)
+        {
+            if(user.getActive()==0 && "123456".equals(password))
+                //未激活，且初始密码正确，跳转到激活界面
+                resultMap.put("message","0");
+            else
+            {   //已激活，验证输入密码是否正确
+                if(user.getActive()==1)
                 {
-                    resultMap.put("message", "1");
-                   //生成Jwt，放在map中返回***
+                    if(user.getPassword().equals(password))
+                    {
+                        resultMap.put("message", "1");
+                        //生成Jwt，放在map中返回***
+                    }
+                    else
+                        resultMap.put("message","-1");
                 }
-                else
+                else//未激活且密码不正确的，刷新登录界面
                     resultMap.put("message","-1");
             }
-            else//未激活且密码不正确的，刷新登录界面
-                resultMap.put("message","-1");
         }
+        else
+            resultMap.put("message","-1");
         //message返回1，登录成功，并且返回jwt；返回0，初次登录，跳转到激活页面；返回-1，用户名或密码错误
         return resultMap;
     }
@@ -55,7 +59,7 @@ public class UserService {
      * @param email
      * @param isTeacher
      */
-    public Map<String,Object> active(String account, String password, String email,boolean isTeacher){
+    public Map<String,Object> active(String account, String password, String email,int isTeacher){
         User user=new User();
         user.setAccount(account);
         user.setPassword(password);
@@ -74,7 +78,7 @@ public class UserService {
      * @param account
      * @param isTeacher
      */
-    public User getInformation(String account,boolean isTeacher)
+    public User getInformation(String account,int isTeacher)
     {
         return userDao.getUserByAccount(account,isTeacher);
     }
@@ -84,9 +88,10 @@ public class UserService {
      * @param account
      * @param isTeacher
      */
-    public void sendPasswordToEmail(String account,boolean isTeacher)
+    public void sendPasswordToEmail(String account,int isTeacher)
     {
         User user=userDao.getUserByAccount(account,isTeacher);
+        System.out.println("发送到邮箱");
         //查询到邮箱，和账户密码，向用户邮箱发邮件！！！
     }
 
