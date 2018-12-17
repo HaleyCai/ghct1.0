@@ -9,7 +9,7 @@ public class User implements Serializable {
     private String password;
     private String name;
     private String email;
-    private BigInteger teamId;
+    private int teamSerial;
     private boolean teacher;//默认是学生
     private boolean active;//默认未激活
 
@@ -53,11 +53,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public BigInteger getTeamId() {
+    public BigInteger teamSerial() {
         return teamId;
     }
 
-    public void setTeamId(BigInteger teamId) {
+    public void teamSerial(BigInteger teamId) {
         this.teamId = teamId;
     }
 
