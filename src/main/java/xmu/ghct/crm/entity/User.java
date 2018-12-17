@@ -53,12 +53,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public BigInteger teamSerial() {
-        return teamId;
+    public int getTeamSerial() {
+        return teamSerial;
     }
 
-    public void teamSerial(BigInteger teamId) {
-        this.teamId = teamId;
+    public void setTeamSerial(int teamSerial) {
+        this.teamSerial = teamSerial;
     }
 
     public boolean isTeacher() {
@@ -85,7 +85,7 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", teamId=" + teamId +
+                ", teamId=" + teamSerial +
                 ", teacher=" + teacher +
                 ", active=" + active +
                 '}';
