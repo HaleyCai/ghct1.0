@@ -28,7 +28,7 @@
         where id=#{studentId}
     </select>
 
-    <select id="getNoTeamStudentByCourseId" resultMap="xmu.ghct.crm.entity.User">
+    <select id="getNoTeamStudentByCourseId" resultMap="StudentUserResult">
         select id,account,password,student_name,email,is_active
         from student
         where team_serial="";

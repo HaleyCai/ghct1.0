@@ -1,12 +1,31 @@
 package xmu.ghct.crm.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 public class Klass implements Serializable {
+    private BigInteger klassId;
+    private BigInteger courseId;
     private int grade;
     private int klassSerial;
     private String klassTime;
     private String klassLocation;
+
+    public BigInteger getKlassId() {
+        return klassId;
+    }
+
+    public void setKlassId(BigInteger klassId) {
+        this.klassId = klassId;
+    }
+
+    public BigInteger getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(BigInteger courseId) {
+        this.courseId = courseId;
+    }
 
     public int getGrade() {
         return grade;
@@ -43,6 +62,8 @@ public class Klass implements Serializable {
     @Override
     public String toString() {
         return "Klass{" +
+                "klassId"+klassId+
+                "courseId"+courseId+
                 "grade=" + grade +
                 ", klassSerial=" + klassSerial +
                 ", klassTime='" + klassTime + '\'' +

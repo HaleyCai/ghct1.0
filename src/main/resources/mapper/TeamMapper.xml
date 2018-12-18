@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.ghct.crm.mapper.TeamMapper">
+
+    <select id="getTeamIdByCourseId" >
+        select id
+        from team
+        where course_id=#{courseId}
+    </select>
+
+    <select id="getTeamInfoByCourseId" resultMap="teamMap">
+        select *
+        from team
+        where course_id=#{courseId}
+    </select>
+
+    <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">
+        <id property="teamId" column="id"/>
+        <result property="klassId" column="klass_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="leaderId" column="leader_id"/>
+        <result property="teamName" column="team_name"/>
+        <result property="teamSerial" column="team_serial"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+</mapper>
