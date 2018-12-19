@@ -7,6 +7,7 @@ import xmu.ghct.crm.mapper.ScoreMapper;
 import xmu.ghct.crm.mapper.TeamMapper;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -18,8 +19,11 @@ public class ScoreDao {
     ScoreMapper scoreMapper;
 
     public List<Score> listScoreByCourseId(BigInteger courseId){
-        BigInteger teamId=teamMapper.getTeamIdByCourseId(courseId);
-        List<Score> scoreList=scoreMapper.listScoreByTeamId(teamId);
+        List<BigInteger> teamIdList=teamMapper.getTeamIdByCourseId(courseId);
+        List<Score> scoreList=new ArrayList<>();
+        for(BigInteger item:teamIdList)
+            for(Score scoreItem:scoreMapper.listScoreByTeamId(item))
+                scoreList.add(scoreItem);
         if(scoreList==null){
             //throw new TeamNotFindException();
         }

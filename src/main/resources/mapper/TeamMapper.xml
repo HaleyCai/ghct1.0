@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.TeamMapper">
 
-    <select id="getTeamIdByCourseId" >
+    <select id="getTeamIdByCourseId" resultType="java.math.BigInteger">
         select id
         from team
         where course_id=#{courseId}

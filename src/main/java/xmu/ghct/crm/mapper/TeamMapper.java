@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public interface TeamMapper {
 
-    BigInteger getTeamIdByCourseId(BigInteger courseId);
+    List<BigInteger> getTeamIdByCourseId(BigInteger courseId);
 
     List<Team> getTeamInfoByCourseId(BigInteger courseId);
 

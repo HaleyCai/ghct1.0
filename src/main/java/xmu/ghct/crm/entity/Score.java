@@ -3,50 +3,54 @@ package xmu.ghct.crm.entity;
 import java.io.Serializable;
 
 public class Score implements Serializable {
-    private double presentation_score;
-    private double question_score;
-    private double report_score;
-    private double total_score;
 
-    public double getPresentation_score() {
-        return presentation_score;
+    private double presentationScore;
+    private double questionScore;
+    private double reportScore;
+    private double totalScore;
+
+    public void setPresentationScore(double presentationScore) {
+        this.presentationScore = presentationScore;
     }
 
-    public void setPresentation_score(double presentation_score) {
-        this.presentation_score = presentation_score;
+    public void setQuestionScore(double questionScore) {
+        this.questionScore = questionScore;
     }
 
-    public double getQuestion_score() {
-        return question_score;
+    public void setReportScore(double reportScore) {
+        this.reportScore = reportScore;
     }
 
-    public void setQuestion_score(double question_score) {
-        this.question_score = question_score;
+    public void setTotalScore(double totalScore) {
+        this.totalScore = totalScore;
     }
 
-    public double getReport_score() {
-        return report_score;
+
+    public double getPresentationScore() {
+        return presentationScore;
     }
 
-    public void setReport_score(double report_score) {
-        this.report_score = report_score;
+    public double getQuestionScore() {
+        return questionScore;
     }
 
-    public double getTotal_score() {
-        return total_score;
+    public double getReportScore() {
+        return reportScore;
     }
 
-    public void setTotal_score(double total_score) {
-        this.total_score = total_score;
+    public double getTotalScore() {
+        return totalScore;
     }
+
 
     @Override
     public String toString() {
         return "Score{" +
-                "presentation_score=" + presentation_score +
-                ", question_score=" + question_score +
-                ", report_score=" + report_score +
-                ", total_score=" + total_score +
+                "presentationScore=" + presentationScore +
+                ", questionScore=" + questionScore +
+                ", reportScore=" + reportScore +
+                ", totalScore=" + totalScore +
                 '}';
     }
+
 }
