@@ -16,13 +16,13 @@ public class UserDao {
     /**
      * 根据用户account和身份查询用户
      * @param account
-     * @param isTeacher
+     * @param type
      * @return
      */
-    public User getUserByAccount(String account, int isTeacher)
+    public User getUserByAccount(String account, int type)
     {
         User resultUser;
-        if(isTeacher==1)
+        if(type==1)
             resultUser=userMapper.getTeacherByAccount(account);
         else
             resultUser=userMapper.getStudentByAccount(account);
@@ -37,10 +37,10 @@ public class UserDao {
     public boolean activeByAccount(User user)
     {
         int v1,v2,v3;
-        if(user.getTeacher()==1){
+        if(user.getType()==1){
             v1 = userMapper.setTeacherActiveByAccount(user.getAccount());
             v2 = userMapper.setTeacherPasswordByAccount(user.getAccount(),user.getPassword());
-            v3 = userMapper.setTeacherEmailByAccount(user.getAccount(),user.getEmail());
+            v3 = 1;//教师不用重新填写email
         }
         else{
             v1 = userMapper.setStudentActiveByAccount(user.getAccount());
@@ -60,7 +60,7 @@ public class UserDao {
     public boolean setPasswordByAccount(User user)
     {
         int v1;
-        if(user.getTeacher()==1)
+        if(user.getType()==1)
             v1 = userMapper.setTeacherPasswordByAccount(user.getAccount(),user.getPassword());
         else
             v1 = userMapper.setStudentPasswordByAccount(user.getAccount(),user.getPassword());
@@ -73,7 +73,7 @@ public class UserDao {
     public boolean setEmailByAccount(User user)
     {
         int v1;
-        if(user.getTeacher()==1)
+        if(user.getType()==1)
             v1 = userMapper.setTeacherEmailByAccount(user.getAccount(),user.getEmail());
         else
             v1 = userMapper.setStudentEmailByAccount(user.getAccount(),user.getEmail());

@@ -1,6 +1,9 @@
 package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.dao.UserDao;
 import xmu.ghct.crm.entity.User;
@@ -20,13 +23,14 @@ public class UserService {
      * 正常登录，判断用户名密码是否匹配
      * @param account
      * @param password
-     * @param isTeacher
+     * @param type
      */
-    public Map<String,Object> login(String account,int isTeacher,String password){
+    public Map<String,Object> login(String account,String password,int type){
         Map<String,Object> resultMap=new HashMap<>();
-        User user=userDao.getUserByAccount(account,isTeacher);
+        User user=userDao.getUserByAccount(account,type);
         if(user!=null)
         {
+            //初始密码为“123456
             if(user.getActive()==0 && "123456".equals(password))
                 //未激活，且初始密码正确，跳转到激活界面
                 resultMap.put("message","0");
@@ -57,14 +61,14 @@ public class UserService {
      * @param account
      * @param password
      * @param email
-     * @param isTeacher
+     * @param type
      */
-    public Map<String,Object> active(String account, String password, String email,int isTeacher){
+    public Map<String,Object> active(String account, String password, String email,int type){
         User user=new User();
         user.setAccount(account);
         user.setPassword(password);
         user.setEmail(email);
-        user.setTeacher(isTeacher);
+        user.setType(type);
 
         Map<String,Object> resultMap=new HashMap<>();
         if(userDao.activeByAccount(user))
@@ -76,32 +80,55 @@ public class UserService {
     /**
      * 根据account获取个人信息
      * @param account
-     * @param isTeacher
+     * @param type
      */
-    public User getInformation(String account,int isTeacher)
+    public User getInformation(String account,int type)
     {
-        return userDao.getUserByAccount(account,isTeacher);
+        return userDao.getUserByAccount(account,type);
     }
 
     /**
      * 忘记密码，向邮箱发送密码
      * @param account
-     * @param isTeacher
+     * @param type
      */
-    public void sendPasswordToEmail(String account,int isTeacher)
+    @Autowired
+    JavaMailSender jms;
+    @Value("${spring.mail.username}")  //发送人的邮箱
+    private String from;
+
+    public void sendPasswordToEmail(String account,int type)
     {
-        User user=userDao.getUserByAccount(account,isTeacher);
-        System.out.println("发送到邮箱");
-        //查询到邮箱，和账户密码，向用户邮箱发邮件！！！
+        User user=userDao.getUserByAccount(account,type);
+        System.out.println("发送到邮箱 ");
+        System.out.println(user.toString());
+        //建立邮件消息
+        SimpleMailMessage mainMessage = new SimpleMailMessage();
+        //发送者
+        mainMessage.setFrom(from);
+        //接收者
+        mainMessage.setTo(user.getEmail());
+        //发送的标题
+        mainMessage.setSubject("密码查询");
+        //发送的内容
+        mainMessage.setText("账户"+user.getAccount()+"的密码为："+user.getPassword());
+        jms.send(mainMessage);
     }
 
     /**
      * 根据account修改密码
-     * @param user
+     * @param account
+     * @param newPassword
+     * @param type
      * @return
      */
-    public Map<String,Object> modifyPassword(User user)
+    public Map<String,Object> modifyPassword(String account, String newPassword, int type)
     {
+        User user=new User();
+        user.setAccount(account);
+        user.setPassword(newPassword);
+        user.setType(type);
+
         Map<String,Object> resultMap=new HashMap<>();
         if(userDao.setPasswordByAccount(user))
             resultMap.put("message","1");
@@ -112,11 +139,17 @@ public class UserService {
 
     /**
      * 根据account修改邮箱
-     * @param user
+     * @param account
+     * @param newEmail
+     * @param type
      * @return
      */
-    public Map<String,Object> modifyEmail(User user)
+    public Map<String,Object> modifyEmail(String account, String newEmail,int type)
     {
+        User user=new User();
+        user.setAccount(account);
+        user.setEmail(newEmail);
+        user.setType(type);
         Map<String,Object> resultMap=new HashMap<>();
         if(userDao.setEmailByAccount(user))
             resultMap.put("message","1");

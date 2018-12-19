@@ -10,8 +10,8 @@ public class User implements Serializable {
     private String name;
     private String email;
     private int teamId;
-    private int teacher;//默认是学生
-    private int active;//默认未激活
+    private int type;//0是学生，1是教师
+    private int active;//0是未激活，1是激活
 
     public BigInteger getId() {
         return id;
@@ -61,12 +61,12 @@ public class User implements Serializable {
         this.teamId = teamId;
     }
 
-    public int getTeacher() {
-        return teacher;
+    public int getType() {
+        return type;
     }
 
-    public void setTeacher(int teacher) {
-        this.teacher = teacher;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getActive() {
@@ -86,7 +86,7 @@ public class User implements Serializable {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", teamId=" + teamId +
-                ", teacher=" + teacher +
+                ", type=" + type +
                 ", active=" + active +
                 '}';
     }

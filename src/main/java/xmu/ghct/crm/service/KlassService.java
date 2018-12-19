@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.dao.KlassDao;
 import xmu.ghct.crm.entity.Klass;
+import xmu.ghct.crm.entity.Seminar;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -33,4 +34,5 @@ public class KlassService {
     public int deleteKlassByCourseIdAndKlassId(BigInteger courseId,BigInteger klassId){
         return klassDao.deleteKlassByCourseIdAndKlassId(courseId, klassId);
     }
+
 }
