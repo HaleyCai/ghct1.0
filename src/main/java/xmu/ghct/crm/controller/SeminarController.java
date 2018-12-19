@@ -1,10 +1,7 @@
 package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.service.SeminarService;
 
@@ -21,7 +18,7 @@ public class SeminarController {
      * @param roundId
      * @return
      */
-    @RequestMapping(value="round/{roundId}/seminar")
+    @RequestMapping(value="round/{roundId}/seminar",method = RequestMethod.GET)
     @ResponseBody
     public List<Seminar> getSeminarByRoundId(@PathVariable("roundId") BigInteger roundId)
     {
