@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.ghct.crm.mapper.RoundMapper">
+    <select id="getSeminarByRoundId" resultMap="SeminarResult">
+        select id,course_id,round_id,seminar_name,introduction,max_team,
+              is_visible,seminar_serial,enroll_start_time,enroll_end_time
+        from seminar
+        where round_id=#{roundId}
+    </select>
+
+    <resultMap id="SeminarResult" type="xmu.ghct.crm.entity.Seminar">
+        <id property="id" column="id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="roundId" column="round_id"/>
+        <result property="seminarName" column="seminar_name"/>
+        <result property="introduction" column="introduction"/>
+        <result property="maxTeam" column="max_team"/>
+        <result property="isVisible" column="is_visible"/>
+        <result property="seminarSerial" column="seminarSerial"/>
+        <result property="enrollStartTime" column="enroll_start_time"/>
+        <result property="enrollEndTime" column="enroll_end_time"/>
+    </resultMap>
+</mapper>
