@@ -20,4 +20,19 @@
         <result property="enrollStartTime" column="enroll_start_time"/>
         <result property="enrollEndTime" column="enroll_end_time"/>
     </resultMap>
+
+    <select id="getRoundByRoundId" resultMap="RoundResult">
+        select id,course_id,round_serial,presentation_score_method,report_score_method,question_score_method
+        from round
+        where id=#{roundId}
+    </select>
+
+    <resultMap id="RoundResult" type="xmu.ghct.crm.entity.Round">
+        <id property="id" column="id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="roundSerial" column="round_serial"/>
+        <result property="presentationScoreMethod" column="presentation_score_method"/>
+        <result property="reportScoreMethod" column="report_score_method"/>
+        <result property="questionScoreMethod" column="question_score_method"/>
+    </resultMap>
 </mapper>
