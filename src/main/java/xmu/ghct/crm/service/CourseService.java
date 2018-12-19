@@ -29,7 +29,6 @@ public class CourseService {
         course.setTeacherId(new BigInteger(courseMap.get("teacherId").toString()));
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
         Date end = formatter.parse(courseMap.get("teamEndTime").toString()+" 00:00:00");
-        System.out.println(end);
         course.setTeamEndTime(end);
        Date start = formatter.parse(courseMap.get("teamStartTime").toString()+" 00:00:00");
         course.setTeamStartTime(start);

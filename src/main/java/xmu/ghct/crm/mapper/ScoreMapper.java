@@ -12,5 +12,10 @@ import java.util.List;
 @Component
 public interface ScoreMapper {
 
+    /**
+     * 根据teamId获得成绩信息
+     * @param teamId
+     * @return
+     */
     List<Score> listScoreByTeamId(BigInteger teamId);
 }

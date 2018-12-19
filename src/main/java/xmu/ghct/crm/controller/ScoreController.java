@@ -15,7 +15,6 @@ public class ScoreController {
     ScoreService scoreService;
 
     @RequestMapping(value="/course/{courseId}/score",method = RequestMethod.GET)
-    @ResponseBody
     public List<Score> listScoreByCourseId(@PathVariable("courseId") BigInteger courseId){
         return scoreService.listScoreByCourseId(courseId);
     }

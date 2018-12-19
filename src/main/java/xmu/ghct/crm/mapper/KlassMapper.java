@@ -12,9 +12,28 @@ import java.util.List;
 @Component
 public interface KlassMapper {
 
+    /**
+     * 根据courseId获得班级信息
+     * @author hzm
+     * @param courseId
+     * @return
+     */
     List<Klass> listKlassByCourseId(BigInteger courseId);
 
+    /**
+     * 创建班级
+     * @author hzm
+     * @param klass
+     * @return
+     */
     int creatKlass(Klass klass);
 
+    /**
+     * 根据courseId和klassId删除班级
+     * @author hzm
+     * @param courseId
+     * @param klassId
+     * @return
+     */
     int deleteKlassByCourseIdAndKlassId(BigInteger courseId,BigInteger klassId);
 }
