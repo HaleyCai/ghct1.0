@@ -18,6 +18,7 @@ import java.util.Map;
 public class SeminarService {
     @Autowired
     SeminarDao seminarDao;
+
     @Autowired
     RoundDao roundDao;
 
@@ -39,6 +40,7 @@ public class SeminarService {
         return seminarDao.creatSeminar(seminar);
     }
 
+
     public List<Seminar> getSeminarByRoundId(BigInteger roundId)
     {
         List<Seminar> list = roundDao.getSeminarByRoundId(roundId);
@@ -48,4 +50,6 @@ public class SeminarService {
         }
         return list;
     }
+
+
 }

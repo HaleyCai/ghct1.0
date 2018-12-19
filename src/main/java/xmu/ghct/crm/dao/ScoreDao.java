@@ -18,6 +18,7 @@ public class ScoreDao {
     @Autowired
     ScoreMapper scoreMapper;
 
+
     public List<Score> listScoreByCourseId(BigInteger courseId){
         List<BigInteger> teamIdList=teamMapper.getTeamIdByCourseId(courseId);
         List<Score> scoreList=new ArrayList<>();
@@ -29,4 +30,5 @@ public class ScoreDao {
         }
         return scoreList;
     }
+
 }
