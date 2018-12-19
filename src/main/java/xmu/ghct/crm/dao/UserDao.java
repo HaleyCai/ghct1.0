@@ -40,7 +40,7 @@ public class UserDao {
         if(user.getType()==1){
             v1 = userMapper.setTeacherActiveByAccount(user.getAccount());
             v2 = userMapper.setTeacherPasswordByAccount(user.getAccount(),user.getPassword());
-            v3 = userMapper.setTeacherEmailByAccount(user.getAccount(),user.getEmail());
+            v3 = 1;//教师不用重新填写email
         }
         else{
             v1 = userMapper.setStudentActiveByAccount(user.getAccount());

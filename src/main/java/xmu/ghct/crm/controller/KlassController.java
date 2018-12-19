@@ -3,6 +3,7 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.entity.Klass;
+import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.service.KlassService;
 
 import java.math.BigInteger;
