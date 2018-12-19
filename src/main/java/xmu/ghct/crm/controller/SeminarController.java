@@ -6,7 +6,9 @@ import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.service.SeminarService;
 
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class SeminarController {
@@ -24,4 +26,13 @@ public class SeminarController {
     {
         return seminarService.getSeminarByRoundId(roundId);
     }
+
+    @RequestMapping(value="/seminar")
+    public Boolean creatSeminar(@RequestBody Map<String,Object> seminarMap) throws ParseException {
+        int flag=seminarService.creatSeminar(seminarMap);
+        if(flag>0) return true;
+        else  return false;
+    }
+
+
 }

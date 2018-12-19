@@ -34,4 +34,6 @@ public class SeminarService {
         seminar.setEnrollEndTime(end);
         return seminarDao.creatSeminar(seminar);
     }
+
+
 }
