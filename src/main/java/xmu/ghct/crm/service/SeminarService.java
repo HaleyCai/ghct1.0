@@ -3,6 +3,7 @@ package xmu.ghct.crm.service;
 import com.fasterxml.jackson.databind.node.BigIntegerNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.dao.SeminarDao;
 import xmu.ghct.crm.entity.Seminar;
 
@@ -10,12 +11,15 @@ import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class SeminarService {
     @Autowired
     SeminarDao seminarDao;
+    @Autowired
+    RoundDao roundDao;
 
     public int creatSeminar(Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
@@ -35,5 +39,13 @@ public class SeminarService {
         return seminarDao.creatSeminar(seminar);
     }
 
-
+    public List<Seminar> getSeminarByRoundId(BigInteger roundId)
+    {
+        List<Seminar> list = roundDao.getSeminarByRoundId(roundId);
+        if(list==null)
+        {
+            //throw
+        }
+        return list;
+    }
 }
