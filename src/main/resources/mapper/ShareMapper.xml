@@ -1,71 +1,141 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="xmu.ghct.crm.mapper.ShareMapper">
 
+
+
     <insert id="launchTeamShareRequest" parameterType="xmu.ghct.crm.entity.Share">
+
         insert into share_team_application(
+
                                            id,
+
                                            main_course_id,
+
                                            sub_course_id,
+
                                            sub_course_teacher_id,
+
                                            status
+
         )
+
         values(
+
                #{shareId},
+
                #{mainCourseId},
+
                #{subCourseId},
+
                #{subCourseTeacherId},
+
                #{status}
+
               )
+
     </insert>
 
+
+
     <select id="listTeamShareMessageByCourseId" resultMap="shareResultMap">
+
            select *
+
            from share_team_application
+
            where main_course_id=#{courseId} or sub_course_id=#{courseId}
+
     </select>
 
+
+
     <delete id="deleteTeamShareByCourseIdAndShareId">
+
         delete from share_team_application
+
         where (main_course_id=#{courseId} or sub_course_id=#{courseId}) and id=#{shareId}
+
     </delete>
+
+
+
 
 
     <insert id="launchSeminarShareRequest" parameterType="xmu.ghct.crm.entity.Share">
+
         insert into share_seminar_application(
+
             id,
+
             main_course_id,
+
             sub_course_id,
+
             sub_course_teacher_id,
+
             status
+
         )
+
         values(
+
                   #{shareId},
+
                   #{mainCourseId},
+
                   #{subCourseId},
+
                   #{subCourseTeacherId},
+
                   #{status}
 
+
+
               )
+
     </insert>
 
+
+
     <select id="listSeminarShareMessageByCourseId" resultMap="shareResultMap">
+
         select *
+
         from share_seminar_application
+
         where main_course_id=#{courseId} or sub_course_id=#{courseId}
+
     </select>
 
+
+
     <delete id="deleteSeminarShareByCourseIdAndShareId">
+
         delete from share_seminar_application
+
         where (main_course_id=#{courseId} or sub_course_id=#{courseId}) and id=#{shareId}
+
     </delete>
 
+
+
     <resultMap id="shareResultMap" type="xmu.ghct.crm.entity.Share">
+
         <id property="shareId" column="id"/>
+
         <result property="mainCourseId" column="main_course_id"/>
+
         <result property="subCourseId" column="sub_course_id"/>
+
         <result property="subCourseTeacherId" column="sub_course_teacher_id"/>
+
         <result property="status" column="status"/>
+
     </resultMap>
+
+
 
 </mapper>

@@ -1,49 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="xmu.ghct.crm.mapper.TeamMapper">
 
+
+
     <select id="getTeamIdByCourseId" resultType="java.math.BigInteger">
+
         select id
+
         from team
+
         where course_id=#{courseId}
+
     </select>
+
+
 
     <select id="getTeamInfoByCourseId" resultMap="teamMap">
+
         select *
+
         from team
+
         where course_id=#{courseId}
+
     </select>
-    
+
+
+
     <insert id="insertTeamMemberLimit" parameterType="xmu.ghct.crm.VO.CreatCourseVO">
+
         insert into member_limit_strategy(
+
                                           min_member,
+
                                           max_member
+
         ) values (
+
                   #{minMember},
+
                   #{maxMember}
+
                          )
+
     </insert>
 
+
+
     <select id="getTeamMemberLimit" resultMap="limitMap">
+
         select min_member,max_member
+
         from member_limit_strategy
+
     </select>
+
+
+
 
 
     <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">
+
         <id property="teamId" column="id"/>
+
         <result property="klassId" column="klass_id"/>
+
         <result property="courseId" column="course_id"/>
+
         <result property="leaderId" column="leader_id"/>
+
         <result property="teamName" column="team_name"/>
+
         <result property="teamSerial" column="team_serial"/>
+
         <result property="status" column="status"/>
+
     </resultMap>
 
+
+
     <resultMap id="limitMap" type="xmu.ghct.crm.VO.CreatCourseVO">
+
         <result property="minMember" column="min_member"/>
+
         <result property="maxMember" column="max_member"/>
+
     </resultMap>
+
+
+
 
 
 </mapper>

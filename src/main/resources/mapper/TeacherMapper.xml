@@ -1,37 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="xmu.ghct.crm.mapper.TeacherMapper">
+
     <select id="getTeacherByAccount" resultMap="TeacherUserResult">
+
         select id,account,password,teacher_name,email,is_active
+
         from teacher
+
         where account=#{account}
+
     </select>
 
+
+
     <resultMap id="TeacherUserResult" type="xmu.ghct.crm.entity.User">
+
         <id property="id" column="id"/>
+
         <result property="account" column="account"/>
+
         <result property="password" column="password"/>
+
         <result property="name" column="teacher_name"/>
+
         <result property="email" column="email"/>
+
         <result property="active" column="is_active"/>
+
+
 
     </resultMap>
 
+
+
     <update id="setTeacherPasswordByAccount" >
+
         update teacher
+
         set password = #{password}
+
         where account=#{account}
+
     </update>
+
+
 
     <update id="setTeacherEmailByAccount">
+
         update teacher
+
         set email = #{email}
+
         where account=#{account}
+
     </update>
 
+
+
     <update id="setTeacherActiveByAccount">
+
         update teacher
+
         set is_active = 1
+
         where account=#{account}
+
     </update>
+
 </mapper>
