@@ -1,6 +1,5 @@
 package xmu.ghct.crm.dao;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.User;

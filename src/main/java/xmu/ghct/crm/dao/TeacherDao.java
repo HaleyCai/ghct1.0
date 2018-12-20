@@ -79,12 +79,8 @@ public class TeacherDao {
      * @param teacher
      * @return
      */
-    public boolean createTeacher(User teacher) {
-        int v1=teacherMapper.createTeacher(teacher);
-        if(v1==1)
-            return true;
-        else
-            return false;
+    public int createTeacher(User teacher) {
+        return teacherMapper.createTeacher(teacher);
     }
 
     /**
