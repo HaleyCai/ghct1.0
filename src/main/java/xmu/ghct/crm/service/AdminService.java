@@ -7,7 +7,6 @@ import xmu.ghct.crm.dao.TeacherDao;
 import xmu.ghct.crm.entity.User;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
 import java.math.BigInteger;
 
@@ -79,16 +78,12 @@ public class AdminService {
     public boolean modifyUserByUserId(BigInteger userId,String newUserName,
                                       String newUserAccount,String newUserEmail,int type)
     {
-        Map<String,Object> resultMap=new HashMap<>();
-        boolean success=false;
+        boolean success;
         if(type==1)
             success=teacherDao.modifyTeacherByTeacherId(userId,newUserName,newUserAccount,newUserEmail);
         else
             success=studentDao.modifyStudentByStudentId(userId,newUserName,newUserAccount,newUserEmail);
-        if(success)
-            return true;
-        else
-            return false;
+        return success;
     }
 
     /**
@@ -97,16 +92,12 @@ public class AdminService {
      */
     public boolean resetUserPasswordByUserId(BigInteger userId,String newPassword,int type)
     {
-        Map<String,Object> resultMap=new HashMap<>();
-        boolean success=false;
+        boolean success;
         if(type==1)
             success=teacherDao.resetTeacherPasswordByTeacherId(userId,newPassword);
         else
             success=studentDao.resetStudentPasswordByStudentId(userId,newPassword);
-        if(success)
-            return true;
-        else
-            return false;
+        return success;
     }
 
     /**
@@ -115,16 +106,12 @@ public class AdminService {
      */
     public boolean deleteUserByUserId(BigInteger userId,int type)
     {
-        Map<String,Object> resultMap=new HashMap<>();
-        boolean success=false;
+        boolean success;
         if(type==1)
             success=teacherDao.deleteTeacherByTeacherId(userId);
         else
             success=studentDao.deleteStudentByStudentId(userId);
-        if(success)
-            return true;
-        else
-            return false;
+        return success;
     }
 }
 

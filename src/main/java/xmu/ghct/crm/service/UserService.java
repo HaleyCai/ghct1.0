@@ -70,17 +70,14 @@ public class UserService {
      * @param email
      * @param type
      */
-    public boolean active(String account, String password, String email,int type){
-        Map<String,Object> resultMap=new HashMap<>();
-        boolean success=false;
+    public boolean active(String account, String password, String email,int type)
+    {
+        boolean success;
         if(type==1)
             success=teacherDao.activeByAccount(account,password);
         else
             success=studentDao.activeByAccount(account,password,email);
-        if(success)
-            return true;
-        else
-            return false;
+        return success;
     }
 
     /**
@@ -143,16 +140,12 @@ public class UserService {
      */
     public boolean modifyPassword(String account, String newPassword, int type)
     {
-        Map<String,Object> resultMap=new HashMap<>();
-        boolean success=false;
+        boolean success;
         if(type==1)
             success=teacherDao.setPasswordByAccount(account,newPassword);
         else
             success=studentDao.setPasswordByAccount(account,newPassword);
-        if(success)
-            return true;
-        else
-            return false;
+        return success;
 }
 
     /**
@@ -164,15 +157,11 @@ public class UserService {
      */
     public boolean modifyEmail(String account, String newEmail,int type)
     {
-        Map<String,Object> resultMap=new HashMap<>();
-        boolean success=false;
+        boolean success;
         if(type==1)
             success=teacherDao.setEmailByAccount(account,newEmail);
         else
             success=studentDao.setEmailByAccount(account,newEmail);
-        if(success)
-            return true;
-        else
-            return false;
+        return success;
     }
 }
