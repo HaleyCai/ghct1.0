@@ -35,8 +35,13 @@ public class KlassService {
         return klassDao.creatKlass(klass);
     }
 
-    public int deleteKlassByCourseIdAndKlassId(BigInteger courseId,BigInteger klassId){
-        return klassDao.deleteKlassByCourseIdAndKlassId(courseId, klassId);
+    /**
+     * 删除courseId下的所有班级
+     * @param courseId
+     * @return
+     */
+    public int deleteKlassByCourseIdAndKlassId(BigInteger courseId){
+        return klassDao.deleteKlassByCourseIdAndKlassId(courseId);
     }
 
     /**

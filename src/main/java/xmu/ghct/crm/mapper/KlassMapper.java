@@ -32,8 +32,7 @@ public interface KlassMapper {
      * 根据courseId和klassId删除班级
      * @author hzm
      * @param courseId
-     * @param klassId
      * @return
      */
-    int deleteKlassByCourseIdAndKlassId(BigInteger courseId,BigInteger klassId);
+    int deleteKlassByCourseIdAndKlassId(BigInteger courseId);
 }

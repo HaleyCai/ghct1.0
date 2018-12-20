@@ -27,7 +27,7 @@
     </insert>
 
     <delete id="deleteKlassByCourseIdAndKlassId">
-        delete from klass where course_id=#{courseId} and id=#{klassId}
+        delete from klass where course_id=#{courseId}
     </delete>
 
     <resultMap id="klassResultMap" type="xmu.ghct.crm.entity.Klass">

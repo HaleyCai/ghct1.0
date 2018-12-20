@@ -25,8 +25,8 @@ public class KlassDao {
         return klassMapper.creatKlass(klass);
     }
 
-    public int deleteKlassByCourseIdAndKlassId(BigInteger courseId, BigInteger klassId) {
-        return klassMapper.deleteKlassByCourseIdAndKlassId(courseId, klassId);
+    public int deleteKlassByCourseIdAndKlassId(BigInteger courseId) {
+        return klassMapper.deleteKlassByCourseIdAndKlassId(courseId);
     }
 
 }

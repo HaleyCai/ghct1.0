@@ -3,9 +3,8 @@
 <mapper namespace="xmu.ghct.crm.mapper.CourseMapper">
 
     <!--parameterType="BigInteger,xmu.ghct.crm.entity.Course"-->
-    <insert id="insertCourse"  parameterType="xmu.ghct.crm.entity.Course">
+    <insert id="insertCourse"  parameterType="xmu.ghct.crm.VO.CreatCourseVO">
         insert into course (
-            id,
             teacher_id,
             course_name,
             introduction,
@@ -14,11 +13,8 @@
             report_percentage,
             team_start_time,
             team_end_time,
-            team_main_course_id,
-            seminar_main_course_id
         )
         values (
-                   #{courseId},
                    #{teacherId},
                    #{courseName},
                    #{introduction},
@@ -27,8 +23,6 @@
                    #{reportPercentage,},
                    #{teamStartTime},
                    #{teamEndTime},
-                   0,
-                   0
                )
     </insert>
 

@@ -2,6 +2,7 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xmu.ghct.crm.VO.CreatCourseVO;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.entity.*;
 
@@ -19,20 +20,22 @@ public class CourseService {
     CourseDao courseDao;
 
     public int creatCourse( Map<String,Object> courseMap) throws ParseException {
-        Course course=new Course();
-        course.setCourseId(new BigInteger(courseMap.get("id").toString()));
-        course.setCourseName(courseMap.get("courseName").toString());
-        course.setIntroduction(courseMap.get("introduction").toString());
-        course.setPresentationPercentage(new Double(courseMap.get("presentationPercentage").toString()));
-        course.setQuestionPercentage(new Double(courseMap.get("questionPercentage").toString()));
-        course.setReportPercentage(new Double(courseMap.get("reportPercentage").toString()));
-        course.setTeacherId(new BigInteger(courseMap.get("teacherId").toString()));
+        CreatCourseVO creatCourseVO=new CreatCourseVO();
+        creatCourseVO.setCourseId(new BigInteger(courseMap.get("id").toString()));
+        creatCourseVO.setCourseName(courseMap.get("courseName").toString());
+        creatCourseVO.setIntroduction(courseMap.get("introduction").toString());
+        creatCourseVO.setPresentationPercentage(new Double(courseMap.get("presentationPercentage").toString()));
+        creatCourseVO.setQuestionPercentage(new Double(courseMap.get("questionPercentage").toString()));
+        creatCourseVO.setReportPercentage(new Double(courseMap.get("reportPercentage").toString()));
+        creatCourseVO.setTeacherId(new BigInteger(courseMap.get("teacherId").toString()));
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
         Date end = formatter.parse(courseMap.get("teamEndTime").toString()+" 00:00:00");
-        course.setTeamEndTime(end);
-       Date start = formatter.parse(courseMap.get("teamStartTime").toString()+" 00:00:00");
-        course.setTeamStartTime(start);
-        return courseDao.insertCourse(course);
+        creatCourseVO.setTeamEndTime(end);
+        Date start = formatter.parse(courseMap.get("teamStartTime").toString()+" 00:00:00");
+        creatCourseVO.setTeamStartTime(start);
+        creatCourseVO.setMinMember(new Integer(courseMap.get("minMember").toString()));
+        creatCourseVO.setMaxMember(new Integer(courseMap.get("maxMember").toString()));
+        return courseDao.insertCourse(creatCourseVO);
     }
 
     public List<Course> listCourseByTeacherId(Map<String,Object> teacherIdMap) {

@@ -14,6 +14,19 @@ public class CourseDao {
     @Autowired
     CourseMapper courseMapper;
 
+    @Autowired
+    TeamMapper teamMapper;
+
+    @Autowired
+    ScoreMapper scoreMapper;
+
+    @Autowired
+    KlassMapper klassMapper;
+
+    @Autowired
+    ShareMapper shareMapper;
+
+
     public int insertCourse(Course course) {
         return courseMapper.insertCourse(course);
     }

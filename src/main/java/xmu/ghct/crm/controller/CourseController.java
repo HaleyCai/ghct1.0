@@ -30,8 +30,6 @@ public class CourseController {
     public List<Course> listCourseByTeacherId(@RequestBody Map<String,Object> teacherIdMap){
 
                 List<Course> courseList=courseService.listCourseByTeacherId(teacherIdMap);
-                for(Course item:courseList)
-                    System.out.println(item.toString());
                 return courseList;
     }
 

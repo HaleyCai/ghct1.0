@@ -13,6 +13,16 @@
         from team
         where course_id=#{courseId}
     </select>
+    
+    <insert id="insertTeamMemberLimit" parameterType="xmu.ghct.crm.VO.CreatCourseVO">
+        insert into member_limit_strategy(
+                                          min_member,
+                                          max_member
+        ) values (
+                  #{minMember},
+                  #{maxMember}
+                         )
+    </insert>
 
     <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">
         <id property="teamId" column="id"/>

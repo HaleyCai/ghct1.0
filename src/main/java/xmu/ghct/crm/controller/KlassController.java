@@ -30,10 +30,15 @@ public class KlassController {
         return klassService.listKlassByCourseId(courseId);
     }
 
-    @RequestMapping(value="/course/{courseId}/class/{klassId}",method = RequestMethod.DELETE)
+    /**
+     * 删除某一课程下的所有班级
+     * @param courseId
+     * @return
+     */
+    @RequestMapping(value="/course/{courseId}/class/deleteKlass",method = RequestMethod.DELETE)
     @ResponseBody
-    public boolean deleteKlassByCourseIdAndKlassId(@PathVariable("courseId")BigInteger courseId,@PathVariable("klassId")BigInteger klassId){
-        int flag= klassService.deleteKlassByCourseIdAndKlassId(courseId, klassId);
+    public boolean deleteKlassByCourseIdAndKlassId(@PathVariable("courseId")BigInteger courseId){
+        int flag= klassService.deleteKlassByCourseIdAndKlassId(courseId);
         if(flag>0) return true;
         else return false;
     }
