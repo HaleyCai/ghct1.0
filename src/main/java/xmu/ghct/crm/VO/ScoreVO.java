@@ -1,29 +1,54 @@
-package xmu.ghct.crm.entity;
+package xmu.ghct.crm.VO;
 
-import java.io.Serializable;
+import xmu.ghct.crm.entity.Score;
+
 import java.math.BigInteger;
+import java.util.List;
 
-public class Score implements Serializable {
+public class ScoreVO {
 
-    private BigInteger klassSeminarId;
+    private BigInteger roundId;
     private  BigInteger teamId;
     private double presentationScore;
     private double questionScore;
     private double reportScore;
     private double totalScore;
+    private List<Score> scoreList;
 
-    public BigInteger getKlassSeminarId() {
-        return klassSeminarId;
+    public void setScoreList(List<Score> scoreList) {
+        this.scoreList = scoreList;
+    }
+
+    public List<Score> getScoreList() {
+        return scoreList;
+    }
+
+    public BigInteger getRoundId() {
+        return roundId;
     }
 
     public BigInteger getTeamId() {
         return teamId;
     }
 
+    public double getPresentationScore() {
+        return presentationScore;
+    }
 
+    public double getQuestionScore() {
+        return questionScore;
+    }
 
-    public void setKlassSeminarId(BigInteger klassSeminarId) {
-        this.klassSeminarId = klassSeminarId;
+    public double getReportScore() {
+        return reportScore;
+    }
+
+    public double getTotalScore() {
+        return totalScore;
+    }
+
+    public void setRoundId(BigInteger roundId) {
+        this.roundId = roundId;
     }
 
     public void setTeamId(BigInteger teamId) {
@@ -46,32 +71,16 @@ public class Score implements Serializable {
         this.totalScore = totalScore;
     }
 
-
-    public double getPresentationScore() {
-        return presentationScore;
-    }
-
-    public double getQuestionScore() {
-        return questionScore;
-    }
-
-    public double getReportScore() {
-        return reportScore;
-    }
-
-    public double getTotalScore() {
-        return totalScore;
-    }
-
     @Override
     public String toString() {
-        return "Score{" +
-                "klassSeminarId=" + klassSeminarId +
+        return "ScoreVO{" +
+                "roundId=" + roundId +
                 ", teamId=" + teamId +
                 ", presentationScore=" + presentationScore +
                 ", questionScore=" + questionScore +
                 ", reportScore=" + reportScore +
                 ", totalScore=" + totalScore +
+                ", scoreList=" + scoreList +
                 '}';
     }
 

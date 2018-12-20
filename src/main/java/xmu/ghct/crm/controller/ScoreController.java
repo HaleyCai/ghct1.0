@@ -2,6 +2,7 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xmu.ghct.crm.VO.ScoreVO;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.service.ScoreService;
 
@@ -15,7 +16,7 @@ public class ScoreController {
     ScoreService scoreService;
 
     @RequestMapping(value="/course/{courseId}/score",method = RequestMethod.GET)
-    public List<Score> listScoreByCourseId(@PathVariable("courseId") BigInteger courseId){
+    public List<ScoreVO> listScoreByCourseId(@PathVariable("courseId") BigInteger courseId){
         return scoreService.listScoreByCourseId(courseId);
     }
 }

@@ -40,4 +40,10 @@ public interface TeamMapper {
      * @return
      */
     int insertTeamMemberLimit(CreatCourseVO creatCourseVO);
+
+    /**
+     * 获取组队人数限制
+     * @return
+     */
+    CreatCourseVO getTeamMemberLimit();
 }

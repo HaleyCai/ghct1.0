@@ -43,7 +43,7 @@ public class CourseService {
         return courseDao.listCourseByTeacherId(teacherId);
     }
 
-    public Course getCourseByCourseId(BigInteger courseId) {
+    public CreatCourseVO getCourseByCourseId(BigInteger courseId) {
         return courseDao.getCourseByCourseId(courseId);
     }
 

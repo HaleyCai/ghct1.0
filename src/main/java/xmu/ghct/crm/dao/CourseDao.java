@@ -2,6 +2,7 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.CreatCourseVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.mapper.*;
 
@@ -27,8 +28,8 @@ public class CourseDao {
     ShareMapper shareMapper;
 
 
-    public int insertCourse(Course course) {
-        return courseMapper.insertCourse(course);
+    public int insertCourse(CreatCourseVO creatCourseVO) {
+        return courseMapper.insertCourse(creatCourseVO);
     }
 
     public List<Course> listCourseByTeacherId(BigInteger teacherId) {
@@ -39,12 +40,20 @@ public class CourseDao {
         return courseList;
     }
 
-    public Course getCourseByCourseId(BigInteger courseId) {
+    public CreatCourseVO getCourseByCourseId(BigInteger courseId) {
         Course course = courseMapper.getCourseByCourseId(courseId);
-        if (course == null) {
+        CreatCourseVO creatCourseVO=teamMapper.getTeamMemberLimit();
+        creatCourseVO.setIntroduction(course.getIntroduction());
+        creatCourseVO.setPresentationPercentage(course.getPresentationPercentage());
+        creatCourseVO.setQuestionPercentage(course.getQuestionPercentage());
+        creatCourseVO.setReportPercentage(course.getReportPercentage());
+        creatCourseVO.setTeamStartTime(course.getTeamStartTime());
+        creatCourseVO.setTeamEndTime(course.getTeamEndTime());
+
+        if (creatCourseVO == null) {
             //throw new CourseNotFindException();
         }
-        return course;
+        return creatCourseVO;
     }
 
     public int deleteCourseByCourseId(BigInteger courseId) {

@@ -33,7 +33,7 @@
     </select>
 
     <select id="listCourseByTeacherId" resultMap="courseResultMap">
-        select id,teacher_id,course_name,introduction,presentation_percentage,question_percentage,report_percentage,team_start_time,team_end_time
+        select id,course_name
         from course
         where teacher_id = #{teacherId}
     </select>

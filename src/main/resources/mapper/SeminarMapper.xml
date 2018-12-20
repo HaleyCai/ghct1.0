@@ -4,7 +4,6 @@
 
     <insert id="creatSeminar" parameterType="xmu.ghct.crm.entity.Seminar">
         insert into seminar(
-                            id,
                             course_id,
                             round_id,
                             seminar_name,
@@ -15,7 +14,6 @@
                             enroll_start_time,
                             enroll_end_time
                  )values   (
-                            #{seminarId},
                             #{courseId},
                             #{roundId},
                             #{seminarName},

@@ -3,12 +3,29 @@
 <mapper namespace="xmu.ghct.crm.mapper.ScoreMapper">
 
     <select id="listScoreByTeamId" resultMap="scoreMap">
-        select total_score,report_score,question_score,presentation_score
+        select klass_seminar_id,team_id,total_score,report_score,question_score,presentation_score
         from round_score
         where team_id=#{teamId}
     </select>
 
     <resultMap id="scoreMap" type="xmu.ghct.crm.entity.Score">
+        <result property="klassSeminarId" column="klass_seminar_id"/>
+        <result property="teamId" column="team_id"/>
+        <result property="presentationScore" column="presentation_score"/>
+        <result property="questionScore" column="question_score"/>
+        <result property="reportScore" column="report_score"/>
+        <result property="totalScore" column="total_score"/>
+    </resultMap>
+
+    <select id="getRoundScore" resultMap="roundScoreMap">
+        select round_id,team_id,total_score,report_score,question_score,presentation_score
+        from round_score
+        where round_id=#{roundId}
+    </select>
+
+    <resultMap id="roundScoreMap" type="xmu.ghct.crm.VO.ScoreVO">
+        <result property="roundId" column="round_id"/>
+        <result property="teamId" column="team_id"/>
         <result property="presentationScore" column="presentation_score"/>
         <result property="questionScore" column="question_score"/>
         <result property="reportScore" column="report_score"/>

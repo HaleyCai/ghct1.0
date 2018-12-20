@@ -3,6 +3,7 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import xmu.ghct.crm.VO.CreatCourseVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.service.CourseService;
 
@@ -35,7 +36,7 @@ public class CourseController {
 
     @RequestMapping(value="/course/searchCourse/{courseId}",method = RequestMethod.GET)
     @ResponseBody
-    public Course getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
+    public CreatCourseVO getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
         return courseService.getCourseByCourseId(courseId);
     }
 

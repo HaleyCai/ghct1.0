@@ -39,4 +39,11 @@ public interface RoundMapper {
                              @Param("presentationScoreMethod") int presentationScoreMethod,
                              @Param("reportScoreMethod") int reportScoreMethod,
                              @Param("questionScoreMethod") int questionScoreMethod);
+
+    /**
+     * 根据courseId获得轮次
+     * @param courseId
+     * @return
+     */
+    List<Round> listRoundByCourseId(BigInteger courseId);
 }
