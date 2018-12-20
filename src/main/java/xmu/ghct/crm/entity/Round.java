@@ -4,19 +4,19 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 public class Round implements Serializable {
-    private BigInteger id;
+    private BigInteger roundId;
     private BigInteger courseId;
     private int roundSerial;//轮次序号
-    private int presentationScoreMethod;//本轮次成绩计算方法
+    private int presentationScoreMethod;//本轮次成绩计算方法，0代表平均分，1代表最高分
     private int reportScoreMethod;
-    private int QuestionScoreMethod;
+    private int questionScoreMethod;
 
-    public BigInteger getId() {
-        return id;
+    public BigInteger getRoundId() {
+        return roundId;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
+    public void setRoundId(BigInteger roundId) {
+        this.roundId = roundId;
     }
 
     public BigInteger getCourseId() {
@@ -52,22 +52,22 @@ public class Round implements Serializable {
     }
 
     public int getQuestionScoreMethod() {
-        return QuestionScoreMethod;
+        return questionScoreMethod;
     }
 
     public void setQuestionScoreMethod(int questionScoreMethod) {
-        QuestionScoreMethod = questionScoreMethod;
+        this.questionScoreMethod = questionScoreMethod;
     }
 
     @Override
     public String toString() {
         return "Round{" +
-                "id=" + id +
+                "roundId=" + roundId +
                 ", courseId=" + courseId +
                 ", roundSerial=" + roundSerial +
                 ", presentationScoreMethod=" + presentationScoreMethod +
                 ", reportScoreMethod=" + reportScoreMethod +
-                ", QuestionScoreMethod=" + QuestionScoreMethod +
+                ", questionScoreMethod=" + questionScoreMethod +
                 '}';
     }
 }

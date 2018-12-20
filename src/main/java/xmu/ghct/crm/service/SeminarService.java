@@ -3,6 +3,7 @@ package xmu.ghct.crm.service;
 import com.fasterxml.jackson.databind.node.BigIntegerNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xmu.ghct.crm.VO.SeminarSimpleVO;
 import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.dao.SeminarDao;
 import xmu.ghct.crm.entity.Seminar;
@@ -30,7 +31,7 @@ public class SeminarService {
         seminar.setSeminarName(seminarMap.get("seminarName").toString());
         seminar.setIntroduction(seminarMap.get("introduction").toString());
         seminar.setMaxTeam(new Integer(seminarMap.get("maxTeam").toString()));
-        seminar.setVisible(new Boolean(seminarMap.get("visible").toString()));
+        seminar.setVisible(new Integer(seminarMap.get("visible").toString()));
         seminar.setSeminarSerial(new Integer(seminarMap.get("seminarSerial").toString()));
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
         Date start = formatter.parse(seminarMap.get("enrollStartTime").toString()+" 00:00:00");
@@ -41,9 +42,14 @@ public class SeminarService {
     }
 
 
-    public List<Seminar> getSeminarByRoundId(BigInteger roundId)
+    /**
+     * 获取某轮次下所有讨论课的简略信息
+     * @param roundId
+     * @return
+     */
+    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId)
     {
-        List<Seminar> list = roundDao.getSeminarByRoundId(roundId);
+        List<SeminarSimpleVO> list = roundDao.getSeminarByRoundId(roundId);
         if(list==null)
         {
             //throw

@@ -2,9 +2,9 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xmu.ghct.crm.VO.RoundVO;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Round;
-import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.service.KlassService;
 
 import java.math.BigInteger;
@@ -49,7 +49,7 @@ public class KlassController {
      * @return
      */
     @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
-    public Round getRoundByRoundId(@PathVariable("roundId") BigInteger roundId)
+    public RoundVO getRoundByRoundId(@PathVariable("roundId") BigInteger roundId)
     {
         return klassService.getRoundByRoundId(roundId);
     }
@@ -62,6 +62,11 @@ public class KlassController {
     @RequestMapping(value = "/round/{roundId}",method = RequestMethod.PUT)
     public boolean modifyRoundByRoundId(@PathVariable("roundId") BigInteger roundId,@RequestBody Map<String,Object> inMap)
     {
-        return klassService.modifyRoundByRoundId(inMap);
+        RoundVO roundVO=new RoundVO();
+        roundVO.setRoundId((BigInteger) inMap.get("roundId"));
+        roundVO.setPresentationScoreMethod(inMap.get("presentationScoreMethod").toString());
+        roundVO.setReportScoreMethod(inMap.get("reportScoreMethod").toString());
+        roundVO.setQuestionScoreMethod(inMap.get("questionScoreMethod").toString());
+        return klassService.modifyRoundByRoundId(roundVO);
     }
 }

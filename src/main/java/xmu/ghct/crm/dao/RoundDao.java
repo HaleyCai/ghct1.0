@@ -2,11 +2,14 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.RoundVO;
+import xmu.ghct.crm.VO.SeminarSimpleVO;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.mapper.RoundMapper;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,16 +22,38 @@ public class RoundDao {
     private RoundMapper roundMapper;
 
     /**
-     * 根据roundId获取该轮次下所有seminar
+     * 根据roundId获取该轮次下所有seminar的简单信息
      * @param roundId
      * @return
      */
-    public List<Seminar> getSeminarByRoundId(BigInteger roundId){
-        List<Seminar> list =roundMapper.getSeminarByRoundId(roundId);
+    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId){
+        List<Seminar> list=roundMapper.getSeminarByRoundId(roundId);
+        List<SeminarSimpleVO> simpleList=new ArrayList<>();
+        for(Seminar item:list)
+        {
+            SeminarSimpleVO temp=new SeminarSimpleVO();
+            temp.setId(item.getSeminarId());
+            temp.setTopic(item.getSeminarName());
+            temp.setOrder(item.getSeminarSerial());
+            simpleList.add(temp);
+        }
         if(list==null){
             //throw
         }
-        return list;
+        return simpleList;
+    }
+
+    /**
+     * 将表示成绩评定方式的数字转为字符串
+     * @param i
+     * @return
+     */
+    private String intToString(int i)
+    {
+        if(i==0)
+            return "平均分";
+        else
+            return "最高分";
     }
 
     /**
@@ -36,21 +61,45 @@ public class RoundDao {
      * @param roundId
      * @return
      */
-    public Round getRoundByRoundId(BigInteger roundId){
+    public RoundVO getRoundByRoundId(BigInteger roundId){
         Round round=roundMapper.getRoundByRoundId(roundId);
         if(round==null){
             //throw
         }
-        return round;
+
+        RoundVO roundVO=new RoundVO();
+        roundVO.setRoundId(round.getRoundId());
+        roundVO.setRoundSerial(round.getRoundSerial());
+        //将Int转为String
+        roundVO.setPresentationScoreMethod(intToString(round.getPresentationScoreMethod()));
+        roundVO.setReportScoreMethod(intToString(round.getReportScoreMethod()));
+        roundVO.setQuestionScoreMethod(intToString(round.getQuestionScoreMethod()));
+        return roundVO;
+    }
+
+    /**
+     * 将表示成绩评定方式的字符串转为数字
+     * @param s
+     * @return
+     */
+    private int stringToInt(String s)
+    {
+        if(s.equals("平均分"))
+            return 0;
+        else
+            return 1;
     }
 
     /**
      * 根据roundId修改轮次信息（成绩评定方式）
-     * @param round
+     * @param roundVO
      * @return
      */
-    public boolean modifyRoundByRoundId(Round round){
-        int v1=roundMapper.modifyRoundByRoundId(round.getId(),round.getPresentationScoreMethod(),round.getReportScoreMethod(),round.getQuestionScoreMethod());
+    public boolean modifyRoundByRoundId(RoundVO roundVO){
+        int v1=roundMapper.modifyRoundByRoundId(roundVO.getRoundId(),
+                stringToInt(roundVO.getPresentationScoreMethod()),
+                stringToInt(roundVO.getReportScoreMethod()),
+                stringToInt(roundVO.getQuestionScoreMethod()));
         if(v1<=0){
             //throw
             return false;
