@@ -1,131 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="xmu.ghct.crm.mapper.CourseMapper">
-
-
-
     <!--parameterType="BigInteger,xmu.ghct.crm.entity.Course"-->
-
     <insert id="insertCourse"  parameterType="xmu.ghct.crm.VO.CreatCourseVO">
-
         insert into course (
-
             teacher_id,
-
             course_name,
-
             introduction,
-
             presentation_percentage,
-
             question_percentage,
-
             report_percentage,
-
             team_start_time,
-
             team_end_time,
-
         )
-
         values (
-
                    #{teacherId},
-
                    #{courseName},
-
                    #{introduction},
-
                    #{presentationPercentage},
-
                    #{questionPercentage},
-
                    #{reportPercentage,},
-
                    #{teamStartTime},
-
                    #{teamEndTime},
-
                )
-
     </insert>
 
-
-
     <select id="getCourseByCourseId" resultMap="courseResultMap">
-
         select id,teacher_id,course_name,introduction,presentation_percentage,question_percentage,report_percentage,team_start_time,team_end_time
-
         from course
-
         where id = #{courseId}
-
     </select>
-
-
 
     <select id="listCourseByTeacherId" resultMap="courseResultMap">
-
         select id,course_name
-
         from course
-
         where teacher_id = #{teacherId}
-
     </select>
-
-
 
     <delete id="deleteCourseByCourseId">
-
         delete from course where id=#{courseId}
-
     </delete>
 
-
-
-
-
-
-
     <select id="getStudentIdByTeamId">
-
         select student_id
-
         from klass_student
-
         where team_id=#{teamId}
-
     </select>
 
-
-
-
-
     <resultMap id="courseResultMap" type="xmu.ghct.crm.entity.Course">
-
         <id property="courseId" column="id"/>
-
         <result property="teacherId" column="teacher_id"/>
-
         <result property="courseName" column="course_name"/>
-
         <result property="introduction" column="introduction"/>
-
         <result property="presentationPercentage" column="presentation_percentage"/>
-
         <result property="questionPercentage" column="question_percentage"/>
-
         <result property="reportPercentage" column="report_percentage"/>
-
         <result property="teamStartTime" column="team_start_time"/>
-
         <result property="teamEndTime" column="team_end_time"/>
-
     </resultMap>
-
-
 
 </mapper>

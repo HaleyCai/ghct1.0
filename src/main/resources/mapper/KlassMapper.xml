@@ -1,87 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="xmu.ghct.crm.mapper.KlassMapper">
-
     <select id="listKlassByCourseId" resultMap="klassResultMap">
-
            select *
-
            from klass
-
            where course_id=#{courseId}
-
     </select>
 
-
-
     <insert id="creatKlass" parameterType="xmu.ghct.crm.entity.Klass">
-
         insert into klass(
-
                           id,
-
                           course_id,
-
                           grade,
-
                           klass_serial,
-
                           klass_time,
-
                           klass_location
-
         )
-
         values(
-
                #{klassId},
-
                #{courseId},
-
                #{grade},
-
                #{klassSerial},
-
                #{klassTime},
-
                #{klassLocation}
-
-
-
               )
-
     </insert>
 
-
-
     <delete id="deleteKlassByCourseIdAndKlassId">
-
         delete from klass where course_id=#{courseId}
-
     </delete>
 
-
-
     <resultMap id="klassResultMap" type="xmu.ghct.crm.entity.Klass">
-
         <id property="klassId" column="id"/>
-
         <result property="courseId" column="course_id"/>
-
         <result property="klassSerial" column="klass_serial"/>
-
         <result property="grade" column="grade"/>
-
         <result property="klassTime" column="klass_time"/>
-
         <result property="klassLocation" column="klass_location"/>
-
-
-
     </resultMap>
-
-
 
 </mapper>

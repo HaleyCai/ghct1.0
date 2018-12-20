@@ -1,99 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="xmu.ghct.crm.mapper.StudentMapper">
 
-
-
     <select id="getStudentByAccount" resultMap="StudentUserResult">
-
         select id,account,password,student_name,email,is_active
-
         from student
-
         where account=#{account}
-
     </select>
-
-
 
     <select id="getStudentByStudentId" resultMap="StudentUserResult">
-
         select id,account,password,student_name,email,is_active
-
         from student
-
         where id=#{studentId}
-
-
-
     </select>
-
-
 
     <select id="getNoTeamStudentByCourseId" resultMap="StudentUserResult">
-
         select id,account,password,student_name,email,is_active
-
         from student
-
         where team_serial="";
-
     </select>
 
-
-
     <resultMap id="StudentUserResult" type="xmu.ghct.crm.entity.User">
-
         <id property="id" column="id"/>
-
         <result property="account" column="account"/>
-
         <result property="password" column="password"/>
-
         <result property="name" column="student_name"/>
-
         <result property="email" column="email"/>
-
         <result property="active" column="is_active"/>
-
     </resultMap>
 
-
-
     <update id="setStudentPasswordByAccount">
-
         update student
-
         set password = #{password}
-
         where account=#{account}
-
     </update>
-
-
 
     <update id="setStudentEmailByAccount">
-
         update student
-
         set email = #{email}
-
         where account=#{account}
-
     </update>
 
-
-
     <update id="setStudentActiveByAccount">
-
         update student
-
         set is_active = 1
-
         where account=#{account}
-
     </update>
 
 </mapper>

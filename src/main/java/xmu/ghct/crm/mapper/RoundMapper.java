@@ -14,13 +14,6 @@ import java.util.List;
 public interface RoundMapper {
 
     /**
-     * 根据roundId获取该轮次下的所有讨论课
-     * @param roundId
-     * @return
-     */
-    List<Seminar> getSeminarByRoundId(@Param("roundId") BigInteger roundId);
-
-    /**
      * 根据roundId获得轮次信息
      * @param roundId
      * @return
