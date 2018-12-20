@@ -14,7 +14,7 @@ import java.util.Map;
 public class ShareService {
     @Autowired
     ShareDao shareDao;
-
+    //可以合并
     public List<Share> listTeamShareMessageByCourseId(BigInteger courseId) {
         List<Share> listShare=shareDao.listTeamShareMessageByCourseId(courseId);
         for(Share item:listShare)
@@ -26,16 +26,17 @@ public class ShareService {
         return shareDao.deleteTeamShareByCourseIdAndShareId(courseId, shareId);
     }
 
+    //可以合并
     public int launchTeamShareRequest(BigInteger courseId, Map<String,Object> shareMap)  {
         Share share=new Share();
         share.setShareId(new BigInteger(shareMap.get("shareId").toString()));
         share.setMainCourseId(new BigInteger(courseId.toString()));
         share.setSubCourseId(new BigInteger(shareMap.get("subCourseId").toString()));
         share.setSubCourseTeacherId(new BigInteger(shareMap.get("subCourseTeacherId").toString()));
-        share.setStatus(new Boolean(shareMap.get("status").toString()));
+        share.setStatus((int)shareMap.get("status"));
         return shareDao.launchTeamShareRequest(share);
     }
-
+    //可以合并
     public List<Share> listSeminarShareMessageByCourseId(BigInteger courseId) {
         List<Share> listShare=shareDao.listSeminarShareMessageByCourseId(courseId);
         for(Share item:listShare)
@@ -53,7 +54,7 @@ public class ShareService {
         share.setMainCourseId(new BigInteger(courseId.toString()));
         share.setSubCourseId(new BigInteger(shareMap.get("subCourseId").toString()));
         share.setSubCourseTeacherId(new BigInteger(shareMap.get("subCourseTeacherId").toString()));
-        share.setStatus(new Boolean(shareMap.get("status").toString()));
+        share.setStatus((int)shareMap.get("status"));
         return shareDao.launchSeminarShareRequest(share);
     }
 

@@ -40,7 +40,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/active",method = RequestMethod.PUT)
-    public Map<String,Object> active(@RequestBody Map<String,Object> inMap){
+    public boolean active(@RequestBody Map<String,Object> inMap){
         return userService.active(
                 (String)inMap.get("account"),
                 (String)inMap.get(("password")),
@@ -66,7 +66,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/password",method = RequestMethod.PUT)
-    public Map<String,Object> modifyPassword(@RequestBody Map<String,Object> inMap){
+    public boolean modifyPassword(@RequestBody Map<String,Object> inMap){
         return userService.modifyPassword(
                 (String)inMap.get("account"),
                 (String)inMap.get("password"),
@@ -91,7 +91,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/email",method = RequestMethod.PUT)
-    public Map<String,Object> modifyEmail(@RequestBody Map<String,Object> inMap){
+    public boolean modifyEmail(@RequestBody Map<String,Object> inMap){
         return userService.modifyEmail(
                 (String)inMap.get("account"),
                 (String)inMap.get("email"),
