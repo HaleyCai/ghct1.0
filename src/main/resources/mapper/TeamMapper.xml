@@ -29,6 +29,7 @@
         from member_limit_strategy
     </select>
 
+
     <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">
         <id property="teamId" column="id"/>
         <result property="klassId" column="klass_id"/>

@@ -23,6 +23,7 @@
                #{klassSerial},
                #{klassTime},
                #{klassLocation}
+
               )
     </insert>
 

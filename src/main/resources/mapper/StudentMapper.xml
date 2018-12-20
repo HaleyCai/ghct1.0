@@ -12,6 +12,7 @@
         select id,account,password,student_name,email,is_active
         from student
         where id=#{studentId}
+
     </select>
 
     <select id="getNoTeamStudentByCourseId" resultMap="StudentUserResult">
