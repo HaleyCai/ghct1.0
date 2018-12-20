@@ -13,7 +13,7 @@ public class Seminar implements Serializable {
     private String seminarName;
     private String introduction;
     private int maxTeam;
-    private Boolean visible;
+    private int visible;
     private int seminarSerial;
     private Date enrollStartTime;
     private Date enrollEndTime;
@@ -55,7 +55,7 @@ public class Seminar implements Serializable {
         this.maxTeam = maxTeam;
     }
 
-    public void setVisible(Boolean visible) {
+    public void setVisible(int visible) {
         this.visible = visible;
     }
 
@@ -87,7 +87,7 @@ public class Seminar implements Serializable {
         return maxTeam;
     }
 
-    public Boolean isVisible() {
+    public int isVisible() {
         return visible;
     }
 

@@ -9,7 +9,7 @@ public class Share implements Serializable {
     private BigInteger mainCourseId;
     private BigInteger subCourseId;
     private BigInteger subCourseTeacherId;
-    private Boolean status;
+    private int status;
 
     public BigInteger getshareId() { return shareId; }
 
@@ -35,9 +35,9 @@ public class Share implements Serializable {
 
     public void setSubCourseTeacherId(BigInteger subCourseTeacherId) { this.subCourseTeacherId = subCourseTeacherId; }
 
-    public Boolean getStatus() { return status; }
+    public int getStatus() { return status; }
 
-    public void setStatus(Boolean status) { this.status = status; }
+    public void setStatus(int status) { this.status = status; }
 
 
 
