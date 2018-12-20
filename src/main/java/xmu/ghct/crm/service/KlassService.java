@@ -2,11 +2,8 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.RoundVO;
 import xmu.ghct.crm.dao.KlassDao;
-import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.Klass;
-import xmu.ghct.crm.entity.Round;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -17,8 +14,6 @@ public class KlassService {
 
     @Autowired
     KlassDao klassDao;
-    @Autowired
-    RoundDao roundDao;
 
     public List<Klass> listKlassByCourseId(BigInteger courseId){
         return klassDao.listKlassByCourseId(courseId);
@@ -44,25 +39,4 @@ public class KlassService {
         return klassDao.deleteKlassByCourseIdAndKlassId(courseId);
     }
 
-    /**
-     * 根据roundId获取轮次的信息
-     * @param roundId
-     * @return
-     */
-    public RoundVO getRoundByRoundId(BigInteger roundId)
-    {
-        return roundDao.getRoundByRoundId(roundId);
-    }
-
-    /**
-     * 根据roundId修改轮次的信息（成绩评定方式）
-     * @param roundVO
-     * @return
-     */
-    public boolean modifyRoundByRoundId(RoundVO roundVO)
-    {
-        return roundDao.modifyRoundByRoundId(roundVO);
-    }
-
-    //新建轮次，还要新建默认每轮可报名次数
 }

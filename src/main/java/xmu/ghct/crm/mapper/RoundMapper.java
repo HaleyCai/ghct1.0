@@ -28,10 +28,10 @@ public interface RoundMapper {
      * @param questionScoreMethod
      * @return
      */
-    int modifyRoundByRoundId(@Param("roundId") BigInteger roundId,
-                             @Param("presentationScoreMethod") int presentationScoreMethod,
-                             @Param("reportScoreMethod") int reportScoreMethod,
-                             @Param("questionScoreMethod") int questionScoreMethod);
+    int modifyRoundMethodByRoundId(@Param("roundId") BigInteger roundId,
+                                   @Param("presentationScoreMethod") int presentationScoreMethod,
+                                   @Param("reportScoreMethod") int reportScoreMethod,
+                                   @Param("questionScoreMethod") int questionScoreMethod);
 
     /**
      * 根据courseId获得轮次

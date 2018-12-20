@@ -7,6 +7,14 @@
         where id=#{roundId}
     </select>
 
+    <update id="modifyRoundMethodByRoundId">
+        update round
+        set presentation_score_method=#{presentationScoreMethod},
+            report_score_method=#{reportScoreMethod},
+            question_score_method=#{questionScoreMethod}
+        where id=#{roundId}
+    </update>
+
     <select id="listRoundByCourseId" resultMap="RoundResult">
         select id,course_id,presentation_score_method,question_score_method,report_score_method
         from round

@@ -93,12 +93,12 @@ public class RoundDao {
     }
 
     /**
-     * 根据roundId修改轮次信息（成绩评定方式）
+     * 根据roundId修改轮次的成绩评定方式
      * @param roundVO
      * @return
      */
-    public boolean modifyRoundByRoundId(RoundVO roundVO){
-        int v1=roundMapper.modifyRoundByRoundId(roundVO.getRoundId(),
+    public boolean modifyRoundMethodByRoundId(RoundVO roundVO){
+        int v1=roundMapper.modifyRoundMethodByRoundId(roundVO.getRoundId(),
                 stringToInt(roundVO.getPresentationScoreMethod()),
                 stringToInt(roundVO.getReportScoreMethod()),
                 stringToInt(roundVO.getQuestionScoreMethod()));
