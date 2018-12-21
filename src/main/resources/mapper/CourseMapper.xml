@@ -11,7 +11,7 @@
             question_percentage,
             report_percentage,
             team_start_time,
-            team_end_time,
+            team_end_time
         )
         values (
                    #{teacherId},
@@ -21,7 +21,7 @@
                    #{questionPercentage},
                    #{reportPercentage,},
                    #{teamStartTime},
-                   #{teamEndTime},
+                   #{teamEndTime}
                )
     </insert>
 
