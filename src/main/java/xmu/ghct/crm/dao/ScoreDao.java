@@ -29,7 +29,7 @@ public class ScoreDao {
         List<BigInteger> teamIdList=teamMapper.getTeamIdByCourseId(courseId);
         List<Round> roundList=roundMapper.listRoundByCourseId(courseId);
         List<Score> scoreVOList=new ArrayList<>();
-        List<Score> scoreList=new ArrayList<>();
+        List<ScoreVO> scoreList=new ArrayList<>();
         for(Round roundItem:roundList){
 
         }
