@@ -9,7 +9,7 @@ public class User implements Serializable {
     private String password;
     private String name;
     private String email;
-    private BigInteger teamId;
+    private int teamId;
     private int type;//0是学生，1是教师
     private int active;//0是未激活，1是激活
 
@@ -53,11 +53,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public BigInteger getTeamId() {
+    public int getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(BigInteger teamId) {
+    public void setTeamId(int teamId) {
         this.teamId = teamId;
     }
 

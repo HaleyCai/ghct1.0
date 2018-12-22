@@ -2,18 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.ScoreMapper">
 
-    <!--
     <select id="listScoreByTeamId" resultMap="scoreMap">
         select klass_seminar_id,team_id,total_score,report_score,question_score,presentation_score
         from round_score
         where team_id=#{teamId}
-    </select>
-    -->
-
-    <select id="listScoreBySeminarIdAndTeamId" resultMap="scoreMap">
-        select klass_seminar_id,team_id,total_score,report_score,question_score,presentation_score
-        from seminar_score
-        where klass_seminar_id=#{seminarId} and team_id=#{teamId}
     </select>
 
     <resultMap id="scoreMap" type="xmu.ghct.crm.entity.Score">
@@ -31,10 +23,6 @@
         where round_id=#{roundId}
     </select>
 
-    <delete id="deleteSeminarScoreBySeminarId" parameterType="java.math.BigInteger">
-        delete from seminar_score where seminar_id=#{seminarId}
-    </delete>
-
     <resultMap id="roundScoreMap" type="xmu.ghct.crm.VO.ScoreVO">
         <result property="roundId" column="round_id"/>
         <result property="teamId" column="team_id"/>
@@ -43,7 +31,5 @@
         <result property="reportScore" column="report_score"/>
         <result property="totalScore" column="total_score"/>
     </resultMap>
-
-
 
 </mapper>

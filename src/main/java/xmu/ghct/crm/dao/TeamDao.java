@@ -15,8 +15,8 @@ public class TeamDao {
     @Autowired
     TeamMapper teamMapper;
 
-    public List<Team> listTeamInfoByCourseId(BigInteger courseId) {
-        List<Team> teamList = teamMapper.listTeamInfoByCourseId(courseId);
+    public List<Team> getTeamInfoByCourseId(BigInteger courseId) {
+        List<Team> teamList = teamMapper.getTeamInfoByCourseId(courseId);
         return teamList;
     }
 
@@ -26,10 +26,6 @@ public class TeamDao {
             //throw new NoStudentNotFindException();
         }
         return studentList;
-    }
-
-    public  List<BigInteger> getStudentIdByTeamId(BigInteger teamId){
-        return teamMapper.getStudentIdByTeamId(teamId);
     }
 
 }

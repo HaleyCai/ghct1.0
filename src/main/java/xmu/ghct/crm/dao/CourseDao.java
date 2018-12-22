@@ -2,7 +2,7 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xmu.ghct.crm.VO.CourseVO;
+import xmu.ghct.crm.VO.CreatCourseVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.mapper.*;
 
@@ -28,11 +28,8 @@ public class CourseDao {
     ShareMapper shareMapper;
 
 
-    public int insertCourse(CourseVO courseVO) {
-
-        int flag_1=courseMapper.insertCourse(courseVO);
-        int flag_2=teamMapper.insertTeamMemberLimit(courseVO);
-        return (flag_1&flag_2);
+    public int insertCourse(CreatCourseVO creatCourseVO) {
+        return courseMapper.insertCourse(creatCourseVO);
     }
 
     public List<Course> listCourseByTeacherId(BigInteger teacherId) {
@@ -43,20 +40,20 @@ public class CourseDao {
         return courseList;
     }
 
-    public CourseVO getCourseByCourseId(BigInteger courseId) {
+    public CreatCourseVO getCourseByCourseId(BigInteger courseId) {
         Course course = courseMapper.getCourseByCourseId(courseId);
-        CourseVO courseVO =teamMapper.getTeamMemberLimit();
-        courseVO.setIntroduction(course.getIntroduction());
-        courseVO.setPresentationPercentage(course.getPresentationPercentage());
-        courseVO.setQuestionPercentage(course.getQuestionPercentage());
-        courseVO.setReportPercentage(course.getReportPercentage());
-        courseVO.setTeamStartTime(course.getTeamStartTime());
-        courseVO.setTeamEndTime(course.getTeamEndTime());
+        CreatCourseVO creatCourseVO=teamMapper.getTeamMemberLimit();
+        creatCourseVO.setIntroduction(course.getIntroduction());
+        creatCourseVO.setPresentationPercentage(course.getPresentationPercentage());
+        creatCourseVO.setQuestionPercentage(course.getQuestionPercentage());
+        creatCourseVO.setReportPercentage(course.getReportPercentage());
+        creatCourseVO.setTeamStartTime(course.getTeamStartTime());
+        creatCourseVO.setTeamEndTime(course.getTeamEndTime());
 
-        if (courseVO == null) {
+        if (creatCourseVO == null) {
             //throw new CourseNotFindException();
         }
-        return courseVO;
+        return creatCourseVO;
     }
 
     public int deleteCourseByCourseId(BigInteger courseId) {

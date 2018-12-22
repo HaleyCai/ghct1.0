@@ -58,24 +58,24 @@ public interface TeacherMapper {
      * 管理员根据教师姓名获得教师信息
      * @return
      */
-    User getTeacherByTeacherName(String teacherName);
+    User getTeacherByTeacherName(@Param("name") String teacherName);
 
     /**
      * 管理员修改某一教师的信息（姓名，账号，邮箱）
      * @return
      */
-    int modifyTeacherByTeacherId(BigInteger teacherId, String teacherName,
-                                 String teacherAccount, String teacherEmail);
+    int modifyTeacherByTeacherId(@Param("id") BigInteger teacherId,@Param("name") String teacherName,
+                                 @Param("account") String teacherAccount, @Param("email") String teacherEmail);
 
     /**
      * 管理员重置某一教师的密码
      * @return
      */
-    int resetTeacherPasswordByTeacherId(BigInteger teacherId,String teacherPassword);
+    int resetTeacherPasswordByTeacherId(@Param("id") BigInteger teacherId,@Param("password") String teacherPassword);
 
     /**
      * 管理员按ID删除某一教师
      * @return
      */
-    int deleteTeacherByTeacherId(BigInteger teacherId);
+    int deleteTeacherByTeacherId(@Param("id") BigInteger teacherId);
 }

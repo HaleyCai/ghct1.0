@@ -8,13 +8,13 @@
         where course_id=#{courseId}
     </select>
 
-    <select id="listTeamInfoByCourseId" resultMap="teamMap">
+    <select id="getTeamInfoByCourseId" resultMap="teamMap">
         select *
         from team
         where course_id=#{courseId}
     </select>
-    
-    <insert id="insertTeamMemberLimit" parameterType="xmu.ghct.crm.VO.CourseVO">
+
+    <insert id="insertTeamMemberLimit" parameterType="xmu.ghct.crm.VO.CreatCourseVO">
         insert into member_limit_strategy(
                                           min_member,
                                           max_member
@@ -29,12 +29,6 @@
         from member_limit_strategy
     </select>
 
-    <select id="getStudentIdByTeamId" resultType="java.math.BigInteger">
-        select student_id
-        from klass_student
-        where team_id=#{teamId}
-    </select>
-
     <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">
         <id property="teamId" column="id"/>
         <result property="klassId" column="klass_id"/>
@@ -45,10 +39,9 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <resultMap id="limitMap" type="xmu.ghct.crm.VO.CourseVO">
+    <resultMap id="limitMap" type="xmu.ghct.crm.VO.CreatCourseVO">
         <result property="minMember" column="min_member"/>
         <result property="maxMember" column="max_member"/>
     </resultMap>
-
 
 </mapper>

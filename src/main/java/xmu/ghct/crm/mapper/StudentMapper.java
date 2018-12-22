@@ -68,24 +68,24 @@ public interface StudentMapper {
      * 管理员根据学生姓名获得学生信息
      * @return
      */
-    User getStudentByStudentName(String studentName);
+    User getStudentByStudentName(@Param("name") String studentName);
 
     /**
      * 管理员修改某一学生的信息（姓名，账号，邮箱）
      * @return
      */
-    int modifyStudentByStudentId(BigInteger studentId, String studentName,
-                                 String studentAccount, String studentEmail);
+    int modifyStudentByStudentId(@Param("id") BigInteger studentId, @Param("name") String studentName,
+                                 @Param("account") String studentAccount,@Param("email") String studentEmail);
 
     /**
      * 管理员重置某一学生的密码
      * @return
      */
-    int resetStudentPasswordByStudentId(BigInteger studentId,String studentPassword);
+    int resetStudentPasswordByStudentId(@Param("id") BigInteger studentId,@Param("password") String studentPassword);
 
     /**
      * 管理员按ID删除某一学生
      * @return
      */
-    int deleteStudentByStudentId(BigInteger studentId);
+    int deleteStudentByStudentId(@Param("id") BigInteger studentId);
 }
