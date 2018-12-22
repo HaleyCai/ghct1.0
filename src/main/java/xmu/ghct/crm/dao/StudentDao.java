@@ -7,7 +7,6 @@ import xmu.ghct.crm.mapper.StudentMapper;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
 
 /**
  * @author caiyq
@@ -25,6 +24,16 @@ public class StudentDao {
     public User getUserByAccount(String account)
     {
         User resultUser=studentMapper.getStudentByAccount(account);
+        return resultUser;
+    }
+
+    /**
+     * 根据学生id查询个人信息
+     * @return
+     */
+    public User getStudentByStudentId(BigInteger studentId)
+    {
+        User resultUser=studentMapper.getStudentByStudentId(studentId);
         return resultUser;
     }
 
@@ -133,79 +142,6 @@ public class StudentDao {
      * 管理员按ID删除某一学生
      * @return
      */
-    public boolean deleteStudentByStudentId(BigInteger studentId)
-    {
-        int v1=studentMapper.deleteStudentByStudentId(studentId);
-        if(v1<=0){
-            //throw
-            return false;
-        }
-        else
-            return true;
-    }
-
-
-    /**
-     * 根据studentId查找学生
-     * @param studentId
-     *管理员获得所有学生信息
-     * @return
-     */
-    public List<User> getAllStudent()
-    {
-        List<User> resultUser=studentMapper.getAllStudent();
-        return resultUser;
-    }
-
-    /**
-     * 管理员根据学生姓名获得学生信息
-     * @param studentName
-     * @return
-     */
-    public User getStudentByStudentName(String studentName)
-    {
-        User resultUser=studentMapper.getStudentByStudentName(studentName);
-        return resultUser;
-    }
-
-    /**
-     * 管理员修改某一学生的信息（姓名，账号，邮箱）
-     * @return
-     */
-    public boolean modifyStudentByStudentId(BigInteger studentId,String studentName,
-                                            String studentAccount,String studentEmail)
-    {
-        int v1=studentMapper.modifyStudentByStudentId(studentId,studentName,
-                studentAccount,studentEmail);
-        if(v1<=0){
-            //throw
-            return false;
-        }
-        else
-            return true;
-    }
-
-    /**
-     * 管理员重置某一学生的密码
-     * @return
-     */
-    public boolean resetStudentPasswordByStudentId(BigInteger studentId,String studentPassword)
-    {
-        int v1=studentMapper.resetStudentPasswordByStudentId(studentId,studentPassword);
-        if(v1<=0){
-            //throw
-            return false;
-        }
-        else
-            return true;
-    }
-
-    /**
-     * 管理员按ID删除某一学生
-     * @return
-     */
-    public User getStudentByStudentId(BigInteger studentId){
-        return studentMapper.getStudentByStudentId(studentId);
     public boolean deleteStudentByStudentId(BigInteger studentId)
     {
         int v1=studentMapper.deleteStudentByStudentId(studentId);

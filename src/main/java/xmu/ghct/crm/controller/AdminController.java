@@ -1,4 +1,3 @@
-
 package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +55,7 @@ public class AdminController {
                 (String)inMap.get("str"),
                 (int)inMap.get("type"));
     }
+
 
     /**
      * 管理员根据学生姓名或账号获得用户信息
