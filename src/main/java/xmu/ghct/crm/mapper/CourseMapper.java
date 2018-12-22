@@ -45,4 +45,7 @@ public interface CourseMapper {
     int deleteCourseByCourseId(BigInteger courseId);
 
 
+    int test();
+
+
 }
