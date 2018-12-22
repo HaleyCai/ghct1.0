@@ -114,8 +114,10 @@ public class SeminarService {
         return seminarDao.getSeminarBySeminarId(seminarId);
     }
 
-    public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId){
-        return seminarDao.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+    public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId,Map<String,Object> seminarMap) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
+        Date reportDDL = formatter.parse(seminarMap.get("reportDDL").toString()+" 00:00:00");
+        return seminarDao.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,reportDDL);
     }
 
 }

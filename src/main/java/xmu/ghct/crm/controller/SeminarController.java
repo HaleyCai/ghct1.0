@@ -8,7 +8,6 @@ import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.service.KlassService;
 import xmu.ghct.crm.service.ScoreService;
 import xmu.ghct.crm.service.SeminarService;
-
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.List;
@@ -71,10 +70,12 @@ public class SeminarController {
     }
 
     @PostMapping("/seminar/{seminarId}/klass/{klassId}")
-    public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId){
-        int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+    public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId,
+                                                           @RequestBody Map<String,Object> klassMap) throws ParseException {
+        int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,klassMap);
         if(flag>0) return true;
         else return  false;
     }
+
 
 }

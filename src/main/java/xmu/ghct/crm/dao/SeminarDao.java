@@ -7,6 +7,7 @@ import xmu.ghct.crm.mapper.SeminarMapper;
 
 import java.math.BigInteger;
 import java.util.BitSet;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -34,7 +35,7 @@ public class SeminarDao {
         return seminarMapper.getSeminarBySeminarId(seminarId);
     }
 
-    public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId){
-        return seminarMapper.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+    public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId, BigInteger seminarId, Date reportDDL){
+        return seminarMapper.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,reportDDL);
     }
 }

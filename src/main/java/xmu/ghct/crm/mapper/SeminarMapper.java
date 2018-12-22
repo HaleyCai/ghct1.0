@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.Seminar;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -55,10 +56,11 @@ public interface SeminarMapper {
     Seminar getSeminarBySeminarId(BigInteger seminarId);
 
     /**
+     * @author hzm
      * 根据klassId和seminarId修改班级里讨论课报告提交ddl
      * @param klassId
      * @param seminarId
      * @return
      */
-    int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId);
+    int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId, BigInteger seminarId, Date reportDDL);
 }

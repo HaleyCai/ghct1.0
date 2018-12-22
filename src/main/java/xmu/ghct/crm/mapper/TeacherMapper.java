@@ -5,9 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import xmu.ghct.crm.entity.User;
 
-import java.math.BigInteger;
-import java.util.List;
-
 /**
  * @author caiyq
  */
@@ -42,40 +39,4 @@ public interface TeacherMapper {
      * @return
      */
     int setTeacherActiveByAccount(@Param("account") String account);
-
-    /**
-     * 管理员创建一个教师
-     */
-    int createTeacher(User teacher);
-
-    /**
-     *管理员获得所有教师信息
-     * @return
-     */
-    List<User> getAllTeacher();
-
-    /**
-     * 管理员根据教师姓名获得教师信息
-     * @return
-     */
-    User getTeacherByTeacherName(@Param("name") String teacherName);
-
-    /**
-     * 管理员修改某一教师的信息（姓名，账号，邮箱）
-     * @return
-     */
-    int modifyTeacherByTeacherId(@Param("id") BigInteger teacherId,@Param("name") String teacherName,
-                                 @Param("account") String teacherAccount, @Param("email") String teacherEmail);
-
-    /**
-     * 管理员重置某一教师的密码
-     * @return
-     */
-    int resetTeacherPasswordByTeacherId(@Param("id") BigInteger teacherId,@Param("password") String teacherPassword);
-
-    /**
-     * 管理员按ID删除某一教师
-     * @return
-     */
-    int deleteTeacherByTeacherId(@Param("id") BigInteger teacherId);
 }

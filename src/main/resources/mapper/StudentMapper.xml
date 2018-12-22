@@ -12,6 +12,7 @@
         select id,account,password,student_name,email,is_active
         from student
         where id=#{studentId}
+
     </select>
 
     <select id="getNoTeamStudentByCourseId" resultMap="StudentUserResult">
@@ -46,36 +47,4 @@
         set is_active = 1
         where account=#{account}
     </update>
-
-
-    <select id="getAllStudent" resultMap="StudentUserResult">
-        select account,student_name,email
-        from student
-    </select>
-
-    <select id="getStudentByStudentName" resultMap="StudentUserResult">
-        select account,student_name,email
-        from student
-        where student_name=#{name}
-    </select>
-
-    <update id="modifyStudentByStudentId">
-        update student
-        set student_name=#{name},
-            account=#{account},
-            email=#{email}
-        where id=#{id}
-    </update>
-
-    <update id="resetStudentPasswordByStudentId">
-        update student
-        set password=#{password}
-        where id=#{id}
-    </update>
-
-    <delete id="deleteStudentByStudentId">
-        delete from student
-        where id=#{id}
-    </delete>
-
 </mapper>
