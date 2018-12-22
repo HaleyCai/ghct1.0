@@ -22,7 +22,6 @@
 
     <resultMap id="StudentUserResult" type="xmu.ghct.crm.entity.User">
         <id property="id" column="id"/>
-
         <result property="account" column="account"/>
         <result property="password" column="password"/>
         <result property="name" column="student_name"/>
