@@ -18,10 +18,6 @@ public class SeminarDao {
         return seminarMapper.creatSeminar(seminar);
     }
 
-    public List<BigInteger> listKlassIdBySeminarId(BigInteger semianrId){
-        return seminarMapper.listKlassIdBySeminarId(semianrId);
-    }
-
     public int updateSeminarBySeminarId(Seminar seminar){
         return seminarMapper.updateSeminarBySeminarId(seminar);
     }

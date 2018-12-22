@@ -18,7 +18,7 @@ public interface RoundMapper {
      * @param roundId
      * @return
      */
-    List<Seminar> getSeminarByRoundId(@Param("roundId") BigInteger roundId);
+    List<Seminar> getSeminarByRoundId(BigInteger roundId);
 
     /**
      * 根据roundId获得轮次信息

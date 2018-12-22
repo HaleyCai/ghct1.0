@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.SeminarSimpleVO;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.service.KlassService;
 import xmu.ghct.crm.service.ScoreService;
 import xmu.ghct.crm.service.SeminarService;
 
@@ -21,6 +22,9 @@ public class SeminarController {
 
     @Autowired
     ScoreService scoreService;
+
+    @Autowired
+    KlassService klassService;
     /**
      * 根据轮次id获取该轮次下所有的讨论课的简略信息
      * @param roundId
@@ -40,9 +44,9 @@ public class SeminarController {
         else  return false;
     }
 
-    @RequestMapping(value="/seminar/{seminarId}/class",method = RequestMethod.GET)
+    @RequestMapping(value="/seminar/{seminarId}/klass",method = RequestMethod.GET)
     public List<Klass> listKlassBySeminarId(@PathVariable("seminarId") BigInteger seminarId){
-        return seminarService.listKlassBySeminarId(seminarId);
+        return klassService.listKlassBySeminarId(seminarId);
     }
 
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.PUT)

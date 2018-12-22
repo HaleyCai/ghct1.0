@@ -34,11 +34,6 @@
         where round_id=#{roundId}
     </select>
 
-    <select id="listKlassIdBySeminarId" parameterType="java.math.BigInteger">
-        select klass_id
-        from klass_seminar
-        where semianr_id=#{semianrId}
-    </select>
     
     <update id="updateSeminarBySeminarId" parameterType="xmu.ghct.crm.entity.Seminar">
         update seminar

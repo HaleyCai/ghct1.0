@@ -79,21 +79,6 @@ public class SeminarService {
 
 
     /**
-     * 根据seminarId获得其所属班级信息
-     * @param seminarId
-     * @return
-     */
-    public List<Klass> listKlassBySeminarId(BigInteger seminarId){
-        List<BigInteger> klassIdList=seminarDao.listKlassIdBySeminarId(seminarId);
-        List<Klass> klassList=new ArrayList<>();
-        for(BigInteger item:klassIdList){
-            Klass klass =klassDao.getKlassByKlassId(item);
-            klassList.add(klass);
-        }
-        return klassList;
-    }
-
-    /**
      * 根据seminarId修改讨论课信息
      * @param seminarId
      * @return
