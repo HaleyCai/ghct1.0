@@ -14,6 +14,7 @@
         <result property="name" column="teacher_name"/>
         <result property="email" column="email"/>
         <result property="active" column="is_active"/>
+
     </resultMap>
 
     <update id="setTeacherPasswordByAccount" >
@@ -33,51 +34,4 @@
         set is_active = 1
         where account=#{account}
     </update>
-
-
-    <insert id="createTeacher" parameterType="xmu.ghct.crm.entity.User">
-        insert into teacher(
-        teacher_name,
-        account,
-        email,
-        password
-        )
-        values(
-               #{name},
-               #{account},
-               #{email},
-               #{password}
-              )
-    </insert>
-
-    <select id="getAllTeacher" resultMap="TeacherUserResult">
-        select account,teacher_name,email
-        from teacher
-    </select>
-
-    <select id="getTeacherByTeacherName" resultMap="TeacherUserResult">
-        select account,teacher_name,email
-        from teacher
-        where teacher_name=#{name}
-    </select>
-
-    <update id="modifyTeacherByTeacherId">
-        update teacher
-        set teacher_name=#{name},
-            account=#{account},
-            email=#{email}
-        where id=#{id}
-    </update>
-
-    <update id="resetTeacherPasswordByTeacherId">
-        update teacher
-        set password=#{password}
-        where id=#{id}
-    </update>
-
-    <delete id="deleteTeacherByTeacherId">
-        delete from teacher
-        where id=#{id}
-    </delete>
-
 </mapper>
