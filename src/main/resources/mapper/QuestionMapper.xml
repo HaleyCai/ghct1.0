@@ -34,6 +34,6 @@
         <result property="teamName" column="team_name"/>
         <result property="score" column="score"/>
     </resultMap>
-
+    
 
 </mapper>

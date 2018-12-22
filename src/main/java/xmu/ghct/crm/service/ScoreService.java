@@ -17,8 +17,4 @@ public class ScoreService {
     public List<ScoreVO> listScoreByCourseId(BigInteger courseId){
         return scoreDao.listScoreByCourseId(courseId);
     }
-
-    public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
-        return scoreDao.deleteSeminarScoreBySeminarId(seminarId);
-    }
 }

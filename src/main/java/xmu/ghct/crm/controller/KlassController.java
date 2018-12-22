@@ -1,11 +1,8 @@
 package xmu.ghct.crm.controller;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.RoundVO;
 import xmu.ghct.crm.entity.Klass;
-import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.service.KlassService;
 
 import java.math.BigInteger;
@@ -36,44 +33,11 @@ public class KlassController {
      * @param courseId
      * @return
      */
-    @RequestMapping(value="/course/{courseId}/deleteKlass",method = RequestMethod.DELETE)
+    @RequestMapping(value="/course/{courseId}/class/deleteKlass",method = RequestMethod.DELETE)
     @ResponseBody
-    public boolean deleteKlassByCourseId(@PathVariable("courseId")BigInteger courseId){
-        int flag= klassService.deleteKlassByCourseId(courseId);
+    public boolean deleteKlassByCourseIdAndKlassId(@PathVariable("courseId")BigInteger courseId){
+        int flag= klassService.deleteKlassByCourseIdAndKlassId(courseId);
         if(flag>0) return true;
         else return false;
-    }
-
-    @RequestMapping(value="/course/courseId/class/deleteKlass",method = RequestMethod.DELETE)
-    @ResponseBody
-    public boolean deleteKlassByKlassId(@Param("klassId") BigInteger klassId){
-        return klassService.deleteKlassByKlassId(klassId);
-    }
-
-    /**
-     * 根据roundId获取轮次信息
-     * @param roundId
-     * @return
-     */
-    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
-    public RoundVO getRoundByRoundId(@PathVariable("roundId") BigInteger roundId)
-    {
-        return klassService.getRoundByRoundId(roundId);
-    }
-
-    /**
-     * 根据roundId修改轮次信息
-     * @param roundId
-     * @return
-     */
-    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.PUT)
-    public boolean modifyRoundByRoundId(@PathVariable("roundId") BigInteger roundId,@RequestBody Map<String,Object> inMap)
-    {
-        RoundVO roundVO=new RoundVO();
-        roundVO.setRoundId((BigInteger) inMap.get("roundId"));
-        roundVO.setPresentationScoreMethod(inMap.get("presentationScoreMethod").toString());
-        roundVO.setReportScoreMethod(inMap.get("reportScoreMethod").toString());
-        roundVO.setQuestionScoreMethod(inMap.get("questionScoreMethod").toString());
-        return klassService.modifyRoundByRoundId(roundVO);
     }
 }

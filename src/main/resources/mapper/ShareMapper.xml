@@ -30,7 +30,6 @@
         where (main_course_id=#{courseId} or sub_course_id=#{courseId}) and id=#{shareId}
     </delete>
 
-
     <insert id="launchSeminarShareRequest" parameterType="xmu.ghct.crm.entity.Share">
         insert into share_seminar_application(
             id,
@@ -45,7 +44,6 @@
                   #{subCourseId},
                   #{subCourseTeacherId},
                   #{status}
-
               )
     </insert>
 

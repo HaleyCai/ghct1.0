@@ -7,14 +7,9 @@
            where course_id=#{courseId}
     </select>
 
-    <select id="getKlassByKlassId" resultMap="klassResultMap">
-        select *
-        from klass
-        where id=#{klassId}
-    </select>
-
     <insert id="creatKlass" parameterType="xmu.ghct.crm.entity.Klass">
         insert into klass(
+                          id,
                           course_id,
                           grade,
                           klass_serial,
@@ -22,28 +17,18 @@
                           klass_location
         )
         values(
+               #{klassId},
                #{courseId},
                #{grade},
                #{klassSerial},
                #{klassTime},
                #{klassLocation}
-
               )
     </insert>
 
-    <delete id="deleteKlassByCourseId">
+    <delete id="deleteKlassByCourseIdAndKlassId">
         delete from klass where course_id=#{courseId}
     </delete>
-
-    <delete id="deleteKlassByKlassId" parameterType="">
-        delete from klass where id=#{klassId}
-    </delete>
-
-    <select id="listKlassIdBySeminarId" parameterType="java.math.BigInteger">
-        select klass_id from klass_seminar
-        where seminar_id=#{seminarId}
-    </select>
-
 
     <resultMap id="klassResultMap" type="xmu.ghct.crm.entity.Klass">
         <id property="klassId" column="id"/>
@@ -52,7 +37,6 @@
         <result property="grade" column="grade"/>
         <result property="klassTime" column="klass_time"/>
         <result property="klassLocation" column="klass_location"/>
-
     </resultMap>
 
 </mapper>
