@@ -41,7 +41,7 @@ public class CourseController {
                 return courseList;
     }
 
-    @RequestMapping(value="/course/s{courseId}",method = RequestMethod.GET)
+    @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
     @ResponseBody
     public CourseVO getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
         return courseService.getCourseByCourseId(courseId);

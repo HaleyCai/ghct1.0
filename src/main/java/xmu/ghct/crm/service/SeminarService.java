@@ -129,4 +129,8 @@ public class SeminarService {
         return seminarDao.getSeminarBySeminarId(seminarId);
     }
 
+    public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId){
+        return seminarDao.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+    }
+
 }

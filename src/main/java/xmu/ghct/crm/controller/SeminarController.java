@@ -66,5 +66,11 @@ public class SeminarController {
         return seminarService.getSeminarBySeminarId(seminarId);
     }
 
+    @PostMapping("/seminar/{seminarId}/klass/{klassId}")
+    public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId){
+        int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+        if(flag>0) return true;
+        else return  false;
+    }
 
 }

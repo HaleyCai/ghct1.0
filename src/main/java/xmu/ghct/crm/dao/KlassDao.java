@@ -37,4 +37,8 @@ public class KlassDao {
         return klassMapper.getKlassByKlassId(klassId);
     }
 
+    public List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId){
+        return klassMapper.listKlassIdBySeminarId(seminarId);
+    }
+
 }
