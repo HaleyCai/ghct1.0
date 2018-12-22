@@ -3,7 +3,7 @@ package xmu.ghct.crm.VO;
 import java.math.BigInteger;
 import java.util.Date;
 
-public class CreatCourseVO {
+public class CourseVO {
 
     private BigInteger courseId;
     private BigInteger teacherId;
@@ -110,7 +110,7 @@ public class CreatCourseVO {
 
     @Override
     public String toString() {
-        return "CreatCourseVO{" +
+        return "CourseVO{" +
                 "courseId=" + courseId +
                 ", teacherId=" + teacherId +
                 ", courseName='" + courseName + '\'' +

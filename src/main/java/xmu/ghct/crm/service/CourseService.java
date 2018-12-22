@@ -3,9 +3,7 @@ package xmu.ghct.crm.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.CreatCourseVO;
-import xmu.ghct.crm.VO.RoundVO;
 import xmu.ghct.crm.dao.CourseDao;
-import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.*;
 
 import java.text.ParseException;
@@ -20,8 +18,6 @@ public class CourseService {
 
     @Autowired
     CourseDao courseDao;
-    @Autowired
-    RoundDao roundDao;
 
     public int creatCourse( Map<String,Object> courseMap) throws ParseException {
         CreatCourseVO creatCourseVO=new CreatCourseVO();
@@ -55,26 +51,7 @@ public class CourseService {
         return courseDao.deleteCourseByCourseId(courseId);
     }
 
-    /**
-     * 根据roundId获取轮次的信息
-     * @param roundId
-     * @return
-     */
-    public RoundVO getRoundByRoundId(BigInteger roundId)
-    {
-        return roundDao.getRoundByRoundId(roundId);
-    }
 
-    /**
-     * 根据roundId修改轮次的信息（成绩评定方式）
-     * @param roundVO
-     * @return
-     */
-    public boolean modifyRoundMethodByRoundId(RoundVO roundVO)
-    {
-        return roundDao.modifyRoundMethodByRoundId(roundVO);
-    }
 
-    //新建轮次
 
 }

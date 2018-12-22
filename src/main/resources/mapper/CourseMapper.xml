@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.CourseMapper">
     <!--parameterType="BigInteger,xmu.ghct.crm.entity.Course"-->
-    <insert id="insertCourse"  parameterType="xmu.ghct.crm.VO.CreatCourseVO">
+    <insert id="insertCourse"  parameterType="xmu.ghct.crm.VO.CourseVO">
         insert into course (
             teacher_id,
             course_name,

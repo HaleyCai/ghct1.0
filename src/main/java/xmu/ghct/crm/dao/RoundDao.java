@@ -109,4 +109,22 @@ public class RoundDao {
         else
             return true;
     }
+
+    /**
+     * 根据courseId获取该课程下所有轮次
+     * @param courseId
+     * @return
+     */
+    public List<Round> listRoundByCourseId(BigInteger courseId){
+        return roundMapper.listRoundByCourseId(courseId);
+    }
+
+    /**
+     * 创建轮次
+     * @param round
+     * @return
+     */
+    public int insertRound(Round round){
+        return roundMapper.insertRound(round);
+    };
 }

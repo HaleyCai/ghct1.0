@@ -13,7 +13,7 @@
         from team
         where course_id=#{courseId}
     </select>
-
+    
     <insert id="insertTeamMemberLimit" parameterType="xmu.ghct.crm.VO.CreatCourseVO">
         insert into member_limit_strategy(
                                           min_member,
@@ -29,6 +29,7 @@
         from member_limit_strategy
     </select>
 
+
     <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">
         <id property="teamId" column="id"/>
         <result property="klassId" column="klass_id"/>
@@ -43,5 +44,6 @@
         <result property="minMember" column="min_member"/>
         <result property="maxMember" column="max_member"/>
     </resultMap>
+
 
 </mapper>

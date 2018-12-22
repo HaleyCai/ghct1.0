@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import xmu.ghct.crm.VO.CreatCourseVO;
-import xmu.ghct.crm.VO.RoundVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.service.CourseService;
 
@@ -56,32 +55,5 @@ public class CourseController {
         String filePath="C:/Users/huangzhenmin/Desktop/";
         File fileDir = new File(filePath+fileName);
         file.transferTo(fileDir);
-    }
-
-    /**
-     * 根据roundId获取轮次信息
-     * @param roundId
-     * @return
-     */
-    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
-    public RoundVO getRoundByRoundId(@PathVariable("roundId") BigInteger roundId)
-    {
-        return courseService.getRoundByRoundId(roundId);
-    }
-
-    /**
-     * 根据roundId修改轮次的成绩评定方式
-     * @param roundId
-     * @return
-     */
-    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.PUT)
-    public boolean modifyRoundByRoundId(@PathVariable("roundId") BigInteger roundId,@RequestBody Map<String,Object> inMap)
-    {
-        RoundVO roundVO=new RoundVO();
-        roundVO.setRoundId((BigInteger) inMap.get("roundId"));
-        roundVO.setPresentationScoreMethod(inMap.get("presentationScoreMethod").toString());
-        roundVO.setReportScoreMethod(inMap.get("reportScoreMethod").toString());
-        roundVO.setQuestionScoreMethod(inMap.get("questionScoreMethod").toString());
-        return courseService.modifyRoundMethodByRoundId(roundVO);
     }
 }

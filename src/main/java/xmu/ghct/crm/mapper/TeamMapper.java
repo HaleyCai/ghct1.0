@@ -2,7 +2,7 @@ package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
-import xmu.ghct.crm.VO.CreatCourseVO;
+import xmu.ghct.crm.VO.CourseVO;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 
@@ -25,7 +25,7 @@ public interface TeamMapper {
      * @param courseId
      * @return
      */
-    List<Team> getTeamInfoByCourseId(BigInteger courseId);
+    List<Team> listTeamInfoByCourseId(BigInteger courseId);
 
     /**
      * 根据courseId获得未组队学生
@@ -36,14 +36,21 @@ public interface TeamMapper {
 
     /**
      * 插入小组人数限制
-     * @param creatCourseVO
+     * @param courseVO
      * @return
      */
-    int insertTeamMemberLimit(CreatCourseVO creatCourseVO);
+    int insertTeamMemberLimit(CourseVO courseVO);
 
     /**
      * 获取组队人数限制
      * @return
      */
-    CreatCourseVO getTeamMemberLimit();
+    CourseVO getTeamMemberLimit();
+
+    /**
+     * 根据teamId获取队伍下的学生ID
+     * @param teamId
+     * @return
+     */
+    List<BigInteger> getStudentIdByTeamId(BigInteger teamId);
 }
