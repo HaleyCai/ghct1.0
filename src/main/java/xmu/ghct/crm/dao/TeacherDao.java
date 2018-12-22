@@ -5,9 +5,6 @@ import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.mapper.TeacherMapper;
 
-import java.math.BigInteger;
-import java.util.List;
-
 /**
  * @author caiyq
  */
@@ -135,6 +132,22 @@ public class TeacherDao {
         else
             return true;
     }
+
+    /**
+     * 管理员按ID删除某一教师
+     * @return
+     */
+    public boolean deleteTeacherByTeacherId(BigInteger teacherId)
+    {
+        int v1=teacherMapper.deleteTeacherByTeacherId(teacherId);
+        if(v1<=0){
+            //throw
+            return false;
+        }
+        else
+            return true;
+    }
+}
 
     /**
      * 管理员按ID删除某一教师

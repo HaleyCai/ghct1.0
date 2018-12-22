@@ -14,6 +14,7 @@
         <result property="name" column="teacher_name"/>
         <result property="email" column="email"/>
         <result property="active" column="is_active"/>
+
     </resultMap>
 
     <update id="setTeacherPasswordByAccount" >
@@ -37,16 +38,16 @@
 
     <insert id="createTeacher" parameterType="xmu.ghct.crm.entity.User">
         insert into teacher(
-            teacher_name,
-            account,
-            email,
-            password
+        teacher_name,
+        account,
+        email,
+        password
         )
         values(
-                  #{name},
-                  #{account},
-                  #{email},
-                  #{password}
+               #{name},
+               #{account},
+               #{email},
+               #{password}
               )
     </insert>
 
