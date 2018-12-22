@@ -11,6 +11,7 @@ import java.util.Map;
  */
 
 @RestController
+@RequestMapping(value="/user")
 public class UserController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class UserController {
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/user/login",method = RequestMethod.POST)
+    @RequestMapping(value="/login",method = RequestMethod.POST)
     public Map<String,Object> login(@RequestBody Map<String,Object> inMap)
     {
         return userService.login(
@@ -34,26 +35,17 @@ public class UserController {
     }
 
     /**
-     * 初次登录会激活账号，前端传参account，password，email
+     * 初次登录会激活账号，前端传参account，password，email，type
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/teacher/active",method = RequestMethod.PUT)
-    public boolean teacherActive(@RequestBody Map<String,Object> inMap){
+    @RequestMapping(value="/active",method = RequestMethod.PUT)
+    public boolean active(@RequestBody Map<String,Object> inMap){
         return userService.active(
                 (String)inMap.get("account"),
                 (String)inMap.get(("password")),
                 (String)inMap.get("email"),
-                1);
-    }
-
-    @RequestMapping(value="/student/active",method = RequestMethod.PUT)
-    public boolean studentActive(@RequestBody Map<String,Object> inMap){
-        return userService.active(
-                (String)inMap.get("account"),
-                (String)inMap.get(("password")),
-                (String)inMap.get("email"),
-                2);
+                (int)inMap.get("type"));
     }
 
     /**
@@ -61,7 +53,7 @@ public class UserController {
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/user/information",method = RequestMethod.GET)
+    @RequestMapping(value="/information",method = RequestMethod.GET)
     public User getInformation(@RequestBody Map<String,Object> inMap){
         return userService.getInformation(
                 (String)inMap.get("account"),
@@ -73,7 +65,7 @@ public class UserController {
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/user/password",method = RequestMethod.PUT)
+    @RequestMapping(value="/password",method = RequestMethod.PUT)
     public boolean modifyPassword(@RequestBody Map<String,Object> inMap){
         return userService.modifyPassword(
                 (String)inMap.get("account"),
@@ -85,7 +77,7 @@ public class UserController {
      * 忘记密码时，将密码发送到用户的邮箱中，前端传参account，type
      * @param inMap
      */
-    @RequestMapping(value="/user/password",method = RequestMethod.GET)
+    @RequestMapping(value="/password",method = RequestMethod.GET)
     public void sendPasswordToEmail(@RequestBody Map<String,Object> inMap)
     {
         userService.sendPasswordToEmail(
@@ -98,7 +90,7 @@ public class UserController {
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/user/email",method = RequestMethod.PUT)
+    @RequestMapping(value="/email",method = RequestMethod.PUT)
     public boolean modifyEmail(@RequestBody Map<String,Object> inMap){
         return userService.modifyEmail(
                 (String)inMap.get("account"),

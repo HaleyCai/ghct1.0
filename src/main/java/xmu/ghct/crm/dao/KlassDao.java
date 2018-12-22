@@ -25,8 +25,20 @@ public class KlassDao {
         return klassMapper.creatKlass(klass);
     }
 
-    public int deleteKlassByCourseIdAndKlassId(BigInteger courseId) {
-        return klassMapper.deleteKlassByCourseIdAndKlassId(courseId);
+    public int deleteKlassByCourseId(BigInteger courseId) {
+        return klassMapper.deleteKlassByCourseId(courseId);
+    }
+
+    public int deleteKlassByKlassId(BigInteger klassId){
+        return klassMapper.deleteKlassByKlassId(klassId);
+    }
+
+    public Klass getKlassByKlassId(BigInteger klassId){
+        return klassMapper.getKlassByKlassId(klassId);
+    }
+
+    public List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId){
+        return klassMapper.listKlassIdBySeminarId(seminarId);
     }
 
 }

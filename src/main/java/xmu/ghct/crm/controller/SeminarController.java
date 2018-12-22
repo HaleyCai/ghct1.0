@@ -71,7 +71,8 @@ public class SeminarController {
     }
 
     @PostMapping("/seminar/{seminarId}/klass/{klassId}")
-    public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId){
+    public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId,
+                                                           @RequestBody Map<String,Object> klassMap){
         int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
         if(flag>0) return true;
         else return  false;

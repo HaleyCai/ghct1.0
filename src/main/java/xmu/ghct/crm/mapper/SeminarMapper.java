@@ -55,10 +55,11 @@ public interface SeminarMapper {
     Seminar getSeminarBySeminarId(BigInteger seminarId);
 
     /**
+     * @author hzm
      * 根据klassId和seminarId修改班级里讨论课报告提交ddl
      * @param klassId
      * @param seminarId
      * @return
      */
-    int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId);
+    int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId,);
 }

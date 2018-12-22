@@ -2,8 +2,7 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.CreatCourseVO;
-import xmu.ghct.crm.VO.RoundVO;
+import xmu.ghct.crm.VO.CourseVO;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.*;
@@ -20,26 +19,27 @@ public class CourseService {
 
     @Autowired
     CourseDao courseDao;
+
     @Autowired
     RoundDao roundDao;
 
     public int creatCourse( Map<String,Object> courseMap) throws ParseException {
-        CreatCourseVO creatCourseVO=new CreatCourseVO();
-        creatCourseVO.setCourseId(new BigInteger(courseMap.get("id").toString()));
-        creatCourseVO.setCourseName(courseMap.get("courseName").toString());
-        creatCourseVO.setIntroduction(courseMap.get("introduction").toString());
-        creatCourseVO.setPresentationPercentage(new Double(courseMap.get("presentationPercentage").toString()));
-        creatCourseVO.setQuestionPercentage(new Double(courseMap.get("questionPercentage").toString()));
-        creatCourseVO.setReportPercentage(new Double(courseMap.get("reportPercentage").toString()));
-        creatCourseVO.setTeacherId(new BigInteger(courseMap.get("teacherId").toString()));
+        CourseVO courseVO =new CourseVO();
+        courseVO.setCourseId(new BigInteger(courseMap.get("id").toString()));
+        courseVO.setCourseName(courseMap.get("courseName").toString());
+        courseVO.setIntroduction(courseMap.get("introduction").toString());
+        courseVO.setPresentationPercentage(new Double(courseMap.get("presentationPercentage").toString()));
+        courseVO.setQuestionPercentage(new Double(courseMap.get("questionPercentage").toString()));
+        courseVO.setReportPercentage(new Double(courseMap.get("reportPercentage").toString()));
+        courseVO.setTeacherId(new BigInteger(courseMap.get("teacherId").toString()));
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
         Date end = formatter.parse(courseMap.get("teamEndTime").toString()+" 00:00:00");
-        creatCourseVO.setTeamEndTime(end);
+        courseVO.setTeamEndTime(end);
         Date start = formatter.parse(courseMap.get("teamStartTime").toString()+" 00:00:00");
-        creatCourseVO.setTeamStartTime(start);
-        creatCourseVO.setMinMember(new Integer(courseMap.get("minMember").toString()));
-        creatCourseVO.setMaxMember(new Integer(courseMap.get("maxMember").toString()));
-        return courseDao.insertCourse(creatCourseVO);
+        courseVO.setTeamStartTime(start);
+        courseVO.setMinMember(new Integer(courseMap.get("minMember").toString()));
+        courseVO.setMaxMember(new Integer(courseMap.get("maxMember").toString()));
+        return courseDao.insertCourse(courseVO);
     }
 
     public List<Course> listCourseByTeacherId(Map<String,Object> teacherIdMap) {
@@ -47,7 +47,7 @@ public class CourseService {
         return courseDao.listCourseByTeacherId(teacherId);
     }
 
-    public CreatCourseVO getCourseByCourseId(BigInteger courseId) {
+    public CourseVO getCourseByCourseId(BigInteger courseId) {
         return courseDao.getCourseByCourseId(courseId);
     }
 
@@ -55,26 +55,10 @@ public class CourseService {
         return courseDao.deleteCourseByCourseId(courseId);
     }
 
-    /**
-     * 根据roundId获取轮次的信息
-     * @param roundId
-     * @return
-     */
-    public RoundVO getRoundByRoundId(BigInteger roundId)
-    {
-        return roundDao.getRoundByRoundId(roundId);
+    public List<Round> listRoundByCourseId(BigInteger courseId){
+        return roundDao.listRoundByCourseId(courseId);
     }
 
-    /**
-     * 根据roundId修改轮次的信息（成绩评定方式）
-     * @param roundVO
-     * @return
-     */
-    public boolean modifyRoundMethodByRoundId(RoundVO roundVO)
-    {
-        return roundDao.modifyRoundMethodByRoundId(roundVO);
-    }
 
-    //新建轮次
 
 }
