@@ -76,4 +76,13 @@ public class KlassService {
         if(flag>0)return true;
         else return false;
     }
+
+    /**
+     * 根据seminarId获得讨论课下所有班级ID
+     * @param seminarId
+     * @return
+     */
+    public List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId){
+        return klassDao.listKlassIdBySeminarId(seminarId);
+    }
 }

@@ -49,4 +49,12 @@ public interface KlassMapper {
      * @return
      */
     Klass getKlassByKlassId(BigInteger klassId);
+
+
+    /**
+     * 根据seminarId获得讨论课下的所有班级id
+     * @param seminarId
+     * @return
+     */
+   List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId);
 }

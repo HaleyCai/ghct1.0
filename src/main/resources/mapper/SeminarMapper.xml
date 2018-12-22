@@ -67,6 +67,12 @@
         where id=#{seminarId}
     </select>
 
+    <update id="updateKlassSeminarBySeminarIdAndKlassId" parameterType="java.math.BigInteger">
+        update klass_seminar
+        set report_ddl=#{reportDDL}
+        where klass_id=#{klassId} and seminarId=#{seminarId}
+    </update>
+
     <resultMap id="seminarResultMap" type="xmu.ghct.crm.entity.Seminar">
         <id property="seminarId" column="id"/>
         <result property="courseId" column="courseId"/>

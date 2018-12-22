@@ -35,9 +35,15 @@
         delete from klass where course_id=#{courseId}
     </delete>
 
-    <delete id="deleteKlassByKlassId" >
+    <delete id="deleteKlassByKlassId" parameterType="">
         delete from klass where id=#{klassId}
     </delete>
+
+    <select id="listKlassIdBySeminarId" parameterType="java.math.BigInteger">
+        select klass_id from klass_seminar
+        where seminar_id=#{seminarId}
+    </select>
+
 
     <resultMap id="klassResultMap" type="xmu.ghct.crm.entity.Klass">
         <id property="klassId" column="id"/>

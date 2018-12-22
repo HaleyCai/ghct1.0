@@ -3,7 +3,7 @@ package xmu.ghct.crm.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import xmu.ghct.crm.entity.*;
+import xmu.ghct.crm.entity.User;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.List;
 @Mapper     //声明是一个Mapper
 @Repository
 public interface StudentMapper {
-
     /**
      * 根据account获取学生信息
      * @param account
@@ -37,6 +36,7 @@ public interface StudentMapper {
      */
     List<User> getNoTeamStudentByCourseId();
 
+
     /**
      * 根据account设置student新密码
      * @param account
@@ -57,35 +57,4 @@ public interface StudentMapper {
      * @return
      */
     int setStudentActiveByAccount(@Param("account") String account);
-
-    /**
-     *管理员获得所有学生信息
-     * @return
-     */
-    List<User> getAllStudent();
-
-    /**
-     * 管理员根据学生姓名获得学生信息
-     * @return
-     */
-    User getStudentByStudentName(String studentName);
-
-    /**
-     * 管理员修改某一学生的信息（姓名，账号，邮箱）
-     * @return
-     */
-    int modifyStudentByStudentId(BigInteger studentId, String studentName,
-                                 String studentAccount, String studentEmail);
-
-    /**
-     * 管理员重置某一学生的密码
-     * @return
-     */
-    int resetStudentPasswordByStudentId(BigInteger studentId,String studentPassword);
-
-    /**
-     * 管理员按ID删除某一学生
-     * @return
-     */
-    int deleteStudentByStudentId(BigInteger studentId);
 }
