@@ -35,4 +35,5 @@
         <result property="score" column="score"/>
     </resultMap>
 
+
 </mapper>
