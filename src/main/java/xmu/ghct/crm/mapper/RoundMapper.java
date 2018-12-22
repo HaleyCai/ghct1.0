@@ -14,6 +14,13 @@ import java.util.List;
 public interface RoundMapper {
 
     /**
+     * 根据roundId获取该轮次下的所有讨论课
+     * @param roundId
+     * @return
+     */
+    List<Seminar> getSeminarByRoundId(@Param("roundId") BigInteger roundId);
+
+    /**
      * 根据roundId获得轮次信息
      * @param roundId
      * @return
@@ -28,10 +35,10 @@ public interface RoundMapper {
      * @param questionScoreMethod
      * @return
      */
-    int modifyRoundMethodByRoundId(@Param("roundId") BigInteger roundId,
-                                   @Param("presentationScoreMethod") int presentationScoreMethod,
-                                   @Param("reportScoreMethod") int reportScoreMethod,
-                                   @Param("questionScoreMethod") int questionScoreMethod);
+    int modifyRoundByRoundId(@Param("roundId") BigInteger roundId,
+                             @Param("presentationScoreMethod") int presentationScoreMethod,
+                             @Param("reportScoreMethod") int reportScoreMethod,
+                             @Param("questionScoreMethod") int questionScoreMethod);
 
     /**
      * 根据courseId获得轮次

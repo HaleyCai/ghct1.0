@@ -40,8 +40,8 @@ public class KlassService {
      * @param courseId
      * @return
      */
-    public int deleteKlassByCourseIdAndKlassId(BigInteger courseId){
-        return klassDao.deleteKlassByCourseIdAndKlassId(courseId);
+    public int deleteKlassByCourseId(BigInteger courseId){
+        return klassDao.deleteKlassByCourseId(courseId);
     }
 
     /**
@@ -65,4 +65,15 @@ public class KlassService {
     }
 
     //新建轮次，还要新建默认每轮可报名次数
+
+    /**
+     * 根据klassId删除班级
+     * @param klassId
+     * @return
+     */
+    public boolean deleteKlassByKlassId(BigInteger klassId){
+        int flag=klassDao.deleteKlassByKlassId(klassId);
+        if(flag>0)return true;
+        else return false;
+    }
 }

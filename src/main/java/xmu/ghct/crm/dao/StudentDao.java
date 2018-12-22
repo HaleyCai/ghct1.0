@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.mapper.StudentMapper;
 
+import java.math.BigInteger;
+
 /**
  * @author caiyq
  */
@@ -70,5 +72,14 @@ public class StudentDao {
             return true;
         else
             return false;
+    }
+
+    /**
+     * 根据studentId获取学生信息
+     * @param studentId
+     * @return
+     */
+    public  User getStudentByStudentId(BigInteger studentId){
+        return studentMapper.getStudentByStudentId(studentId);
     }
 }

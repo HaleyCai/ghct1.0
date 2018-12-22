@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.CourseMapper">
+
     <!--parameterType="BigInteger,xmu.ghct.crm.entity.Course"-->
     <insert id="insertCourse"  parameterType="xmu.ghct.crm.VO.CourseVO">
         insert into course (
@@ -11,7 +12,7 @@
             question_percentage,
             report_percentage,
             team_start_time,
-            team_end_time
+            team_end_time,
         )
         values (
                    #{teacherId},
@@ -21,7 +22,7 @@
                    #{questionPercentage},
                    #{reportPercentage,},
                    #{teamStartTime},
-                   #{teamEndTime}
+                   #{teamEndTime},
                )
     </insert>
 
@@ -41,11 +42,14 @@
         delete from course where id=#{courseId}
     </delete>
 
+
+
     <select id="getStudentIdByTeamId">
         select student_id
         from klass_student
         where team_id=#{teamId}
     </select>
+
 
     <resultMap id="courseResultMap" type="xmu.ghct.crm.entity.Course">
         <id property="courseId" column="id"/>

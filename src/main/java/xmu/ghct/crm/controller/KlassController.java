@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.RoundVO;
@@ -35,12 +36,18 @@ public class KlassController {
      * @param courseId
      * @return
      */
-    @RequestMapping(value="/course/{courseId}/class/deleteKlass",method = RequestMethod.DELETE)
+    @RequestMapping(value="/course/{courseId}/deleteKlass",method = RequestMethod.DELETE)
     @ResponseBody
-    public boolean deleteKlassByCourseIdAndKlassId(@PathVariable("courseId")BigInteger courseId){
-        int flag= klassService.deleteKlassByCourseIdAndKlassId(courseId);
+    public boolean deleteKlassByCourseId(@PathVariable("courseId")BigInteger courseId){
+        int flag= klassService.deleteKlassByCourseId(courseId);
         if(flag>0) return true;
         else return false;
+    }
+
+    @RequestMapping(value="/course/courseId/class/deleteKlass",method = RequestMethod.DELETE)
+    @ResponseBody
+    public boolean deleteKlassByKlassId(@Param("klassId") BigInteger klassId){
+        return klassService.deleteKlassByKlassId(klassId);
     }
 
     /**

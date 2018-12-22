@@ -27,6 +27,7 @@
                #{klassSerial},
                #{klassTime},
                #{klassLocation}
+
               )
     </insert>
 
@@ -45,6 +46,7 @@
         <result property="grade" column="grade"/>
         <result property="klassTime" column="klass_time"/>
         <result property="klassLocation" column="klass_location"/>
+
     </resultMap>
 
 </mapper>

@@ -44,4 +44,6 @@
         <result property="totalScore" column="total_score"/>
     </resultMap>
 
+
+
 </mapper>
