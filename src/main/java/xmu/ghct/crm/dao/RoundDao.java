@@ -7,7 +7,6 @@ import xmu.ghct.crm.VO.SeminarSimpleVO;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.mapper.RoundMapper;
-import xmu.ghct.crm.mapper.SeminarMapper;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -21,8 +20,7 @@ public class RoundDao {
 
     @Autowired
     private RoundMapper roundMapper;
-    @Autowired
-    private SeminarMapper seminarMapper;
+
     /**
      * 根据roundId获取该轮次下所有seminar的简单信息
      * @param roundId
@@ -93,16 +91,16 @@ public class RoundDao {
     }
 
     /**
-     * 根据roundId修改轮次的成绩评定方式
+     * 根据roundId修改轮次信息（成绩评定方式）
      * @param roundVO
      * @return
      */
-    public boolean modifyRoundMethodByRoundId(RoundVO roundVO){
-        int v1=roundMapper.modifyRoundMethodByRoundId(roundVO.getRoundId(),
+    public boolean modifyRoundByRoundId(RoundVO roundVO){
+        int v1=roundMapper.modifyRoundByRoundId(roundVO.getRoundId(),
                 stringToInt(roundVO.getPresentationScoreMethod()),
                 stringToInt(roundVO.getReportScoreMethod()),
                 stringToInt(roundVO.getQuestionScoreMethod()));
-        if(v1<0){
+        if(v1<=0){
             //throw
             return false;
         }
@@ -116,21 +114,15 @@ public class RoundDao {
      * @return
      */
     public List<Round> listRoundByCourseId(BigInteger courseId){
-
         return roundMapper.listRoundByCourseId(courseId);
     }
 
-    public BigInteger createRound(Round round)
-    {
-        BigInteger result;
-        int v1=roundMapper.createRound(round);
-        if(v1==0){
-            result=new BigInteger("0");
-        }
-        else
-        {
-            result=roundMapper.getRoundIdByCourseIdAndOrder(round.getCourseId(), round.getRoundSerial());
-        }
-        return result;
-    }
+    /**
+     * 创建轮次
+     * @param round
+     * @return
+     */
+    public int insertRound(Round round){
+        return roundMapper.insertRound(round);
+    };
 }
