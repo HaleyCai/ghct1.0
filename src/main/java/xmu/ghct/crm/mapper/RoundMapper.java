@@ -39,4 +39,19 @@ public interface RoundMapper {
      * @return
      */
     List<Round> listRoundByCourseId(BigInteger courseId);
+
+    /**
+     * 创建round
+     * @param round
+     * @return
+     */
+    int createRound(Round round);
+
+    /**
+     * 根据courseId和order获取roundId
+     * @param courseId
+     * @param order
+     * @return
+     */
+    BigInteger getRoundIdByCourseIdAndOrder(@Param("courseId")BigInteger courseId,@Param("order")int order);
 }

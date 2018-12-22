@@ -84,4 +84,21 @@ public class CourseController {
         roundVO.setQuestionScoreMethod(inMap.get("questionScoreMethod").toString());
         return courseService.modifyRoundMethodByRoundId(roundVO);
     }
+
+    /**
+     * 在课程下，创建轮次，前端传参courseId，轮次序号order
+     * @param inMap
+     * @return 创建成功，返回轮次id，否则返回-1
+     */
+    @RequestMapping(value="/round",method = RequestMethod.POST)
+    public BigInteger createRound(@RequestBody Map<String,Object> inMap)
+    {
+        Round round=new Round();
+        round.setCourseId((BigInteger)inMap.get("courseId"));
+        round.setRoundSerial((int)inMap.get("order"));
+        round.setPresentationScoreMethod(0);
+        round.setReportScoreMethod(0);
+        round.setQuestionScoreMethod(0);
+        return courseService.createRound(round);
+    }
 }

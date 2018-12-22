@@ -30,10 +30,34 @@
         <result property="questionScoreMethod" column="question_score_method"/>
     </resultMap>
 
+    <update id="modifyRoundMethodByRoundId">
+        update round
+        set presentation_score_method=#{presentationScoreMethod},
+            report_score_method=#{reportScoreMethod},
+            question_score_method=#{questionScoreMethod}
+        where id=#{roundId}
+    </update>
+    
+    <insert id="createRound" parameterType="xmu.ghct.crm.entity.Round">
+        insert into round{
+            course_id,
+            round_serial,
+            presentation_score_method,
+            report_score_method,
+            question_score_method
+        }
+        values (
+            #{courseId},
+            #{roundSerial},
+            #{presentationScoreMethod},
+            #{reportScoreMethod},
+            #{questionScoreMethod}
+        )
+    </insert>
 
-
-
-
-
-
+    <select id="getRoundIdByCourseIdAndOrde" resultType="java.math.BigInteger">
+        select round_id
+        from round
+        where course_id=#{courseId} and round_serial=#{order}
+    </select>
 </mapper>

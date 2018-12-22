@@ -102,11 +102,25 @@ public class RoundDao {
                 stringToInt(roundVO.getPresentationScoreMethod()),
                 stringToInt(roundVO.getReportScoreMethod()),
                 stringToInt(roundVO.getQuestionScoreMethod()));
-        if(v1<=0){
+        if(v1<0){
             //throw
             return false;
         }
         else
             return true;
+    }
+
+    public BigInteger createRound(Round round)
+    {
+        BigInteger result;
+        int v1=roundMapper.createRound(round);
+        if(v1==0){
+            result=new BigInteger("0");
+        }
+        else
+        {
+            result=roundMapper.getRoundIdByCourseIdAndOrder(round.getCourseId(), round.getRoundSerial());
+        }
+        return result;
     }
 }

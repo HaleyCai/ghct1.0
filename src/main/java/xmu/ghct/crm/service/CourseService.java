@@ -75,6 +75,14 @@ public class CourseService {
         return roundDao.modifyRoundMethodByRoundId(roundVO);
     }
 
-    //新建轮次
+    /**
+     * 根据课程id，顺序，创建新的轮次
+     * @param round
+     * @return
+     */
+    public BigInteger createRound(Round round)
+    {
+        return roundDao.createRound(round);
+    }
 
 }
