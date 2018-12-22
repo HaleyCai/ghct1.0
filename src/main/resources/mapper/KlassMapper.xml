@@ -35,7 +35,7 @@
         delete from klass where course_id=#{courseId}
     </delete>
 
-    <delete id="deleteKlassByKlassId" parameterType="">
+    <delete id="deleteKlassByKlassId" parameterType="java.math.BigInteger">
         delete from klass where id=#{klassId}
     </delete>
 

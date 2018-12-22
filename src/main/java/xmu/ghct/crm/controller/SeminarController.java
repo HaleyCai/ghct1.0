@@ -77,5 +77,12 @@ public class SeminarController {
         else return  false;
     }
 
+    @DeleteMapping("/seminar/{seminarId}/klass/{klassId}")
+    public boolean deleteKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId){
+        int flag=seminarService.deleteKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+        if(flag>0) return true;
+        else return false;
+    }
+
 
 }

@@ -63,4 +63,14 @@ public interface SeminarMapper {
      * @return
      */
     int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId, BigInteger seminarId, Date reportDDL);
+
+
+    /**
+     * @author hzm
+     * 根据klassId和seminarId删除班级讨论课
+     * @param klassId
+     * @param seminarId
+     * @return
+     */
+    int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId, BigInteger seminarId);
 }

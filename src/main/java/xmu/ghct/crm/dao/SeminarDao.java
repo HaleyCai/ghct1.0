@@ -38,4 +38,8 @@ public class SeminarDao {
     public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId, BigInteger seminarId, Date reportDDL){
         return seminarMapper.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,reportDDL);
     }
+
+    public int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId){
+        return seminarMapper.deleteKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+    }
 }

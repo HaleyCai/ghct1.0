@@ -120,4 +120,8 @@ public class SeminarService {
         return seminarDao.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,reportDDL);
     }
 
+    public int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId){
+        return seminarDao.deleteKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+    }
+
 }
