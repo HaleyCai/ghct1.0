@@ -55,7 +55,7 @@
         )
     </insert>
 
-    <select id="getRoundIdByCourseIdAndOrde" resultType="java.math.BigInteger">
+    <select id="getRoundIdByCourseIdAndOrder" resultType="java.math.BigInteger">
         select round_id
         from round
         where course_id=#{courseId} and round_serial=#{order}

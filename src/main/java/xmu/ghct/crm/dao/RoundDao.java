@@ -29,7 +29,7 @@ public class RoundDao {
      * @return
      */
     public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId){
-        List<Seminar> list=seminarMapper.getSeminarByRoundId(roundId);
+        List<Seminar> list=roundMapper.getSeminarByRoundId(roundId);
         List<SeminarSimpleVO> simpleList=new ArrayList<>();
         for(Seminar item:list)
         {
@@ -108,6 +108,15 @@ public class RoundDao {
         }
         else
             return true;
+    }
+
+    /**
+     * 根据courseId获取该课程下所有轮次
+     * @param courseId
+     * @return
+     */
+    public List<Round> listRoundByCourseId(BigInteger courseId){
+        return roundMapper.listRoundByCourseId(courseId);
     }
 
     public BigInteger createRound(Round round)
