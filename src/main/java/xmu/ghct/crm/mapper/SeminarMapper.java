@@ -26,13 +26,6 @@ public interface SeminarMapper {
     List<BigInteger> getSeminarIdByRoundId(BigInteger roundId);
 
     /**
-     * 根据seminarId获得所属班级的id
-     * @param seminarId
-     * @return
-     */
-    List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId);
-
-    /**
      * 根据seminarId修改讨论课
      * @param seminar
      * @return

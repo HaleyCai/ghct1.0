@@ -9,6 +9,7 @@ import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Round;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,4 +86,22 @@ public class KlassService {
     public List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId){
         return klassDao.listKlassIdBySeminarId(seminarId);
     }
+
+
+    /**
+     * 根据seminarId获得其所属班级信息
+     * @param seminarId
+     * @return
+     */
+    public List<Klass> listKlassBySeminarId(BigInteger seminarId){
+        List<BigInteger> klassIdList=klassDao.listKlassIdBySeminarId(seminarId);
+        List<Klass> klassList=new ArrayList<>();
+        for(BigInteger item:klassIdList){
+            Klass klass =klassDao.getKlassByKlassId(item);
+            klassList.add(klass);
+        }
+        return klassList;
+    }
+
+
 }
