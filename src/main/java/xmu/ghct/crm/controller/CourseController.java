@@ -76,7 +76,7 @@ public class CourseController {
     @PostMapping(value = "/upload")
     @ResponseBody
     public String uploadExcel(HttpServletRequest request) throws Exception {
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest) request;
         MultipartFile file = multipartRequest.getFile("filename");
         if (file.isEmpty()) {
             return "文件不能为空";
