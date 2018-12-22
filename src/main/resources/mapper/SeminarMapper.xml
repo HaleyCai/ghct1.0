@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.SeminarMapper">
+
     <insert id="creatSeminar" parameterType="xmu.ghct.crm.entity.Seminar">
         insert into seminar(
+                            id,
                             course_id,
                             round_id,
                             seminar_name,
@@ -13,6 +15,7 @@
                             enroll_start_time,
                             enroll_end_time
                  )values   (
+                            #{seminarId},
                             #{courseId},
                             #{roundId},
                             #{seminarName},
@@ -25,17 +28,49 @@
                                    )
     </insert>
 
-    <select id="getSeminarByRoundId" resultMap="seminarResultMap">
-        select id,course_id,round_id,seminar_name,introduction,max_team,
-              is_visible,seminar_serial,enroll_start_time,enroll_end_time
+    <select id="getSeminarIdByRoundId" resultType="java.math.BigInteger">
+        select id
         from seminar
         where round_id=#{roundId}
     </select>
 
+    <select id="listKlassIdBySeminarId" parameterType="java.math.BigInteger">
+        select klass_id
+        from klass_seminar
+        where semianr_id=#{semianrId}
+    </select>
+    
+    <update id="updateSeminarBySeminarId" parameterType="xmu.ghct.crm.entity.Seminar">
+        update seminar
+           set round_id=#{roundId},
+               seminar_name=#{seminarName},
+               introduction=#{introduction},
+               seminar_serial=#{seminarSerial},
+               is_visible=#{visible},
+               max_team=#{maxTeam},
+               enroll_start_time=#{enrollStartTime},
+               enroll_end_time=#{enrollEndTime}
+        where id=#{seminarId}
+    </update>
+
+    <delete id="deleteSeminarBySeminarId" parameterType="java.math.BigInteger">
+        delete from seminar where id=#{seminarId}
+    </delete>
+
+    <delete id="deleteKlassSeminarBySeminarId" parameterType="java.math.BigInteger">
+        delete from klass_seminar where seminar_id=#{seminarId}
+    </delete>
+
+    <select id="getSeminarBySeminarId" parameterType="java.math.BigInteger">
+        select *
+        from seminar
+        where id=#{seminarId}
+    </select>
+
     <resultMap id="seminarResultMap" type="xmu.ghct.crm.entity.Seminar">
         <id property="seminarId" column="id"/>
-        <result property="courseId" column="course_id"/>
-        <result property="roundId" column="round_id"/>
+        <result property="courseId" column="courseId"/>
+        <result property="roundId" column="roundId"/>
         <result property="seminarName" column="seminar_name"/>
         <result property="introduction" column="introduction"/>
         <result property="maxTeam" column="max_team"/>

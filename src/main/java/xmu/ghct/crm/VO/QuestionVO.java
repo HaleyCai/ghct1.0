@@ -1,14 +1,17 @@
-package xmu.ghct.crm.entity;
+package xmu.ghct.crm.VO;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 
-public class Question implements Serializable{
+public class QuestionVO implements Serializable{
     private BigInteger questionId;
     private BigInteger klassSeminarId;
     private BigInteger attendanceId;
     private BigInteger teamId;
+    private String teamName;
     private BigInteger studentId;
+    private BigInteger seminarId;
+    private BigInteger klassId;
     private int selected;
     private double questionScore;
 
@@ -38,11 +41,29 @@ public class Question implements Serializable{
         this.teamId = teamId;
     }
 
+    public String getTeamName() { return teamName; }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
     public BigInteger getStudentId() {
         return studentId;
     }
 
     public void setStudentId(BigInteger studentId) { this.studentId = studentId; }
+
+    public BigInteger getSeminarId() {
+        return seminarId;
+    }
+
+    public void setSeminarId(BigInteger seminarId) { this.seminarId = seminarId; }
+
+    public BigInteger getKlassId() {
+        return klassId;
+    }
+
+    public void setKlassId(BigInteger klassId) { this.klassId = klassId; }
 
     public int getSelected() { return selected; }
 
@@ -62,7 +83,10 @@ public class Question implements Serializable{
                 ", klassSeminarId='" + klassSeminarId + '\'' +
                 ", attendanceId='" + attendanceId + '\'' +
                 ", teamId=" + teamId +
+                ", teamName=" + teamName +
                 ", studentId=" + studentId +
+                ", seminarId=" + seminarId +
+                ", klassId=" + klassId +
                 ", selected=" + selected +
                 ", questionScore=" + questionScore +
                 '}';

@@ -2,7 +2,7 @@ package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
-import xmu.ghct.crm.VO.CreatCourseVO;
+import xmu.ghct.crm.VO.CourseVO;
 import xmu.ghct.crm.entity.*;
 
 import java.math.BigInteger;
@@ -15,10 +15,10 @@ public interface CourseMapper {
     /**
      * 创建课程
      * @author hzm
-     * @param creatCourseVO
+     * @param courseVO
      * @return
      */
-    int insertCourse(CreatCourseVO creatCourseVO);
+    int insertCourse(CourseVO courseVO);
 
     /**
      * 根据teacherId获得课程信息
