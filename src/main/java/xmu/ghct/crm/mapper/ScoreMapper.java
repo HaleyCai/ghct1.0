@@ -33,7 +33,7 @@ public interface ScoreMapper {
      * @param teamId
      * @return
      */
-    List<Score> listScoreBySeminarIdAndTeamId(BigInteger seminarId,BigInteger teamId);
+    Score getScoreBySeminarIdAndTeamId(BigInteger seminarId,BigInteger teamId);
 
     /**
      * 删除id为seminarId下的所有讨论课成绩

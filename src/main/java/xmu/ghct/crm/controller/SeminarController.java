@@ -2,6 +2,7 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xmu.ghct.crm.VO.SeminarScoreVO;
 import xmu.ghct.crm.VO.SeminarSimpleVO;
 import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.entity.Klass;
@@ -101,6 +102,9 @@ public class SeminarController {
     }
 
 
-
+    @GetMapping("seminar/{seminarId}/team/{teamId}/seminarScore")
+    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(@PathVariable("teamId") BigInteger teamId,@PathVariable("seminarId") BigInteger seminarId){
+        return seminarService.getTeamSeminarScoreByTeamIdAndSeminarId(teamId,seminarId);
+    }
 
 }

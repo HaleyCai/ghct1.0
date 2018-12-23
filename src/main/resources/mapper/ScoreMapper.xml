@@ -10,7 +10,7 @@
     </select>
     -->
 
-    <select id="listScoreBySeminarIdAndTeamId" resultMap="scoreMap">
+    <select id="getScoreBySeminarIdAndTeamId" resultMap="scoreMap">
         select klass_seminar_id,team_id,total_score,report_score,question_score,presentation_score
         from seminar_score
         where klass_seminar_id=#{seminarId} and team_id=#{teamId}

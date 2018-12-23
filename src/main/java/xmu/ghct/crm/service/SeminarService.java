@@ -4,15 +4,12 @@ import com.fasterxml.jackson.databind.node.BigIntegerNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import xmu.ghct.crm.VO.SeminarScoreVO;
 import xmu.ghct.crm.VO.SeminarSimpleVO;
 import xmu.ghct.crm.VO.SeminarVO;
-import xmu.ghct.crm.dao.DateDao;
-import xmu.ghct.crm.dao.KlassDao;
-import xmu.ghct.crm.dao.RoundDao;
-import xmu.ghct.crm.dao.SeminarDao;
-import xmu.ghct.crm.entity.Klass;
-import xmu.ghct.crm.entity.Round;
-import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.dao.*;
+import xmu.ghct.crm.entity.*;
+import xmu.ghct.crm.mapper.ScoreMapper;
 
 import java.math.BigInteger;
 import java.text.ParseException;
@@ -35,6 +32,12 @@ public class SeminarService {
 
     @Autowired
     DateDao dateDao;
+
+    @Autowired
+    TeamDao teamDao;
+
+    @Autowired
+    ScoreMapper scoreMapper;
 
     public int creatSeminar(Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
@@ -158,6 +161,27 @@ public class SeminarService {
         seminarVO.setKlassId(new BigInteger(klassMap.get("klassId").toString()));
         seminarVO.setStatus(new Integer(klassMap.get("status").toString()));
         return seminarDao.updateKlassSeminarStatus(seminarVO);
+    }
+
+    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(BigInteger teamId, BigInteger seminarId){
+        SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
+        Team teamInfo=teamDao.getTeamInfoByTeamId(teamId);
+        Seminar seminarInfo=seminarDao.getSeminarBySeminarId(seminarId);
+        Klass klassInfo=klassDao.getKlassByKlassId(teamInfo.getKlassId());
+        Score seminarScore=scoreMapper.getScoreBySeminarIdAndTeamId(seminarId,teamId);
+        seminarScoreVO.setSeminarId(seminarId);
+        seminarScoreVO.setTeamId(teamInfo.getTeamId());
+        seminarScoreVO.setTeamSerial(teamInfo.getTeamSerial());
+        seminarScoreVO.setIntroduction(seminarInfo.getIntroduction());
+        seminarScoreVO.setSeminarName(seminarInfo.getSeminarName());
+        seminarScoreVO.setGrade(klassInfo.getGrade());
+        seminarScoreVO.setKlassSerial(klassInfo.getKlassSerial());
+        seminarScoreVO.setSeminarSerial(seminarInfo.getSeminarSerial());
+        seminarScoreVO.setPresentationScore(seminarScore.getPresentationScore());
+        seminarScoreVO.setQuestionScore(seminarScore.getQuestionScore());
+        seminarScoreVO.setReportScore(seminarScore.getReportScore());
+        seminarScoreVO.setTotalScore(seminarScore.getTotalScore());
+        return  seminarScoreVO;
     }
 
 }
