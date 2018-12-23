@@ -50,30 +50,5 @@ public class KlassController {
         return klassService.deleteKlassByKlassId(klassId);
     }
 
-    /**
-     * 根据roundId获取轮次信息
-     * @param roundId
-     * @return
-     */
-    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
-    public RoundVO getRoundByRoundId(@PathVariable("roundId") BigInteger roundId)
-    {
-        return klassService.getRoundByRoundId(roundId);
-    }
 
-    /**
-     * 根据roundId修改轮次信息
-     * @param roundId
-     * @return
-     */
-    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.PUT)
-    public boolean modifyRoundByRoundId(@PathVariable("roundId") BigInteger roundId,@RequestBody Map<String,Object> inMap)
-    {
-        RoundVO roundVO=new RoundVO();
-        roundVO.setRoundId((BigInteger) inMap.get("roundId"));
-        roundVO.setPresentationScoreMethod(inMap.get("presentationScoreMethod").toString());
-        roundVO.setReportScoreMethod(inMap.get("reportScoreMethod").toString());
-        roundVO.setQuestionScoreMethod(inMap.get("questionScoreMethod").toString());
-        return klassService.modifyRoundByRoundId(roundVO);
-    }
 }

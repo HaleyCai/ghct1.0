@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import xmu.ghct.crm.VO.CourseVO;
+import xmu.ghct.crm.VO.RoundVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.RoundNotFindException;
 import xmu.ghct.crm.service.CourseService;
@@ -92,4 +93,48 @@ public class CourseController {
         }
         return "上传成功";
     }
+
+    /**
+     * @cyq
+     * 根据roundId获取轮次信息
+     * @cyq
+     * @param roundId
+     * @return
+     */
+    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
+    public RoundVO getRoundByRoundId(@PathVariable("roundId") BigInteger roundId)
+    {
+        return courseService.getRoundByRoundId(roundId);
+    }
+
+    /**
+     * @cyq
+     * 根据roundId修改轮次信息（只修改轮次的评分方式）
+     * @param roundId
+     * @return
+     */
+    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.PUT)
+    public boolean modifyRoundByRoundId(@PathVariable("roundId") BigInteger roundId,@RequestBody Map<String,Object> inMap)
+    {
+        RoundVO roundVO=new RoundVO();
+        roundVO.setRoundId((BigInteger) inMap.get("roundId"));
+        roundVO.setPresentationScoreMethod(inMap.get("presentation").toString());
+        roundVO.setQuestionScoreMethod(inMap.get("question").toString());
+        roundVO.setReportScoreMethod(inMap.get("report").toString());
+        return courseService.modifyRoundByRoundId(roundVO);
+    }
+
+    /**
+     * @cyq
+     * 自己加的api，修改本轮各个班级允许的报名次数，见页面“轮次设置”
+     * @param inMap
+     * @return
+     */
+    @RequestMapping(value = "/round/{roundId}/{klassId}/signtimes",method = RequestMethod.PUT)
+    public boolean modifyRoundSignTimes(@RequestBody Map<String,Object> inMap)
+    {
+        return true;
+    }
+
+
 }

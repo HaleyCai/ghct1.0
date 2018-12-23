@@ -3,6 +3,7 @@ package xmu.ghct.crm.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.CourseVO;
+import xmu.ghct.crm.VO.RoundVO;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.dao.DateDao;
 import xmu.ghct.crm.dao.RoundDao;
@@ -61,6 +62,35 @@ public class CourseService {
         return roundDao.listRoundByCourseId(courseId);
     }
 
+    /**
+     * @cyq
+     * 根据roundId获取轮次的信息
+     * @param roundId
+     * @return
+     */
+    public RoundVO getRoundByRoundId(BigInteger roundId)
+    {
+        return roundDao.getRoundByRoundId(roundId);
+    }
 
+    /**
+     * @cyq
+     * 根据roundId修改轮次的信息（成绩评定方式）
+     * @param roundVO
+     * @return
+     */
+    public boolean modifyRoundByRoundId(RoundVO roundVO)
+    {
+        return roundDao.modifyRoundByRoundId(roundVO);
+    }
 
+    /**
+     * @cyq
+     * 修改本轮次下，各个班级的最大报名组数
+     * @return
+     */
+    public boolean modifyRoundSignTimes()
+    {
+        return true;
+    }
 }

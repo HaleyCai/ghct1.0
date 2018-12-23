@@ -48,9 +48,11 @@ public class SeminarService {
             round.setPresentationScoreMethod(1);
             round.setQuestionScoreMethod(0);
             round.setReportScoreMethod(1);
-            round.setRoundSerial(0);
+            round.setRoundSerial(roundDao.getNewRoundNum(round.getCourseId()));//默认创建，序号为最大序号+1
             roundDao.insertRound(round);
             seminar.setRoundId(round.getRoundId());
+            //默认创建每个班每轮允许报名次数为1
+            roundDao.defaultEnrollNumber(seminar.getCourseId(),seminar.getRoundId());
         }else{
             seminar.setRoundId(new BigInteger(seminarMap.get("roundId").toString()));
         }

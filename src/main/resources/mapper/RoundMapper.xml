@@ -33,7 +33,6 @@
         where course_id=#{courseId}
     </select>
 
-
     <insert id="insertRound" parameterType="xmu.ghct.crm.entity.Round" keyProperty="roundId" useGeneratedKeys="true">
            insert into round(
                              course_id,
@@ -49,6 +48,13 @@
                                )
     </insert>
 
+    <update id="modifyRoundByRoundId">
+        update round
+        set presentation_score_method=#{presentationScoreMethod}.
+            report_score_method=#{reportScoreMethod},
+            question_score_method=#{questionScoreMethod}
+        where id=#{roundId}
+    </update>
 
     <resultMap id="RoundResult" type="xmu.ghct.crm.entity.Round">
         <id property="roundId" column="id"/>
@@ -59,6 +65,20 @@
         <result property="questionScoreMethod" column="question_score_method"/>
     </resultMap>
 
+    <select id="getRoundNumByCourseId" resultType="java.lang.Integer">
+        select count(*) from round where course_id=#{courseId}
+    </select>
 
-
+    <insert id="createDefaultEnrollNumber">
+        insert into klass_round(
+              klass_id,
+              round_id,
+              enroll_number
+        )
+        values(
+              #{classId},
+              #{roundId},
+              1
+        )
+    </insert>
 </mapper>

@@ -14,6 +14,7 @@ import java.util.List;
 public interface RoundMapper {
 
     /**
+     * @cyq
      * 根据roundId获取该轮次下的所有讨论课
      * @param roundId
      * @return
@@ -21,13 +22,14 @@ public interface RoundMapper {
     List<Seminar> getSeminarByRoundId(BigInteger roundId);
 
     /**
+     * @cyq
      * 根据roundId获得轮次信息
      * @param roundId
      * @return
      */
     Round getRoundByRoundId(@Param("roundId") BigInteger roundId);
 
-    /**
+    /**@cyq
      * 根据roundId修改轮次信息（成绩评定方式）
      * @param roundId
      * @param presentationScoreMethod
@@ -53,4 +55,22 @@ public interface RoundMapper {
      * @return
      */
     int insertRound(Round round);
+
+    /**
+     * @cyq
+     * 查找一个课程下，轮次的最大值
+     * @param courseId
+     * @return
+     */
+    int getRoundNumByCourseId(BigInteger courseId);
+
+    /**
+     * @cyq
+     * 默认创建允许报名次数为1
+     * @param classId
+     * @param roundId
+     * @return
+     */
+    int createDefaultEnrollNumber(BigInteger classId, BigInteger roundId);
+
 }
