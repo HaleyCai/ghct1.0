@@ -70,7 +70,7 @@ public class SeminarController {
         return seminarService.getSeminarBySeminarId(seminarId);
     }
 
-    @PostMapping("/seminar/{seminarId}/klass/{klassId}")
+    @PutMapping("/seminar/{seminarId}/klass/{klassId}")
     public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId,
                                                            @RequestBody Map<String,Object> klassMap) throws ParseException {
         int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,klassMap);

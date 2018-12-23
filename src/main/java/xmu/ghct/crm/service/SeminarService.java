@@ -38,7 +38,6 @@ public class SeminarService {
 
     public int creatSeminar(Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
-        seminar.setSeminarId(new BigInteger(seminarMap.get("seminarId").toString()));
         seminar.setCourseId(new BigInteger(seminarMap.get("courseId").toString()));
         if(seminarMap.get("roundId").toString()==null){
             Round round=new Round();
@@ -58,10 +57,9 @@ public class SeminarService {
         seminar.setMaxTeam(new Integer(seminarMap.get("maxTeam").toString()));
         seminar.setVisible(new Integer(seminarMap.get("visible").toString()));
         seminar.setSeminarSerial(new Integer(seminarMap.get("seminarSerial").toString()));
-        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
-        Date start = formatter.parse(seminarMap.get("enrollStartTime").toString()+" 00:00:00");
+        Date start = dateDao.transferToDateTime(seminarMap.get("enrollStartTime").toString());
         seminar.setEnrollStartTime(start);
-        Date end = formatter.parse(seminarMap.get("enrollEndTime").toString()+" 00:00:00");
+        Date end = dateDao.transferToDateTime(seminarMap.get("enrollEndTime").toString());
         seminar.setEnrollEndTime(end);
         return seminarDao.creatSeminar(seminar);
     }
@@ -90,10 +88,9 @@ public class SeminarService {
      */
     public int updateSeminarBySeminarId(BigInteger seminarId,@RequestBody Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
-        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
-        Date enrollStartTime = formatter.parse(seminarMap.get("enrollStartTime").toString()+" 00:00:00");
+        Date enrollStartTime = dateDao.transferToDateTime(seminarMap.get("enrollStartTime").toString());
         seminar.setEnrollStartTime(enrollStartTime);
-        Date enrollEndTime = formatter.parse(seminarMap.get("enrollEndTime").toString()+" 00:00:00");
+        Date enrollEndTime = dateDao.transferToDateTime(seminarMap.get("enrollEndTime").toString());
         seminar.setEnrollEndTime(enrollEndTime);
         seminar.setIntroduction(seminarMap.get("introduction").toString());
         seminar.setMaxTeam(new Integer(seminarMap.get("maxTeam").toString()));
@@ -120,8 +117,7 @@ public class SeminarService {
     }
 
     public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId,Map<String,Object> seminarMap) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
-        Date reportDDL = formatter.parse(seminarMap.get("reportDDL").toString()+" 00:00:00");
+        Date reportDDL = dateDao.transferToDateTime(seminarMap.get("reportDDL").toString());
         return seminarDao.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,reportDDL);
     }
 

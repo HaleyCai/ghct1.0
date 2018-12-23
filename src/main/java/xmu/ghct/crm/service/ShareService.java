@@ -29,7 +29,6 @@ public class ShareService {
     //可以合并
     public int launchTeamShareRequest(BigInteger courseId, Map<String,Object> shareMap)  {
         Share share=new Share();
-        share.setShareId(new BigInteger(shareMap.get("shareId").toString()));
         share.setMainCourseId(new BigInteger(courseId.toString()));
         share.setSubCourseId(new BigInteger(shareMap.get("subCourseId").toString()));
         share.setSubCourseTeacherId(new BigInteger(shareMap.get("subCourseTeacherId").toString()));
@@ -50,7 +49,6 @@ public class ShareService {
 
     public int launchSeminarShareRequest( BigInteger courseId,Map<String,Object> shareMap)  {
         Share share=new Share();
-        share.setShareId(new BigInteger(shareMap.get("shareId").toString()));
         share.setMainCourseId(new BigInteger(courseId.toString()));
         share.setSubCourseId(new BigInteger(shareMap.get("subCourseId").toString()));
         share.setSubCourseTeacherId(new BigInteger(shareMap.get("subCourseTeacherId").toString()));

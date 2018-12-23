@@ -4,7 +4,6 @@
 
     <insert id="creatSeminar" parameterType="xmu.ghct.crm.entity.Seminar">
         insert into seminar(
-                            id,
                             course_id,
                             round_id,
                             seminar_name,
@@ -15,7 +14,6 @@
                             enroll_start_time,
                             enroll_end_time
                  )values   (
-                            #{seminarId},
                             #{courseId},
                             #{roundId},
                             #{seminarName},
@@ -62,10 +60,10 @@
         where id=#{seminarId}
     </select>
 
-    <update id="updateKlassSeminarBySeminarIdAndKlassId" parameterType="java.math.BigInteger">
+    <update id="updateKlassSeminarBySeminarIdAndKlassId">
         update klass_seminar
         set report_ddl=#{reportDDL}
-        where klass_id=#{klassId} and seminarId=#{seminarId}
+        where klass_id=#{klassId} and seminar_id=#{seminarId}
     </update>
     
     

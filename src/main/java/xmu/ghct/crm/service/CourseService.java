@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.CourseVO;
 import xmu.ghct.crm.dao.CourseDao;
+import xmu.ghct.crm.dao.DateDao;
 import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.*;
 
@@ -23,19 +24,20 @@ public class CourseService {
     @Autowired
     RoundDao roundDao;
 
+    @Autowired
+    DateDao dateDao;
+
     public int creatCourse( Map<String,Object> courseMap) throws ParseException {
         CourseVO courseVO =new CourseVO();
-        courseVO.setCourseId(new BigInteger(courseMap.get("id").toString()));
         courseVO.setCourseName(courseMap.get("courseName").toString());
         courseVO.setIntroduction(courseMap.get("introduction").toString());
         courseVO.setPresentationPercentage(new Double(courseMap.get("presentationPercentage").toString()));
         courseVO.setQuestionPercentage(new Double(courseMap.get("questionPercentage").toString()));
         courseVO.setReportPercentage(new Double(courseMap.get("reportPercentage").toString()));
         courseVO.setTeacherId(new BigInteger(courseMap.get("teacherId").toString()));
-        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd hh:mm:ss");
-        Date end = formatter.parse(courseMap.get("teamEndTime").toString()+" 00:00:00");
+        Date end = dateDao.transferToDateTime(courseMap.get("teamEndTime").toString());
         courseVO.setTeamEndTime(end);
-        Date start = formatter.parse(courseMap.get("teamStartTime").toString()+" 00:00:00");
+        Date start = dateDao.transferToDateTime(courseMap.get("teamStartTime").toString());
         courseVO.setTeamStartTime(start);
         courseVO.setMinMember(new Integer(courseMap.get("minMember").toString()));
         courseVO.setMaxMember(new Integer(courseMap.get("maxMember").toString()));

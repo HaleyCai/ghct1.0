@@ -4,14 +4,12 @@
 
     <insert id="launchTeamShareRequest" parameterType="xmu.ghct.crm.entity.Share">
         insert into share_team_application(
-                                           id,
                                            main_course_id,
                                            sub_course_id,
                                            sub_course_teacher_id,
                                            status
         )
         values(
-               #{shareId},
                #{mainCourseId},
                #{subCourseId},
                #{subCourseTeacherId},
@@ -33,14 +31,12 @@
 
     <insert id="launchSeminarShareRequest" parameterType="xmu.ghct.crm.entity.Share">
         insert into share_seminar_application(
-            id,
             main_course_id,
             sub_course_id,
             sub_course_teacher_id,
             status
         )
         values(
-                  #{shareId},
                   #{mainCourseId},
                   #{subCourseId},
                   #{subCourseTeacherId},
