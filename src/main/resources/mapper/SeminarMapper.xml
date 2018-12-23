@@ -60,7 +60,7 @@
         where id=#{seminarId}
     </select>
 
-    <update id="updateKlassSeminarBySeminarIdAndKlassId">
+    <update  id="updateKlassSeminarBySeminarIdAndKlassId">
         update klass_seminar
         set report_ddl=#{reportDDL}
         where klass_id=#{klassId} and seminar_id=#{seminarId}
