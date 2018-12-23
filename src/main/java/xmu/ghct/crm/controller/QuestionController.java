@@ -3,8 +3,6 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.QuestionVO;
-import xmu.ghct.crm.entity.Question;
-import xmu.ghct.crm.entity.Question;
 import xmu.ghct.crm.service.QuestionService;
 
 import java.math.BigInteger;
