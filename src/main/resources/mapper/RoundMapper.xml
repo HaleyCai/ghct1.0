@@ -33,17 +33,16 @@
         where course_id=#{courseId}
     </select>
 
-    <insert id="insertRound" parameterType="xmu.ghct.crm.entity.Round">
+
+    <insert id="insertRound" parameterType="xmu.ghct.crm.entity.Round" keyProperty="roundId" useGeneratedKeys="true">
            insert into round(
-                             id,
                              course_id,
                              round_serial,
                              presentation_score_method,
                              report_score_method,
                              question_score_method
-           )    values    ( #{roundId},
-                            #{courseId},
-                            #{round_serial},
+           )    values    ( #{courseId},
+                            #{roundSerial},
                             #{presentationScoreMethod},
                             #{reportScoreMethod},
                             #{questionScoreMethod}

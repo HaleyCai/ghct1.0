@@ -39,16 +39,15 @@ public class SeminarService {
     public int creatSeminar(Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
         seminar.setCourseId(new BigInteger(seminarMap.get("courseId").toString()));
-        if(seminarMap.get("roundId").toString()==null){
+        if(seminarMap.get("roundId").toString()==""){
             Round round=new Round();
-            round.setRoundId(new BigInteger("1"));
             round.setCourseId(new BigInteger(seminarMap.get("courseId").toString()));
             round.setPresentationScoreMethod(1);
             round.setQuestionScoreMethod(0);
             round.setReportScoreMethod(1);
             round.setRoundSerial(0);
             roundDao.insertRound(round);
-            seminar.setRoundId(new BigInteger("1"));
+            seminar.setRoundId(round.getRoundId());
         }else{
             seminar.setRoundId(new BigInteger(seminarMap.get("roundId").toString()));
         }

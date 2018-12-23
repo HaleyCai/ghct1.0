@@ -124,5 +124,5 @@ public class RoundDao {
      */
     public int insertRound(Round round){
         return roundMapper.insertRound(round);
-    };
+    }
 }
