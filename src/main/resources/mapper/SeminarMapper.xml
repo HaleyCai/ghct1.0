@@ -77,6 +77,12 @@
     <delete id="deleteKlassSeminarBySeminarIdAndKlassId" parameterType="java.math.BigInteger">
         delete from klass_seminar where id=#{seminarId} and klass_id=#{klassId}
     </delete>
+
+    <update id="updateKlassSeminarStatus" parameterType="xmu.ghct.crm.VO.SeminarVO">
+        update klass_seminar
+        set status=#{status}
+        where klass_id=#{klassId}
+    </update>
     
     <resultMap id="klassSeminarResultMap" type="xmu.ghct.crm.VO.SeminarVO">
         <result property="reportDDL" column="report_ddl"/>

@@ -144,4 +144,20 @@ public class SeminarService {
         return seminarVO;
     }
 
+
+    /**
+     * @author hzm
+     * 修改班级讨论课状态
+     * @param seminarId
+     * @param klassMap
+     * @return
+     */
+    public int updateKlassSeminarStatus(BigInteger seminarId,Map<String,Object> klassMap){
+        SeminarVO seminarVO=new SeminarVO();
+        seminarVO.setSeminarId(seminarId);
+        seminarVO.setKlassId(new BigInteger(klassMap.get("klassId").toString()));
+        seminarVO.setStatus(new Integer(klassMap.get("status").toString()));
+        return seminarDao.updateKlassSeminarStatus(seminarVO);
+    }
+
 }

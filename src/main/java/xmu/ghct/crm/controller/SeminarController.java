@@ -93,6 +93,14 @@ public class SeminarController {
 
     }
 
+    @PutMapping("seminar/{seminarId}/status")
+    public boolean updateKlassSeminarStatus(@PathVariable("seminarId") BigInteger seminarId,@RequestBody Map<String,Object> klassMap){
+        int flag=seminarService.updateKlassSeminarStatus(seminarId,klassMap);
+        if(flag>0)return true;
+        else return  false;
+    }
+
+
 
 
 }

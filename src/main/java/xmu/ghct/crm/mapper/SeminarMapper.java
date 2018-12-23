@@ -83,4 +83,13 @@ public interface SeminarMapper {
      * @return
      */
     SeminarVO getKlassSeminarByKlassIdAndSeminarId(BigInteger klassId,BigInteger seminarId);
+
+
+    /**
+     * @author hzm
+     * 修改班级讨论课的讨论课状态
+     * @param seminarVO
+     * @return
+     */
+    int updateKlassSeminarStatus(SeminarVO seminarVO);
 }
