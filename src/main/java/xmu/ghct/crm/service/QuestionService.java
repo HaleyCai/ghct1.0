@@ -11,7 +11,6 @@ import xmu.ghct.crm.entity.Question;
 
 import java.util.List;
 import java.math.BigInteger;
-
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.Map;
@@ -21,27 +20,25 @@ public class QuestionService {
     @Autowired
     QuestionDao questionDao;
 
-    public List<QuestionVO> getAllQuestion(BigInteger seminarId,BigInteger classId)
+    public List<QuestionVO> getAllQuestion(BigInteger klassId,BigInteger seminarId)
     {
-        return questionDao.getAllQuestion(seminarId,classId);
+        return questionDao.getAllQuestion(questionDao.getKlassSeminarId(klassId,seminarId));
     }
+
 
     public int postQuestion(Map<String,Object> questionMap)
     {
-        QuestionVO questionVO=new QuestionVO();
-        questionVO.setQuestionId(new BigInteger(questionMap.get("questionId").toString()));
-        questionVO.setTeamId(new BigInteger(questionMap.get("teamId").toString()));
-        questionVO.setTeamName(questionMap.get("teamName").toString());
-        questionVO.setSeminarId(new BigInteger(questionMap.get("seminarId").toString()));
-        questionVO.setKlassId(new BigInteger(questionMap.get("klassId").toString()));
-        questionVO.setStudentId(new BigInteger(questionMap.get("studentId").toString()));
-        return questionDao.postQuestion(questionVO);
+        Question question=new Question();
+        question.setTeamId(questionDao.getTeamIdByStudentId(new BigInteger(questionMap.get("studentId").toString()),new BigInteger(questionMap.get("klassId").toString())));
+        question.setKlassSeminarId(questionDao.getKlassSeminarId(new BigInteger(questionMap.get("klassId").toString()),new BigInteger(questionMap.get("seminarId").toString())));
+        question.setStudentId(new BigInteger(questionMap.get("studentId").toString()));
+        return questionDao.postQuestion(question);
     }
 
-    public boolean updateQuestionScoreByQuestionId(BigInteger questionId)
+    public boolean updateQuestionScoreByQuestionId(BigInteger questionId,Double questionScore)
     {
         boolean success;
-        success=questionDao.updateQuestionScoreByQuestionId(questionId);
+        success=questionDao.updateQuestionScoreByQuestionId(questionId,questionScore);
         return success;
     }
 }

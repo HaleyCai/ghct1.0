@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.QuestionVO;
 import xmu.ghct.crm.entity.Question;
+import xmu.ghct.crm.entity.Question;
 import xmu.ghct.crm.service.QuestionService;
 
 import java.math.BigInteger;
@@ -20,8 +21,8 @@ public class QuestionController {
                     method = RequestMethod.GET)
     public List<QuestionVO> getAllQuestion(@RequestBody Map<String,Object> inMap){
         return questionService.getAllQuestion(
-                (BigInteger)inMap.get("seminarId"),
-                (BigInteger)inMap.get("klassId"));
+                new BigInteger(inMap.get("klassId").toString()),
+                new BigInteger(inMap.get("seminarId").toString()));
     }
 
     @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/question",
@@ -36,6 +37,7 @@ public class QuestionController {
     @RequestMapping(value="/question/{questionId}",method = RequestMethod.PUT)
     public boolean updateQuestionScoreByQuestionId(@RequestBody Map<String,Object> inMap){
         return questionService.updateQuestionScoreByQuestionId(
-                (BigInteger)inMap.get("questionId"));
+                new BigInteger(inMap.get("questionId").toString()),
+                new Double(inMap.get("questionScore").toString()));
     }
 }

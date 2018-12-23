@@ -3,7 +3,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.QuestionVO;
 import xmu.ghct.crm.mapper.QuestionMapper;
-
+import xmu.ghct.crm.entity.Question;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -12,20 +12,31 @@ public class QuestionDao {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public List<QuestionVO> getAllQuestion(BigInteger seminarId,BigInteger classId)
+    public List<QuestionVO> getAllQuestion(BigInteger klassSeminarId)
     {
-        List<QuestionVO> resultUser=questionMapper.getAllQuestion(seminarId,classId);
-        return resultUser;
+        List<QuestionVO> result=questionMapper.getAllQuestion(klassSeminarId);
+
+        return result;
     }
 
-    public int postQuestion(QuestionVO questionVO)
+    public BigInteger getTeamIdByStudentId(BigInteger studentId,BigInteger klassId)
     {
-        return questionMapper.postQuestion(questionVO);
+        return questionMapper.getTeamIdByStudentId(studentId,klassId);
     }
 
-    public boolean updateQuestionScoreByQuestionId(BigInteger questionId)
+    public BigInteger getKlassSeminarId(BigInteger klassId,BigInteger seminarId)
     {
-        int v1=questionMapper.updateQuestionScoreByQuestionId(questionId);
+        return questionMapper.getKlassSeminarId(klassId,seminarId);
+    }
+
+    public int postQuestion(Question question)
+    {
+        return questionMapper.postQuestion(question);
+    }
+
+    public boolean updateQuestionScoreByQuestionId(BigInteger questionId,Double questionScore)
+    {
+        int v1=questionMapper.updateQuestionScoreByQuestionId(questionId,questionScore);
         if(v1<=0){
             //throw
             return false;
