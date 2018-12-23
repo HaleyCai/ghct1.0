@@ -50,16 +50,16 @@ public class RequestService {
      * 修改共享请求状态
      * @param type
      * @param shareId
-     * @param newStatus
+     * @param status
      * @return
      */
-    public boolean updateShareStatus(int type,BigInteger shareId,int newStatus)
+    public boolean updateShareStatus(int type,BigInteger shareId,int status)
     {
         int success;
         if(type==1)
-            success=requestDao.updateTeamShareStatus(shareId,newStatus);
+            success=requestDao.updateTeamShareStatus(shareId,status);
         else
-            success=requestDao.updateSeminarShareStatus(shareId,newStatus);
+            success=requestDao.updateSeminarShareStatus(shareId,status);
         if(success==1)
             return true;
         else

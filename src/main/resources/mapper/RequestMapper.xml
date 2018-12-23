@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.ghct.crm.mapper.RequestMapper">
+
+    <select id="getAllTeamShare" resultMap="teamShareResult">
+        select *
+        from share_team_application
+        where status=#{status}
+    </select>
+
+    <select id="getAllSeminarShare" resultMap="seminarShareResult">
+        select *
+        from share_seminar_application
+        where status=#{status}
+    </select>
+
+    <select id="getTeamShare" resultMap="teamShareResult">
+        select *
+        from share_team_application
+        where status=#{status} and id=#{teamShareId}
+    </select>
+
+    <select id="getSeminarShare" resultMap="seminarShareResult">
+        select *
+        from share_seminar_application
+        where status=#{status} and id=#{seminarShareId}
+    </select>
+
+    <update id="updateTeamShareStatus">
+        update share_team_application
+        set status=#{status}
+        where id=#{teamShareId}
+    </update>
+
+    <update id="updateSeminarShareStatus">
+        update share_seminar_application
+        set status=#{status}
+        where id=#{seminarShareId}
+    </update>
+
+    <resultMap id="teamShareResult" type="xmu.ghct.crm.entity.Share">
+        <id property="teamShareId" column="id"/>
+        <result property="mainCourseId" column="main_course_id"/>
+        <result property="subCourseId" column="sub_course_id"/>
+        <result property="subCourseTeacherId" column="sub_course_teacher_id"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <resultMap id="seminarShareResult" type="xmu.ghct.crm.entity.Share">
+        <id property="seminarShareId" column="id"/>
+        <result property="mainCourseId" column="main_course_id"/>
+        <result property="subCourseId" column="sub_course_id"/>
+        <result property="subCourseTeacherId" column="sub_course_teacher_id"/>
+        <result property="status" column="status"/>
+    </resultMap>
+</mapper>

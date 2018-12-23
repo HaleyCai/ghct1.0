@@ -64,7 +64,7 @@ public class RequestController {
         return requestService.updateShareStatus(
                 1,
                 new BigInteger(inMap.get("shareId").toString()),
-                (int)inMap.get("newStatus"));
+                (int)inMap.get("status"));
     }
 
     /**
@@ -76,6 +76,6 @@ public class RequestController {
         return requestService.updateShareStatus(
                 0,
                 new BigInteger(inMap.get("shareId").toString()),
-                (int)inMap.get("newStatus"));
+                (int)inMap.get("status"));
     }
 }

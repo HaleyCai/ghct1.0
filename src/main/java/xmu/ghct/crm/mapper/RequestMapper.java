@@ -45,18 +45,18 @@ public interface RequestMapper {
     /**
      * 修改共享队伍请求状态
      * @param teamShareId
-     * @param newStatus
+     * @param status
      * @return
      */
-    int updateTeamShareStatus(BigInteger teamShareId,int newStatus);
+    int updateTeamShareStatus(BigInteger teamShareId,int status);
 
     /**
      * 修改共享讨论课请求状态
      * @param seminarShareId
-     * @param newStatus
+     * @param status
      * @return
      */
-    int updateSeminarShareStatus(BigInteger seminarShareId,int newStatus);
+    int updateSeminarShareStatus(BigInteger seminarShareId,int status);
 
 
 }

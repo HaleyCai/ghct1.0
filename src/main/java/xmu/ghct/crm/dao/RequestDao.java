@@ -54,22 +54,22 @@ public class RequestDao {
     /**
      * 修改共享队伍请求状态
      * @param teamShareId
-     * @param newStatus
+     * @param status
      * @return
      */
-    public int updateTeamShareStatus(BigInteger teamShareId,int newStatus)
+    public int updateTeamShareStatus(BigInteger teamShareId,int status)
     {
-        return requestMapper.updateTeamShareStatus(teamShareId,newStatus);
+        return requestMapper.updateTeamShareStatus(teamShareId,status);
     }
 
     /**
      * 修改共享讨论课请求状态
      * @param seminarShareId
-     * @param newStatus
+     * @param status
      * @return
      */
-    public int updateSeminarShareStatus(BigInteger seminarShareId,int newStatus)
+    public int updateSeminarShareStatus(BigInteger seminarShareId,int status)
     {
-        return requestMapper.updateSeminarShareStatus(seminarShareId,newStatus);
+        return requestMapper.updateSeminarShareStatus(seminarShareId,status);
     }
 }
