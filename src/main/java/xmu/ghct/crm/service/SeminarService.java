@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.node.BigIntegerNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import xmu.ghct.crm.VO.SeminarScoreVO;
-import xmu.ghct.crm.VO.SeminarSimpleVO;
-import xmu.ghct.crm.VO.SeminarVO;
+import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.mapper.ScoreMapper;
+import xmu.ghct.crm.mapper.SeminarMapper;
 
 import java.math.BigInteger;
 import java.text.ParseException;
@@ -38,6 +37,18 @@ public class SeminarService {
 
     @Autowired
     ScoreMapper scoreMapper;
+
+    @Autowired
+    ScoreDao scoreDao;
+
+    @Autowired
+    CourseDao courseDao;
+
+    @Autowired
+    ScoreCalculationDao scoreCalculationDao;
+
+    @Autowired
+    SeminarMapper seminarMapper;
 
     public int creatSeminar(Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
@@ -186,4 +197,40 @@ public class SeminarService {
         return  seminarScoreVO;
     }
 
+    /**
+     * @author hzm
+     * 更新讨论课成绩
+     * @param seminarId
+     * @param teamId
+     * @param seminarScoreMap
+     * @return
+     */
+    public int updateSeminarScoreBySeminarIdAndTeamId(BigInteger seminarId, BigInteger teamId, Map<String,Object> seminarScoreMap){
+        Score score=new Score();
+        BigInteger roundId=seminarMapper.getRoundIdBySeminarId(seminarId);
+        BigInteger courseId=courseDao.getCourseIdByTeamId(teamId);
+        System.out.println("课程ID"+courseId);
+        CourseVO courseVO=courseDao.getCourseByCourseId(courseId);
+        double presentationScore=new Double(seminarScoreMap.get("presentationScore").toString());
+        score.setTeamId(teamId);
+        score.setKlassSeminarId(seminarId);
+        score.setPresentationScore(presentationScore);
+        double questionScore=new Double(seminarScoreMap.get("questionScore").toString());
+        score.setQuestionScore(questionScore);
+        double reportScore=new Double(seminarScoreMap.get("reportScore").toString());
+        score.setReportScore(reportScore);
+        double totalScore=questionScore*(courseVO.getPresentationPercentage()*0.01)+questionScore*(courseVO.getQuestionPercentage()*0.01)+
+                          reportScore*(courseVO.getReportPercentage()*0.01);
+        score.setTotalScore(totalScore);
+        int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(score);
+        ScoreVO roundScoreVO=new ScoreVO();
+        Score roundScore=scoreCalculationDao.roundScoreCalculation(score,roundId,teamId,courseId);
+        roundScoreVO.setPresentationScore(roundScore.getPresentationScore());
+        roundScoreVO.setQuestionScore(roundScore.getQuestionScore());
+        roundScoreVO.setReportScore(roundScore.getReportScore());
+        roundScoreVO.setRoundId(roundId);
+        roundScoreVO.setTeamId(teamId);
+        scoreMapper.updateRoundScoreByRoundIdAndTeamId(roundScoreVO);
+        return flag;
+    }
 }

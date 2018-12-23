@@ -31,9 +31,39 @@
         where round_id=#{roundId}
     </select>
 
+    <select id="getTeamRoundScore" resultMap="roundScoreMap">
+        select round_id,team_id,total_score,report_score,question_score,presentation_score
+        from round_score
+        where round_id=#{roundId} and team_id=#{teamId}
+    </select>
+
     <delete id="deleteSeminarScoreBySeminarId" parameterType="java.math.BigInteger">
         delete from seminar_score where seminar_id=#{seminarId}
     </delete>
+
+    <update id="updateSeminarScoreBySeminarIdAndTeamId" parameterType="xmu.ghct.crm.entity.Score">
+        update seminar_score
+        set presentation_score=#{presentationScore},
+            question_score=#{questionScore},
+            report_score=#{reportScore},
+            total_score=#{totalScore}
+        where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
+    </update>
+
+    <select id="getSeminarScoreBySeminarIdAndTeamId" parameterType="java.math.BigInteger" resultMap="scoreMap">
+        select *
+        from seminar_score
+        where klass_seminar_id=#{seminarId} and team_id=#{teamId}
+    </select>
+
+    <update id="updateRoundScoreByRoundIdAndTeamId" parameterType="xmu.ghct.crm.VO.ScoreVO">
+        update round_score
+        set presentation_score=#{presentationScore},
+            question_score=#{questionScore},
+            report_score=#{reportScore},
+            total_score=#{totalScore}
+         where round_id=#{roundId} and team_id=#{teamId}
+    </update>
 
     <resultMap id="roundScoreMap" type="xmu.ghct.crm.VO.ScoreVO">
         <result property="roundId" column="round_id"/>

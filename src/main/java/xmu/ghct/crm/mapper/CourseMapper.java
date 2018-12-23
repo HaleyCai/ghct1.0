@@ -44,5 +44,11 @@ public interface CourseMapper {
      */
     int deleteCourseByCourseId(BigInteger courseId);
 
-
+    /**
+     * @author hzm
+     * 根据teamId获得courseId
+     * @param teamId
+     * @return
+     */
+    BigInteger getCourseIdByTeamId(BigInteger teamId);
 }

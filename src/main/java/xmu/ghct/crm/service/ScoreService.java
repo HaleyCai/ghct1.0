@@ -8,6 +8,7 @@ import xmu.ghct.crm.entity.Score;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ScoreService {
@@ -21,4 +22,9 @@ public class ScoreService {
     public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
         return scoreDao.deleteSeminarScoreBySeminarId(seminarId);
     }
+
+    public int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO){
+        return scoreDao.updateRoundScoreByRoundIdAndTeamId(scoreVO);
+    }
+
 }

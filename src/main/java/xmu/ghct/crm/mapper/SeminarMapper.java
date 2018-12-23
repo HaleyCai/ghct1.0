@@ -92,4 +92,13 @@ public interface SeminarMapper {
      * @return
      */
     int updateKlassSeminarStatus(SeminarVO seminarVO);
+
+
+    /**
+     * @author hzm
+     * 根据seminarId获得讨论课所属轮次id
+     * @param seminarId
+     * @return
+     */
+    BigInteger getRoundIdBySeminarId(BigInteger seminarId);
 }

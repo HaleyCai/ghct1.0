@@ -57,4 +57,13 @@ public class ScoreDao {
     public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
         return scoreMapper.deleteSeminarScoreBySeminarId(seminarId);
     }
+
+    public  int updateSeminarScoreBySeminarIdAndTeamId(Score score){
+        return scoreMapper.updateSeminarScoreBySeminarIdAndTeamId(score);
+    }
+
+
+    public int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO){
+        return scoreMapper.updateRoundScoreByRoundIdAndTeamId(scoreVO);
+    }
 }

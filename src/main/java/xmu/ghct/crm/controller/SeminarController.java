@@ -107,4 +107,12 @@ public class SeminarController {
         return seminarService.getTeamSeminarScoreByTeamIdAndSeminarId(teamId,seminarId);
     }
 
+    @PutMapping("seminar/{seminarId}/team/{teamId}/seminarScore")
+    public boolean updateSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId") BigInteger seminarId,
+                                                          @PathVariable("teamId") BigInteger teamId,@RequestBody Map<String,Object> seminarScoreMap){
+        int flag=seminarService.updateSeminarScoreBySeminarIdAndTeamId(seminarId,teamId,seminarScoreMap);
+        if(flag>0) return true;
+        else return false;
+    }
+
 }

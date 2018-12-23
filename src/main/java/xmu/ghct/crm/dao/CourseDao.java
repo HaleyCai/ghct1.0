@@ -63,4 +63,8 @@ public class CourseDao {
         return courseMapper.deleteCourseByCourseId(courseId);
     }
 
+    public BigInteger getCourseIdByTeamId(BigInteger teamId){
+        return courseMapper.getCourseIdByTeamId(teamId);
+    }
+
 }

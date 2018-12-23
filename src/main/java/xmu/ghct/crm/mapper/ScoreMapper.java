@@ -41,4 +41,39 @@ public interface ScoreMapper {
      * @return
      */
     int deleteSeminarScoreBySeminarId(BigInteger seminarId);
+
+
+    /**
+     * @author hzm
+     * 根据seminarId和teamId更新讨论课成绩
+     * @param seminarId
+     * @return
+     */
+    int updateSeminarScoreBySeminarIdAndTeamId(Score score);
+
+
+    /**
+     * @author hzm
+     * 根据seminarId和teamId获得讨论课成绩
+     * @param seminarId
+     * @return
+     */
+    Score getSeminarScoreBySeminarIdAndTeamId(BigInteger seminarId,BigInteger teamId);
+
+    /**
+     * @author hzm
+     * 根据roundId和teamId获得小组轮次成绩
+     * @param roundId
+     * @param teamId
+     * @return
+     */
+    ScoreVO getTeamRoundScore(BigInteger roundId,BigInteger teamId);
+
+    /**
+     * @author hzm
+     * 根据roundId和teamId修改轮次成绩
+     * @param scoreVO
+     * @return
+     */
+    int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO);
 }

@@ -83,6 +83,12 @@
         set status=#{status}
         where klass_id=#{klassId}
     </update>
+
+    <select id="getRoundIdBySeminarId" resultType="java.math.BigInteger">
+        select round_id
+        from seminar
+        where id=#{seminarId}
+    </select>
     
     <resultMap id="klassSeminarResultMap" type="xmu.ghct.crm.VO.SeminarVO">
         <result property="reportDDL" column="report_ddl"/>

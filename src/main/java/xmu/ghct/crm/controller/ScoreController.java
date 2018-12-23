@@ -19,4 +19,6 @@ public class ScoreController {
     public List<ScoreVO> listScoreByCourseId(@PathVariable("courseId") BigInteger courseId){
         return scoreService.listScoreByCourseId(courseId);
     }
+
+
 }
