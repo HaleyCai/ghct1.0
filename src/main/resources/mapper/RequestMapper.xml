@@ -53,4 +53,31 @@
         <result property="subCourseTeacherId" column="sub_course_teacher_id"/>
         <result property="status" column="status"/>
     </resultMap>
+
+
+    <select id="getAllTeamApplication" resultMap="teamApplicationResult">
+        select *
+        from share_valid_application
+        where status=#{status}
+    </select>
+
+    <select id="getTeamApplication" resultMap="teamApplicationResult">
+        select *
+        from share_valid_application
+        where status=#{status} and id=#{teamValidId}
+    </select>
+
+    <update id="updateTeamApplicationStatus">
+        update share_application_application
+        set status=#{status}
+        where id=#{teamValidId}
+    </update>
+
+    <resultMap id="seminarShareResult" type="xmu.ghct.crm.VO.TeamApplicationVO">
+        <id property="teamValidId" column="id"/>
+        <result property="teamId" column="team_id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="reason" column="reason"/>
+        <result property="status" column="status"/>
+    </resultMap>
 </mapper>

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.dao.RequestDao;
 import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.VO.TeamApplicationVO;
 
 import java.util.List;
 import java.math.BigInteger;
@@ -60,6 +61,42 @@ public class RequestService {
             success=requestDao.updateTeamShareStatus(shareId,status);
         else
             success=requestDao.updateSeminarShareStatus(shareId,status);
+        if(success==1)
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     * 获得组队申请信息列表
+     * @param status
+     * @return
+     */
+    public List<TeamApplicationVO> getAllTeamApplication(int status)
+    {
+        return requestDao.getAllTeamApplication(status);
+    }
+
+    /**
+     * 获得某一个组队申请信息
+     * @param teamValidId
+     * @param status
+     * @return
+     */
+    public TeamApplicationVO getTeamApplication(BigInteger teamValidId,int status)
+    {
+        return requestDao.getTeamApplication(teamValidId,status);
+    }
+
+    /**
+     * 修改组队请求状态
+     * @param teamValidId
+     * @param status
+     * @return
+     */
+    public boolean updateTeamApplicationStatus(BigInteger teamValidId,int status)
+    {
+        int success=requestDao.updateTeamApplicationStatus(teamValidId,status);
         if(success==1)
             return true;
         else
