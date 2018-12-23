@@ -2,6 +2,7 @@ package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.entity.Seminar;
 
 import java.math.BigInteger;
@@ -73,4 +74,13 @@ public interface SeminarMapper {
      * @return
      */
     int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId, BigInteger seminarId);
+
+    /**
+     * @author hzm
+     * 根据klassId和semianrId获取班级讨论课信息
+     * @param klassId
+     * @param seminarId
+     * @return
+     */
+    SeminarVO getKlassSeminarByKlassIdAndSeminarId(BigInteger klassId,BigInteger seminarId);
 }

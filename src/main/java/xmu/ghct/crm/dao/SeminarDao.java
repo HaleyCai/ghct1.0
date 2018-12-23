@@ -2,6 +2,7 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.mapper.SeminarMapper;
 
@@ -41,5 +42,9 @@ public class SeminarDao {
 
     public int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId){
         return seminarMapper.deleteKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+    }
+
+    public SeminarVO getKlassSeminarByKlassIdAndSeminarId(BigInteger klassId,BigInteger seminarId){
+        return seminarMapper.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
     }
 }

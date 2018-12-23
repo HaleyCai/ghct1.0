@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import xmu.ghct.crm.VO.SeminarSimpleVO;
+import xmu.ghct.crm.VO.SeminarVO;
+import xmu.ghct.crm.dao.DateDao;
 import xmu.ghct.crm.dao.KlassDao;
 import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.dao.SeminarDao;
@@ -30,6 +32,9 @@ public class SeminarService {
 
     @Autowired
     KlassDao klassDao;
+
+    @Autowired
+    DateDao dateDao;
 
     public int creatSeminar(Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
@@ -122,6 +127,26 @@ public class SeminarService {
 
     public int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId){
         return seminarDao.deleteKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+    }
+
+    /**
+     * @author hzm
+     * 根据seminarId和klassId获得班级讨论课信息
+     * @param klassId
+     * @param seminarId
+     * @return
+     */
+    public SeminarVO getKlassSeminarByKlassIdAndSeminarId(BigInteger klassId, BigInteger seminarId) {
+        SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
+        Seminar seminar=seminarDao.getSeminarBySeminarId(seminarId);
+        seminarVO.setEnrollEndTime(seminar.getEnrollEndTime());
+        seminarVO.setEnrollStartTime(seminar.getEnrollStartTime());
+        seminarVO.setMaxTeam(seminar.getMaxTeam());
+        seminarVO.setIntroduction(seminar.getIntroduction());
+        seminarVO.setSeminarName(seminar.getSeminarName());
+        seminarVO.setSeminarId(seminarId);
+        seminarVO.setSeminarSerial(seminar.getSeminarSerial());
+        return seminarVO;
     }
 
 }

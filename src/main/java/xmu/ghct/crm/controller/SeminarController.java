@@ -3,6 +3,7 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.SeminarSimpleVO;
+import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.service.KlassService;
@@ -77,12 +78,21 @@ public class SeminarController {
         else return  false;
     }
 
+
     @DeleteMapping("/seminar/{seminarId}/klass/{klassId}")
     public boolean deleteKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId){
         int flag=seminarService.deleteKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
         if(flag>0) return true;
         else return false;
     }
+
+
+    @GetMapping("seminar/{seminarId}/klass/{klassId}")
+    public SeminarVO getKlassSeminarByKlassIdAndSeminarId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId){
+        return seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
+
+    }
+
 
 
 }

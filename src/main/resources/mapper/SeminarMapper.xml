@@ -56,7 +56,7 @@
         delete from klass_seminar where seminar_id=#{seminarId}
     </delete>
 
-    <select id="getSeminarBySeminarId" parameterType="java.math.BigInteger">
+    <select id="getSeminarBySeminarId" parameterType="java.math.BigInteger" resultMap="seminarResultMap">
         select *
         from seminar
         where id=#{seminarId}
@@ -67,10 +67,23 @@
         set report_ddl=#{reportDDL}
         where klass_id=#{klassId} and seminarId=#{seminarId}
     </update>
+    
+    
+    <!--hzm-->
+    <select id="getKlassSeminarByKlassIdAndSeminarId" parameterType="java.math.BigInteger" resultMap="klassSeminarResultMap">
+        select report_ddl,status
+        from klass_seminar
+        where klass_id=#{klassId} and seminar_id=#{seminarId}
+    </select>
 
     <delete id="deleteKlassSeminarBySeminarIdAndKlassId" parameterType="java.math.BigInteger">
         delete from klass_seminar where id=#{seminarId} and klass_id=#{klassId}
     </delete>
+    
+    <resultMap id="klassSeminarResultMap" type="xmu.ghct.crm.VO.SeminarVO">
+        <result property="reportDDL" column="report_ddl"/>
+        <result property="status" column="status"/>
+    </resultMap>
 
     <resultMap id="seminarResultMap" type="xmu.ghct.crm.entity.Seminar">
         <id property="seminarId" column="id"/>
