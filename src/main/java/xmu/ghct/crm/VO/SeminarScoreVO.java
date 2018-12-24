@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 public class SeminarScoreVO {
 
+    private BigInteger klassSeminarId;
     private BigInteger seminarId;
     private BigInteger teamId;
     private String teamName;
@@ -17,6 +18,14 @@ public class SeminarScoreVO {
     private double questionScore;
     private double reportScore;
     private double totalScore;
+
+    public BigInteger getKlassSeminarId() {
+        return klassSeminarId;
+    }
+
+    public void setKlassSeminarId(BigInteger klassSeminarId) {
+        this.klassSeminarId = klassSeminarId;
+    }
 
     public void setSeminarId(BigInteger seminarId) {
         this.seminarId = seminarId;
@@ -125,7 +134,8 @@ public class SeminarScoreVO {
     @Override
     public String toString() {
         return "SeminarScoreVO{" +
-                "seminarId=" + seminarId +
+                "klassSeminarId=" + klassSeminarId +
+                ", seminarId=" + seminarId +
                 ", teamId=" + teamId +
                 ", teamName='" + teamName + '\'' +
                 ", seminarName='" + seminarName + '\'' +

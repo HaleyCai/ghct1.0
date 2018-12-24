@@ -111,4 +111,29 @@ public interface SeminarMapper {
      * @return
      */
     BigInteger getKlassSeminarIdBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId);
+
+
+    /**
+     * @cyq
+     * 根据seminarId获得所有的klassSeminarId
+     * @param seminarId
+     * @return
+     */
+    List<BigInteger> getAllKlassSeminarIdBySeminarId(BigInteger seminarId);
+
+    /**
+     * @cyq
+     * 根据seminarId返回讨论课名字
+     * @param seminarId
+     * @return
+     */
+    String getSeminarNameBySeminarId(BigInteger seminarId);
+
+    /**
+     * @cyq
+     * 根据seminarId返回讨论课序号，用来排序
+     * @param seminarId
+     * @return
+     */
+    Integer getSeminarSerialBySeminarId(BigInteger seminarId);
 }

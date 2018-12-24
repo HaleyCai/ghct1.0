@@ -1,19 +1,82 @@
 package xmu.ghct.crm.VO;
-
-import xmu.ghct.crm.entity.Score;
-
 import java.math.BigInteger;
 import java.util.List;
 
 public class ScoreVO {
 
     private BigInteger roundId;
-    private  BigInteger teamId;
+    private int roundSerial;
+    private BigInteger teamId;
+    private int teamSerial;
     private double presentationScore;
     private double questionScore;
     private double reportScore;
     private double totalScore;
     private List<SeminarScoreVO> scoreList;
+
+    public BigInteger getRoundId() {
+        return roundId;
+    }
+
+    public void setRoundId(BigInteger roundId) {
+        this.roundId = roundId;
+    }
+
+    public int getRoundSerial() {
+        return roundSerial;
+    }
+
+    public void setRoundSerial(int roundSerial) {
+        this.roundSerial = roundSerial;
+    }
+
+    public BigInteger getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(BigInteger teamId) {
+        this.teamId = teamId;
+    }
+
+    public int getTeamSerial() {
+        return teamSerial;
+    }
+
+    public void setTeamSerial(int teamSerial) {
+        this.teamSerial = teamSerial;
+    }
+
+    public double getPresentationScore() {
+        return presentationScore;
+    }
+
+    public void setPresentationScore(double presentationScore) {
+        this.presentationScore = presentationScore;
+    }
+
+    public double getQuestionScore() {
+        return questionScore;
+    }
+
+    public void setQuestionScore(double questionScore) {
+        this.questionScore = questionScore;
+    }
+
+    public double getReportScore() {
+        return reportScore;
+    }
+
+    public void setReportScore(double reportScore) {
+        this.reportScore = reportScore;
+    }
+
+    public double getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(double totalScore) {
+        this.totalScore = totalScore;
+    }
 
     public List<SeminarScoreVO> getScoreList() {
         return scoreList;
@@ -23,59 +86,13 @@ public class ScoreVO {
         this.scoreList = scoreList;
     }
 
-    public BigInteger getRoundId() {
-        return roundId;
-    }
-
-    public BigInteger getTeamId() {
-        return teamId;
-    }
-
-    public double getPresentationScore() {
-        return presentationScore;
-    }
-
-    public double getQuestionScore() {
-        return questionScore;
-    }
-
-    public double getReportScore() {
-        return reportScore;
-    }
-
-    public double getTotalScore() {
-        return totalScore;
-    }
-
-    public void setRoundId(BigInteger roundId) {
-        this.roundId = roundId;
-    }
-
-    public void setTeamId(BigInteger teamId) {
-        this.teamId = teamId;
-    }
-
-    public void setPresentationScore(double presentationScore) {
-        this.presentationScore = presentationScore;
-    }
-
-    public void setQuestionScore(double questionScore) {
-        this.questionScore = questionScore;
-    }
-
-    public void setReportScore(double reportScore) {
-        this.reportScore = reportScore;
-    }
-
-    public void setTotalScore(double totalScore) {
-        this.totalScore = totalScore;
-    }
-
     @Override
     public String toString() {
         return "ScoreVO{" +
                 "roundId=" + roundId +
+                ", roundSerial='" + roundSerial + '\'' +
                 ", teamId=" + teamId +
+                ", teamSerial=" + teamSerial +
                 ", presentationScore=" + presentationScore +
                 ", questionScore=" + questionScore +
                 ", reportScore=" + reportScore +
@@ -83,5 +100,4 @@ public class ScoreVO {
                 ", scoreList=" + scoreList +
                 '}';
     }
-
 }

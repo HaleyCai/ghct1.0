@@ -114,4 +114,22 @@
         <result property="enrollEndTime" column="enroll_end_time"/>
     </resultMap>
 
+    <!-- cyq-->
+    <select id="getAllKlassSeminarIdBySeminarId" resultType="java.math.BigInteger">
+        select id
+        from klass_seminar
+        where seminar_id=#{seminarId}
+    </select>
+    
+    <select id="getSeminarNameBySeminarId" resultType="java.lang.String">
+        select seminar_name
+        from seminar
+        where id=#{seminarId}
+    </select>
+
+    <select id="getSeminarSerialBySeminarId" resultType="java.lang.Integer">
+        select seminar_serial
+        from seminar
+        where id=#{seminarId}
+    </select>
 </mapper>

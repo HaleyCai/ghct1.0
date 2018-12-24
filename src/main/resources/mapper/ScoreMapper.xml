@@ -35,7 +35,7 @@
         where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
     </update>
 
-    <select id="getSeminarScoreBySeminarIdAndTeamId" parameterType="java.math.BigInteger" resultMap="scoreMap">
+    <select id="getSeminarScoreBySeminarIdAndTeamId" resultMap="scoreMap">
         select *
         from seminar_score
         where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}

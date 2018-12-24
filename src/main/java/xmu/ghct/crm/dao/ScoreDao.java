@@ -13,8 +13,7 @@ import xmu.ghct.crm.mapper.SeminarMapper;
 import xmu.ghct.crm.mapper.TeamMapper;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class ScoreDao {
@@ -31,20 +30,52 @@ public class ScoreDao {
     SeminarMapper seminarMapper;
 
 
+    /**
+     * 根据课程查找所有的成绩
+     * @param courseId
+     * @return
+     */
     public List<ScoreVO> listScoreByCourseId(BigInteger courseId){
    //     List<BigInteger> teamIdList=teamMapper.getTeamIdByCourseId(courseId);
         List<Round> roundList=roundMapper.listRoundByCourseId(courseId);  //获得该课程下的所有轮次
         List<ScoreVO> allScoreVOList=new ArrayList<>();                   //存储所有的小组的成绩ScoreVO
         for(Round roundItem:roundList){                                   //依次循环每一轮次
-            List<ScoreVO> scoreVOList=scoreMapper.getRoundScore(roundItem.getRoundId());                  //在round_score表查询该轮次下的所有成绩
-            List<BigInteger> seminarIdList=seminarMapper.getSeminarIdByRoundId(roundItem.getRoundId());   //获得该轮次下的所有讨论课ID
-            for(ScoreVO scoreVOItem:scoreVOList){                                                         //依次循环每一项round_score项，即每一个组的轮次成绩信息
-                List<SeminarScoreVO> scoreList= new ArrayList<>();                                                 //新建用以存储该小组该次讨论课下的所有讨论课成绩
-                for(BigInteger bItem:seminarIdList) {                                                     //依次遍历该轮次所有讨论课，与teamID与操作查找该小组的讨论课成绩
-                    Score scoreItem=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(bItem, scoreVOItem.getTeamId());
-                    SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
-                    if(scoreItem!=null)
-                        scoreList.add(seminarScoreVO);
+            List<ScoreVO> scoreVOList=scoreMapper.getRoundScore(roundItem.getRoundId());                  //在round_score表查询该轮次下的总成绩
+            List<BigInteger> seminarIdList=seminarMapper.getSeminarIdByRoundId(roundItem.getRoundId());   //获得该课程该轮次下的所有讨论课ID
+            for(ScoreVO scoreVOItem:scoreVOList){
+                //一个scoreVO，对应一个team的一个轮次成绩，查找一个team在该轮次的所有klass_seminar的每次成绩，加入scoreVO的list
+                //写入round序号
+                scoreVOItem.setRoundSerial(roundItem.getRoundSerial());
+                //写入team序号
+                scoreVOItem.setTeamSerial(teamMapper.getTeamInfoByTeamId(scoreVOItem.getTeamId()).getTeamSerial());
+                List<SeminarScoreVO> scoreList= new ArrayList<>();
+
+                for(BigInteger sItem:seminarIdList) {
+                    //查出每一个seminar下的，该小组参加的，klass_seminar
+                    //所有的klass_seminar
+                    List<BigInteger> klassSeminarIdList=seminarMapper.getAllKlassSeminarIdBySeminarId(sItem);
+
+                    //依次遍历每节讨论课，查找该team参加的讨论课成绩
+                    for(BigInteger ksItem:klassSeminarIdList){
+                        Score klassSeminarScore=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(ksItem, scoreVOItem.getTeamId());
+                        if(klassSeminarScore!=null)
+                        {
+                            //Score转SeminarScoreVO
+                            SeminarScoreVO klassSeminarScoreVO=new SeminarScoreVO();
+                            klassSeminarScoreVO.setSeminarId(sItem);
+                            klassSeminarScoreVO.setKlassSeminarId(ksItem);
+                            //查seminar name返回
+                            klassSeminarScoreVO.setSeminarName(seminarMapper.getSeminarNameBySeminarId(sItem));
+                            //查seminar serial返回，前端在显示时排序
+                            klassSeminarScoreVO.setSeminarSerial(seminarMapper.getSeminarSerialBySeminarId(sItem));
+                            klassSeminarScoreVO.setPresentationScore(klassSeminarScore.getPresentationScore());
+                            klassSeminarScoreVO.setReportScore(klassSeminarScore.getReportScore());
+                            klassSeminarScoreVO.setQuestionScore(klassSeminarScore.getQuestionScore());
+                            klassSeminarScoreVO.setTotalScore(klassSeminarScore.getTotalScore());
+                            scoreList.add(klassSeminarScoreVO);
+                        }
+
+                    }
                 }
                 scoreVOItem.setScoreList(scoreList);     //添加讨论课List进ScoreVO
                 allScoreVOList.add(scoreVOItem);         //将ScoreVO加进 allScoreVOList
@@ -56,37 +87,11 @@ public class ScoreDao {
         return allScoreVOList;
     }
 
-    //1.根据courseId查所有的roundId【表round】
-    //2.1.根据roundId查所有的轮次成绩【表round_score】（总成绩）+每节seminar的成绩=》
-    //2.2.根据roundId查其下所有的seminarId【表seminar】
-    //2.3.根据seminarId查所有的klassSeminarId【表klass_seminar】
-    //2.4.根据klassSeminarId查所有的team的每节seminar成绩【表seminar_score】
-
     public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
         return scoreMapper.deleteSeminarScoreBySeminarId(seminarId);
     }
 
-    /**
-     * @cyq
-     * 根据roundId获取轮次下所有成绩
-     * @param roundId
-     * @return
-     */
-    public List<ScoreVO> listScoreByRoundId(BigInteger roundId){
-        return scoreMapper.getRoundScore(roundId);
-    }
 
-    /**
-     * @cyq
-     * 某小组，某轮次的总成绩
-     * @param roundId
-     * @param teamId
-     * @return
-     */
-    public ScoreVO getTeamRoundScore(BigInteger roundId,BigInteger teamId)
-    {
-        return scoreMapper.getRoundScoreByRoundIdAndTeamId(roundId,teamId);
-    }
 
     public  int updateSeminarScoreBySeminarIdAndTeamId(Score score){
         return scoreMapper.updateSeminarScoreBySeminarIdAndTeamId(score);

@@ -13,12 +13,6 @@ import java.util.List;
 @Component
 public interface ScoreMapper {
 
-    /**
-     * 根据teamId获得成绩信息
-     * @param teamId
-     * @return
-     */
-    List<Score> listScoreByTeamId(BigInteger teamId);
 
     /**
      * 根据roundId获得该轮次下所有小组成绩
@@ -69,13 +63,4 @@ public interface ScoreMapper {
      * @return
      */
     int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO);
-
-    /**
-     * @cyq
-     * 获取一个队伍的一个轮次的总成绩
-     * @param roundId
-     * @param teamId
-     * @return
-     */
-    ScoreVO getRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId);
 }
