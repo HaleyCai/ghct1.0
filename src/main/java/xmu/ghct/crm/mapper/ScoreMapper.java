@@ -28,14 +28,6 @@ public interface ScoreMapper {
     List<ScoreVO> getRoundScore(BigInteger roundId);
 
     /**
-     * 根据teamId和seminarId获得讨论课成绩
-     * @param seminarId
-     * @param teamId
-     * @return
-     */
-    Score getScoreBySeminarIdAndTeamId(BigInteger seminarId,BigInteger teamId);
-
-    /**
      * 删除id为seminarId下的所有讨论课成绩
      * @param seminarId
      * @return
@@ -46,7 +38,7 @@ public interface ScoreMapper {
     /**
      * @author hzm
      * 根据seminarId和teamId更新讨论课成绩
-     * @param seminarId
+     * @param score
      * @return
      */
     int updateSeminarScoreBySeminarIdAndTeamId(Score score);
@@ -55,10 +47,11 @@ public interface ScoreMapper {
     /**
      * @author hzm
      * 根据seminarId和teamId获得讨论课成绩
-     * @param seminarId
+     * @param klassSeminarId
+     * @param teamId
      * @return
      */
-    Score getSeminarScoreBySeminarIdAndTeamId(BigInteger seminarId,BigInteger teamId);
+    Score getSeminarScoreBySeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId);
 
     /**
      * @author hzm

@@ -181,7 +181,7 @@ public class SeminarService {
         Team teamInfo=teamDao.getTeamInfoByTeamId(teamId);
         Seminar seminarInfo=seminarDao.getSeminarBySeminarId(seminarId);
         Klass klassInfo=klassDao.getKlassByKlassId(teamInfo.getKlassId());
-        Score seminarScore=scoreMapper.getScoreBySeminarIdAndTeamId(seminarId,teamId);
+        Score seminarScore=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(seminarId,teamId);
         seminarScoreVO.setSeminarId(seminarId);
         seminarScoreVO.setTeamId(teamInfo.getTeamId());
         seminarScoreVO.setTeamSerial(teamInfo.getTeamSerial());

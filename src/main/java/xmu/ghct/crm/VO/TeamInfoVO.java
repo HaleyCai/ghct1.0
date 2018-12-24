@@ -8,7 +8,7 @@ public class TeamInfoVO implements Serializable {
 
     private BigInteger teamId;
     private String teamName;
-    Double teamSerial;
+    int teamSerial;
     int status;
    StudentVO teamLeader;
     List<StudentVO> members;
@@ -21,7 +21,7 @@ public class TeamInfoVO implements Serializable {
         return teamName;
     }
 
-    public Double getTeamSerial() {
+    public int getTeamSerial() {
         return teamSerial;
     }
 
@@ -45,7 +45,7 @@ public class TeamInfoVO implements Serializable {
         this.teamName = teamName;
     }
 
-    public void setTeamSerial(Double teamSerial) {
+    public void setTeamSerial(int teamSerial) {
         this.teamSerial = teamSerial;
     }
 

@@ -9,7 +9,7 @@ public class Team {
     BigInteger courseId;
     BigInteger leaderId;
     String teamName;
-    Double teamSerial;
+    int teamSerial;
     int status;
 
     public BigInteger getTeamId() {
@@ -32,7 +32,7 @@ public class Team {
         return teamName;
     }
 
-    public Double getTeamSerial() {
+    public int getTeamSerial() {
         return teamSerial;
     }
 
@@ -61,7 +61,7 @@ public class Team {
         this.teamName = teamName;
     }
 
-    public void setTeamSerial(Double teamSerial) {
+    public void setTeamSerial(int teamSerial) {
         this.teamSerial = teamSerial;
     }
 

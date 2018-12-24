@@ -41,7 +41,7 @@ public class ScoreDao {
             for(ScoreVO scoreVOItem:scoreVOList){                                                         //依次循环每一项round_score项，即每一个组的轮次成绩信息
                 List<SeminarScoreVO> scoreList= new ArrayList<>();                                                 //新建用以存储该小组该次讨论课下的所有讨论课成绩
                 for(BigInteger bItem:seminarIdList) {                                                     //依次遍历该轮次所有讨论课，与teamID与操作查找该小组的讨论课成绩
-                    Score scoreItem=scoreMapper.getScoreBySeminarIdAndTeamId(bItem, scoreVOItem.getTeamId());
+                    Score scoreItem=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(bItem, scoreVOItem.getTeamId());
                     SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
                     if(scoreItem!=null)
                         scoreList.add(seminarScoreVO);
