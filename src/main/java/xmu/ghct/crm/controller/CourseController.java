@@ -127,7 +127,7 @@ public class CourseController {
 
     /**
      * @cyq
-     * 自己加的api，修改本轮各个班级允许的报名次数，见页面“轮次设置”
+     * 自己加的api，修改本轮各个班级允许的报名次数，见页面“轮次设置”，最大值为该轮次下seminar的数量
      * @param inMap
      * @return
      */

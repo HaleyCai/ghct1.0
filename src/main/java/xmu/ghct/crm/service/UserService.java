@@ -64,23 +64,24 @@ public class UserService {
     }
 
     /**
-     * 初次登录要激活账号，设置对应密码，填写邮箱
+     * 教师激活账号
+     * @param account
+     * @param password
+     * @return
+     */
+    public boolean teacherActive(String account, String password){
+        return teacherDao.activeByAccount(account,password);
+    }
+
+    /**
+     * 学生激活账号
      * @param account
      * @param password
      * @param email
-     * @param type
+     * @return
      */
-    public boolean active(String account, String password, String email,int type){
-        Map<String,Object> resultMap=new HashMap<>();
-        boolean success=false;
-        if(type==1)
-            success=teacherDao.activeByAccount(account,password);
-        else
-            success=studentDao.activeByAccount(account,password,email);
-        if(success)
-            return true;
-        else
-            return false;
+    public boolean studentActive(String account,String password,String email){
+        return studentDao.activeByAccount(account,password,email);
     }
 
     /**

@@ -11,20 +11,20 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping(value="/user")
+@RequestMapping(value="")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    //***token做好后，放到httpRequest中，每个函数可以获得，jwt中有account和isTeacher的值，现在先假定从前端传入
+    //***token做好后，放到httpRequest中，每个函数可以获得，jwt中有userId和type的值，现在先假定从前端传入
 
     /**
      * 登录，前端传参account,password,type
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/login",method = RequestMethod.POST)
+    @RequestMapping(value="/user/login",method = RequestMethod.POST)
     public Map<String,Object> login(@RequestBody Map<String,Object> inMap)
     {
         return userService.login(
@@ -35,25 +35,36 @@ public class UserController {
     }
 
     /**
-     * 初次登录会激活账号，前端传参account，password，email，type
+     * 教师激活账号，前端传参password，account根据jwt获得
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/active",method = RequestMethod.PUT)
-    public boolean active(@RequestBody Map<String,Object> inMap){
-        return userService.active(
-                (String)inMap.get("account"),
-                (String)inMap.get(("password")),
-                (String)inMap.get("email"),
-                (int)inMap.get("type"));
+    @RequestMapping(value="/teacher/active",method = RequestMethod.PUT)
+    public boolean teacherActive(@RequestBody Map<String,Object> inMap){
+        return userService.teacherActive(
+                inMap.get("account").toString(),
+                inMap.get("password").toString());
     }
 
     /**
-     * 根据account查询个人信息，前端传参account,type
+     * 学生激活账号，前端传参password，email，account根据jwt获得
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/information",method = RequestMethod.GET)
+    @RequestMapping(value="/student/active",method = RequestMethod.PUT)
+    public boolean studentActive(@RequestBody Map<String,Object> inMap){
+        return userService.studentActive(
+                inMap.get("account").toString(),
+                inMap.get("password").toString(),
+                inMap.get("email").toString());
+    }
+
+    /**
+     * 根据account查询个人信息，前端传参account,type，account根据jwt获得
+     * @param inMap
+     * @return
+     */
+    @RequestMapping(value="/user/information",method = RequestMethod.GET)
     public User getInformation(@RequestBody Map<String,Object> inMap){
         return userService.getInformation(
                 (String)inMap.get("account"),
@@ -61,11 +72,11 @@ public class UserController {
     }
 
     /**
-     * 根据account修改密码，前端传参account,password,type
+     * 根据account修改密码，前端传参account,password,type，account根据jwt获得
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/password",method = RequestMethod.PUT)
+    @RequestMapping(value="/user/password",method = RequestMethod.PUT)
     public boolean modifyPassword(@RequestBody Map<String,Object> inMap){
         return userService.modifyPassword(
                 (String)inMap.get("account"),
@@ -74,10 +85,10 @@ public class UserController {
     }
 
     /**
-     * 忘记密码时，将密码发送到用户的邮箱中，前端传参account，type
+     * 忘记密码时，将密码发送到用户的邮箱中，前端传参account，type，account根据jwt获得
      * @param inMap
      */
-    @RequestMapping(value="/password",method = RequestMethod.GET)
+    @RequestMapping(value="/user/password",method = RequestMethod.GET)
     public void sendPasswordToEmail(@RequestBody Map<String,Object> inMap)
     {
         userService.sendPasswordToEmail(
@@ -86,11 +97,11 @@ public class UserController {
     }
 
     /**
-     * 根据account修改邮箱，前端传参account，email，type
+     * 根据account修改邮箱，前端传参account，email，type，account根据jwt获得
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/email",method = RequestMethod.PUT)
+    @RequestMapping(value="/user/email",method = RequestMethod.PUT)
     public boolean modifyEmail(@RequestBody Map<String,Object> inMap){
         return userService.modifyEmail(
                 (String)inMap.get("account"),

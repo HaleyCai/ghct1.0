@@ -31,7 +31,7 @@ public class SeminarController {
      * @param roundId
      * @return
      */
-    @RequestMapping(value="round/{roundId}/seminar",method = RequestMethod.GET)
+    @RequestMapping(value="/round/{roundId}/seminar",method = RequestMethod.GET)
     @ResponseBody
     public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") BigInteger roundId)
     {

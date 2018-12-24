@@ -31,8 +31,7 @@ public class ScoreController {
      * @param teamId
      * @return
      */
-
-    @RequestMapping(value="/course/{courseId}/team/{teamId}/score")
+    @RequestMapping(value="/course/{courseId}/team/{teamId}/score",method = RequestMethod.GET)
     public List<ScoreVO> getScoreByRoundIdTeamId(@PathVariable("courseId") BigInteger courseId,
                                        @PathVariable("teamId") BigInteger teamId)
     {
