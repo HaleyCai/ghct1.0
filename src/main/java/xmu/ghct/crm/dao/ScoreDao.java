@@ -36,7 +36,6 @@ public class ScoreDao {
      * @return
      */
     public List<ScoreVO> listScoreByCourseId(BigInteger courseId){
-   //     List<BigInteger> teamIdList=teamMapper.getTeamIdByCourseId(courseId);
         List<Round> roundList=roundMapper.listRoundByCourseId(courseId);  //获得该课程下的所有轮次
         List<ScoreVO> allScoreVOList=new ArrayList<>();                   //存储所有的小组的成绩ScoreVO
         for(Round roundItem:roundList){                                   //依次循环每一轮次
@@ -61,20 +60,8 @@ public class ScoreDao {
                         if(klassSeminarScore!=null)
                         {
                             //Score转SeminarScoreVO
-                            SeminarScoreVO klassSeminarScoreVO=new SeminarScoreVO();
-                            klassSeminarScoreVO.setSeminarId(sItem);
-                            klassSeminarScoreVO.setKlassSeminarId(ksItem);
-                            //查seminar name返回
-                            klassSeminarScoreVO.setSeminarName(seminarMapper.getSeminarNameBySeminarId(sItem));
-                            //查seminar serial返回，前端在显示时排序
-                            klassSeminarScoreVO.setSeminarSerial(seminarMapper.getSeminarSerialBySeminarId(sItem));
-                            klassSeminarScoreVO.setPresentationScore(klassSeminarScore.getPresentationScore());
-                            klassSeminarScoreVO.setReportScore(klassSeminarScore.getReportScore());
-                            klassSeminarScoreVO.setQuestionScore(klassSeminarScore.getQuestionScore());
-                            klassSeminarScoreVO.setTotalScore(klassSeminarScore.getTotalScore());
-                            scoreList.add(klassSeminarScoreVO);
+                            scoreList.add(scoreTOSeminarScoreVO(sItem,ksItem,klassSeminarScore));
                         }
-
                     }
                 }
                 scoreVOItem.setScoreList(scoreList);     //添加讨论课List进ScoreVO
@@ -87,11 +74,61 @@ public class ScoreDao {
         return allScoreVOList;
     }
 
-    public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
-        return scoreMapper.deleteSeminarScoreBySeminarId(seminarId);
+    public List<ScoreVO> listTeamScoreByCourseId(BigInteger courseId,BigInteger teamId)
+    {
+        List<Round> roundList=roundMapper.listRoundByCourseId(courseId);  //获得该课程下的所有轮次
+        List<ScoreVO> allScoreVOList=new ArrayList<>();                   //存储所有的小组的成绩ScoreVO
+        for(Round roundItem:roundList)
+        {
+            ScoreVO scoreVO=scoreMapper.getTeamRoundScore(roundItem.getRoundId(),teamId);
+            scoreVO.setRoundSerial(roundItem.getRoundSerial());
+            scoreVO.setTeamSerial(teamMapper.getTeamInfoByTeamId(teamId).getTeamSerial());
+            //查找该轮次下所有的讨论课
+            List<BigInteger> seminarIdList=seminarMapper.getSeminarIdByRoundId(roundItem.getRoundId());
+            List<SeminarScoreVO> scoreList= new ArrayList<>();
+            //查找所有的讨论课下，本小组参加的讨论课的成绩
+            for(BigInteger sItem:seminarIdList)
+            {
+                List<BigInteger> klassSeminarIdList=seminarMapper.getAllKlassSeminarIdBySeminarId(sItem);
+
+                //依次遍历每节讨论课，查找该team参加的讨论课成绩
+                for(BigInteger ksItem:klassSeminarIdList) {
+                    Score klassSeminarScore = scoreMapper.getSeminarScoreBySeminarIdAndTeamId(ksItem, teamId);
+                    if (klassSeminarScore != null) {
+                        scoreList.add(scoreTOSeminarScoreVO(sItem,ksItem,klassSeminarScore));
+                    }
+                }
+            }
+            scoreVO.setScoreList(scoreList);         //添加讨论课List进ScoreVO
+            allScoreVOList.add(scoreVO);         //将ScoreVO加进 allScoreVOList
+        }
+        if(allScoreVOList==null){
+            //throw new TeamNotFindException();
+        }
+        return allScoreVOList;
+    }
+
+    public SeminarScoreVO scoreTOSeminarScoreVO(BigInteger sItem,BigInteger ksItem,Score score)
+    {
+        //Score转SeminarScoreVO
+        SeminarScoreVO klassSeminarScoreVO = new SeminarScoreVO();
+        klassSeminarScoreVO.setSeminarId(sItem);
+        klassSeminarScoreVO.setKlassSeminarId(ksItem);
+        //查seminar name返回
+        klassSeminarScoreVO.setSeminarName(seminarMapper.getSeminarNameBySeminarId(sItem));
+        //查seminar serial返回，前端在显示时排序
+        klassSeminarScoreVO.setSeminarSerial(seminarMapper.getSeminarSerialBySeminarId(sItem));
+        klassSeminarScoreVO.setPresentationScore(score.getPresentationScore());
+        klassSeminarScoreVO.setReportScore(score.getReportScore());
+        klassSeminarScoreVO.setQuestionScore(score.getQuestionScore());
+        klassSeminarScoreVO.setTotalScore(score.getTotalScore());
+        return klassSeminarScoreVO;
     }
 
 
+    public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
+        return scoreMapper.deleteSeminarScoreBySeminarId(seminarId);
+    }
 
     public  int updateSeminarScoreBySeminarIdAndTeamId(Score score){
         return scoreMapper.updateSeminarScoreBySeminarIdAndTeamId(score);

@@ -31,11 +31,11 @@ public class ScoreController {
      * @param teamId
      * @return
      */
-    /*
+
     @RequestMapping(value="/course/{courseId}/team/{teamId}/score")
     public List<ScoreVO> getScoreByRoundIdTeamId(@PathVariable("courseId") BigInteger courseId,
                                        @PathVariable("teamId") BigInteger teamId)
     {
         return scoreService.listTeamScoreByCourseId(courseId,teamId);
-    }*/
+    }
 }

@@ -35,15 +35,10 @@ public class ScoreService {
      * 学生查自己小组成绩：根据课程id和小组id查到该组所有的成绩
      * @return
      */
-    /*
+
     public List<ScoreVO> listTeamScoreByCourseId(BigInteger courseId,BigInteger teamId){
-        //1.根据courseId查所有的roundId【表round】
-        //2.1.根据roundId查teamId的轮次成绩【表round_score】（总成绩）+每节seminar的成绩=》
-        //2.2.根据roundId查其下所有的seminarId【表seminar】
-        //2.3.根据teamId查小组在哪个班klassId【表team】
-        //2.4.根据klassId和seminarId查所有的klassSeminarId【表klass_seminar】
-        //2.5.根据klassSeminarId查teamId的每节seminar成绩【表seminar_score】
-    }*/
+        return scoreDao.listTeamScoreByCourseId(courseId,teamId);
+    }
 
     public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
         return scoreDao.deleteSeminarScoreBySeminarId(seminarId);
