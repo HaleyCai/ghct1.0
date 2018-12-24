@@ -3,6 +3,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.mapper.RequestMapper;
 import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.VO.TeamApplicationVO;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -54,22 +55,54 @@ public class RequestDao {
     /**
      * 修改共享队伍请求状态
      * @param teamShareId
-     * @param newStatus
+     * @param status
      * @return
      */
-    public int updateTeamShareStatus(BigInteger teamShareId,int newStatus)
+    public int updateTeamShareStatus(BigInteger teamShareId,int status)
     {
-        return requestMapper.updateTeamShareStatus(teamShareId,newStatus);
+        return requestMapper.updateTeamShareStatus(teamShareId,status);
     }
 
     /**
      * 修改共享讨论课请求状态
      * @param seminarShareId
-     * @param newStatus
+     * @param status
      * @return
      */
-    public int updateSeminarShareStatus(BigInteger seminarShareId,int newStatus)
+    public int updateSeminarShareStatus(BigInteger seminarShareId,int status)
     {
-        return requestMapper.updateSeminarShareStatus(seminarShareId,newStatus);
+        return requestMapper.updateSeminarShareStatus(seminarShareId,status);
+    }
+
+    /**
+     * 获得组队申请信息列表
+     * @param status
+     * @return
+     */
+    public List<TeamApplicationVO> getAllTeamApplication(int status)
+    {
+        return requestMapper.getAllTeamApplication(status);
+    }
+
+    /**
+     * 获得某一个组队申请信息
+     * @param teamValidId
+     * @param status
+     * @return
+     */
+    public TeamApplicationVO getTeamApplication(BigInteger teamValidId,int status)
+    {
+        return requestMapper.getTeamApplication(teamValidId,status);
+    }
+
+    /**
+     * 修改组队请求状态
+     * @param teamValidId
+     * @param status
+     * @return
+     */
+    public int updateTeamApplicationStatus(BigInteger teamValidId,int status)
+    {
+        return requestMapper.updateTeamApplicationStatus(teamValidId,status);
     }
 }

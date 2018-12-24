@@ -2,28 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.RequestMapper">
 
-    <select id="getAllTeamShare" resultMap="teamShareResult">
+    <select id="getAllTeamShare" resultMap="shareResult">
         select *
         from share_team_application
         where status=#{status}
     </select>
 
-    <select id="getAllSeminarShare" resultMap="seminarShareResult">
+    <select id="getAllSeminarShare" resultMap="shareResult">
         select *
         from share_seminar_application
         where status=#{status}
     </select>
 
-    <select id="getTeamShare" resultMap="teamShareResult">
+    <select id="getTeamShare" resultMap="shareResult">
         select *
         from share_team_application
-        where status=#{status} and id=#{teamShareId}
+        where status=#{status} and id=#{shareId}
     </select>
 
-    <select id="getSeminarShare" resultMap="seminarShareResult">
+    <select id="getSeminarShare" resultMap="shareResult">
         select *
         from share_seminar_application
-        where status=#{status} and id=#{seminarShareId}
+        where status=#{status} and id=#{shareId}
     </select>
 
     <update id="updateTeamShareStatus">
@@ -38,16 +38,8 @@
         where id=#{seminarShareId}
     </update>
 
-    <resultMap id="teamShareResult" type="xmu.ghct.crm.entity.Share">
-        <id property="teamShareId" column="id"/>
-        <result property="mainCourseId" column="main_course_id"/>
-        <result property="subCourseId" column="sub_course_id"/>
-        <result property="subCourseTeacherId" column="sub_course_teacher_id"/>
-        <result property="status" column="status"/>
-    </resultMap>
-
-    <resultMap id="seminarShareResult" type="xmu.ghct.crm.entity.Share">
-        <id property="seminarShareId" column="id"/>
+    <resultMap id="shareResult" type="xmu.ghct.crm.entity.Share">
+        <id property="shareId" column="id"/>
         <result property="mainCourseId" column="main_course_id"/>
         <result property="subCourseId" column="sub_course_id"/>
         <result property="subCourseTeacherId" column="sub_course_teacher_id"/>
