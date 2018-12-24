@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 public class TeamApplicationVO implements Serializable {
-    private BigInteger id;
+    private BigInteger teamValidId;
     private BigInteger teamId;
     private BigInteger teacherId;
     private String reason;
     private int status;
 
-    public BigInteger getId() {
-        return id;
+    public BigInteger getTeamValidId() {
+        return teamValidId;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
+    public void setTeamValidId(BigInteger teamValidId) {
+        this.teamValidId = teamValidId;
     }
 
     public BigInteger getTeamId() {
@@ -46,7 +46,7 @@ public class TeamApplicationVO implements Serializable {
     @Override
     public String toString() {
         return "TeamApplicationVO{" +
-                "id=" + id +
+                "teamValidId=" + teamValidId +
                 ", teamId='" + teamId + '\'' +
                 ", teacherId='" + teacherId + '\'' +
                 ", reason=" + reason +
