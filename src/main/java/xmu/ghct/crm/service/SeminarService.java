@@ -197,6 +197,7 @@ public class SeminarService {
         return  seminarScoreVO;
     }
 
+
     /**
      * @author hzm
      * 更新讨论课成绩
