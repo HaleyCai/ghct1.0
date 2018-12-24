@@ -115,6 +115,7 @@ public class SeminarController {
         else return false;
     }
 
+
     @GetMapping("seminar/{seminarId}/klass/{klassId}/seminarScore")
     public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId")BigInteger seminarId){
         return  seminarService.listKlassSeminarScoreByKlassIdAndSeminarId(klassId,seminarId);
