@@ -101,4 +101,14 @@ public interface SeminarMapper {
      * @return
      */
     BigInteger getRoundIdBySeminarId(BigInteger seminarId);
+
+
+    /**
+     *
+     * 根据klassId & seminarId 获得klassSeminarId
+     * @param seminarId
+     * @param klassId
+     * @return
+     */
+    BigInteger getKlassSeminarIdBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId);
 }

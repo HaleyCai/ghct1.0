@@ -246,6 +246,7 @@ public class SeminarService {
     public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(BigInteger klassId,BigInteger seminarId){
         List<Team> teamList=teamDao.listTeamByKlassId(klassId);
         Klass klass=klassDao.getKlassByKlassId(klassId);
+        BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarId);
         List<SeminarScoreVO> seminarScoreVOList=new ArrayList<>();
         for(Team item:teamList){
@@ -254,7 +255,7 @@ public class SeminarService {
             seminarScoreVO.setKlassSerial(klass.getKlassSerial());
             seminarScoreVO.setSeminarName(seminar.getSeminarName());
             seminarScoreVO.setTeamSerial(item.getTeamSerial());
-            Score score=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(seminarId,item.getTeamId());
+            Score score=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(klassSeminarId,item.getTeamId());
             seminarScoreVO.setPresentationScore(score.getPresentationScore());
             seminarScoreVO.setQuestionScore(score.getQuestionScore());
             seminarScoreVO.setReportScore(score.getReportScore());

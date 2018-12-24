@@ -25,7 +25,6 @@ public class KlassService {
 
     public int creatKlass(BigInteger courseId, Map<String,Object> klassMap)  {
         Klass klass=new Klass();
-        klass.setKlassId(new BigInteger(klassMap.get("klassId").toString()));
         klass.setCourseId(new BigInteger(courseId.toString()));
         klass.setGrade(new Integer(klassMap.get("grade").toString()));
         klass.setKlassSerial(new Integer(klassMap.get("klassSerial").toString()));

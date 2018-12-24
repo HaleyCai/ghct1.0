@@ -51,4 +51,9 @@ public class SeminarDao {
     public int updateKlassSeminarStatus(SeminarVO seminarVO){
        return seminarMapper.updateKlassSeminarStatus(seminarVO);
     }
+
+
+    public  BigInteger getKlassSeminarIdBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId){
+        return seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
+    }
 }

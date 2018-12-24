@@ -47,7 +47,8 @@ public class CourseService {
 
     public List<Course> listCourseByTeacherId(Map<String,Object> teacherIdMap) {
         BigInteger teacherId=new BigInteger(teacherIdMap.get("teacherId").toString());
-        return courseDao.listCourseByTeacherId(teacherId);
+        List<Course> courseList=courseDao.listCourseByTeacherId(teacherId);
+        return courseList;
     }
 
     public CourseVO getCourseByCourseId(BigInteger courseId) {
