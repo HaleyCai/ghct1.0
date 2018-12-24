@@ -29,13 +29,13 @@
     <update id="updateTeamShareStatus">
         update share_team_application
         set status=#{status}
-        where id=#{teamShareId}
+        where id=#{shareId}
     </update>
 
     <update id="updateSeminarShareStatus">
         update share_seminar_application
         set status=#{status}
-        where id=#{seminarShareId}
+        where id=#{shareId}
     </update>
 
     <resultMap id="shareResult" type="xmu.ghct.crm.entity.Share">
