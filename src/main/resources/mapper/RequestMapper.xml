@@ -57,23 +57,23 @@
 
     <select id="getAllTeamApplication" resultMap="teamApplicationResult">
         select *
-        from share_valid_application
+        from team_valid_application
         where status=#{status}
     </select>
 
     <select id="getTeamApplication" resultMap="teamApplicationResult">
         select *
-        from share_valid_application
+        from team_valid_application
         where status=#{status} and id=#{teamValidId}
     </select>
 
     <update id="updateTeamApplicationStatus">
-        update share_application_application
+        update team_valid_application
         set status=#{status}
         where id=#{teamValidId}
     </update>
 
-    <resultMap id="seminarShareResult" type="xmu.ghct.crm.VO.TeamApplicationVO">
+    <resultMap id="teamApplicationResult" type="xmu.ghct.crm.VO.TeamApplicationVO">
         <id property="teamValidId" column="id"/>
         <result property="teamId" column="team_id"/>
         <result property="teacherId" column="teacher_id"/>
