@@ -11,7 +11,7 @@ public class Share implements Serializable {
     private BigInteger subCourseTeacherId;
     private int status;
 
-    public BigInteger getShareId() { return shareId; }
+    public BigInteger getshareId() { return shareId; }
 
     public void setShareId(BigInteger shareId) { this.shareId = shareId; }
 

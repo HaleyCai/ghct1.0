@@ -209,7 +209,6 @@ public class SeminarService {
         Score score=new Score();
         BigInteger roundId=seminarMapper.getRoundIdBySeminarId(seminarId);
         BigInteger courseId=courseDao.getCourseIdByTeamId(teamId);
-        System.out.println("课程ID"+courseId);
         CourseVO courseVO=courseDao.getCourseByCourseId(courseId);
         double presentationScore=new Double(seminarScoreMap.get("presentationScore").toString());
         score.setTeamId(teamId);
@@ -228,9 +227,39 @@ public class SeminarService {
         roundScoreVO.setPresentationScore(roundScore.getPresentationScore());
         roundScoreVO.setQuestionScore(roundScore.getQuestionScore());
         roundScoreVO.setReportScore(roundScore.getReportScore());
+        roundScoreVO.setTotalScore(roundScore.getTotalScore());
         roundScoreVO.setRoundId(roundId);
         roundScoreVO.setTeamId(teamId);
         scoreMapper.updateRoundScoreByRoundIdAndTeamId(roundScoreVO);
         return flag;
+    }
+
+
+    /**
+     * @author hzm
+     * 根据klassId 和seminarId获得班级讨论课所有队伍成绩
+     * @param klassId
+     * @param seminarId
+     * @return
+     */
+    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(BigInteger klassId,BigInteger seminarId){
+        List<Team> teamList=teamDao.listTeamByKlassId(klassId);
+        Klass klass=klassDao.getKlassByKlassId(klassId);
+        Seminar seminar=seminarDao.getSeminarBySeminarId(seminarId);
+        List<SeminarScoreVO> seminarScoreVOList=new ArrayList<>();
+        for(Team item:teamList){
+            SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
+            seminarScoreVO.setTeamId(item.getTeamId());
+            seminarScoreVO.setKlassSerial(klass.getKlassSerial());
+            seminarScoreVO.setSeminarName(seminar.getSeminarName());
+            seminarScoreVO.setTeamSerial(item.getTeamSerial());
+            Score score=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(seminarId,item.getTeamId());
+            seminarScoreVO.setPresentationScore(score.getPresentationScore());
+            seminarScoreVO.setQuestionScore(score.getQuestionScore());
+            seminarScoreVO.setReportScore(score.getReportScore());
+            seminarScoreVO.setTotalScore(score.getTotalScore());
+            seminarScoreVOList.add(seminarScoreVO);
+        }
+        return seminarScoreVOList;
     }
 }

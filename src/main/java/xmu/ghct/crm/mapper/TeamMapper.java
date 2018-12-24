@@ -61,4 +61,12 @@ public interface TeamMapper {
      * @return
      */
     Team getTeamInfoByTeamId(BigInteger teamId);
+
+    /**
+     * @author hzm
+     * 根据klassId获得班级下的所有队伍
+     * @param klassId
+     * @return
+     */
+    List<Team> listTeamByKlassId(BigInteger klassId);
 }

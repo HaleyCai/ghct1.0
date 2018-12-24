@@ -36,4 +36,8 @@ public class TeamDao {
         return teamMapper.getTeamInfoByTeamId(teamId);
     }
 
+    public List<Team> listTeamByKlassId(BigInteger klassId) {
+        return  teamMapper.listTeamByKlassId(klassId);
+    }
+
 }

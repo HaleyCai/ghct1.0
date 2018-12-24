@@ -6,6 +6,7 @@ public class SeminarScoreVO {
 
     private BigInteger seminarId;
     private BigInteger teamId;
+    private String teamName;
     private String seminarName;
     private int seminarSerial;
     private String introduction;
@@ -113,11 +114,20 @@ public class SeminarScoreVO {
         return totalScore;
     }
 
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
     @Override
     public String toString() {
         return "SeminarScoreVO{" +
                 "seminarId=" + seminarId +
                 ", teamId=" + teamId +
+                ", teamName='" + teamName + '\'' +
                 ", seminarName='" + seminarName + '\'' +
                 ", seminarSerial=" + seminarSerial +
                 ", introduction='" + introduction + '\'' +
@@ -130,4 +140,5 @@ public class SeminarScoreVO {
                 ", totalScore=" + totalScore +
                 '}';
     }
+
 }

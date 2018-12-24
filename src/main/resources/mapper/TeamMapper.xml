@@ -40,6 +40,12 @@
         select * from team where id=#{teamId}
     </select>
 
+    <select id="listTeamByKlassId" resultMap="teamMap">
+        select *
+        from team
+        where klass_id=#{klassId}
+    </select>
+
     <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">
         <id property="teamId" column="id"/>
         <result property="klassId" column="klass_id"/>

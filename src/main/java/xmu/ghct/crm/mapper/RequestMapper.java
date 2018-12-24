@@ -3,7 +3,7 @@ package xmu.ghct.crm.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.Share;
-import xmu.ghct.crm.VO.TeamApplicationVO;
+
 import java.math.BigInteger;
 import java.util.List;
 
@@ -45,40 +45,18 @@ public interface RequestMapper {
     /**
      * 修改共享队伍请求状态
      * @param teamShareId
-     * @param status
+     * @param newStatus
      * @return
      */
-    int updateTeamShareStatus(BigInteger teamShareId,int status);
+    int updateTeamShareStatus(BigInteger teamShareId,int newStatus);
 
     /**
      * 修改共享讨论课请求状态
      * @param seminarShareId
-     * @param status
+     * @param newStatus
      * @return
      */
-    int updateSeminarShareStatus(BigInteger seminarShareId,int status);
+    int updateSeminarShareStatus(BigInteger seminarShareId,int newStatus);
 
-    /**
-     * 获得组队申请信息列表
-     * @param status
-     * @return
-     */
-    List<TeamApplicationVO> getAllTeamApplication(int status);
-
-    /**
-     * 获得某一个组队申请信息
-     * @param teamValidId
-     * @param status
-     * @return
-     */
-    TeamApplicationVO getTeamApplication(BigInteger teamValidId,int status);
-
-    /**
-     * 修改组队请求状态
-     * @param teamValidId
-     * @param status
-     * @return
-     */
-    int updateTeamApplicationStatus(BigInteger teamValidId,int status);
 
 }

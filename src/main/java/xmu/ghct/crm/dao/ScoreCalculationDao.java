@@ -40,50 +40,60 @@ public class ScoreCalculationDao {
             seminarScoreList.add(scoreMapper.getSeminarScoreBySeminarIdAndTeamId(item,teamId));
         if(round.getPresentationScoreMethod()==0){
             double presentation=0;
-            int account=1;
+            int account=0;
             for(Score item:seminarScoreList) {
-                presentation += presentation +item.getPresentationScore();
+                presentation += item.getPresentationScore();
                 account++;
+        //        System.out.println(account+"个presentation成绩为： "+item.getPresentationScore());
             }
-            presentation+=score.getPresentationScore();
+        //    System.out.println("presentation总成绩为： "+presentation);
             presentation/=account;
+       //     System.out.println("presentation成绩为： "+presentation);
             roundScore.setPresentationScore(presentation);
         }
         else {
             if(roundScoreVO.getPresentationScore()>score.getPresentationScore()) roundScore.setPresentationScore(roundScoreVO.getPresentationScore());
             else roundScore.setPresentationScore(score.getPresentationScore());
+     //       System.out.println("presentation成绩为： "+roundScore.getPresentationScore());
         }
         if(round.getQuestionScoreMethod()==0){
             double question=0;
-            int account=1;
+            int account=0;
             for(Score item:seminarScoreList) {
-                question += question +item.getQuestionScore();
+                question += item.getQuestionScore();
                 account++;
+            //    System.out.println(account+"个question成绩为： "+item.getQuestionScore());
             }
-            question+=score.getQuestionScore();
+        //    System.out.println("question总成绩为： "+question);
             question/=account;
+        //    System.out.println("question成绩为： "+question);
             roundScore.setQuestionScore(question);
         }
         else {
             if(roundScoreVO.getQuestionScore()>score.getQuestionScore()) roundScore.setQuestionScore(roundScoreVO.getQuestionScore());
             else roundScore.setQuestionScore(score.getQuestionScore());
+          //  System.out.println("question成绩为： "+roundScore.getQuestionScore());
         }
         if(round.getReportScoreMethod()==0){
             double report=0;
-            int account=1;
+            int account=0;
             for(Score item:seminarScoreList) {
-                report += report +item.getReportScore();
+                report += item.getReportScore();
                 account++;
+           //     System.out.println(account+"个report成绩为： "+item.getReportScore());
             }
-            report+=score.getReportScore();
+          //  System.out.println("report总成绩为： "+report);
             report/=account;
+         //   System.out.println("report成绩为： "+report);
             roundScore.setReportScore(report);
         }
         else {
             if(roundScoreVO.getReportScore()>score.getReportScore()) roundScore.setReportScore(roundScoreVO.getReportScore());
             else roundScore.setReportScore(score.getReportScore());
+          //  System.out.println("report成绩为： "+roundScore.getReportScore());
         }
         roundScore=totalScoreDao.totalScoreCalculation(roundScore,courseId);
+       // System.out.println("total成绩为： "+roundScore.getTotalScore());
         return roundScore;
     }
 }
