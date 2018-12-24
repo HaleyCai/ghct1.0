@@ -54,8 +54,41 @@ public class ScoreDao {
         return allScoreVOList;
     }
 
+    //1.根据courseId查所有的roundId【表round】
+    //2.1.根据roundId查所有的轮次成绩【表round_score】（总成绩）+每节seminar的成绩=》
+    //2.2.根据roundId查其下所有的seminarId【表seminar】
+    //2.3.根据seminarId查所有的klassSeminarId【表klass_seminar】
+    //2.4.根据klassSeminarId查所有的team的每节seminar成绩【表seminar_score】
+
+
+
+
+
+
     public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
         return scoreMapper.deleteSeminarScoreBySeminarId(seminarId);
+    }
+
+    /**
+     * @cyq
+     * 根据roundId获取轮次下所有成绩
+     * @param roundId
+     * @return
+     */
+    public List<ScoreVO> listScoreByRoundId(BigInteger roundId){
+        return scoreMapper.getRoundScore(roundId);
+    }
+
+    /**
+     * @cyq
+     * 某小组，某轮次的总成绩
+     * @param roundId
+     * @param teamId
+     * @return
+     */
+    public ScoreVO getTeamRoundScore(BigInteger roundId,BigInteger teamId)
+    {
+        return scoreMapper.getRoundScoreByRoundIdAndTeamId(roundId,teamId);
     }
 
     public  int updateSeminarScoreBySeminarIdAndTeamId(Score score){

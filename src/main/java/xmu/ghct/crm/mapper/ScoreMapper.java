@@ -76,4 +76,13 @@ public interface ScoreMapper {
      * @return
      */
     int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO);
+
+    /**
+     * @cyq
+     * 获取一个队伍的一个轮次的总成绩
+     * @param roundId
+     * @param teamId
+     * @return
+     */
+    ScoreVO getRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId);
 }

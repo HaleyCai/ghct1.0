@@ -13,14 +13,14 @@ public class ScoreVO {
     private double questionScore;
     private double reportScore;
     private double totalScore;
-    private List<Score> scoreList;
+    private List<SeminarScoreVO> scoreList;
 
-    public void setScoreList(List<Score> scoreList) {
-        this.scoreList = scoreList;
+    public List<SeminarScoreVO> getScoreList() {
+        return scoreList;
     }
 
-    public List<Score> getScoreList() {
-        return scoreList;
+    public void setScoreList(List<SeminarScoreVO> scoreList) {
+        this.scoreList = scoreList;
     }
 
     public BigInteger getRoundId() {

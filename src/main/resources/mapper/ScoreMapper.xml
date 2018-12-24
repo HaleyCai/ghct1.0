@@ -65,6 +65,12 @@
          where round_id=#{roundId} and team_id=#{teamId}
     </update>
 
+    <select id="getRoundScoreByRoundIdAndTeamId" resultMap="roundScoreMap">
+        select round_id,team_id,total_score,report_score,question_score,presentation_score
+        from round_score
+        where round_id=#{roundId} and team_id=#{teamId}
+    </select>
+
     <resultMap id="roundScoreMap" type="xmu.ghct.crm.VO.ScoreVO">
         <result property="roundId" column="round_id"/>
         <result property="teamId" column="team_id"/>
