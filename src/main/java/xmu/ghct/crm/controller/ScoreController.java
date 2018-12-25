@@ -17,10 +17,10 @@ public class ScoreController {
     @Autowired
     ScoreService scoreService;
 
+    //////////////////////需要重写
     @RequestMapping(value="/course/{courseId}/score",method = RequestMethod.GET)
     public List<ScoreVO> listScoreByCourseId(@PathVariable("courseId") BigInteger courseId){
-        BigInteger testId=new BigInteger("4");
-        return scoreService.listAllScoreByCourseId(testId);
+        return scoreService.listAllScoreByCourseId(courseId);
     }
 
     /**
@@ -31,6 +31,7 @@ public class ScoreController {
      * @param teamId
      * @return
      */
+    //////////////////////需要重写
     @RequestMapping(value="/course/{courseId}/team/{teamId}/score",method = RequestMethod.GET)
     public List<ScoreVO> getScoreByRoundIdTeamId(@PathVariable("courseId") BigInteger courseId,
                                        @PathVariable("teamId") BigInteger teamId)
