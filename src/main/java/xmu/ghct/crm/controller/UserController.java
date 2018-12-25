@@ -9,9 +9,7 @@ import java.util.Map;
 /**
  * @author caiyq
  */
-
 @RestController
-@RequestMapping(value="")
 public class UserController {
 
     @Autowired
