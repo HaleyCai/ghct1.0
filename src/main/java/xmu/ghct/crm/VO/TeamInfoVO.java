@@ -10,7 +10,7 @@ public class TeamInfoVO implements Serializable {
     private String teamName;
     int teamSerial;
     int status;
-   StudentVO teamLeader;
+    StudentVO teamLeader;
     List<StudentVO> members;
 
     public BigInteger getTeamId() {

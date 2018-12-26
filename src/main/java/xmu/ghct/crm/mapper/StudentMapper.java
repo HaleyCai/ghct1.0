@@ -31,13 +31,6 @@ public interface StudentMapper {
     User getStudentByStudentId(@Param("studentId") BigInteger studentId);
 
     /**
-     * ****有问题，没完成！！！此处@闽儿
-     * 根据课程id,查询所有未组队学生
-     * @return
-     */
-    List<User> getNoTeamStudentByCourseId();
-
-    /**
      * 根据account设置student新密码
      * @param account
      * @return
@@ -88,4 +81,11 @@ public interface StudentMapper {
      * @return
      */
     int deleteStudentByStudentId(@Param("id") BigInteger studentId);
+
+    /**
+     * 获取班级下所有学生的id
+     * @param klassId
+     * @return
+     */
+    List<BigInteger> getAllStudentIdByKlassId(BigInteger klassId);
 }

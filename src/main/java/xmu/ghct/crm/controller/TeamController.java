@@ -2,7 +2,9 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xmu.ghct.crm.VO.StudentVO;
 import xmu.ghct.crm.VO.TeamInfoVO;
+import xmu.ghct.crm.VO.TeamSimpleInfo;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.service.TeamService;
@@ -17,26 +19,48 @@ public class TeamController {
     @Autowired
     TeamService teamService;
 
+    /**
+     * @cyq
+     * 教师端：根据courseId查team的简单信息
+     * @param courseId
+     * @return
+     */
     @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
-    @ResponseBody
-    public List<TeamInfoVO> getTeamInfoByCourseId(@PathVariable("courseId") BigInteger courseId){
-        return teamService.listTeamInfoByCourseId(courseId);
-    }
-
-    @RequestMapping(value="/course/{courseId}/noTeam",method = RequestMethod.GET)
-    @ResponseBody
-    public List<User> getNoTeamStudentByCourseId(@PathVariable("courseId")BigInteger courseId){
-        return teamService.getNoTeamStudentByCourseId(courseId);
+    public List<TeamSimpleInfo> listTeamByCourseId(@PathVariable("courseId") BigInteger courseId){
+        return teamService.listTeamByCourseId(courseId);
     }
 
     /**
      * @cyq
-     * 根据teamId获取队伍信息
+     * 学生端，根据klassId查team的简单信息
+     * @param klassId
+     * @return
+     */
+    @RequestMapping(value="/klass/{klassId}/team", method = RequestMethod.GET)
+    public List<TeamSimpleInfo> listTeamByKlassId(@PathVariable("klassId") BigInteger klassId)
+    {
+        return teamService.listTeamByKlassId(klassId);
+    }
+
+    /**
+     * @cyq
+     * 教师+学生：根据teamId获取队伍信息
      */
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.GET)
-    public void getTeamInfo(@PathVariable("teamId") BigInteger teamId)
+    public TeamInfoVO getTeamInfo(@PathVariable("teamId") BigInteger teamId)
     {
+        return teamService.getTeamByCourseId(teamId);
+    }
 
+    /**
+     * @cyq
+     * 学生：获取本班未组队学生
+     * @param klassId
+     * @return
+     */
+    @RequestMapping(value="/course/{klassId}/noTeam",method = RequestMethod.GET)
+    public List<StudentVO> getNoTeamStudentByKlassId(@PathVariable("klassId")BigInteger klassId){
+        return teamService.getNoTeamStudentByKlassId(klassId);
     }
 
     /**
@@ -50,7 +74,7 @@ public class TeamController {
     }
 
     /**
-     * 删除队伍、组长解散队伍
+     * 删除队伍、组长解散队伍，级联删除好多地方的teamId
      * @param teamId
      */
     @RequestMapping(value="team/{teamId}",method = RequestMethod.DELETE)
@@ -60,7 +84,7 @@ public class TeamController {
     }
 
     /**
-     * 将学生加入该队伍，传参teamId,studentId
+     * 将学生加入该队伍，传参teamId,studentId，组队规则判断！！！
      * @param teamId
      * @param inMap
      */

@@ -13,7 +13,7 @@
         from team
         where course_id=#{courseId}
     </select>
-    
+
     <insert id="insertTeamMemberLimit" parameterType="xmu.ghct.crm.VO.CourseVO">
         insert into member_limit_strategy(
                                           min_member,
@@ -44,6 +44,11 @@
         select *
         from team
         where klass_id=#{klassId}
+    </select>
+
+    <!--cyq-->
+    <select id="getTeamStudentIdByKlassId" resultType="java.math.BigInteger">
+        select
     </select>
 
     <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">

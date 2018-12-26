@@ -78,4 +78,8 @@
         where id=#{id}
     </delete>
 
+    <!--cyq-->
+    <select id="getAllStudentIdByKlassId" resultType="java.math.BigInteger">
+        select student_id from klass_student where klass_id=#{klassId}
+    </select>
 </mapper>

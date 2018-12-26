@@ -27,12 +27,6 @@ public interface TeamMapper {
      */
     List<Team> listTeamInfoByCourseId(BigInteger courseId);
 
-    /**
-     * 根据courseId获得未组队学生
-     * @param courseId
-     * @return
-     */
-    List<User> getNoTeamStudentByCourseId(BigInteger courseId);
 
     /**
      * 插入小组人数限制
