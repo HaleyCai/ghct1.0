@@ -87,9 +87,9 @@ public class UserController {
      * @param inMap
      */
     @RequestMapping(value="/user/password",method = RequestMethod.GET)
-    public void sendPasswordToEmail(@RequestBody Map<String,Object> inMap)
+    public boolean sendPasswordToEmail(@RequestBody Map<String,Object> inMap)
     {
-        userService.sendPasswordToEmail(
+        return userService.sendPasswordToEmail(
                 (String)inMap.get("account"),
                 (int)inMap.get("type"));
     }
