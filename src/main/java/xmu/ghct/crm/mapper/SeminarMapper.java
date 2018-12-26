@@ -114,6 +114,15 @@ public interface SeminarMapper {
 
 
     /**
+     * @author hzm
+     * 根据klassSeminarId获得班级讨论课信息
+     * @param klassSeminarId
+     * @return
+     */
+    SeminarVO getKlassSeminarByKlassSeminarId(BigInteger klassSeminarId);
+
+
+    /**
      * @cyq
      * 根据seminarId获得所有的klassSeminarId
      * @param seminarId

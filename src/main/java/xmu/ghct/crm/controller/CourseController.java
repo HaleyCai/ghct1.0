@@ -7,18 +7,21 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import xmu.ghct.crm.VO.CourseVO;
 import xmu.ghct.crm.VO.KlassInfoVO;
 import xmu.ghct.crm.VO.RoundVO;
+import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.RoundNotFindException;
-import xmu.ghct.crm.service.CourseService;
-import xmu.ghct.crm.service.ImportService;
+import xmu.ghct.crm.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.io.*;
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +34,13 @@ public class CourseController {
     CourseService courseService;
 
     @Autowired
-    ImportService importService;
+    UploadFileService uploadFileService;
+
+    @Autowired
+    PresentationService presentationService;
+
+    @Autowired
+    SeminarService seminarService;
 
     @RequestMapping(value="/course",method = RequestMethod.POST)
     public boolean creatCourse(@RequestBody Map<String,Object> courseMap) throws ParseException {
@@ -68,34 +77,6 @@ public class CourseController {
             throw new RoundNotFindException("未找到该课程下的讨论课轮次");
         }
         else return roundList;
-    }
-
-    @RequestMapping(value = "singleFileUpload",method = RequestMethod.POST)
-    public void singleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
-        String filePath="C:/Users/huangzhenmin/Desktop/";
-        File fileDir = new File(filePath+fileName);
-        file.transferTo(fileDir);
-    }
-
-    @PostMapping(value = "/upload")
-    @ResponseBody
-    public String uploadExcel(HttpServletRequest request) throws Exception {
-        MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest) request;
-        MultipartFile file = multipartRequest.getFile("filename");
-        if (file.isEmpty()) {
-            return "文件不能为空";
-        }
-        InputStream inputStream = file.getInputStream();
-        List<List<Object>> list = importService.getBankListByExcel(inputStream, file.getOriginalFilename());
-        inputStream.close();
-
-        for (int i = 0; i < list.size(); i++) {
-            List<Object> lo = list.get(i);
-            //TODO 随意发挥
-            System.out.println(lo);
-        }
-        return "上传成功";
     }
 
     /**

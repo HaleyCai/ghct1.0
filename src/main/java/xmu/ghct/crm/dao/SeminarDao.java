@@ -56,4 +56,9 @@ public class SeminarDao {
     public  BigInteger getKlassSeminarIdBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId){
         return seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
     }
+
+    public SeminarVO getKlassSeminarByKlassSeminarId(BigInteger klassSeminarId){
+        return  seminarMapper.getKlassSeminarByKlassSeminarId(klassSeminarId);
+    }
+
 }
