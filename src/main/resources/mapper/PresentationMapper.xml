@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.ghct.crm.mapper.PresentationMapper">
+    
+    <update id="updateAttendanceOrderByAttendanceId">
+        update attendance
+        set team_order=#{teamOrder}
+        where id=#{attendanceId}
+    </update>
+
+    <delete id="deleteAttendanceByAttendance" parameterType="java.math.BigInteger">
+        delete from attendance where id=#{attendanceId}
+    </delete>
+
+    <!--hzm-->
+    <update id="updateReportByAttendanceId">
+        update attendance
+        set report_name=#{reportName},
+            report_url=#{reportUrl}
+        where id=#{attendanceId}
+    </update>
+
+
+    <!--hzm-->
+    <update id="updatePPTByAttendanceId">
+        update attendance
+        set ppt_name=#{pptName},
+            ppt_url=#{pptUrl}
+        where id=#{attendanceId}
+    </update>
+
+    <select id="getAttendanceByAttendanceId" resultMap="attendanceResultMap">
+        select * from attendance where id=#{attendanceId}
+    </select>
+
+    <select id="listAttendanceByKlassSeminarId" resultMap="attendanceResultMap">
+        select *
+        from attendance
+        where klass_seminar_id=#{klassSeminarId}
+    </select>
+
+
+    <resultMap id="attendanceResultMap" type="xmu.ghct.crm.entity.Attendance">
+        <id property="attendanceId" column="id"/>
+        <result property="klassSeminarId" column="klass_seminar_id"/>
+        <result property="teamId" column="team_id"/>
+        <result property="teamOrder" column="team_order"/>
+        <result property="present" column="is_present"/>
+        <result property="reportName" column="report_name"/>
+        <result property="reportUrl" column="report_url"/>
+        <result property="pptName" column="ppt_name"/>
+        <result property="pptUrl" column="ppt_url"/>
+    </resultMap>
+    
+    
+</mapper>

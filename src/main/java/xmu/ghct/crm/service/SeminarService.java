@@ -264,4 +264,9 @@ public class SeminarService {
         }
         return seminarScoreVOList;
     }
+
+
+    public SeminarVO getKlassSeminarByKlassSeminarId(BigInteger klassSeminarId){
+        return seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
+    }
 }

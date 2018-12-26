@@ -42,14 +42,6 @@
         delete from course where id=#{courseId}
     </delete>
 
-
-
-    <select id="getStudentIdByTeamId" resultType="java.math.BigInteger">
-        select student_id
-        from klass_student
-        where team_id=#{teamId}
-    </select>
-
     <select id="getCourseIdByTeamId" resultType="java.math.BigInteger">
         select course_id
         from klass_student

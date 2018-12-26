@@ -31,7 +31,7 @@
 
     <select id="getStudentIdByTeamId" resultType="java.math.BigInteger">
         select student_id
-        from klass_student
+        from team_student
         where team_id=#{teamId}
     </select>
 
