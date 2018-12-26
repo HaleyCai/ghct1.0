@@ -11,12 +11,13 @@ import xmu.ghct.crm.service.PresentationService;
 import xmu.ghct.crm.service.SeminarService;
 import xmu.ghct.crm.service.UploadFileService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigInteger;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -153,4 +154,45 @@ public class PresentationController {
         downloadFileDao.downloadFile(response,filePath);
     }
 
+
+
+
+    /**
+     * @author hzm
+     * 批量下载report
+     * @param response
+     */
+    @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/report", method = RequestMethod.GET)
+    public void multiReportDownload(HttpServletResponse response,@PathVariable("seminarId") BigInteger seminarId,@PathVariable("klassId") BigInteger klassId) throws UnsupportedEncodingException {
+        BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId, klassId);
+        List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
+        ArrayList<String> names = new ArrayList<String>();
+        ArrayList<String> paths = new ArrayList<String>();
+        for (Attendance item : listAttendance) {
+            names.add(item.getReportName());
+            System.out.println(item.getReportName());
+            paths.add(item.getReportUrl());
+            System.out.println(item.getReportUrl());
+        }
+        downloadFileDao.multiFileDownload(response,paths);
+    }
+
+
+    /**
+     * @author hzm
+     * 批量下载ppt
+     * @param response
+     */
+    @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/ppt", method = RequestMethod.GET)
+    public void multiPPTDownload(HttpServletResponse response,@PathVariable("seminarId") BigInteger seminarId,@PathVariable("klassId") BigInteger klassId) throws UnsupportedEncodingException {
+        BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId, klassId);
+        List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> paths = new ArrayList<>();
+        for (Attendance item : listAttendance) {
+            names.add(item.getPptName());
+            paths.add(item.getPptUrl());
+        }
+        downloadFileDao.multiFileDownload(response,paths);
+    }
 }
