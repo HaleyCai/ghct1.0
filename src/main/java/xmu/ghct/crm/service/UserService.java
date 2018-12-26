@@ -40,25 +40,25 @@ public class UserService {
             //初始密码为“123456
             if(user.getActive()==0 && "123456".equals(password))
                 //未激活，且初始密码正确，跳转到激活界面
-                resultMap.put("message","0");
+                resultMap.put("message",0);
             else
             {   //已激活，验证输入密码是否正确
                 if(user.getActive()==1)
                 {
                     if(user.getPassword().equals(password))
                     {
-                        resultMap.put("message", "1");
+                        resultMap.put("message", 1);
                         //生成Jwt，放在map中返回***
                     }
                     else
-                        resultMap.put("message","-1");
+                        resultMap.put("message",-1);
                 }
                 else//未激活且密码不正确的，刷新登录界面
-                    resultMap.put("message","-1");
+                    resultMap.put("message",-1);
             }
         }
         else
-            resultMap.put("message","-1");
+            resultMap.put("message",-1);
         //message返回1，登录成功，并且返回jwt；返回0，初次登录，跳转到激活页面；返回-1，用户名或密码错误
         return resultMap;
     }
@@ -109,16 +109,16 @@ public class UserService {
     @Value("${spring.mail.username}")  //发送人的邮箱
     private String from;
 
-    public void sendPasswordToEmail(String account,int type)
+    public boolean sendPasswordToEmail(String account,int type)
     {
         User user;
         if(type==1)
             user=teacherDao.getUserByAccount(account);
         else
             user=studentDao.getUserByAccount(account);
-        if(user==null){
-            //throw
-            System.out.println("异常，无该用户！！");
+        //用户不存在或未激活
+        if(user==null||user.getActive()==0){
+            return false;
         }
         System.out.println("发送到邮箱 ");
         System.out.println(user.toString());
@@ -133,6 +133,7 @@ public class UserService {
         //发送的内容
         mainMessage.setText("账户"+user.getAccount()+"的密码为："+user.getPassword());
         jms.send(mainMessage);
+        return true;
     }
 
     /**
