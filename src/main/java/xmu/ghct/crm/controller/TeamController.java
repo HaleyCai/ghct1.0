@@ -116,7 +116,5 @@ public class TeamController {
     @RequestMapping(value="/team/{teamId}/approve")
     public void teacherApproveValidTeam(@PathVariable("teamId") BigInteger teamId)
     {
-
-
     }
 }
