@@ -64,17 +64,7 @@ public class TeamController {
     }
 
     /**
-     * 修改队伍信息
-     * @param teamId
-     */
-    @RequestMapping(value="/team/{teamId}",method = RequestMethod.PUT)
-    public void modifyInfo(@PathVariable("teamId") BigInteger teamId)
-    {
-
-    }
-
-    /**
-     * 删除队伍、组长解散队伍，级联删除好多地方的teamId
+     * 删除队伍、组长解散队伍，删除team表记录，级联删除学生与teamId的关系，删除课程、班级与team的关系，不删除成绩！！
      * @param teamId
      */
     @RequestMapping(value="team/{teamId}",method = RequestMethod.DELETE)
@@ -84,7 +74,7 @@ public class TeamController {
     }
 
     /**
-     * 将学生加入该队伍，传参teamId,studentId，组队规则判断！！！
+     * 将学生加入该队伍，传参teamId,studentId，组队规则判断！！！从未组队的学生中选择，不需要判断！（两个课程中组队？）
      * @param teamId
      * @param inMap
      */
@@ -120,7 +110,7 @@ public class TeamController {
     }
 
     /**
-     * 教师同意非法组队
+     * 教师同意非法组队，修改记录的状态，以后查找课程中的小组要先判断是从课程还是主课程，统一用主课程查找！！
      * @param teamId
      */
     @RequestMapping(value="/team/{teamId}/approve")

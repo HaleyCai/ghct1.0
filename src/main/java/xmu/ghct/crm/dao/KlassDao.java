@@ -40,5 +40,4 @@ public class KlassDao {
     public List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId){
         return klassMapper.listKlassIdBySeminarId(seminarId);
     }
-
 }

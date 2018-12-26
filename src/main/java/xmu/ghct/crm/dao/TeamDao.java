@@ -2,6 +2,7 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.ShareTeamVO;
 import xmu.ghct.crm.VO.StudentVO;
 import xmu.ghct.crm.VO.TeamInfoVO;
 import xmu.ghct.crm.entity.Team;
@@ -38,7 +39,7 @@ public class TeamDao {
     public List<StudentVO> getNoTeamStudentByKlassId(BigInteger klassId) {
         List<BigInteger> allStudentId=studentMapper.getAllStudentIdByKlassId(klassId);
         List<BigInteger> teamStudentId=new ArrayList<>();//klass下所有team，team下所有studentId
-        List<Team> teams=teamMapper.listTeamByKlassId(klassId);
+        List<Team> teams=listTeamByKlassId(klassId);
         for(Team teamItems: teams){
             List<BigInteger> studentsId=teamMapper.getStudentIdByTeamId(teamItems.getTeamId());
             for(BigInteger i:studentsId)
@@ -70,7 +71,27 @@ public class TeamDao {
     }
 
     public List<Team> listTeamByKlassId(BigInteger klassId) {
-        return  teamMapper.listTeamByKlassId(klassId);
+        //*********考虑到从课程的关系，要先查klass_team表找到所有的team，再根据teamId查信息
+        //注意返回值从课程与主课程klassId不同
+        List<BigInteger> teamIds=teamMapper.listTeamIdByKlassId(klassId);
+        List<Team> teams=new ArrayList<>();
+        for(BigInteger id:teamIds)
+        {
+            Team team=teamMapper.getTeamInfoByTeamId(id);
+            if(team.getKlassId()!=klassId)//如果是从课程，则改变klassId
+                team.setKlassId(klassId);
+            teams.add(team);
+        }
+        return teams;
     }
 
+    /**
+     * @cyq
+     * 根据courseId查找是否有共享分组请求
+     * @param courseId
+     * @return
+     */
+    public ShareTeamVO getShareTeamInfoByCourseId(BigInteger courseId){
+        return teamMapper.getShareTeamInfoByCourseId(courseId);
+    }
 }

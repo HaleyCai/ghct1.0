@@ -6,7 +6,7 @@ import java.math.BigInteger;
 public class TeamSimpleInfo implements Serializable {
     private BigInteger teamId;
     private String teamName;
-    int teamSerial;
+    String teamSerial;
     int status;
 
     public BigInteger getTeamId() {
@@ -25,11 +25,11 @@ public class TeamSimpleInfo implements Serializable {
         this.teamName = teamName;
     }
 
-    public int getTeamSerial() {
+    public String getTeamSerial() {
         return teamSerial;
     }
 
-    public void setTeamSerial(int teamSerial) {
+    public void setTeamSerial(String teamSerial) {
         this.teamSerial = teamSerial;
     }
 

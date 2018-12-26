@@ -2,12 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.TeamMapper">
 
-    <select id="getTeamIdByCourseId" resultType="java.math.BigInteger">
-        select id
-        from team
-        where course_id=#{courseId}
-    </select>
-
     <select id="listTeamInfoByCourseId" resultMap="teamMap">
         select *
         from team
@@ -40,9 +34,10 @@
         select * from team where id=#{teamId}
     </select>
 
-    <select id="listTeamByKlassId" resultMap="teamMap">
-        select *
-        from team
+    <!--cyq-->
+    <select id="listTeamIdByKlassId" resultType="java.math.BigInteger">
+        select team_id
+        from klass_team
         where klass_id=#{klassId}
     </select>
 
@@ -50,6 +45,20 @@
     <select id="getTeamStudentIdByKlassId" resultType="java.math.BigInteger">
         select
     </select>
+
+    <!--cyq-->
+    <select id="getShareTeamInfoByCourseId" resultMap="shareTeamMap">
+        select main_course_id,sub_course_id,sub_course_teacher_id,status
+        from share_team_application
+        where (main_course_id=#{courseId} or sub_course_id=#{courseId}) and status=1
+    </select>
+
+    <resultMap id="shareTeamMap" type="xmu.ghct.crm.VO.ShareTeamVO">
+        <result property="mainCourseId" column="main_course_id"/>
+        <result property="subCourseId" column="sub_course_id"/>
+        <result property="subCourseTeacherId" column="sub_course_teacher_id"/>
+        <result property="status" column="status"/>
+    </resultMap>
 
     <resultMap id="teamMap" type="xmu.ghct.crm.entity.Team">
         <id property="teamId" column="id"/>

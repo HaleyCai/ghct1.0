@@ -3,6 +3,7 @@ package xmu.ghct.crm.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.CourseVO;
+import xmu.ghct.crm.VO.ShareTeamVO;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 
@@ -14,19 +15,11 @@ import java.util.List;
 public interface TeamMapper {
 
     /**
-     * 根据courseId获得teamId
-     * @param courseId
-     * @return
-     */
-    List<BigInteger> getTeamIdByCourseId(BigInteger courseId);
-
-    /**
      * 根据courseId获得队伍信息
      * @param courseId
      * @return
      */
     List<Team> listTeamInfoByCourseId(BigInteger courseId);
-
 
     /**
      * 插入小组人数限制
@@ -57,10 +50,18 @@ public interface TeamMapper {
     Team getTeamInfoByTeamId(BigInteger teamId);
 
     /**
-     * @author hzm
-     * 根据klassId获得班级下的所有队伍
+     * @author cyq
+     * 根据klassId获得班级下的所有teamId
      * @param klassId
      * @return
      */
-    List<Team> listTeamByKlassId(BigInteger klassId);
+    List<BigInteger> listTeamIdByKlassId(BigInteger klassId);
+
+    /**
+     * @cyq
+     * 查找该课程是否共享分组，主或从都可
+     * @param courseId
+     * @return
+     */
+    ShareTeamVO getShareTeamInfoByCourseId(BigInteger courseId);
 }

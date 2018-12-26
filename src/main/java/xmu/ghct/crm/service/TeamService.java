@@ -2,9 +2,11 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xmu.ghct.crm.VO.ShareTeamVO;
 import xmu.ghct.crm.VO.StudentVO;
 import xmu.ghct.crm.VO.TeamInfoVO;
 import xmu.ghct.crm.VO.TeamSimpleInfo;
+import xmu.ghct.crm.dao.KlassDao;
 import xmu.ghct.crm.dao.StudentDao;
 import xmu.ghct.crm.dao.TeamDao;
 import xmu.ghct.crm.entity.Team;
@@ -23,6 +25,8 @@ public class TeamService {
     @Autowired
     StudentDao studentDao;
 
+    @Autowired
+    KlassDao klassDao;
     /**
      * @cyq
      * 教师，查课程下所有队伍的简单信息
@@ -30,8 +34,26 @@ public class TeamService {
      * @return
      */
     public List<TeamSimpleInfo> listTeamByCourseId(BigInteger courseId) {
-        List<Team> teamList=teamDao.listTeamInfoByCourseId(courseId);
+        BigInteger mainCourse=getTeamMainCourseId(courseId);
+        List<Team> teamList=teamDao.listTeamInfoByCourseId(mainCourse);
         return teamTOTeamSimpleInfo(teamList);
+    }
+
+    /**
+     * @cyq
+     * 判断一个课程是否为共享组队主课程
+     * @return
+     */
+    public BigInteger getTeamMainCourseId(BigInteger courseId)
+    {
+        //*******查表，看courseId是从课程还是主课程，是主课程或未共享分组，则根据该courseId查询
+        ShareTeamVO shareTeamVO=teamDao.getShareTeamInfoByCourseId(courseId);
+        if(shareTeamVO==null)
+            return courseId;
+        if(courseId==shareTeamVO.getMainCourseId())
+            return courseId;
+        else
+            return shareTeamVO.getSubCourseId();
     }
 
     /**
@@ -57,7 +79,10 @@ public class TeamService {
             TeamSimpleInfo teamSimpleInfo=new TeamSimpleInfo();
             teamSimpleInfo.setTeamId(teamItem.getTeamId());
             teamSimpleInfo.setTeamName(teamItem.getTeamName());
-            teamSimpleInfo.setTeamSerial(teamItem.getTeamSerial());
+            //队伍的序号是班号-队伍号
+            //根据klassId查klassSerial
+            int klassSerial=klassDao.getKlassByKlassId(teamItem.getKlassId()).getKlassSerial();
+            teamSimpleInfo.setTeamSerial(String.valueOf(klassSerial)+"-"+String.valueOf(teamItem.getTeamSerial()));
             teamSimpleInfo.setStatus(teamItem.getStatus());
             teamSimpleInfoList.add(teamSimpleInfo);
         }
