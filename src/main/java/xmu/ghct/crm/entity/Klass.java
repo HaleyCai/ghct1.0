@@ -3,7 +3,7 @@ package xmu.ghct.crm.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-public class Klass implements Serializable {
+public class Klass implements Serializable{
     private BigInteger klassId;
     private BigInteger courseId;
     private int grade;

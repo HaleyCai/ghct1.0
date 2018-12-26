@@ -126,7 +126,7 @@ public class UserService {
         SimpleMailMessage mainMessage = new SimpleMailMessage();
         //发送者
         mainMessage.setFrom(from);
-        //接收者
+        //接收者，判断是什么邮箱，不同邮箱发送不同！！！实现163, qq, xmu三种
         mainMessage.setTo(user.getEmail());
         //发送的标题
         mainMessage.setSubject("密码查询");

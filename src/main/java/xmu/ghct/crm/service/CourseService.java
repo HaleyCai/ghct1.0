@@ -65,18 +65,19 @@ public class CourseService {
 
     /**
      * @cyq
-     * 根据roundId获取轮次的信息
+     * 根据courseId和roundId获得轮次信息
+     * @param courseId
      * @param roundId
      * @return
      */
-    public RoundVO getRoundByRoundId(BigInteger roundId)
+    public RoundVO getRoundByRoundId(BigInteger courseId,BigInteger roundId)
     {
-        return roundDao.getRoundByRoundId(roundId);
+        return roundDao.getRoundByRoundId(courseId,roundId);
     }
 
     /**
      * @cyq
-     * 根据roundId修改轮次的信息（成绩评定方式）
+     * 根据roundId修改轮次的信息（成绩评定方式和班级报名次数）
      * @param roundVO
      * @return
      */
@@ -85,13 +86,4 @@ public class CourseService {
         return roundDao.modifyRoundByRoundId(roundVO);
     }
 
-    /**
-     * @cyq
-     * 修改本轮次下，各个班级的最大报名组数
-     * @return
-     */
-    public boolean modifyRoundSignTimes()
-    {
-        return true;
-    }
 }

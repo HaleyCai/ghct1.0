@@ -11,8 +11,7 @@ import xmu.ghct.crm.mapper.KlassMapper;
 import xmu.ghct.crm.mapper.RoundMapper;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author caiyq
@@ -62,28 +61,6 @@ public class RoundDao {
     }
 
     /**
-     * @cyq
-     * 根据roundId获得轮次信息
-     * @param roundId
-     * @return
-     */
-    public RoundVO getRoundByRoundId(BigInteger roundId){
-        Round round=roundMapper.getRoundByRoundId(roundId);
-        if(round==null){
-            //throw
-        }
-
-        RoundVO roundVO=new RoundVO();
-        roundVO.setRoundId(round.getRoundId());
-        roundVO.setRoundSerial(round.getRoundSerial());
-        //将Int转为String
-        roundVO.setPresentationScoreMethod(intToString(round.getPresentationScoreMethod()));
-        roundVO.setReportScoreMethod(intToString(round.getReportScoreMethod()));
-        roundVO.setQuestionScoreMethod(intToString(round.getQuestionScoreMethod()));
-        return roundVO;
-    }
-
-    /**
      * 将表示成绩评定方式的字符串转为数字
      * @param s
      * @return
@@ -97,21 +74,78 @@ public class RoundDao {
     }
 
     /**
-     * 根据roundId修改轮次信息（成绩评定方式）
+     * @cyq
+     * 根据courseId和roundId获得轮次信息
+     * @param courseId
+     * @param roundId
+     * @return
+     */
+    public RoundVO getRoundByRoundId(BigInteger courseId,BigInteger roundId){
+        Round round=roundMapper.getRoundByRoundId(roundId);
+        if(round==null){
+            //throw
+        }
+        RoundVO roundVO=new RoundVO();
+        roundVO.setRoundId(round.getRoundId());
+        roundVO.setRoundSerial(round.getRoundSerial());
+        //将Int转为String
+        roundVO.setPresentationScoreMethod(intToString(round.getPresentationScoreMethod()));
+        roundVO.setReportScoreMethod(intToString(round.getReportScoreMethod()));
+        roundVO.setQuestionScoreMethod(intToString(round.getQuestionScoreMethod()));
+        //查找round下各班的最大报名组数
+        roundVO.setEnrollNum(getKlassEnrollNum(courseId,roundId));
+        return roundVO;
+    }
+
+    /**
+     * 根据课程id查其下所有的klassId，结合klassId和roundId查该轮次该班的最大报名次数
+     * @param courseId
+     * @param roundId
+     * @return
+     */
+    public Map<String,Integer> getKlassEnrollNum(BigInteger courseId,BigInteger roundId)
+    {
+        Map<String,Integer> result=new TreeMap<>();
+        //查round下所有的klass
+        List<Klass> klassList=klassMapper.listKlassByCourseId(courseId);
+        System.out.println(klassList);
+        for(Klass item:klassList)
+        {
+            String klassName=item.getGrade()+" "+String.valueOf(item.getKlassSerial());//班级名字是由年级+班级序号
+            //查表找报名次数
+            int times=roundMapper.getEnrollNum(item.getKlassId(),roundId);
+            result.put(klassName,times);
+        }
+        return result;
+    }
+
+    /**
+     * 根据roundId修改轮次信息（成绩评定方式和各班下的最大报名次数）
      * @param roundVO
      * @return
      */
     public boolean modifyRoundByRoundId(RoundVO roundVO){
-        int v1=roundMapper.modifyRoundByRoundId(roundVO.getRoundId(),
+        //修改成绩评定方式
+        roundMapper.modifyRoundByRoundId(roundVO.getRoundId(),
                 stringToInt(roundVO.getPresentationScoreMethod()),
                 stringToInt(roundVO.getReportScoreMethod()),
                 stringToInt(roundVO.getQuestionScoreMethod()));
-        if(v1<=0){
-            //throw
-            return false;
+        //将map变为klassId和num，传roundId
+        Map<BigInteger,Integer> enroll=new TreeMap<>();
+        for(String klassName:roundVO.getEnrollNum().keySet())
+        {
+            String s[]=klassName.split(" ");
+            int grade=Integer.parseInt(s[0]);
+            int klassSerial=Integer.parseInt(s[1]);
+            BigInteger klassId=klassMapper.getKlassByGradeAndKlassSerial(grade,klassSerial).getKlassId();
+            enroll.put(klassId,roundVO.getEnrollNum().get(klassSerial));
         }
-        else
-            return true;
+        //修改各班下的最大报名次数
+        for(BigInteger klassId:enroll.keySet())
+        {
+            roundMapper.modifyEnrollNum(klassId,roundVO.getRoundId(),enroll.get(klassId));
+        }
+        return true;
     }
 
     /**
@@ -134,7 +168,7 @@ public class RoundDao {
 
     /**
      * @cyq
-     * 查找一个课程下，轮次的最大值，用来创建默认讨论课的序号
+     * 创建默认讨论课的序号（查找一个课程下，轮次的最大值，+1）
      * @param courseId
      * @return
      */

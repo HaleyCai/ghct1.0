@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import xmu.ghct.crm.VO.CourseVO;
+import xmu.ghct.crm.VO.KlassInfoVO;
 import xmu.ghct.crm.VO.RoundVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.RoundNotFindException;
@@ -15,11 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @RestController
 public class CourseController {
@@ -103,39 +106,59 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
-    public RoundVO getRoundByRoundId(@PathVariable("roundId") BigInteger roundId)
+    public RoundVO getRoundByRoundId(@PathVariable("roundId") BigInteger roundId,
+                                     @RequestBody Map<String,Object> inMap)
     {
-        return courseService.getRoundByRoundId(roundId);
+        return courseService.getRoundByRoundId(
+                new BigInteger(inMap.get("courseId").toString()),
+                roundId);
     }
 
     /**
      * @cyq
-     * 根据roundId修改轮次信息（只修改轮次的评分方式）
+     * 根据roundId修改轮次信息（修改轮次的评分方式, 修改本轮各个班级允许的报名次数）
      * @param roundId
      * @return
      */
     @RequestMapping(value = "/round/{roundId}",method = RequestMethod.PUT)
-    public boolean modifyRoundByRoundId(@PathVariable("roundId") BigInteger roundId,@RequestBody Map<String,Object> inMap)
+    public boolean modifyRoundByRoundId(@PathVariable("roundId") BigInteger roundId,
+                                        @RequestBody Map<String,Object> inMap) throws IllegalAccessException
     {
+        //修改轮次的评分方式
         RoundVO roundVO=new RoundVO();
-        roundVO.setRoundId((BigInteger) inMap.get("roundId"));
-        roundVO.setPresentationScoreMethod(inMap.get("presentation").toString());
-        roundVO.setQuestionScoreMethod(inMap.get("question").toString());
-        roundVO.setReportScoreMethod(inMap.get("report").toString());
+        roundVO.setCourseId(new BigInteger(inMap.get("courseId").toString()));
+        roundVO.setRoundId(new BigInteger(inMap.get("roundId").toString()));
+        roundVO.setRoundSerial(Integer.valueOf(inMap.get("roundSerial").toString()));
+        roundVO.setPresentationScoreMethod(inMap.get("presentationScoreMethod").toString());
+        roundVO.setQuestionScoreMethod(inMap.get("reportScoreMethod").toString());
+        roundVO.setReportScoreMethod(inMap.get("questionScoreMethod").toString());
+        //将map中的object转为map
+        Map<String,Integer> enroll=new TreeMap<>();
+        Class<?> clazz = inMap.get("enrollNum").getClass();
+        System.out.println(clazz);
+        for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
+            String fieldName = field.getName();
+            System.out.println("fieldName "+ fieldName);
+            Integer value = Integer.valueOf(field.get(inMap.get("enrollNum")).toString());
+            System.out.println("value "+ value);
+            enroll.put(fieldName, value);
+        }
+        System.out.println("map:   "+enroll);
+        roundVO.setEnrollNum(enroll);
+        //修改本轮各个班级允许的报名次数
         return courseService.modifyRoundByRoundId(roundVO);
     }
 
     /**
      * @cyq
-     * 自己加的api，修改本轮各个班级允许的报名次数，见页面“轮次设置”，最大值为该轮次下seminar的数量
-     * @param inMap
+     * 学生界面，根据学生id获得所有课程\班级信息
      * @return
      */
-    @RequestMapping(value = "/round/{roundId}/{klassId}/signtimes",method = RequestMethod.PUT)
-    public boolean modifyRoundSignTimes(@RequestBody Map<String,Object> inMap)
-    {
-        return true;
+    /*
+    @RequestMapping(value = "/course/mycourse",method = RequestMethod.GET)
+    public List<KlassInfoVO> getKlassInfoByStudentId(@RequestBody Map<String,Object> inMap){
+
     }
-
-
+    */
 }

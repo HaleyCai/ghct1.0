@@ -76,9 +76,20 @@
               enroll_number
         )
         values(
-              #{classId},
+              #{klassId},
               #{roundId},
               1
         )
     </insert>
+
+    <select id="getEnrollNum" resultType="java.lang.Integer">
+        select enroll_number from klass_round
+        where klass_id=#{klassId} and round_id=#{roundId}
+    </select>
+
+    <update id="modifyEnrollNum">
+        update klass_round
+        set enroll_number=#{num}
+        where klass_id=#{klassId} and round_id=#{roundId}
+    </update>
 </mapper>

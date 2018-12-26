@@ -57,4 +57,13 @@ public interface KlassMapper {
      * @return
      */
    List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId);
+
+    /**
+     * @cyq
+     * 根据courseId和klassSerial获取klassId
+     * @param grade
+     * @param klassSerial
+     * @return
+     */
+   Klass getKlassByGradeAndKlassSerial(int grade,int klassSerial);
 }

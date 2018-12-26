@@ -67,10 +67,28 @@ public interface RoundMapper {
     /**
      * @cyq
      * 默认创建允许报名次数为1
-     * @param classId
+     * @param klassId
      * @param roundId
      * @return
      */
-    int createDefaultEnrollNumber(BigInteger classId, BigInteger roundId);
+    int createDefaultEnrollNumber(BigInteger klassId, BigInteger roundId);
 
+    /**
+     * @cyq
+     * 获得某班级，某轮次最大报名次数
+     * @param klassId
+     * @param roundId
+     * @return
+     */
+    int getEnrollNum(BigInteger klassId, BigInteger roundId);
+
+    /**
+     * @cyq
+     * 修改某轮，某班，最大报名次数
+     * @param klassId
+     * @param roundId
+     * @param num
+     * @return
+     */
+    int modifyEnrollNum(BigInteger klassId,BigInteger roundId,int num);
 }

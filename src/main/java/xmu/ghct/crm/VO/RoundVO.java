@@ -2,13 +2,24 @@ package xmu.ghct.crm.VO;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Map;
 
 public class RoundVO implements Serializable {
+    private BigInteger courseId;
     private BigInteger roundId;
     private int roundSerial;//轮次序号
     private String presentationScoreMethod;//本轮次成绩计算方法，0转为“平均分”，1转为“最高分”
     private String reportScoreMethod;
     private String questionScoreMethod;
+    private Map<String,Integer> enrollNum;//各班的最大报名次数
+
+    public BigInteger getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(BigInteger courseId) {
+        this.courseId = courseId;
+    }
 
     public BigInteger getRoundId() {
         return roundId;
@@ -50,14 +61,24 @@ public class RoundVO implements Serializable {
         this.questionScoreMethod = questionScoreMethod;
     }
 
+    public Map<String, Integer> getEnrollNum() {
+        return enrollNum;
+    }
+
+    public void setEnrollNum(Map<String, Integer>enrollNum) {
+        this.enrollNum = enrollNum;
+    }
+
     @Override
     public String toString() {
         return "RoundVO{" +
-                "roundId=" + roundId +
+                "courseId=" + courseId +
+                ", roundId=" + roundId +
                 ", roundSerial=" + roundSerial +
                 ", presentationScoreMethod='" + presentationScoreMethod + '\'' +
                 ", reportScoreMethod='" + reportScoreMethod + '\'' +
                 ", questionScoreMethod='" + questionScoreMethod + '\'' +
+                ", enrollNum=" + enrollNum +
                 '}';
     }
 }

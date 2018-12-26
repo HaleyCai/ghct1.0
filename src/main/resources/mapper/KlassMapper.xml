@@ -5,6 +5,7 @@
            select *
            from klass
            where course_id=#{courseId}
+           order by grade,klass_serial
     </select>
 
     <select id="getKlassByKlassId" resultMap="klassResultMap">
@@ -55,4 +56,10 @@
 
     </resultMap>
 
+    <!--cyq-->
+    <select id="getKlassByCourseIdAndKlassSerial" resultType="java.math.BigInteger">
+        select id
+        from klass
+        where course_id=#{courseId} and klass_serial=#{klassSerial}
+    </select>
 </mapper>
