@@ -131,7 +131,18 @@ public class TeamService {
         return teamInfoVO;
     }
 
+    /**
+     * @cyq
+     * 获取班级里未组队学生
+     * @param klassId
+     * @return
+     */
     public List<StudentVO> getNoTeamStudentByKlassId(BigInteger klassId) {
         return teamDao.getNoTeamStudentByKlassId(klassId);
+    }
+
+    public boolean deleteTeam(BigInteger teamId)
+    {
+        return teamDao.deleteTeam(teamId);
     }
 }

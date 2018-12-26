@@ -10,6 +10,7 @@ import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.service.TeamService;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,9 +69,13 @@ public class TeamController {
      * @param teamId
      */
     @RequestMapping(value="team/{teamId}",method = RequestMethod.DELETE)
-    public void deleteTeam(@PathVariable("teamId") BigInteger teamId)
+    public Map<String,Object> deleteTeam(@PathVariable("teamId") BigInteger teamId)
     {
-
+        Map<String,Object> map=new HashMap<>();
+        if(teamService.deleteTeam(teamId))
+            map.put("message",true);
+        else map.put("message",false);
+        return map;
     }
 
     /**

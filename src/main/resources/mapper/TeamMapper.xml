@@ -75,5 +75,16 @@
         <result property="maxMember" column="max_member"/>
     </resultMap>
 
+    <!--cyq-->
+    <delete id="deleteTeamInfo">
+        delete from team where id=#{teamId}
+    </delete>
 
+    <delete id="deleteStudentTeam">
+        delete from team_student where team_id=#{teamId}
+    </delete>
+
+    <delete id="deleteKlassTeam">
+        delete from klass_team where team_id=#{teamId}
+    </delete>
 </mapper>

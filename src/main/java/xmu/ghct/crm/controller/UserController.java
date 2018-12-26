@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.service.UserService;
+
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -38,10 +40,14 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/teacher/active",method = RequestMethod.PUT)
-    public boolean teacherActive(@RequestBody Map<String,Object> inMap){
-        return userService.teacherActive(
+    public Map<String,Object> teacherActive(@RequestBody Map<String,Object> inMap){
+        Map<String,Object> map=new HashMap<>();
+        if(userService.teacherActive(
                 inMap.get("account").toString(),
-                inMap.get("password").toString());
+                inMap.get("password").toString()))
+            map.put("message",true);
+        else map.put("message",false);
+        return map;
     }
 
     /**
@@ -50,11 +56,12 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/student/active",method = RequestMethod.PUT)
-    public boolean studentActive(@RequestBody Map<String,Object> inMap){
-        return userService.studentActive(
-                inMap.get("account").toString(),
-                inMap.get("password").toString(),
-                inMap.get("email").toString());
+    public Map<String,Object> studentActive(@RequestBody Map<String,Object> inMap){
+        Map<String,Object> map=new HashMap<>();
+        if(userService.studentActive(inMap.get("account").toString(), inMap.get("password").toString(),inMap.get("email").toString()))
+            map.put("message",true);
+        else map.put("message",false);
+        return map;
     }
 
     /**

@@ -94,4 +94,21 @@ public class TeamDao {
     public ShareTeamVO getShareTeamInfoByCourseId(BigInteger courseId){
         return teamMapper.getShareTeamInfoByCourseId(courseId);
     }
+
+    /**
+     * @cyq
+     * //删除Team表，删除team和student关系，删除课程、班级与team关系
+     * @param teamId
+     * @return
+     */
+    public boolean deleteTeam(BigInteger teamId)
+    {
+        int v1=teamMapper.deleteTeamInfo(teamId);
+        int v2=teamMapper.deleteKlassTeam(teamId);
+        int v3=teamMapper.deleteStudentTeam(teamId);
+        if(v1+v2+v3>0)
+            return true;
+        else
+            return false;
+    }
 }

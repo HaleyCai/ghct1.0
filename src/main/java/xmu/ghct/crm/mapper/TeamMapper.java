@@ -64,4 +64,29 @@ public interface TeamMapper {
      * @return
      */
     ShareTeamVO getShareTeamInfoByCourseId(BigInteger courseId);
+
+    /**
+     * @cyq
+     * 删除team表中的记录
+     * @param teamId
+     * @return
+     */
+    int deleteTeamInfo(BigInteger teamId);
+
+    /**
+     * @cyq
+     * 删除team_student表，team和student的关联关系
+     * @param teamId
+     * @return
+     */
+    int deleteStudentTeam(BigInteger teamId);
+
+    /**
+     * @cyq
+     * 删除klass_team表
+     * @param teamId
+     * @return
+     */
+    int deleteKlassTeam(BigInteger teamId);
+
 }
