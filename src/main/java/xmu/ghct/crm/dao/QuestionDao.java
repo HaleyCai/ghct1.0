@@ -45,5 +45,9 @@ public class QuestionDao {
             return true;
     }
 
+    public List<Question> listQuestionByKlassSeminarIdAndAttendanceId(BigInteger klassSeminarId,BigInteger attendanceId){
+        return questionMapper.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
+    }
+
 
 }

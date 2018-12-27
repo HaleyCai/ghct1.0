@@ -67,4 +67,6 @@ public class CourseDao {
         return courseMapper.getCourseIdByTeamId(teamId);
     }
 
+    public BigInteger getCourseIdByKlassId(BigInteger klassId){return courseMapper.getCourseIdByKlassId(klassId);}
+
 }

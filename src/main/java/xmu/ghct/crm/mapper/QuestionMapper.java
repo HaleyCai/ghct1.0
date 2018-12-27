@@ -22,4 +22,13 @@ public interface QuestionMapper {
     int postQuestion(Question question);
 
     int updateQuestionScoreByQuestionId(BigInteger questionId,Double questionScore);
+
+    /**
+     * @author hzm
+     * 根据klassSeminarId 和 attendanceId获取提问信息
+     * @param klassSeminarId
+     * @param attendanceId
+     * @return
+     */
+    List<Question> listQuestionByKlassSeminarIdAndAttendanceId(BigInteger klassSeminarId,BigInteger attendanceId);
 }

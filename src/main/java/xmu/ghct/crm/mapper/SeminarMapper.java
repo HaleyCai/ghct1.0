@@ -145,4 +145,13 @@ public interface SeminarMapper {
      * @return
      */
     Integer getSeminarSerialBySeminarId(BigInteger seminarId);
+
+
+    /**
+     * @author hzm
+     * 根据klassSeminarId获得klassId
+     * @param klassSeminarId
+     * @return
+     */
+    BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId);
 }

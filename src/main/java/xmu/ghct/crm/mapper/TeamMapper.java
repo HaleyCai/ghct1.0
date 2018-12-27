@@ -98,4 +98,12 @@ public interface TeamMapper {
      */
     int removeTeamMember(BigInteger teamId,BigInteger studentId);
 
+    /**
+     * @author hzm
+     * 根据teamId获得klassId
+     * @param teamId
+     * @return
+     */
+    BigInteger getKlassIdByTeamId(BigInteger teamId);
+
 }

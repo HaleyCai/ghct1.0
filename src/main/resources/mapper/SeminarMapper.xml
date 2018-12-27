@@ -98,12 +98,15 @@
 
     <!--hzm-->
     <select id="getKlassSeminarByKlassSeminarId" resultMap="klassSeminarResultMap">
-        select report_ddl,status
+        select id,klass_id,seminar_id,report_ddl,status
         from klass_seminar
         where id=#{klassSeminarId}
     </select>
     
     <resultMap id="klassSeminarResultMap" type="xmu.ghct.crm.VO.SeminarVO">
+        <id property="klassSeminarId" column="id"/>
+        <result property="klassId" column="klass_id"/>
+        <result property="seminarId" column="seminar_id"/>
         <result property="reportDDL" column="report_ddl"/>
         <result property="status" column="status"/>
     </resultMap>
@@ -138,5 +141,11 @@
         select seminar_serial
         from seminar
         where id=#{seminarId}
+    </select>
+
+    <select id="getKlassIdByKlassSeminarId" resultType="java.math.BigInteger">
+        select klass_id
+        from klass_seminar
+        where id=#{klassSeminarId}
     </select>
 </mapper>

@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.PresentationMapper">
+
+    <insert id="insertAttendance" parameterType="xmu.ghct.crm.entity.Attendance">
+        insert into attendance (
+                                klass_seminar_id,
+                                team_id,
+                                team_order,
+                                is_present,
+                                report_name,
+                                report_url,
+                                ppt_name,
+                                ppt_url
+        ) values (
+                  #{klassSeminarId},
+                  #{teamId},
+                  #{teamOrder},
+                  #{present},
+                  #{reportName},
+                  #{reportUrl},
+                  #{pptName},
+                  #{pptUrl}
+                         )
+    </insert>
     
     <update id="updateAttendanceOrderByAttendanceId">
         update attendance
@@ -38,6 +60,12 @@
         from attendance
         where klass_seminar_id=#{klassSeminarId}
     </select>
+
+    <update id="updatePresentByAttendanceId">
+        update attendance
+        set is_present=#{present}
+        where id=#{attendanceId}
+    </update>
 
 
     <resultMap id="attendanceResultMap" type="xmu.ghct.crm.entity.Attendance">

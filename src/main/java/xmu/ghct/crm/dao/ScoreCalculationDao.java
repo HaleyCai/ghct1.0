@@ -9,6 +9,7 @@ import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.mapper.RoundMapper;
 import xmu.ghct.crm.mapper.ScoreMapper;
 import xmu.ghct.crm.mapper.SeminarMapper;
+import xmu.ghct.crm.mapper.TeamMapper;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -29,15 +30,29 @@ public class ScoreCalculationDao {
     @Autowired
     TotalScoreDao totalScoreDao;
 
+    @Autowired
+    TeamMapper teamMapper;
+
     public Score roundScoreCalculation(Score score, BigInteger roundId,BigInteger teamId,BigInteger courseId)
     {
         Score roundScore=new Score();
+        BigInteger klassId=teamMapper.getKlassIdByTeamId(teamId);
         Round round=roundMapper.getRoundByRoundId(roundId);
         ScoreVO roundScoreVO=scoreMapper.getTeamRoundScore(roundId,teamId);
         List<BigInteger> seminarIdList=seminarMapper.getSeminarIdByRoundId(roundId);
+        List<BigInteger> klassSeminarIdList=new ArrayList<>();
+        for(BigInteger item:seminarIdList){
+            BigInteger klassSeminarId=seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(item,klassId);
+            if(klassSeminarId!=null) klassSeminarIdList.add(klassSeminarId);
+        }
         List<Score> seminarScoreList=new ArrayList<>();
-        for(BigInteger item:seminarIdList)
-            seminarScoreList.add(scoreMapper.getSeminarScoreBySeminarIdAndTeamId(item,teamId));
+        int a=0;
+        for(BigInteger item:klassSeminarIdList){
+            System.out.println("seminarId"+item);
+            System.out.println("teamId"+teamId);
+            Score score_1=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(item,teamId);
+            if(score_1 != null){
+            seminarScoreList.add(score_1);}}
         if(round.getPresentationScoreMethod()==0){
             double presentation=0;
             int account=0;
@@ -46,6 +61,7 @@ public class ScoreCalculationDao {
                 account++;
         //        System.out.println(account+"个presentation成绩为： "+item.getPresentationScore());
             }
+            System.out.println("presentation account:"+account);
         //    System.out.println("presentation总成绩为： "+presentation);
             presentation/=account;
        //     System.out.println("presentation成绩为： "+presentation);
@@ -64,6 +80,7 @@ public class ScoreCalculationDao {
                 account++;
             //    System.out.println(account+"个question成绩为： "+item.getQuestionScore());
             }
+            System.out.println("question account:"+account);
         //    System.out.println("question总成绩为： "+question);
             question/=account;
         //    System.out.println("question成绩为： "+question);
@@ -83,6 +100,7 @@ public class ScoreCalculationDao {
            //     System.out.println(account+"个report成绩为： "+item.getReportScore());
             }
           //  System.out.println("report总成绩为： "+report);
+            System.out.println("report account:"+account);
             report/=account;
          //   System.out.println("report成绩为： "+report);
             roundScore.setReportScore(report);

@@ -64,4 +64,20 @@ public interface PresentationMapper {
      * @return
      */
     List<Attendance> listAttendanceByKlassSeminarId(BigInteger klassSeminarId);
+
+    /**
+     * @author hzm
+     * 根据attendanceId修改进行状态
+     * @param attendanceId
+     * @return
+     */
+    int updatePresentByAttendanceId(BigInteger attendanceId,int present);
+
+    /**
+     * @author hzm
+     * 创建报名信息
+     * @param attendance
+     * @return
+     */
+    int insertAttendance(Attendance attendance);
 }

@@ -45,7 +45,7 @@ public interface ScoreMapper {
      * @param teamId
      * @return
      */
-    Score getSeminarScoreBySeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId);
+    Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId);
 
     /**
      * @author hzm

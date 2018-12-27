@@ -51,4 +51,12 @@ public interface CourseMapper {
      * @return
      */
     BigInteger getCourseIdByTeamId(BigInteger teamId);
+
+    /**
+     * @author hzm
+     * 根据klassId获取课程ID
+     * @param klassId
+     * @return
+     */
+    BigInteger getCourseIdByKlassId(BigInteger klassId);
 }

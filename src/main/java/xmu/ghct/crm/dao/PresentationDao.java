@@ -37,4 +37,13 @@ public class PresentationDao {
     public List<Attendance> listAttendanceByKlassSeminarId(BigInteger klassSeminarId){
         return presentationMapper.listAttendanceByKlassSeminarId(klassSeminarId);
     }
+
+    public int updatePresentByAttendanceId(BigInteger attendanceId,int present){
+        return presentationMapper.updatePresentByAttendanceId(attendanceId,present);
+    }
+
+
+    public int insertAttendance(Attendance attendance){
+        return presentationMapper.insertAttendance(attendance);
+    }
 }

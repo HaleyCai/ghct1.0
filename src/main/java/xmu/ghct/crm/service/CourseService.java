@@ -86,4 +86,14 @@ public class CourseService {
         return roundDao.modifyRoundByRoundId(roundVO);
     }
 
+    /**
+     * @author hzm
+     * 根据klassId获取courseId
+     * @param klassId
+     * @return
+     */
+    public BigInteger getCourseIdByKlassId(BigInteger klassId){
+        return courseDao.getCourseIdByKlassId(klassId);
+    }
+
 }

@@ -56,7 +56,7 @@ public class ScoreDao {
 
                     //依次遍历每节讨论课，查找该team参加的讨论课成绩
                     for(BigInteger ksItem:klassSeminarIdList){
-                        Score klassSeminarScore=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(ksItem, scoreVOItem.getTeamId());
+                        Score klassSeminarScore=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(ksItem, scoreVOItem.getTeamId());
                         if(klassSeminarScore!=null)
                         {
                             //Score转SeminarScoreVO
@@ -93,7 +93,7 @@ public class ScoreDao {
 
                 //依次遍历每节讨论课，查找该team参加的讨论课成绩
                 for(BigInteger ksItem:klassSeminarIdList) {
-                    Score klassSeminarScore = scoreMapper.getSeminarScoreBySeminarIdAndTeamId(ksItem, teamId);
+                    Score klassSeminarScore = scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(ksItem, teamId);
                     if (klassSeminarScore != null) {
                         scoreList.add(scoreTOSeminarScoreVO(sItem,ksItem,klassSeminarScore));
                     }
@@ -137,5 +137,9 @@ public class ScoreDao {
 
     public int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO){
         return scoreMapper.updateRoundScoreByRoundIdAndTeamId(scoreVO);
+    }
+
+    public Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId){
+        return scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
     }
 }

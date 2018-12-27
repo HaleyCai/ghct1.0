@@ -1,12 +1,17 @@
 package xmu.ghct.crm.controller;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import xmu.ghct.crm.VO.ScoreVO;
 import xmu.ghct.crm.VO.SeminarVO;
-import xmu.ghct.crm.dao.DownloadFileDao;
-import xmu.ghct.crm.dao.SeminarDao;
+import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Attendance;
+import xmu.ghct.crm.entity.Question;
+import xmu.ghct.crm.entity.Score;
+import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.service.CourseService;
 import xmu.ghct.crm.service.PresentationService;
 import xmu.ghct.crm.service.SeminarService;
 import xmu.ghct.crm.service.UploadFileService;
@@ -17,10 +22,7 @@ import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -41,6 +43,21 @@ public class PresentationController {
 
     @Autowired
     SeminarDao seminarDao;
+
+    @Autowired
+    QuestionDao questionDao;
+
+    @Autowired
+    ScoreDao scoreDao;
+
+    @Autowired
+    CourseService courseService;
+
+    @Autowired
+    TotalScoreDao totalScoreDao;
+
+    @Autowired
+    ScoreCalculationDao scoreCalculationDao;
 
     /**
      * @author hzm
@@ -122,7 +139,7 @@ public class PresentationController {
 
     /**
      * @author hzm
-     * 根据attendanceId上传报告
+     * 根据attendanceId上传ppt
      * @param attendanceId
      * @param file
      * @return
@@ -195,4 +212,86 @@ public class PresentationController {
         }
         downloadFileDao.multiFileDownload(response,paths);
     }
+
+
+
+    @GetMapping("/presentation/{klassSeminarId}")
+    public Map<String,List> beingPresentation(@PathVariable("klassSeminarId") BigInteger klassSeminarId){
+        List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
+        boolean flag=false;
+        BigInteger id=new BigInteger("0");
+        for(Attendance item:attendanceList) {
+            if (item.getPresent() == 1) {
+                flag = true;
+                id=item.getAttendanceId();
+                break;
+            }
+        }
+        if(flag==false) {
+                int minOrder=888;
+                for(Attendance item_1:attendanceList){
+                    if(item_1.getTeamOrder()<minOrder){minOrder=item_1.getTeamOrder();id=item_1.getAttendanceId();}
+                }
+                for(Attendance item_1:attendanceList){
+                    if(item_1.getAttendanceId()==id) item_1.setPresent(1);}
+                System.out.println(id);
+                presentationService.updatePresentByAttendanceId(id,new Integer(1));
+            }
+        List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,id);
+        Map<String,List> presentationMap=new HashMap<>();
+        presentationMap.put("attendanceList",attendanceList);
+        presentationMap.put("questionList",questionList);
+        return presentationMap;
+    }
+
+
+    @PutMapping("/presentation/{klassSeminarId}/attendance/{teamId}")
+    public boolean updatePresentationScore(@PathVariable("klassSeminarId") BigInteger klassSeminarId,@PathVariable("teamId")BigInteger teamId,
+                                           @RequestBody  Map<String,Object> presentationScoreMap){
+        double presentationScore=new Double(presentationScoreMap.get("presentationScore").toString());
+        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+        score.setPresentationScore(presentationScore);
+        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId);
+        BigInteger courseId=courseService.getCourseIdByKlassId(seminarVO.getKlassId());
+        Score totalScore=totalScoreDao.totalScoreCalculation(score,courseId);
+        int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(totalScore);
+        BigInteger roundId=seminarService.getRoundIdBySeminarId(seminarVO.getSeminarId());
+        Score score1=scoreCalculationDao.roundScoreCalculation(totalScore,roundId,teamId,courseId);
+        ScoreVO scoreVO=new ScoreVO();
+        scoreVO.setTotalScore(score1.getTotalScore());
+        scoreVO.setReportScore(score1.getReportScore());
+        scoreVO.setQuestionScore(score1.getQuestionScore());
+        scoreVO.setPresentationScore(score1.getPresentationScore());
+        scoreVO.setRoundId(roundId);
+        scoreVO.setTeamId(teamId);
+        scoreDao.updateRoundScoreByRoundIdAndTeamId(scoreVO);
+        if(flag>0) return true;
+        else return false;
+    }
+
+    @RequestMapping(value="/seminar/{klassSeminarId}/attendance/{teamId}" ,method = RequestMethod.POST)
+    public boolean attendanceSeminar(@PathVariable("klassSeminarId")BigInteger klassSeminarId,@PathVariable("teamId") BigInteger teamId,@RequestBody Map<String,Object> attendanceMap){
+             SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
+             Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//修改日期格式
+        String enrollEndTime=dateFormat.format(seminar.getEnrollEndTime());
+        String enrollStartTime=dateFormat.format(seminar.getEnrollStartTime());
+        Date date=new Date();
+        String nowTime = dateFormat.format( date );
+        int startJudge=enrollStartTime.compareTo(nowTime);
+        int endJudge=enrollEndTime.compareTo(nowTime);
+        if(startJudge>0||endJudge<0) {
+            //throw new OutTimeScopeException;
+            return false;
+        }
+        else{
+            int flag= presentationService.insertAttendance(klassSeminarId,teamId,attendanceMap);
+            if(flag>0) return true;
+            else return false;
+        }
+
+
+    }
+
+
 }

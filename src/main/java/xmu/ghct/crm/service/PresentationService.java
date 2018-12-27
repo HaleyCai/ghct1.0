@@ -39,4 +39,18 @@ public class PresentationService {
     public List<Attendance> listAttendanceByKlassSeminarId(BigInteger klassSeminarId){
         return presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
     }
+
+    public int updatePresentByAttendanceId(BigInteger attendanceId,int present){
+        return presentationDao.updatePresentByAttendanceId(attendanceId,present);
+    }
+
+
+    public int insertAttendance(BigInteger klassSeminarId,BigInteger teamId,Map<String,Object> attendanceMap){
+        Attendance attendance=new Attendance();
+        attendance.setTeamId(teamId);
+        attendance.setPresent(0);
+        attendance.setKlassSeminarId(klassSeminarId);
+        attendance.setTeamOrder(new Integer(attendanceMap.get("teamOrder").toString()));
+        return presentationDao.insertAttendance(attendance);
+    }
 }

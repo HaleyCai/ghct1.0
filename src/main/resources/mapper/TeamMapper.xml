@@ -34,6 +34,12 @@
         select * from team where id=#{teamId}
     </select>
 
+    <select id="getKlassIdByTeamId" resultType="java.math.BigInteger">
+        select klass_id
+        from team
+        where id=#{teamId}
+    </select>
+
     <!--cyq-->
     <select id="listTeamIdByKlassId" resultType="java.math.BigInteger">
         select team_id

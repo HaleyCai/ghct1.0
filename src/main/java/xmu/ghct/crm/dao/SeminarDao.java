@@ -61,4 +61,12 @@ public class SeminarDao {
         return  seminarMapper.getKlassSeminarByKlassSeminarId(klassSeminarId);
     }
 
+    public BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId){
+        return seminarMapper.getKlassIdByKlassSeminarId(klassSeminarId);
+    }
+
+    public BigInteger getRoundIdBySeminarId(BigInteger seminarId){
+        return seminarMapper.getRoundIdBySeminarId(seminarId);
+    }
+
 }

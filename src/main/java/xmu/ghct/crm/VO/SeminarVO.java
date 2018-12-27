@@ -6,6 +6,7 @@ import java.util.Date;
 public class SeminarVO {
 
     private BigInteger klassId;
+    private BigInteger klassSeminarId;
     private BigInteger seminarId;
     private String seminarName;
     private String introduction;
@@ -15,6 +16,16 @@ public class SeminarVO {
     private Date reportDDL;
     private Date enrollStartTime;
     private Date enrollEndTime;
+
+
+
+    public void setKlassSeminarId(BigInteger klassSeminarId) {
+        this.klassSeminarId = klassSeminarId;
+    }
+
+    public BigInteger getKlassSeminarId() {
+        return klassSeminarId;
+    }
 
     public BigInteger getSeminarId() {
         return seminarId;
@@ -96,11 +107,11 @@ public class SeminarVO {
         this.klassId = klassId;
     }
 
-
     @Override
     public String toString() {
         return "SeminarVO{" +
                 "klassId=" + klassId +
+                ", klassSeminarId=" + klassSeminarId +
                 ", seminarId=" + seminarId +
                 ", seminarName='" + seminarName + '\'' +
                 ", introduction='" + introduction + '\'' +

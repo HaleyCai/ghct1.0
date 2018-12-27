@@ -1,6 +1,5 @@
 package xmu.ghct.crm.service;
 
-import com.fasterxml.jackson.databind.node.BigIntegerNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -148,6 +147,7 @@ public class SeminarService {
      * @return
      */
     public SeminarVO getKlassSeminarByKlassIdAndSeminarId(BigInteger klassId, BigInteger seminarId) {
+        BigInteger klassSeminarId=seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarId);
         seminarVO.setEnrollEndTime(seminar.getEnrollEndTime());
@@ -157,6 +157,7 @@ public class SeminarService {
         seminarVO.setSeminarName(seminar.getSeminarName());
         seminarVO.setSeminarId(seminarId);
         seminarVO.setSeminarSerial(seminar.getSeminarSerial());
+        seminarVO.setKlassSeminarId(klassSeminarId);
         return seminarVO;
     }
 
@@ -181,7 +182,7 @@ public class SeminarService {
         Team teamInfo=teamDao.getTeamInfoByTeamId(teamId);
         Seminar seminarInfo=seminarDao.getSeminarBySeminarId(seminarId);
         Klass klassInfo=klassDao.getKlassByKlassId(teamInfo.getKlassId());
-        Score seminarScore=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(seminarId,teamId);
+        Score seminarScore=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(seminarId,teamId);
         seminarScoreVO.setSeminarId(seminarId);
         seminarScoreVO.setTeamId(teamInfo.getTeamId());
         seminarScoreVO.setTeamSerial(teamInfo.getTeamSerial());
@@ -255,7 +256,7 @@ public class SeminarService {
             seminarScoreVO.setKlassSerial(klass.getKlassSerial());
             seminarScoreVO.setSeminarName(seminar.getSeminarName());
             seminarScoreVO.setTeamSerial(item.getTeamSerial());
-            Score score=scoreMapper.getSeminarScoreBySeminarIdAndTeamId(klassSeminarId,item.getTeamId());
+            Score score=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,item.getTeamId());
             seminarScoreVO.setPresentationScore(score.getPresentationScore());
             seminarScoreVO.setQuestionScore(score.getQuestionScore());
             seminarScoreVO.setReportScore(score.getReportScore());
@@ -268,5 +269,14 @@ public class SeminarService {
 
     public SeminarVO getKlassSeminarByKlassSeminarId(BigInteger klassSeminarId){
         return seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
+    }
+
+    public BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId){
+        return seminarDao.getKlassIdByKlassSeminarId(klassSeminarId);
+    }
+
+
+    public BigInteger getRoundIdBySeminarId(BigInteger seminarId){
+        return seminarDao.getRoundIdBySeminarId(seminarId);
     }
 }

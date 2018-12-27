@@ -50,6 +50,12 @@
         where id=#{questionId}
     </update>
 
+    <select id="listQuestionByKlassSeminarIdAndAttendanceId" resultMap="questionResultMap">
+        select *
+        from question
+        where klass_seminar_id=#{klassSeminarId} and attendance_id=#{attendanceId}
+    </select>
+
     <resultMap id="QuestionResult" type="xmu.ghct.crm.VO.QuestionVO">
         <id property="klassSeminarId" column="id"/>
         <result property="klassId" column="klass_id"/>
@@ -58,6 +64,17 @@
         <result property="studentId" column="student_id"/>
         <result property="teamName" column="team_name"/>
         <result property="questionScore" column="score"/>
+    </resultMap>
+
+
+    <resultMap id="questionResultMap" type="xmu.ghct.crm.entity.Question">
+        <id property="questionId" column="id"/>
+        <result property="klassSeminarId" column="klass_seminar_id"/>
+        <result property="attendanceId" column="attendance_id"/>
+        <result property="teamId" column="team_id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="selected" column="selected"/>
+        <result property="questionScore" column="question_score"/>
     </resultMap>
 
 </mapper>

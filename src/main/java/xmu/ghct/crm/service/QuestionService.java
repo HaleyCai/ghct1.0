@@ -41,4 +41,9 @@ public class QuestionService {
         success=questionDao.updateQuestionScoreByQuestionId(questionId,questionScore);
         return success;
     }
+
+
+    public List<Question> listQuestionByKlassSeminarIdAndAttendanceId(BigInteger klassSeminarId,BigInteger attendanceId){
+        return questionDao.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
+    }
 }

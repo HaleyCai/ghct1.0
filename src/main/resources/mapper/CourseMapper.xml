@@ -48,6 +48,12 @@
         where team_id=#{teamId}
     </select>
 
+    <select id="getCourseIdByKlassId" resultType="java.math.BigInteger">
+        select course_id
+        from klass
+        where id=#{klassId}
+    </select>
+
 
     <resultMap id="courseResultMap" type="xmu.ghct.crm.entity.Course">
         <id property="courseId" column="id"/>
