@@ -111,4 +111,18 @@ public class TeamDao {
         else
             return false;
     }
+
+    /**
+     * @cyq
+     * 删除小组成员（非组长）
+     * @param teamId
+     * @param studentId
+     * @return
+     */
+    public boolean removeTeamMember(BigInteger teamId,BigInteger studentId) {
+        if (teamMapper.removeTeamMember(teamId, studentId) > 0)
+            return true;
+        else
+            return false;
+    }
 }

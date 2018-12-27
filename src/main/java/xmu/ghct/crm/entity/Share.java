@@ -5,11 +5,11 @@ import java.math.BigInteger;
 
 public class Share implements Serializable {
     private BigInteger shareId;
-    private String shareType;
+    private String shareType;//1.team,2.seminar
     private BigInteger mainCourseId;
     private BigInteger subCourseId;
     private BigInteger subCourseTeacherId;
-    private int status;
+    private int status;//1,同意，0不同意，null.未处理
 
     public BigInteger getShareId() { return shareId; }
 

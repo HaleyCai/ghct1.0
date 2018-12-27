@@ -2,10 +2,7 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.ShareTeamVO;
-import xmu.ghct.crm.VO.StudentVO;
-import xmu.ghct.crm.VO.TeamInfoVO;
-import xmu.ghct.crm.VO.TeamSimpleInfo;
+import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.KlassDao;
 import xmu.ghct.crm.dao.StudentDao;
 import xmu.ghct.crm.dao.TeamDao;
@@ -141,8 +138,32 @@ public class TeamService {
         return teamDao.getNoTeamStudentByKlassId(klassId);
     }
 
+    /**
+     * @cyq
+     * 级联删除队伍
+     * @param teamId
+     * @return
+     */
     public boolean deleteTeam(BigInteger teamId)
     {
         return teamDao.deleteTeam(teamId);
+    }
+
+    /**
+     * @cyq
+     * 退出队伍、移除成员
+     * @param teamId
+     * @param studentId
+     * @return
+     */
+    public boolean removeTeamMember(BigInteger teamId,BigInteger studentId)
+    {
+        //*******用jwt中的id判断操作人是否是该队伍组长，若是，继续删除，若不是返回删除失败
+        //删除操作，判断删除的student是否是组长，是则解散小组，否则删除成员
+        Team team=teamDao.getTeamInfoByTeamId(teamId);
+        if(team.getLeaderId()==studentId)
+            return teamDao.deleteTeam(teamId);
+        else
+            return teamDao.removeTeamMember(teamId,studentId);
     }
 }

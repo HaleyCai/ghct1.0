@@ -87,4 +87,8 @@
     <delete id="deleteKlassTeam">
         delete from klass_team where team_id=#{teamId}
     </delete>
+
+    <delete id="removeTeamMember">
+        deldte from team_student where team_id=#{teamId} and student_id=#{studentId}
+    </delete>
 </mapper>

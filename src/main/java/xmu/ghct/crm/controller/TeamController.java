@@ -3,6 +3,7 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.StudentVO;
+import xmu.ghct.crm.VO.TeamApplicationVO;
 import xmu.ghct.crm.VO.TeamInfoVO;
 import xmu.ghct.crm.VO.TeamSimpleInfo;
 import xmu.ghct.crm.entity.Team;
@@ -79,7 +80,8 @@ public class TeamController {
     }
 
     /**
-     * 将学生加入该队伍，传参teamId,studentId，组队规则判断！！！从未组队的学生中选择，不需要判断！（两个课程中组队？）
+     * 将学生加入该队伍，传参teamId,studentId，组队规则判断！！！从未组队的学生中选择，不需要判断是否是组长是否已组队！
+     * （两个课程中组队？）
      * @param teamId
      * @param inMap
      */
@@ -96,30 +98,15 @@ public class TeamController {
      * @param inMap
      */
     @RequestMapping(value="team/{teamId}/remove",method = RequestMethod.PUT)
-    public void removeTeamMember(@PathVariable("teamId") BigInteger teamId,
+    public Map<String,Object> removeTeamMember(@PathVariable("teamId") BigInteger teamId,
                                  @RequestBody Map<String,Object> inMap)
     {
-
+        Map<String,Object> map=new HashMap<>();
+        if(teamService.removeTeamMember(teamId,new BigInteger(inMap.get("studentId").toString())))
+            map.put("message",true);
+        else
+            map.put("message",true);
+        return map;
     }
 
-    /**
-     * 向老师发送非法组队申请
-     * @param teamId
-     * @param inMap
-     */
-    @RequestMapping(value="/team/{teamId}/teamvalidrequest",method = RequestMethod.POST)
-    public void validTeamRequest(@PathVariable("teamId") BigInteger teamId,
-                                 @RequestBody Map<String,Object> inMap)
-    {
-
-    }
-
-    /**
-     * 教师同意非法组队，修改记录的状态，以后查找课程中的小组要先判断是从课程还是主课程，统一用主课程查找！！
-     * @param teamId
-     */
-    @RequestMapping(value="/team/{teamId}/approve")
-    public void teacherApproveValidTeam(@PathVariable("teamId") BigInteger teamId)
-    {
-    }
 }

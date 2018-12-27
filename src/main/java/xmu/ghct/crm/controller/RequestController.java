@@ -14,6 +14,8 @@ import java.util.List;
 public class RequestController {
     @Autowired RequestService requestService;
 
+    //*****jwt写好后，teacherId从jwt中获取
+
     /**
      * 获得队伍共享申请信息列表
      * @return

@@ -77,7 +77,7 @@ public class UserController {
     }
 
     /**
-     * 根据account修改密码，前端传参account,password,type，account根据jwt获得
+     * 根据account修改密码，前端传参account,password,type，account从前端获得
      * @param inMap
      * @return
      */

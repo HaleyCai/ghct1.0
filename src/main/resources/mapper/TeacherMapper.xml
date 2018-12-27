@@ -40,13 +40,15 @@
         teacher_name,
         account,
         email,
-        password
+        password,
+        is_active
         )
         values(
                #{name},
                #{account},
                #{email},
-               #{password}
+               #{123456}
+               0
               )
     </insert>
 

@@ -89,4 +89,13 @@ public interface TeamMapper {
      */
     int deleteKlassTeam(BigInteger teamId);
 
+    /**
+     * @cyq
+     * 删team_student表，移除小组成员
+     * @param teamId
+     * @param studentId
+     * @return
+     */
+    int removeTeamMember(BigInteger teamId,BigInteger studentId);
+
 }
