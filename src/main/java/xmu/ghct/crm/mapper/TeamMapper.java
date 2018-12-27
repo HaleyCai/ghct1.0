@@ -63,7 +63,7 @@ public interface TeamMapper {
      * @param courseId
      * @return
      */
-    ShareTeamVO getShareTeamInfoByCourseId(BigInteger courseId);
+    List<ShareTeamVO> getShareTeamInfoByCourseId(BigInteger courseId);
 
     /**
      * @cyq

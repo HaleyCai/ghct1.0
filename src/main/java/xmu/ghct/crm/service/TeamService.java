@@ -44,13 +44,14 @@ public class TeamService {
     public BigInteger getTeamMainCourseId(BigInteger courseId)
     {
         //*******查表，看courseId是从课程还是主课程，是主课程或未共享分组，则根据该courseId查询
-        ShareTeamVO shareTeamVO=teamDao.getShareTeamInfoByCourseId(courseId);
-        if(shareTeamVO==null)
-            return courseId;
-        if(courseId==shareTeamVO.getMainCourseId())
-            return courseId;
-        else
-            return shareTeamVO.getSubCourseId();
+        List<ShareTeamVO> shareTeamVOs=teamDao.getShareTeamInfoByCourseId(courseId);
+        System.out.println("shareTeamVO"+shareTeamVOs);
+        for(ShareTeamVO shareTeamItem:shareTeamVOs)
+        {
+            if(courseId.equals(shareTeamItem.getSubCourseId()))
+                return shareTeamItem.getMainCourseId();
+        }
+        return courseId;
     }
 
     /**

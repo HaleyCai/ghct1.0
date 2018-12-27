@@ -91,7 +91,7 @@ public class TeamDao {
      * @param courseId
      * @return
      */
-    public ShareTeamVO getShareTeamInfoByCourseId(BigInteger courseId){
+    public List<ShareTeamVO> getShareTeamInfoByCourseId(BigInteger courseId){
         return teamMapper.getShareTeamInfoByCourseId(courseId);
     }
 
