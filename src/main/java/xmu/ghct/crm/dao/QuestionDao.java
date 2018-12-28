@@ -1,7 +1,9 @@
 package xmu.ghct.crm.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.QuestionListVO;
 import xmu.ghct.crm.VO.QuestionVO;
+import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.mapper.QuestionMapper;
 import xmu.ghct.crm.entity.Question;
 import java.math.BigInteger;
@@ -12,26 +14,95 @@ public class QuestionDao {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public List<QuestionVO> getAllQuestion(BigInteger klassSeminarId)
+    public List<Question> listQuestionByKlassSeminarIdAndAttendanceId(BigInteger klassSeminarId,BigInteger attendanceId)
     {
-        List<QuestionVO> result=questionMapper.getAllQuestion(klassSeminarId);
-
-        return result;
+        return questionMapper.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
     }
 
-    public BigInteger getTeamIdByStudentId(BigInteger studentId,BigInteger klassId)
+    public BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId)
     {
-        return questionMapper.getTeamIdByStudentId(studentId,klassId);
+        return questionMapper.getKlassIdByKlassSeminarId(klassSeminarId);
     }
 
-    public BigInteger getKlassSeminarId(BigInteger klassId,BigInteger seminarId)
+    public BigInteger getTeamIdByQuestionId(BigInteger questionId)
     {
-        return questionMapper.getKlassSeminarId(klassId,seminarId);
+        return questionMapper.getTeamIdByQuestionId(questionId);
     }
 
-    public int postQuestion(Question question)
+    public int getKlassSerialByKlassId(BigInteger klassId)
     {
-        return questionMapper.postQuestion(question);
+        return questionMapper.getKlassSerialByKlassId(klassId);
+    }
+
+    public int getTeamSerialByTeamId(BigInteger teamId)
+    {
+        return questionMapper.getTeamSerialByTeamId(teamId);
+    }
+
+    public String getStudentNameByStudentId(BigInteger studentId)
+    {
+        return questionMapper.getStudentNameByStudentId(studentId);
+    }
+
+    public boolean updateQuestionSelected(BigInteger questionId)
+    {
+        return questionMapper.updateQuestionSelected(questionId);
+    }
+
+    public Question getQuestionByQuestionId(BigInteger questionId)
+    {
+        return questionMapper.getQuestionByQuestionId(questionId);
+    }
+
+    public boolean postQuestion(Question question)
+    {
+        int v1=questionMapper.postQuestion(question);
+        if(v1<=0){
+            //throw
+            return false;
+        }
+        else
+            return true;
+    }
+
+    public Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId)
+    {
+        return questionMapper.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+    }
+
+    public Score updateSeminarScore(BigInteger klassSeminarId,BigInteger teamId,Double questionScore)
+    {
+        return questionMapper.updateSeminarScore(klassSeminarId,teamId,questionScore);
+    }
+
+    public boolean updateSeminarScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore)
+    {
+        return questionMapper.updateSeminarScoreEnd(klassSeminarId,teamId,totalScore);
+    }
+
+    public BigInteger getSeminarIdByKlassSeminarId(BigInteger klassSeminarId)
+    {
+        return questionMapper.getSeminarIdByKlassSeminarId(klassSeminarId);
+    }
+
+    public BigInteger getRoundIdBySeminarId(BigInteger seminarId)
+    {
+        return questionMapper.getRoundIdBySeminarId(seminarId);
+    }
+
+    public Score getRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId)
+    {
+        return questionMapper.getRoundScoreByRoundIdAndTeamId(roundId,teamId);
+    }
+
+    public Score updateRoundScore(BigInteger klassSeminarId,BigInteger teamId,Double questionScore)
+    {
+        return questionMapper.updateRoundScore(klassSeminarId,teamId,questionScore);
+    }
+
+    public boolean updateRoundScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore)
+    {
+        return questionMapper.updateRoundScoreEnd(klassSeminarId,teamId,totalScore);
     }
 
     public boolean updateQuestionScoreByQuestionId(BigInteger questionId,Double questionScore)
@@ -45,9 +116,14 @@ public class QuestionDao {
             return true;
     }
 
-    public List<Question> listQuestionByKlassSeminarIdAndAttendanceId(BigInteger klassSeminarId,BigInteger attendanceId){
-        return questionMapper.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
+    public BigInteger getTeamIdByStudentId(BigInteger studentId)
+    {
+        return questionMapper.getTeamIdByStudentId(studentId);
     }
 
 
+    public int countQuestionNumber(BigInteger klassSeminarId,BigInteger attendanceId)
+    {
+        return questionMapper.countQuestionNumber(klassSeminarId,attendanceId);
+    }
 }
