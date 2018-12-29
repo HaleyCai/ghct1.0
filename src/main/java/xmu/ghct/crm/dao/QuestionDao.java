@@ -91,9 +91,9 @@ public class QuestionDao {
     }
 
 
-    public boolean updateRoundScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore)
+    public boolean updateRoundScoreEnd(BigInteger roundId,BigInteger teamId,Double presentationScore1,Double questionScore1,Double reportScore1,Double totalScore1)
     {
-        return questionMapper.updateRoundScoreEnd(klassSeminarId,teamId,totalScore);
+        return questionMapper.updateRoundScoreEnd(roundId,teamId,presentationScore1,questionScore1,reportScore1,totalScore1);
     }
 
     public boolean updateQuestionScoreByQuestionId(BigInteger questionId,Double questionScore)

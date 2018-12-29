@@ -140,19 +140,28 @@ public class QuestionService {
         }
         seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
         Double totalScore=totalScoreDao.totalScoreCalculation(seminarScore,courseId).getTotalScore();
-        questionDao.updateSeminarScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore);
-        seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+        boolean success=questionDao.updateSeminarScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore);
+        seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);//更新seminar_score表
 
+        boolean success1=questionDao.updateQuestionScoreByQuestionId(questionId,questionScore);//更新question表
+
+
+        //更新round_score表
         BigInteger seminarId=questionDao.getSeminarIdByKlassSeminarId(klassSeminarId);
         BigInteger roundId=questionDao.getRoundIdBySeminarId(seminarId);
 
-        return questionDao.updateQuestionScoreByQuestionId(questionId,questionScore);//更新question表
-        /**Double totalScore1=scoreCalculationDao.roundScoreCalculation(seminarScore, roundId,teamId,courseId).getTotalScore();
-        boolean success=questionDao.updateRoundScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore1);
-        if(success==true)
+        Score roundScore=scoreCalculationDao.roundScoreCalculation(seminarScore,roundId,teamId,courseId);
+
+        Double totalScore1=roundScore.getTotalScore();
+        Double questionScore1=roundScore.getQuestionScore();
+        Double presentationScore1=roundScore.getPresentationScore();
+        Double reportScore1=roundScore.getReportScore();
+        boolean success2=questionDao.updateRoundScoreEnd(roundId,teamId,presentationScore1,questionScore1,reportScore1,totalScore1);
+
+        if(success==true&&success1==true&&success2==true)
             return true;
         else
-            return false;**/
+            return false;
     }
 
 

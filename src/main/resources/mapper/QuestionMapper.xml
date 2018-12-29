@@ -114,7 +114,7 @@
     <resultMap id="SeminarScoreResult" type="xmu.ghct.crm.entity.Score">
         <id property="klassSeminarId" column="klass_seminar_id"/>
         <result property="teamId" column="team_id"/>
-        <result property="presentationScore" column="presentation_id"/>
+        <result property="presentationScore" column="presentation_score"/>
         <result property="questionScore" column="question_score"/>
         <result property="reportScore" column="report_score"/>
         <result property="totalScore" column="total_score"/>
@@ -129,7 +129,8 @@
 
     <update id="updateRoundScoreEnd">
         update round_score
-        set total_score=#{totalScore}
+        set total_score=#{totalScore1},presentation_score=#{presentationScore1}
+            ,question_score=#{questionScore1},report_score=#{reportScore1}
         where round_id=#{roundId} and team_id=#{teamId}
     </update>
 
