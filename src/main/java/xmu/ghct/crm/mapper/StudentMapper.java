@@ -84,8 +84,8 @@ public interface StudentMapper {
 
     /**
      * 获取班级下所有学生的id
-     * @param klassId
+     * @param courseId
      * @return
      */
-    List<BigInteger> getAllStudentIdByKlassId(BigInteger klassId);
+    List<BigInteger> getAllStudentIdByCourseId(BigInteger courseId);
 }

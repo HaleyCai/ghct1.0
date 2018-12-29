@@ -26,7 +26,7 @@ public class TeamService {
     KlassDao klassDao;
     /**
      * @cyq
-     * 教师，查课程下所有队伍的简单信息
+     * 查课程下所有队伍的简单信息
      * @param courseId
      * @return
      */
@@ -52,16 +52,6 @@ public class TeamService {
                 return shareTeamItem.getMainCourseId();
         }
         return courseId;
-    }
-
-    /**
-     * 学生，查课程的本班级下所有队伍的简单信息
-     * @param klassId
-     * @return
-     */
-    public List<TeamSimpleInfo> listTeamByKlassId(BigInteger klassId){
-        List<Team> teamList=teamDao.listTeamByKlassId(klassId);
-        return teamTOTeamSimpleInfo(teamList);
     }
 
     /**
@@ -131,12 +121,12 @@ public class TeamService {
 
     /**
      * @cyq
-     * 获取班级里未组队学生
-     * @param klassId
+     * 获取课程里未组队学生
+     * @param courseId
      * @return
      */
-    public List<StudentVO> getNoTeamStudentByKlassId(BigInteger klassId) {
-        return teamDao.getNoTeamStudentByKlassId(klassId);
+    public List<StudentVO> getNoTeamStudentByCourseId(BigInteger courseId) {
+        return teamDao.getNoTeamStudentByCourseId(courseId);
     }
 
     /**

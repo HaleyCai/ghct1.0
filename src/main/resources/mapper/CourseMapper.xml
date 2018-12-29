@@ -38,10 +38,18 @@
         where teacher_id = #{teacherId}
     </select>
 
+    <!--cyq-->
+    <select id="listCourseByStudentId" resultMap="courseStudentMap">
+        select *
+        from klass_student
+        where student_id=#{studentId}
+    </select>
+
     <delete id="deleteCourseByCourseId">
         delete from course where id=#{courseId}
     </delete>
 
+    <!--表格改了！！！-->
     <select id="getCourseIdByTeamId" resultType="java.math.BigInteger">
         select course_id
         from klass_student
@@ -67,4 +75,9 @@
         <result property="teamEndTime" column="team_end_time"/>
     </resultMap>
 
+    <resultMap id="courseStudentMap" type="xmu.ghct.crm.VO.CourseStudentVO">
+        <result property="klassId" column="klass_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="studentId" column="student_id"/>
+    </resultMap>
 </mapper>

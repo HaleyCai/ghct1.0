@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import xmu.ghct.crm.VO.CourseVO;
-import xmu.ghct.crm.VO.KlassInfoVO;
-import xmu.ghct.crm.VO.RoundVO;
-import xmu.ghct.crm.VO.SeminarVO;
+import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.RoundNotFindException;
 import xmu.ghct.crm.service.*;
@@ -42,17 +39,36 @@ public class CourseController {
     @Autowired
     SeminarService seminarService;
 
+    /**
+     * @cyq
+     * 教师通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,main(主、从）
+     * @param inMap
+     * @return
+     */
+    @RequestMapping(value="/getCourse/teacher",method = RequestMethod.GET)
+    public List<CourseTeacherVO> teacherGetCourse(@RequestBody Map<String,Object> inMap)
+    {
+        return courseService.teacherGetCourse(new BigInteger(inMap.get("teacherId").toString()));
+    }
+
+    /**
+     * @cyq
+     * 学生通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,klassId,klassName(Grade+KlassSerial)
+     * @param inMap
+     * @return
+     */
+    @RequestMapping(value="getCourse/student",method = RequestMethod.GET)
+    public List<CourseStudentVO> studentGetCourse(@RequestBody Map<String,Object> inMap)
+    {
+        return courseService.studentGetCourse(new BigInteger(inMap.get("studentId").toString()));
+    }
+
+
     @RequestMapping(value="/course",method = RequestMethod.POST)
     public boolean creatCourse(@RequestBody Map<String,Object> courseMap) throws ParseException {
         int flag= courseService.creatCourse(courseMap);
         if(flag>0)return true;
         else return false;
-    }
-
-    @RequestMapping(value="/course",method = RequestMethod.GET)
-    public List<Course> listCourseByTeacherId(@RequestBody Map<String,Object> teacherIdMap){
-                List<Course> courseList=courseService.listCourseByTeacherId(teacherIdMap);
-                return courseList;
     }
 
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
@@ -130,16 +146,5 @@ public class CourseController {
         //修改本轮各个班级允许的报名次数
         return courseService.modifyRoundByRoundId(roundVO);
     }
-
-    /**
-     * @cyq
-     * 学生界面，根据学生id获得所有课程\班级信息
-     * @return
-     */
-    /*
-    @RequestMapping(value = "/course/mycourse",method = RequestMethod.GET)
-    public List<KlassInfoVO> getKlassInfoByStudentId(@RequestBody Map<String,Object> inMap){
-    }
-    */
 
 }

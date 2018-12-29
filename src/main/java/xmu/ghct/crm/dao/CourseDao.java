@@ -2,6 +2,7 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.CourseStudentVO;
 import xmu.ghct.crm.VO.CourseVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.mapper.*;
@@ -41,6 +42,22 @@ public class CourseDao {
             //throw new CourseNotFindException();
         }
         return courseList;
+    }
+
+    public List<CourseStudentVO> listCourseByStudentId(BigInteger studentId)
+    {
+        List<CourseStudentVO> courseStudentVOList=courseMapper.listCourseByStudentId(studentId);
+        for(CourseStudentVO item:courseStudentVOList)
+        {
+            //根据CourseId查courseName
+            Course course=courseMapper.getCourseByCourseId(item.getCourseId());
+            item.setCourseName(course.getCourseName());
+            //根据klassId查grade和klassSerial
+            Klass klass=klassMapper.getKlassByKlassId(item.getKlassId());
+            item.setGrade(klass.getGrade());
+            item.setKlassSerial(klass.getKlassSerial());
+        }
+        return courseStudentVOList;
     }
 
     public CourseVO getCourseByCourseId(BigInteger courseId) {

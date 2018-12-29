@@ -5,9 +5,11 @@ import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.ShareTeamVO;
 import xmu.ghct.crm.VO.StudentVO;
 import xmu.ghct.crm.VO.TeamInfoVO;
+import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.mapper.CourseMapper;
+import xmu.ghct.crm.mapper.KlassMapper;
 import xmu.ghct.crm.mapper.StudentMapper;
 import xmu.ghct.crm.mapper.TeamMapper;
 
@@ -21,6 +23,8 @@ public class TeamDao {
     TeamMapper teamMapper;
     @Autowired
     StudentMapper studentMapper;
+    @Autowired
+    KlassMapper klassMapper;
     /**
      * 根据courseId查team的信息
      * @param courseId
@@ -33,17 +37,24 @@ public class TeamDao {
 
     /**
      * 根据klassId获得组队学生，先找全部学生的id，再找组队学生的id，取交集，根据id查学生信息
-     * @param klassId
+     * @param courseId
      * @return
      */
-    public List<StudentVO> getNoTeamStudentByKlassId(BigInteger klassId) {
-        List<BigInteger> allStudentId=studentMapper.getAllStudentIdByKlassId(klassId);
-        List<BigInteger> teamStudentId=new ArrayList<>();//klass下所有team，team下所有studentId
-        List<Team> teams=listTeamByKlassId(klassId);
-        for(Team teamItems: teams){
-            List<BigInteger> studentsId=teamMapper.getStudentIdByTeamId(teamItems.getTeamId());
-            for(BigInteger i:studentsId)
-                teamStudentId.add(i);
+    public List<StudentVO> getNoTeamStudentByCourseId(BigInteger courseId) {
+        //查course下所有的学生
+        List<BigInteger> allStudentId=studentMapper.getAllStudentIdByCourseId(courseId);
+        //查course下所有klass
+        List<Klass> allKlass=klassMapper.listKlassByCourseId(courseId);
+        //查klass下所有team
+        List<BigInteger> teamStudentId=new ArrayList<>();//course下所有klass下所有team，team下所有studentId
+        for(Klass klassItem:allKlass)
+        {
+            List<Team> teams=listTeamByKlassId(klassItem.getKlassId());
+            for(Team teamItems: teams){
+                List<BigInteger> studentsId=teamMapper.getStudentIdByTeamId(teamItems.getTeamId());
+                for(BigInteger i:studentsId)
+                    teamStudentId.add(i);
+            }
         }
         //取差集，找未组队学生id
         allStudentId.removeAll(teamStudentId);

@@ -2,6 +2,7 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.StudentVO;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.mapper.StudentMapper;
 

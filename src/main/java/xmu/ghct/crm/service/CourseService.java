@@ -2,16 +2,13 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.CourseVO;
-import xmu.ghct.crm.VO.RoundVO;
-import xmu.ghct.crm.dao.CourseDao;
-import xmu.ghct.crm.dao.DateDao;
-import xmu.ghct.crm.dao.RoundDao;
+import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +24,12 @@ public class CourseService {
 
     @Autowired
     DateDao dateDao;
+
+    @Autowired
+    TeamDao teamDao;
+
+    @Autowired
+    TeamService teamService;
 
     public int creatCourse( Map<String,Object> courseMap) throws ParseException {
         CourseVO courseVO =new CourseVO();
@@ -45,10 +48,24 @@ public class CourseService {
         return courseDao.insertCourse(courseVO);
     }
 
-    public List<Course> listCourseByTeacherId(Map<String,Object> teacherIdMap) {
-        BigInteger teacherId=new BigInteger(teacherIdMap.get("teacherId").toString());
-        List<Course> courseList=courseDao.listCourseByTeacherId(teacherId);
-        return courseList;
+    public List<CourseTeacherVO> teacherGetCourse(BigInteger teacherId)
+    {
+        List<CourseTeacherVO> courseTeachers=new ArrayList<>();
+        //根据teacherId查course
+        List<Course> courses=courseDao.listCourseByTeacherId(teacherId);
+        for(Course item:courses)
+        {
+            CourseTeacherVO courseTeacherVO=new CourseTeacherVO();
+            courseTeacherVO.setCourseId(item.getCourseId());
+            courseTeacherVO.setCourseName(item.getCourseName());
+            courseTeachers.add(courseTeacherVO);
+        }
+        return courseTeachers;
+    }
+
+    public List<CourseStudentVO> studentGetCourse(BigInteger studentId)
+    {
+        return courseDao.listCourseByStudentId(studentId);
     }
 
     public CourseVO getCourseByCourseId(BigInteger courseId) {

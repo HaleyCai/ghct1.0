@@ -90,7 +90,8 @@ public class Course implements Serializable {
     @Override
     public String toString() {
         return "Course{" +
-                "teacherId=" + teacherId +
+                "courseId=" + courseId +
+                ", teacherId=" + teacherId +
                 ", courseName='" + courseName + '\'' +
                 ", introduction='" + introduction + '\'' +
                 ", presentationPercentage=" + presentationPercentage +

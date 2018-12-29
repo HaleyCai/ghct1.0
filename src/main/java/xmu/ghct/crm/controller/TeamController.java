@@ -23,25 +23,13 @@ public class TeamController {
 
     /**
      * @cyq
-     * 教师端：根据courseId查team的简单信息
+     * 教师端+学生端：根据courseId查team的简单信息
      * @param courseId
      * @return
      */
     @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
     public List<TeamSimpleInfo> listTeamByCourseId(@PathVariable("courseId") BigInteger courseId){
         return teamService.listTeamByCourseId(courseId);
-    }
-
-    /**
-     * @cyq
-     * 学生端，根据klassId查team的简单信息
-     * @param klassId
-     * @return
-     */
-    @RequestMapping(value="/klass/{klassId}/team", method = RequestMethod.GET)
-    public List<TeamSimpleInfo> listTeamByKlassId(@PathVariable("klassId") BigInteger klassId)
-    {
-        return teamService.listTeamByKlassId(klassId);
     }
 
     /**
@@ -56,13 +44,13 @@ public class TeamController {
 
     /**
      * @cyq
-     * 学生：获取本班未组队学生
-     * @param klassId
+     * 学生：获取本课程未组队学生
+     * @param courseId
      * @return
      */
-    @RequestMapping(value="/course/{klassId}/noTeam",method = RequestMethod.GET)
-    public List<StudentVO> getNoTeamStudentByKlassId(@PathVariable("klassId")BigInteger klassId){
-        return teamService.getNoTeamStudentByKlassId(klassId);
+    @RequestMapping(value="/course/{courseId}/noTeam",method = RequestMethod.GET)
+    public List<StudentVO> getNoTeamStudentByCourseId(@PathVariable("courseId")BigInteger courseId){
+        return teamService.getNoTeamStudentByCourseId(courseId);
     }
 
     /**
