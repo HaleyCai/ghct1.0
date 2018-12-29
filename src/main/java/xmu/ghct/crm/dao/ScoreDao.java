@@ -142,4 +142,25 @@ public class ScoreDao {
     public Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId){
         return scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
     }
+
+
+    /**
+     * @author hzm
+     *根据roundId获得轮次下所有小组的轮次成绩
+     * @param roundId
+     * @return
+     */
+    public List<ScoreVO> listRoundScoreByRoundId(BigInteger roundId){
+        return scoreMapper.listRoundScoreByRoundId(roundId);
+    }
+
+    /**
+     * @author hzm
+     * 创建轮次成绩
+     * @param scoreVO
+     * @return
+     */
+    public int insertRoundScore(ScoreVO scoreVO){
+        return scoreMapper.insertRoundScore(scoreVO);
+    }
 }

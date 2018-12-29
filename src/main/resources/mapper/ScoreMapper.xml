@@ -56,6 +56,30 @@
         where round_id=#{roundId} and team_id=#{teamId}
     </select>
 
+    <select id="listRoundScoreByRoundId" resultMap="roundScoreMap">
+        select *
+        from round_score
+        where round_id=#{roundId}
+    </select>
+
+    <insert id="insertRoundScore" parameterType="xmu.ghct.crm.VO.ScoreVO">
+        insert into round_score(
+                                round_id,
+                                team_id,
+                                total_score,
+                                presentation_score,
+                                question_score,
+                                report_score
+        ) values (
+                  #{roundId},
+                  #{teamId},
+                  0,
+                  0,
+                  0,
+                  0
+                         )
+    </insert>
+
     <resultMap id="roundScoreMap" type="xmu.ghct.crm.VO.ScoreVO">
         <result property="roundId" column="round_id"/>
         <result property="teamId" column="team_id"/>

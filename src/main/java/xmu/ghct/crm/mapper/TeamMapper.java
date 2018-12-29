@@ -106,4 +106,20 @@ public interface TeamMapper {
      */
     BigInteger getKlassIdByTeamId(BigInteger teamId);
 
+    /**
+     * 根据teamId获得课程ID
+     * @param teamId
+     * @return
+     */
+    BigInteger getCourseIdByTeamId(BigInteger teamId);
+
+
+    /**
+     * @author hzm
+     * 获取课程下所有队伍的id
+     * @param courseId
+     * @return
+     */
+    List<BigInteger> listTeamIdByCourseId(BigInteger courseId);
+
 }

@@ -3,12 +3,15 @@ package xmu.ghct.crm.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.RoundVO;
+import xmu.ghct.crm.VO.ScoreVO;
 import xmu.ghct.crm.VO.SeminarSimpleVO;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.mapper.KlassMapper;
 import xmu.ghct.crm.mapper.RoundMapper;
+import xmu.ghct.crm.mapper.ScoreMapper;
+import xmu.ghct.crm.mapper.TeamMapper;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -23,6 +26,12 @@ public class RoundDao {
     private RoundMapper roundMapper;
     @Autowired
     private KlassMapper klassMapper;
+
+    @Autowired
+    TeamMapper teamMapper;
+
+    @Autowired
+    ScoreMapper scoreMapper;
     /**
      * @cyq
      * 根据roundId获取该轮次下所有seminar的简单信息
@@ -162,8 +171,16 @@ public class RoundDao {
      * @param round
      * @return
      */
-    public int insertRound(Round round){
-        return roundMapper.insertRound(round);
+    public int insertRound(Round round,BigInteger courseId){
+        int flag= roundMapper.insertRound(round);
+        List<BigInteger> teamIdList=teamMapper.listTeamIdByCourseId(courseId);
+        for(BigInteger teamId:teamIdList){
+            ScoreVO scoreVO=new ScoreVO();
+            scoreVO.setTeamId(teamId);
+            scoreVO.setRoundId(round.getRoundId());
+            scoreMapper.insertRoundScore(scoreVO);
+        }
+        return flag;
     }
 
     /**
@@ -191,4 +208,6 @@ public class RoundDao {
         for(Klass item:klassList)
             roundMapper.createDefaultEnrollNumber(item.getKlassId(),roundId);
     }
+
+
 }

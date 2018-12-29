@@ -47,4 +47,19 @@ public class ScoreService {
     public int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO){
         return scoreDao.updateRoundScoreByRoundIdAndTeamId(scoreVO);
     }
+
+
+    public Score getKlassSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId){
+        return scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+    }
+
+    /**
+     * @author hzm
+     *根据roundId获得轮次下所有小组的轮次成绩
+     * @param roundId
+     * @return
+     */
+    public List<ScoreVO> listRoundScoreByRoundId(BigInteger roundId){
+       return scoreDao.listRoundScoreByRoundId(roundId);
+    }
 }

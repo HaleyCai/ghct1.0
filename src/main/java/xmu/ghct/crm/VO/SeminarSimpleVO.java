@@ -7,16 +7,16 @@ import java.math.BigInteger;
  * 讨论课简单的信息
  */
 public class SeminarSimpleVO implements Serializable {
-    private BigInteger id;
+    private BigInteger seminarId;
     private String topic;
     private int order;//讨论课
 
     public BigInteger getId() {
-        return id;
+        return seminarId;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
+    public void setId(BigInteger seminarId) {
+        this.seminarId = seminarId;
     }
 
     public String getTopic() {
@@ -38,7 +38,7 @@ public class SeminarSimpleVO implements Serializable {
     @Override
     public String toString() {
         return "SeminarSimpleVO{" +
-                "id=" + id +
+                "id=" + seminarId +
                 ", topic='" + topic + '\'' +
                 ", order=" + order +
                 '}';

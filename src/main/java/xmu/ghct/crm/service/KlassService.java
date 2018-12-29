@@ -80,5 +80,15 @@ public class KlassService {
         return klassList;
     }
 
+    /**
+     * @author hzm
+     * 根据klassId获得班级
+     * @param klassId
+     * @return
+     */
+    public Klass getKlassByKlassId(BigInteger klassId){
+        return klassDao.getKlassByKlassId(klassId);
+    }
+
 
 }

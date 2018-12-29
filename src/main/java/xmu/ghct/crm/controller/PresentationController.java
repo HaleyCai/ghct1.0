@@ -269,8 +269,10 @@ public class PresentationController {
         else return false;
     }
 
-    @RequestMapping(value="/seminar/{klassSeminarId}/attendance/{teamId}" ,method = RequestMethod.POST)
-    public boolean attendanceSeminar(@PathVariable("klassSeminarId")BigInteger klassSeminarId,@PathVariable("teamId") BigInteger teamId,@RequestBody Map<String,Object> attendanceMap){
+
+    //需要teamId，但是应该是根据jwt获得，所以这里teamId用于测试用
+    @RequestMapping(value="/seminar/{klassSeminarId}/attendance" ,method = RequestMethod.POST)
+    public boolean attendanceSeminar(@PathVariable("klassSeminarId")BigInteger klassSeminarId,@Param("teamId") BigInteger teamId,@RequestBody Map<String,Object> attendanceMap){
              SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
              Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//修改日期格式

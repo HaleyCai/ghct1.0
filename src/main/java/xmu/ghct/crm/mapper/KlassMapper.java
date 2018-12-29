@@ -66,4 +66,12 @@ public interface KlassMapper {
      * @return
      */
    Klass getKlassByGradeAndKlassSerial(int grade,int klassSerial);
+
+    /**
+     * @author hzm
+     * 根据班级id获取所有班级讨论课的status
+     * @param klassId
+     * @return
+     */
+   List<Integer> listStatusByKlassId(BigInteger klassId);
 }

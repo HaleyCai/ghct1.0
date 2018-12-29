@@ -6,6 +6,7 @@ import java.math.BigInteger;
 public class Score implements Serializable {
 
     private BigInteger klassSeminarId;
+    private String seminarName;
     private  BigInteger teamId;
     private double presentationScore;
     private double questionScore;
@@ -19,8 +20,6 @@ public class Score implements Serializable {
     public BigInteger getTeamId() {
         return teamId;
     }
-
-
 
     public void setKlassSeminarId(BigInteger klassSeminarId) {
         this.klassSeminarId = klassSeminarId;
@@ -63,10 +62,19 @@ public class Score implements Serializable {
         return totalScore;
     }
 
+    public void setSeminarName(String seminarName) {
+        this.seminarName = seminarName;
+    }
+
+    public String getSeminarName() {
+        return seminarName;
+    }
+
     @Override
     public String toString() {
         return "Score{" +
                 "klassSeminarId=" + klassSeminarId +
+                ", seminarName=" + seminarName +
                 ", teamId=" + teamId +
                 ", presentationScore=" + presentationScore +
                 ", questionScore=" + questionScore +
@@ -74,5 +82,6 @@ public class Score implements Serializable {
                 ", totalScore=" + totalScore +
                 '}';
     }
+
 
 }

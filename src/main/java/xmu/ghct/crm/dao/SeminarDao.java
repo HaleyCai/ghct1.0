@@ -69,4 +69,12 @@ public class SeminarDao {
         return seminarMapper.getRoundIdBySeminarId(seminarId);
     }
 
+    public List<BigInteger> listSeminarIdByRoundId(BigInteger roundId){
+        return seminarMapper.getSeminarIdByRoundId(roundId);
+    }
+
+    public List<SeminarVO> listKlassSeminarIdByKlassId(BigInteger klassId){
+        return seminarMapper.listKlassSeminarIdByKlassId(klassId);
+    }
+
 }

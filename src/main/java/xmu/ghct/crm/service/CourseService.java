@@ -7,6 +7,7 @@ import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +25,12 @@ public class CourseService {
 
     @Autowired
     DateDao dateDao;
+
+    @Autowired
+    KlassDao klassDao;
+
+    @Autowired
+    SeminarDao seminarDao;
 
     @Autowired
     TeamDao teamDao;
@@ -111,6 +118,49 @@ public class CourseService {
      */
     public BigInteger getCourseIdByKlassId(BigInteger klassId){
         return courseDao.getCourseIdByKlassId(klassId);
+    }
+
+
+    /**
+     * @author hzm
+     * 获取教师所有课程中正在进行的班级讨论课ID
+     * @param teacherId
+     * @return
+     */
+    public BigInteger isBeingPresentSeminar(BigInteger teacherId){
+        List<BigInteger> courseIdList=courseDao.listCourseIdByTeacherId(teacherId);
+        System.out.println(courseIdList);
+        for(BigInteger courseId:courseIdList){
+            List<BigInteger> klassIdList=courseDao.listKlassIdByCourseId(courseId);
+            System.out.println(klassIdList);
+            for(BigInteger klassId:klassIdList){
+                List<SeminarVO> seminarVOList=seminarDao.listKlassSeminarIdByKlassId(klassId);
+                System.out.println(seminarVOList);
+                for(SeminarVO seminarVO:seminarVOList){
+                    if(seminarVO.getStatus()>0) return seminarVO.getKlassSeminarId();
+                }
+            }
+        }
+        return new BigInteger("0");
+    }
+
+
+    /**
+     * @author hzm
+     * 获取学生所有班级及其课程ID
+     * @param studentId
+     * @return
+     */
+    public  List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId){
+        List<StudentCourseVO> studentCourseVOS=courseDao.listKlassStudentByStudentId(studentId);
+        for(StudentCourseVO item:studentCourseVOS){
+            Klass klass=klassDao.getKlassByKlassId(item.getKlassId());
+            item.setKlassSerial(klass.getKlassSerial());
+            item.setGrade(klass.getGrade());
+            CourseVO courseVO=courseDao.getCourseByCourseId(item.getCourseId());
+            item.setCourseName(courseVO.getCourseName());
+        }
+        return studentCourseVOS;
     }
 
 }

@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -145,6 +146,34 @@ public class CourseController {
         roundVO.setEnrollNum(enroll);
         //修改本轮各个班级允许的报名次数
         return courseService.modifyRoundByRoundId(roundVO);
+    }
+
+    /**
+     * @cyq
+     * 学生界面，根据学生id获得所有课程\班级信息
+     * @return
+     */
+    /*
+    @RequestMapping(value = "/course/mycourse",method = RequestMethod.GET)
+    public List<KlassInfoVO> getKlassInfoByStudentId(@RequestBody Map<String,Object> inMap){
+    }
+    */
+
+
+    /**
+     * @author hzm
+     * 获取该教师所有正在进行的班级讨论课id
+     * @param teacherId
+     * @return
+     */
+    @GetMapping("/{teacherId}/course/beingPresent")
+    public BigInteger isBeingPresentSeminar(@PathVariable("teacherId")BigInteger teacherId){
+           return courseService.isBeingPresentSeminar(teacherId);
+    }
+
+    @GetMapping("/{studentId}/course")
+    public  List<StudentCourseVO> listKlassStudentByStudentId(@PathVariable("studentId") BigInteger studentId){
+        return courseService.listKlassStudentByStudentId(studentId);
     }
 
 }

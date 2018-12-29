@@ -14,6 +14,7 @@ public class SeminarVO {
     private int seminarSerial;
     private int maxTeam;
     private Date reportDDL;
+    private BigInteger roundId;
     private Date enrollStartTime;
     private Date enrollEndTime;
 
@@ -107,6 +108,7 @@ public class SeminarVO {
         this.klassId = klassId;
     }
 
+
     @Override
     public String toString() {
         return "SeminarVO{" +
@@ -119,10 +121,18 @@ public class SeminarVO {
                 ", seminarSerial=" + seminarSerial +
                 ", maxTeam=" + maxTeam +
                 ", reportDDL=" + reportDDL +
+                ", roundId=" + roundId +
                 ", enrollStartTime=" + enrollStartTime +
                 ", enrollEndTime=" + enrollEndTime +
                 '}';
     }
 
+    public void setRoundId(BigInteger roundId) {
+        this.roundId = roundId;
+    }
+
+    public BigInteger getRoundId() {
+        return roundId;
+    }
 
 }

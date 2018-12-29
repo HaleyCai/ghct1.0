@@ -157,4 +157,15 @@ public class TeamService {
         else
             return teamDao.removeTeamMember(teamId,studentId);
     }
+
+
+    /**
+     * @author hzm
+     * 根据teamId获得klassId
+     * @param teamId
+     * @return
+     */
+    public BigInteger getKlassIdByTeamId(BigInteger teamId){
+        return teamDao.getKlassIdByTeamId(teamId);
+    }
 }

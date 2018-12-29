@@ -2,6 +2,7 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.*;
@@ -12,10 +13,7 @@ import xmu.ghct.crm.mapper.SeminarMapper;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SeminarService {
@@ -24,6 +22,9 @@ public class SeminarService {
 
     @Autowired
     RoundDao roundDao;
+
+    @Autowired
+    PresentationDao presentationDao;
 
     @Autowired
     KlassDao klassDao;
@@ -49,6 +50,9 @@ public class SeminarService {
     @Autowired
     SeminarMapper seminarMapper;
 
+    @Autowired
+    TotalScoreDao totalScoreDao;
+
     public int creatSeminar(Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
         seminar.setCourseId(new BigInteger(seminarMap.get("courseId").toString()));
@@ -59,7 +63,7 @@ public class SeminarService {
             round.setQuestionScoreMethod(0);
             round.setReportScoreMethod(1);
             round.setRoundSerial(roundDao.getNewRoundNum(round.getCourseId()));//默认创建，序号为最大序号+1
-            roundDao.insertRound(round);
+            roundDao.insertRound(round,new BigInteger(seminarMap.get("courseId").toString()));
             seminar.setRoundId(round.getRoundId());
             //默认创建每个班每轮允许报名次数为1
             roundDao.defaultEnrollNumber(seminar.getCourseId(),seminar.getRoundId());
@@ -150,11 +154,12 @@ public class SeminarService {
         BigInteger klassSeminarId=seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarId);
+        seminarVO.setRoundId(seminar.getRoundId());
         seminarVO.setEnrollEndTime(seminar.getEnrollEndTime());
         seminarVO.setEnrollStartTime(seminar.getEnrollStartTime());
+        seminarVO.setSeminarName(seminar.getSeminarName());
         seminarVO.setMaxTeam(seminar.getMaxTeam());
         seminarVO.setIntroduction(seminar.getIntroduction());
-        seminarVO.setSeminarName(seminar.getSeminarName());
         seminarVO.setSeminarId(seminarId);
         seminarVO.setSeminarSerial(seminar.getSeminarSerial());
         seminarVO.setKlassSeminarId(klassSeminarId);
@@ -211,10 +216,12 @@ public class SeminarService {
         Score score=new Score();
         BigInteger roundId=seminarMapper.getRoundIdBySeminarId(seminarId);
         BigInteger courseId=courseDao.getCourseIdByTeamId(teamId);
+        BigInteger klassId=teamDao.getKlassIdByTeamId(teamId);
+        BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
         CourseVO courseVO=courseDao.getCourseByCourseId(courseId);
         double presentationScore=new Double(seminarScoreMap.get("presentationScore").toString());
         score.setTeamId(teamId);
-        score.setKlassSeminarId(seminarId);
+        score.setKlassSeminarId(klassSeminarId);
         score.setPresentationScore(presentationScore);
         double questionScore=new Double(seminarScoreMap.get("questionScore").toString());
         score.setQuestionScore(questionScore);
@@ -267,6 +274,78 @@ public class SeminarService {
     }
 
 
+    public boolean updateReportScoreByKlassSeminarId(BigInteger klassSeminarId,List<Map> reportMapList){
+        for(Map<String,Object> reportMap:reportMapList)
+        {
+            BigInteger teamId=new BigInteger(reportMap.get("teamId").toString());
+            BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
+            BigInteger seminarId=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId).getSeminarId();
+            BigInteger roundId=seminarDao.getRoundIdBySeminarId(seminarId);
+            Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+            Double reportScore=new Double(reportMap.get("reportScore").toString());
+            score.setReportScore(reportScore);
+            Score seminarScore=totalScoreDao.totalScoreCalculation(score,courseId);
+            int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(seminarScore);
+            Score roundScore=scoreCalculationDao.roundScoreCalculation(seminarScore,roundId,teamId,courseId);
+            ScoreVO roundScoreVO=new ScoreVO();
+            roundScoreVO.setPresentationScore(roundScore.getPresentationScore());
+            roundScoreVO.setQuestionScore(roundScore.getQuestionScore());
+            roundScoreVO.setReportScore(roundScore.getReportScore());
+            roundScoreVO.setTotalScore(roundScore.getTotalScore());
+            roundScoreVO.setRoundId(roundId);
+            roundScoreVO.setTeamId(teamId);
+            scoreMapper.updateRoundScoreByRoundIdAndTeamId(roundScoreVO);
+            if(flag<0) return false;
+        }
+        return true;
+    }
+
+
+    public List<Map> listFileUploadStatusByKlassSeminarId(BigInteger klassSeminarId){
+        List<Attendance>  attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
+        System.out.println(attendanceList);
+        List<Map> map=new ArrayList<>();
+        for(Attendance item:attendanceList){
+            Team team=teamDao.getTeamInfoByTeamId(item.getTeamId());
+            System.out.println(team);
+            Map<String,Object> oneMap=new HashMap<>();
+            oneMap.put("attendance",item);
+            oneMap.put("team",team);
+            map.add(oneMap);
+        }
+        return map;
+    }
+
+
+    public List<Map> listStudentKlassSeminarByKlassSeminarId(BigInteger klassSeminarId){
+        List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
+        SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
+        Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
+        BigInteger klassId=seminarDao.getKlassIdByKlassSeminarId(klassSeminarId);
+        Klass klass=klassDao.getKlassByKlassId(klassId);
+        int klassSerial=klass.getKlassSerial();
+        List<Map> map=new ArrayList<>();
+        int account=0;
+        for(Attendance item:attendanceList){
+            BigInteger teamId=item.getTeamId();
+            Team team=teamDao.getTeamInfoByTeamId(teamId);
+            Map<String,Object> oneMap=new HashMap<>();
+            oneMap.put("klassSerial",klassSerial);
+            oneMap.put("teamSerial",team.getTeamSerial());
+            if(item.getPptName()==null){
+                oneMap.put("pptStatus",false);
+            }
+            else oneMap.put("pptStatus",true);
+            map.add(oneMap);
+            account+=1;
+        }
+        Map<String,Object> oneMap=new HashMap<>();
+        oneMap.put("maxTeam",seminar.getMaxTeam());
+        map.add(oneMap);
+        return map;
+    }
+
+
     public SeminarVO getKlassSeminarByKlassSeminarId(BigInteger klassSeminarId){
         return seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
     }
@@ -278,5 +357,9 @@ public class SeminarService {
 
     public BigInteger getRoundIdBySeminarId(BigInteger seminarId){
         return seminarDao.getRoundIdBySeminarId(seminarId);
+    }
+
+    public List<BigInteger> listSeminarIdByRoundId(BigInteger roundId){
+        return seminarDao.listSeminarIdByRoundId(roundId);
     }
 }

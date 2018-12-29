@@ -63,4 +63,21 @@ public interface ScoreMapper {
      * @return
      */
     int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO);
+
+    /**
+     * @author hzm
+     *根据roundId获得轮次下所有小组的轮次成绩
+     * @param roundId
+     * @return
+     */
+    List<ScoreVO> listRoundScoreByRoundId(BigInteger roundId);
+
+
+    /**
+     * @author hzm
+     * 创建轮次成绩
+     * @param scoreVO
+     * @return
+     */
+    int insertRoundScore(ScoreVO scoreVO);
 }

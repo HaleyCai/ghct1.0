@@ -154,4 +154,13 @@ public interface SeminarMapper {
      * @return
      */
     BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId);
+
+
+    /**
+     * @author hzm
+     * 获取某班级下所有班级讨论课
+     * @param klassId
+     * @return
+     */
+    List<SeminarVO> listKlassSeminarIdByKlassId(BigInteger klassId);
 }

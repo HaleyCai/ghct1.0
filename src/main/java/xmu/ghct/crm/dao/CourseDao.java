@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.CourseStudentVO;
 import xmu.ghct.crm.VO.CourseVO;
+import xmu.ghct.crm.VO.StudentCourseVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.mapper.*;
 
@@ -63,6 +64,7 @@ public class CourseDao {
     public CourseVO getCourseByCourseId(BigInteger courseId) {
         Course course = courseMapper.getCourseByCourseId(courseId);
         CourseVO courseVO =teamMapper.getTeamMemberLimit();
+        courseVO.setCourseName(course.getCourseName());
         courseVO.setIntroduction(course.getIntroduction());
         courseVO.setPresentationPercentage(course.getPresentationPercentage());
         courseVO.setQuestionPercentage(course.getQuestionPercentage());
@@ -86,4 +88,15 @@ public class CourseDao {
 
     public BigInteger getCourseIdByKlassId(BigInteger klassId){return courseMapper.getCourseIdByKlassId(klassId);}
 
+    public List<BigInteger> listCourseIdByTeacherId(BigInteger teacherId){
+        return courseMapper.listCourseIdByTeacherId(teacherId);
+    }
+
+    public List<BigInteger> listKlassIdByCourseId(BigInteger courseId){
+        return courseMapper.listKlassIdByCourseId(courseId);
+    }
+
+    public  List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId){
+        return courseMapper.listKlassStudentByStudentId(studentId);
+    }
 }

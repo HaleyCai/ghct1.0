@@ -69,7 +69,7 @@
     
     <!--hzm-->
     <select id="getKlassSeminarByKlassIdAndSeminarId" parameterType="java.math.BigInteger" resultMap="klassSeminarResultMap">
-        select report_ddl,status
+        select id,klass_id,seminar_id,report_ddl,status
         from klass_seminar
         where klass_id=#{klassId} and seminar_id=#{seminarId}
     </select>
@@ -101,6 +101,12 @@
         select id,klass_id,seminar_id,report_ddl,status
         from klass_seminar
         where id=#{klassSeminarId}
+    </select>
+
+    <select id="listKlassSeminarIdByKlassId" resultMap="klassSeminarResultMap">
+        select *
+        from klass_seminar
+        where klass_id=#{klassId}
     </select>
     
     <resultMap id="klassSeminarResultMap" type="xmu.ghct.crm.VO.SeminarVO">

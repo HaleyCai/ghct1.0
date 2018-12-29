@@ -136,4 +136,18 @@ public class TeamDao {
         else
             return false;
     }
+
+
+    public BigInteger getKlassIdByTeamId(BigInteger teamId){
+        return teamMapper.getKlassIdByTeamId(teamId);
+    }
+
+
+    public BigInteger getCourseIdByTeamId(BigInteger teamId){
+        return teamMapper.getCourseIdByTeamId(teamId);
+    }
+
+    public List<BigInteger> listTeamIdByCourseId(BigInteger courseId){
+        return teamMapper.listTeamIdByCourseId(courseId);
+    }
 }

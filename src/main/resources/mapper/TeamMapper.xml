@@ -34,6 +34,12 @@
         select * from team where id=#{teamId}
     </select>
 
+    <!--hzm-->
+    <select id="getCourseIdByTeamId" resultType="java.math.BigInteger">
+        select course_id from team where id=#{teamId}
+    </select>
+
+     <!--hzm-->
     <select id="getKlassIdByTeamId" resultType="java.math.BigInteger">
         select klass_id
         from team
@@ -57,6 +63,12 @@
         select main_course_id,sub_course_id,sub_course_teacher_id,status
         from share_team_application
         where (main_course_id=#{courseId} or sub_course_id=#{courseId}) and status=1
+    </select>
+
+    <select id="listTeamIdByCourseId" resultType="java.math.BigInteger">
+        select id
+        from team
+        where course_id=#{courseId}
     </select>
 
     <resultMap id="shareTeamMap" type="xmu.ghct.crm.VO.ShareTeamVO">
