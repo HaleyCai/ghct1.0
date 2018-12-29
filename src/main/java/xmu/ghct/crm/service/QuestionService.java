@@ -97,12 +97,13 @@ public class QuestionService {
     public boolean postQuestion(BigInteger studentId,BigInteger klassSeminarId,BigInteger attendanceId)
     {
         Question question=new Question();
-        questionDao.getTeamIdByStudentId(studentId);
 
-        question.setStudentId(studentId);
-        question.setTeamId(studentId);
         question.setKlassSeminarId(klassSeminarId);
         question.setAttendanceId(attendanceId);
+
+        question.setTeamId(questionDao.getTeamIdByStudentId(studentId));
+        question.setStudentId(studentId);
+
         question.setSelected(0);
         question.setQuestionScore((double) 0);
         return questionDao.postQuestion(question);

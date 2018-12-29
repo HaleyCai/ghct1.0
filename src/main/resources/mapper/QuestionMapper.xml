@@ -24,7 +24,7 @@
                 score
                               )
         values (
-                #{klass_seminar},
+                #{klassSeminarId},
                 #{attendanceId},
                 #{teamId},
                 #{studentId},
@@ -150,8 +150,8 @@
 
     <select id="getTeamIdByStudentId" resultType="java.math.BigInteger">
         select team_id
-        from klass_student
-        where student_id=#{studentId} and klass_id=#{klassId}
+        from team_student
+        where student_id=#{studentId}
     </select>
 
 </mapper>
