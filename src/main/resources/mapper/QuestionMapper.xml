@@ -49,38 +49,38 @@
         <result property="questionScore" column="score"/>
     </resultMap>
 
-    <select id="getKlassIdByKlassSeminarId" resultMap="java.math.BigInteger">
+    <select id="getKlassIdByKlassSeminarId" resultType="java.math.BigInteger">
         select klass_id
         from klass_seminar
         where id=#{klassSeminarId}
     </select>
 
-    <select id="getSeminarIdByKlassSeminarId" resultMap="java.math.BigInteger">
+    <select id="getSeminarIdByKlassSeminarId" resultType="java.math.BigInteger">
         select seminar_id
         from klass_seminar
         where id=#{klassSeminarId}
     </select>
 
-    <select id="getTeamIdByQuestionId" resultMap="java.math.BigInteger">
+    <select id="getTeamIdByQuestionId" resultType="java.math.BigInteger">
         select team_id
         from question
         where id=#{questionId}
     </select>
 
 
-    <select id="getKlassSerialByKlassId" resultMap="java.math.BigInteger">
+    <select id="getKlassSerialByKlassId" resultType="java.lang.Integer">
         select klass_serial
         from klass
         where id=#{klassId}
     </select>
 
-    <select id="getTeamSerialByTeamId" resultMap="java.math.BigInteger">
+    <select id="getTeamSerialByTeamId" resultType="java.lang.Integer">
         select team_serial
         from team
         where id=#{teamId}
     </select>
 
-    <select id="getStudentNameByStudentId" resultMap="java.lang.String">
+    <select id="getStudentNameByStudentId" resultType="java.lang.String">
         select student_name
         from student
         where id=#{studentId}
@@ -120,23 +120,12 @@
         <result property="totalScore" column="total_score"/>
     </resultMap>
 
-    <select id="getRoundIdBySeminarId" resultMap="java.math.BigInteger">
+    <select id="getRoundIdBySeminarId" resultType="java.math.BigInteger">
         select round_id
         from seminar
         where id=#{seminarId}
     </select>
 
-    <select id="getRoundScoreByRoundIdAndTeamId" resultMap="RoundScoreResult">
-        select *
-        from round_score
-        where round_id=#{roundId} and team_id=#{teamId}
-    </select>
-
-    <update id="updateRoundScore">
-        update round_score
-        set question_score=#{questionScore}
-        where round_id=#{roundId} and team_id=#{teamId}
-    </update>
 
     <update id="updateRoundScoreEnd">
         update round_score

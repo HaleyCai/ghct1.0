@@ -75,7 +75,7 @@ public class QuestionDao {
         return questionMapper.updateSeminarScore(klassSeminarId,teamId,questionScore);
     }
 
-    public boolean updateSeminarScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore)
+    public Score updateSeminarScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore)
     {
         return questionMapper.updateSeminarScoreEnd(klassSeminarId,teamId,totalScore);
     }
@@ -90,15 +90,6 @@ public class QuestionDao {
         return questionMapper.getRoundIdBySeminarId(seminarId);
     }
 
-    public Score getRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId)
-    {
-        return questionMapper.getRoundScoreByRoundIdAndTeamId(roundId,teamId);
-    }
-
-    public Score updateRoundScore(BigInteger klassSeminarId,BigInteger teamId,Double questionScore)
-    {
-        return questionMapper.updateRoundScore(klassSeminarId,teamId,questionScore);
-    }
 
     public boolean updateRoundScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore)
     {

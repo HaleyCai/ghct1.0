@@ -76,7 +76,7 @@ public class QuestionService {
         QuestionListVO questionListVO=new QuestionListVO();
         Question question=questionDao.getQuestionByQuestionId(questionId);
         questionListVO.setQuestionId(questionId);
-        BigInteger teamId=questionDao.getTeamIdByQuestionId(question.getQuestionId());
+        BigInteger teamId=questionDao.getTeamIdByQuestionId(questionId);
         questionListVO.setTeamSerial(questionDao.getTeamSerialByTeamId(teamId));
 
         BigInteger klassId=questionDao.getKlassIdByKlassSeminarId(question.getKlassSeminarId());
@@ -133,17 +133,19 @@ public class QuestionService {
         Score seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
         BigInteger klassId=seminarDao.getKlassIdByKlassSeminarId(klassSeminarId);
         BigInteger courseId=courseDao.getCourseIdByKlassId(klassId);
-        seminarScore=questionDao.updateSeminarScore(seminarScore.getKlassSeminarId(),teamId,questionScore);
+        if(seminarScore.getQuestionScore()<questionScore)
+        {
+            seminarScore=questionDao.updateSeminarScore(seminarScore.getKlassSeminarId(),teamId,questionScore);
+        }
         Double totalScore=totalScoreDao.totalScoreCalculation(seminarScore,courseId).getTotalScore();
-        boolean success1=questionDao.updateSeminarScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore);
+        seminarScore=questionDao.updateSeminarScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore);
 
-        BigInteger semimarId=questionDao.getSeminarIdByKlassSeminarId(klassSeminarId);
-        BigInteger roundId=questionDao.getRoundIdBySeminarId(semimarId);
-        Score roundScore=questionDao.getRoundScoreByRoundIdAndTeamId(roundId,teamId);
-        roundScore=questionDao.updateRoundScore(roundScore.getKlassSeminarId(),teamId,questionScore);
-        Double totalScore1=scoreCalculationDao.roundScoreCalculation(roundScore, roundId,teamId,courseId).getTotalScore();
-        boolean success2=questionDao.updateRoundScoreEnd(roundScore.getKlassSeminarId(),teamId,totalScore1);
-        if(success1==true&&success2==true)
+        BigInteger seminarId=questionDao.getSeminarIdByKlassSeminarId(klassSeminarId);
+        BigInteger roundId=questionDao.getRoundIdBySeminarId(seminarId);
+
+        Double totalScore1=scoreCalculationDao.roundScoreCalculation(seminarScore, roundId,teamId,courseId).getTotalScore();
+        boolean success=questionDao.updateRoundScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore1);
+        if(success==true)
             return true;
         else
             return false;

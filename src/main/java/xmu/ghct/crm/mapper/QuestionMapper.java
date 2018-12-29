@@ -40,17 +40,11 @@ public interface QuestionMapper {
 
     Score updateSeminarScore(BigInteger klassSeminarId,BigInteger teamId,Double questionScore);
 
-    boolean updateSeminarScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore);
+    Score updateSeminarScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore);
 
     BigInteger getSeminarIdByKlassSeminarId(BigInteger klassSeminarId);
 
     BigInteger getRoundIdBySeminarId(BigInteger seminarId);
-
-
-    Score getRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId);
-
-
-    Score updateRoundScore(BigInteger klassSeminarId,BigInteger teamId,Double questionScore);
 
 
     boolean updateRoundScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore);
