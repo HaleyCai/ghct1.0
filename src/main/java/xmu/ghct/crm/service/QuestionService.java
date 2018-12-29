@@ -129,27 +129,30 @@ public class QuestionService {
      */
     public boolean updateQuestionScore(BigInteger questionId,BigInteger klassSeminarId,Double questionScore)
     {
-        questionDao.updateQuestionScoreByQuestionId(questionId,questionScore);//更新question表
+
         BigInteger teamId=questionDao.getTeamIdByQuestionId(questionId);
         Score seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
         BigInteger klassId=seminarDao.getKlassIdByKlassSeminarId(klassSeminarId);
         BigInteger courseId=courseDao.getCourseIdByKlassId(klassId);
         if(seminarScore.getQuestionScore()<questionScore)
         {
-            seminarScore=questionDao.updateSeminarScore(seminarScore.getKlassSeminarId(),teamId,questionScore);
+            questionDao.updateSeminarScore(seminarScore.getKlassSeminarId(),teamId,questionScore);
         }
+        seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
         Double totalScore=totalScoreDao.totalScoreCalculation(seminarScore,courseId).getTotalScore();
-        seminarScore=questionDao.updateSeminarScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore);
+        questionDao.updateSeminarScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore);
+        seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
 
         BigInteger seminarId=questionDao.getSeminarIdByKlassSeminarId(klassSeminarId);
         BigInteger roundId=questionDao.getRoundIdBySeminarId(seminarId);
 
-        Double totalScore1=scoreCalculationDao.roundScoreCalculation(seminarScore, roundId,teamId,courseId).getTotalScore();
+        return questionDao.updateQuestionScoreByQuestionId(questionId,questionScore);//更新question表
+        /**Double totalScore1=scoreCalculationDao.roundScoreCalculation(seminarScore, roundId,teamId,courseId).getTotalScore();
         boolean success=questionDao.updateRoundScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore1);
         if(success==true)
             return true;
         else
-            return false;
+            return false;**/
     }
 
 

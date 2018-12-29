@@ -38,9 +38,9 @@ public interface QuestionMapper {
 
     Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId, BigInteger teamId);
 
-    Score updateSeminarScore(BigInteger klassSeminarId,BigInteger teamId,Double questionScore);
+    Boolean updateSeminarScore(BigInteger klassSeminarId,BigInteger teamId,Double questionScore);
 
-    Score updateSeminarScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore);
+    Boolean updateSeminarScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore);
 
     BigInteger getSeminarIdByKlassSeminarId(BigInteger klassSeminarId);
 

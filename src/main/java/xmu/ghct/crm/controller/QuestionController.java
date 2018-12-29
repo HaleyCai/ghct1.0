@@ -89,7 +89,7 @@ public class QuestionController {
     public boolean updateQuestionScore(@RequestBody Map<String,Object> inMap){
         return questionService.updateQuestionScore(
                 new BigInteger(inMap.get("questionId").toString()),
-                new BigInteger(inMap.get("KlassSeminarId").toString()),
+                new BigInteger(inMap.get("klassSeminarId").toString()),
                 new Double(inMap.get("questionScore").toString()));
     }
 
