@@ -130,4 +130,12 @@ public interface TeamMapper {
      */
     List<BigInteger> listTeamIdByCourseId(BigInteger courseId);
 
+    /**
+     * @author hzm
+     * 获取队伍序号
+     * @param teamId
+     * @return
+     */
+    Integer getTeamSerialByTeamId(BigInteger teamId);
+
 }

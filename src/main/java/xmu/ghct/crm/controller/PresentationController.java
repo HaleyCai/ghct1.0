@@ -7,10 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import xmu.ghct.crm.VO.ScoreVO;
 import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.dao.*;
-import xmu.ghct.crm.entity.Attendance;
-import xmu.ghct.crm.entity.Question;
-import xmu.ghct.crm.entity.Score;
-import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.service.CourseService;
 import xmu.ghct.crm.service.PresentationService;
 import xmu.ghct.crm.service.SeminarService;
@@ -58,6 +55,7 @@ public class PresentationController {
 
     @Autowired
     ScoreCalculationDao scoreCalculationDao;
+
 
     /**
      * @author hzm
@@ -214,7 +212,11 @@ public class PresentationController {
     }
 
 
-
+    /**
+     * 获取报名小组和提问学生信息（展示打分页面）
+     * @param klassSeminarId
+     * @return
+     */
     @GetMapping("/presentation/{klassSeminarId}")
     public Map<String,List> beingPresentation(@PathVariable("klassSeminarId") BigInteger klassSeminarId){
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
@@ -245,6 +247,13 @@ public class PresentationController {
     }
 
 
+    /**
+     * 修改展示成绩（展示给分）
+     * @param klassSeminarId
+     * @param teamId
+     * @param presentationScoreMap
+     * @return
+     */
     @PutMapping("/presentation/{klassSeminarId}/attendance/{teamId}")
     public boolean updatePresentationScore(@PathVariable("klassSeminarId") BigInteger klassSeminarId,@PathVariable("teamId")BigInteger teamId,
                                            @RequestBody  Map<String,Object> presentationScoreMap){
@@ -270,11 +279,22 @@ public class PresentationController {
     }
 
 
+    /**
+     * 报名讨论课
+     * @param klassSeminarId
+     * @param teamId
+     * @param attendanceMap
+     * @return
+     */
     //需要teamId，但是应该是根据jwt获得，所以这里teamId用于测试用
     @RequestMapping(value="/seminar/{klassSeminarId}/attendance" ,method = RequestMethod.POST)
-    public boolean attendanceSeminar(@PathVariable("klassSeminarId")BigInteger klassSeminarId,@Param("teamId") BigInteger teamId,@RequestBody Map<String,Object> attendanceMap){
-             SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
-             Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
+    public boolean attendanceSeminar(@PathVariable("klassSeminarId")BigInteger klassSeminarId,@RequestParam("teamId") BigInteger teamId,@RequestBody Map<String,Object> attendanceMap){
+        SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
+        Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
+        List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
+        for(Attendance attendance:attendanceList){
+            if(teamId==attendance.getTeamId()) return false;//该队伍已报名讨论课
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//修改日期格式
         String enrollEndTime=dateFormat.format(seminar.getEnrollEndTime());
         String enrollStartTime=dateFormat.format(seminar.getEnrollStartTime());
@@ -291,8 +311,31 @@ public class PresentationController {
             if(flag>0) return true;
             else return false;
         }
+    }
 
 
+    /**
+     * @author hzm
+     * 获取讨论课小组的班级讨论课信息(包括报名、未报名等各种情况)
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+    @GetMapping("/seminar/{klassSeminarId}/{teamId}/seminarInfo")
+    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(@PathVariable("klassSeminarId")BigInteger klassSeminarId,@PathVariable("teamId")BigInteger teamId){
+             return presentationService.getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+    }
+
+
+    /**
+     * @author hzm
+     * 修改讨论课报名并返回新的报名信息
+     * @param attendanceId
+     * @return
+     */
+    @GetMapping("/klassSeminar/attendance/{attendanceId}/modifyAttendance")
+    public List<Map> modifyAttendanceByAttendanceId(@PathVariable("attendanceId")BigInteger attendanceId,@RequestBody Map<String,String> orderMap){
+        return presentationService.modifyAttendanceByAttendanceId(attendanceId,orderMap);
     }
 
 

@@ -8,11 +8,12 @@ public class ScoreVO {
     private int roundSerial;
     private BigInteger teamId;
     private int teamSerial;
+    private int klassSerial;
     private double presentationScore;
     private double questionScore;
     private double reportScore;
     private double totalScore;
-    private List<SeminarScoreVO> scoreList;
+ //   private List<SeminarScoreVO> scoreList;
 
     public BigInteger getRoundId() {
         return roundId;
@@ -78,26 +79,37 @@ public class ScoreVO {
         this.totalScore = totalScore;
     }
 
-    public List<SeminarScoreVO> getScoreList() {
-        return scoreList;
+  //  public List<SeminarScoreVO> getScoreList() {
+   //     return scoreList;
+ //   }
+
+  //  public void setScoreList(List<SeminarScoreVO> scoreList) {
+   //     this.scoreList = scoreList;
+
+    public int getKlassSerial() {
+        return klassSerial;
     }
 
-    public void setScoreList(List<SeminarScoreVO> scoreList) {
-        this.scoreList = scoreList;
+    public void setKlassSerial(int klassSerial) {
+        this.klassSerial = klassSerial;
     }
+
+    // }
+
 
     @Override
     public String toString() {
         return "ScoreVO{" +
                 "roundId=" + roundId +
-                ", roundSerial='" + roundSerial + '\'' +
+                ", roundSerial=" + roundSerial +
                 ", teamId=" + teamId +
                 ", teamSerial=" + teamSerial +
+                ", klassSerial=" + klassSerial +
                 ", presentationScore=" + presentationScore +
                 ", questionScore=" + questionScore +
                 ", reportScore=" + reportScore +
                 ", totalScore=" + totalScore +
-                ", scoreList=" + scoreList +
                 '}';
     }
+
 }

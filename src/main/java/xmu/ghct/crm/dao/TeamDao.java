@@ -154,4 +154,8 @@ public class TeamDao {
         else
             return false;
     }
+
+    public int getTeamSerialByTeamId(BigInteger teamId){
+        return teamMapper.getTeamSerialByTeamId(teamId);
+    }
 }

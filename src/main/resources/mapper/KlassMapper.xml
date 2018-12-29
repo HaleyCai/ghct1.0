@@ -51,6 +51,12 @@
         where klass_id=#{klassId}
     </select>
 
+    <select id="getKlassSerialByKlassId" resultType="java.lang.Integer">
+        select klass_serial
+        from klass
+        where id=#{klassId}
+    </select>
+
 
     <resultMap id="klassResultMap" type="xmu.ghct.crm.entity.Klass">
         <id property="klassId" column="id"/>

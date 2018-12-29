@@ -3,7 +3,9 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.ScoreVO;
+import xmu.ghct.crm.VO.SeminarSimpleVO;
 import xmu.ghct.crm.VO.SeminarVO;
+import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.service.ScoreService;
@@ -29,10 +31,12 @@ public class ScoreController {
     TeamService teamService;
 
     //////////////////////需要重写
+    /*
     @RequestMapping(value="/course/{courseId}/score",method = RequestMethod.GET)
     public List<ScoreVO> listScoreByCourseId(@PathVariable("courseId") BigInteger courseId){
         return scoreService.listAllScoreByCourseId(courseId);
     }
+    */
 
     /**
      * @cyq
@@ -43,12 +47,14 @@ public class ScoreController {
      * @return
      */
     //////////////////////需要重写
+    /*
     @RequestMapping(value="/course/{courseId}/team/{teamId}/score",method = RequestMethod.GET)
     public List<ScoreVO> getScoreByRoundIdTeamId(@PathVariable("courseId") BigInteger courseId,
                                        @PathVariable("teamId") BigInteger teamId)
     {
         return scoreService.listTeamScoreByCourseId(courseId,teamId);
     }
+    */
 
 
     /**
@@ -62,6 +68,13 @@ public class ScoreController {
         return scoreService.listRoundScoreByRoundId(roundId);
     }
 
+
+    /**
+     * 获取小组某轮次下所有讨论课的成绩信息
+     * @param roundId
+     * @param teamId
+     * @return
+     */
     @GetMapping("/course/round/{roundId}/{teamId}")
     public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(@PathVariable("roundId")BigInteger roundId,@PathVariable("teamId")BigInteger teamId){
         List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(roundId);
@@ -81,6 +94,41 @@ public class ScoreController {
             }
         }
         return scoreList;
+    }
+
+
+    /**
+     * 获得某小组所有轮次的简单信息（roundId，轮次序号，轮次总成绩）
+     * @param courseId
+     * @param teamId
+     * @return
+     */
+    @GetMapping("/course/{courseId}/{teamId}")
+    public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(@PathVariable("courseId")BigInteger courseId,@PathVariable("teamId")BigInteger teamId){
+        return scoreService.listTeamRoundInfoByCourseIdAndTeamId(courseId,teamId);
+    }
+
+    /**
+     * 获取某小组某轮次所有讨论课简单信息
+     * @param roundId
+     * @return
+     */
+    @GetMapping("/course/round/{roundId}/{teamId}/roundSeminar")
+    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") BigInteger roundId,@PathVariable("teamId") BigInteger teamId){
+        return scoreService.getSeminarByRoundId(roundId,teamId);
+    }
+
+
+    /**
+     *获取某小组某次讨论课成绩
+     * @param seminarId
+     * @param teamId
+     * @return
+     */
+    @GetMapping("/course/round/{teamId}/{seminarId}/seminarScore")
+    public Score getTeamSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId")BigInteger seminarId,@PathVariable("teamId")BigInteger teamId){
+        return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(seminarId,teamId);
+
     }
 
 

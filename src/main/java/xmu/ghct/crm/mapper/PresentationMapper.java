@@ -80,4 +80,13 @@ public interface PresentationMapper {
      * @return
      */
     int insertAttendance(Attendance attendance);
+
+
+    /**
+     * 根据klassSeminarId和teamId获取某小组报名信息
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+    Attendance getAttendanceByKlassSeminarIdByTeamId(BigInteger klassSeminarId,BigInteger teamId);
 }

@@ -119,8 +119,8 @@
 
     <resultMap id="seminarResultMap" type="xmu.ghct.crm.entity.Seminar">
         <id property="seminarId" column="id"/>
-        <result property="courseId" column="courseId"/>
-        <result property="roundId" column="roundId"/>
+        <result property="courseId" column="course_id"/>
+        <result property="roundId" column="round_id"/>
         <result property="seminarName" column="seminar_name"/>
         <result property="introduction" column="introduction"/>
         <result property="maxTeam" column="max_team"/>

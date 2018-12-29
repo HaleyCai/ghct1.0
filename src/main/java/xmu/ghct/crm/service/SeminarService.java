@@ -154,6 +154,9 @@ public class SeminarService {
         BigInteger klassSeminarId=seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarId);
+        Integer roundSerial=roundDao.getRoundSerialByRoundId(seminar.getRoundId());
+        seminarVO.setKlassSerial(klassDao.getKlassSerialByKlassId(klassId));
+        seminarVO.setRoundSerial(roundSerial);
         seminarVO.setRoundId(seminar.getRoundId());
         seminarVO.setEnrollEndTime(seminar.getEnrollEndTime());
         seminarVO.setEnrollStartTime(seminar.getEnrollStartTime());
@@ -185,9 +188,13 @@ public class SeminarService {
     public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(BigInteger teamId, BigInteger seminarId){
         SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
         Team teamInfo=teamDao.getTeamInfoByTeamId(teamId);
+        BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,teamInfo.getKlassId());
         Seminar seminarInfo=seminarDao.getSeminarBySeminarId(seminarId);
         Klass klassInfo=klassDao.getKlassByKlassId(teamInfo.getKlassId());
-        Score seminarScore=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(seminarId,teamId);
+        Score seminarScore=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+        System.out.println(seminarScore);
+        seminarScoreVO.setKlassSeminarId(klassSeminarId);
+        seminarScoreVO.setTeamName(teamInfo.getTeamName());
         seminarScoreVO.setSeminarId(seminarId);
         seminarScoreVO.setTeamId(teamInfo.getTeamId());
         seminarScoreVO.setTeamSerial(teamInfo.getTeamSerial());
@@ -330,12 +337,18 @@ public class SeminarService {
             BigInteger teamId=item.getTeamId();
             Team team=teamDao.getTeamInfoByTeamId(teamId);
             Map<String,Object> oneMap=new HashMap<>();
+            oneMap.put("attendanceId",item.getAttendanceId());
             oneMap.put("klassSerial",klassSerial);
             oneMap.put("teamSerial",team.getTeamSerial());
-            if(item.getPptName()==null){
+            oneMap.put("teamOrder",item.getTeamOrder());
+            if(item.getPptName()==null||item.getPptName().length()<=0){
                 oneMap.put("pptStatus",false);
             }
-            else oneMap.put("pptStatus",true);
+            else {
+                oneMap.put("pptStatus", true);
+                oneMap.put("pptName",item.getPptName());
+                oneMap.put("pptUrl",item.getPptUrl());
+            }
             map.add(oneMap);
             account+=1;
         }

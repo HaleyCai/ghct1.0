@@ -209,5 +209,15 @@ public class RoundDao {
             roundMapper.createDefaultEnrollNumber(item.getKlassId(),roundId);
     }
 
+    /**
+     * @author hzm
+     * 获取轮次序号
+     * @param roundId
+     * @return
+     */
+    public int getRoundSerialByRoundId(BigInteger roundId){
+        return  roundMapper.getRoundSerialByRoundId(roundId);
+    }
+
 
 }

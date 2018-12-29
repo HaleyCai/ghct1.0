@@ -2,10 +2,15 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.dao.PresentationDao;
+import xmu.ghct.crm.VO.SeminarVO;
+import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Attendance;
+import xmu.ghct.crm.entity.Klass;
+import xmu.ghct.crm.entity.Seminar;
 
 import java.math.BigInteger;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +19,21 @@ public class PresentationService {
 
     @Autowired
     PresentationDao presentationDao;
+
+    @Autowired
+    SeminarDao seminarDao;
+
+    @Autowired
+    KlassDao klassDao;
+
+    @Autowired
+    TeamDao teamDao;
+
+    @Autowired
+    RoundDao roundDao;
+
+    @Autowired
+    SeminarService seminarService;
 
     public int updateAttendanceOrderByAttendanceId(BigInteger attendanceId, Map<String,Object> orderMap){
         int teamOrder=new Integer(orderMap.get("teamOrder").toString());
@@ -52,5 +72,78 @@ public class PresentationService {
         attendance.setKlassSeminarId(klassSeminarId);
         attendance.setTeamOrder(new Integer(attendanceMap.get("teamOrder").toString()));
         return presentationDao.insertAttendance(attendance);
+    }
+
+    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId){
+        List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
+        boolean isAttendance=false;
+        for(Attendance item:attendanceList){
+            if(item.getTeamId().equals(teamId)) {
+                isAttendance=true;
+                break;
+            }
+        }
+        SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
+        Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
+        seminarVO.setIntroduction(seminar.getIntroduction());
+        seminarVO.setSeminarName(seminar.getSeminarName());
+        seminarVO.setEnrollStartTime(seminar.getEnrollStartTime());
+        seminarVO.setEnrollEndTime(seminar.getEnrollEndTime());
+        seminarVO.setRoundId(seminar.getRoundId());
+        seminarVO.setRoundSerial(roundDao.getRoundSerialByRoundId(seminar.getRoundId()));
+        seminarVO.setSeminarSerial(seminar.getSeminarSerial());
+        Map<String,Object> map=new HashMap<>();
+        map.put("seminarVO",seminarVO);
+        if(isAttendance==false){   //未报名讨论课
+            return map;
+        }
+        else{                     //已报名讨论课
+            Attendance attendance=presentationDao.getAttendanceByKlassSeminarIdByTeamId(klassSeminarId,teamId);
+            if(seminarVO.getStatus()==2){
+                if(attendance.getReportName().length()>0){
+                    String reportStatus ="已提交";
+                    map.put("reportStatus",reportStatus);
+                }else{
+                    Date reportDDL=seminarVO.getReportDDL();
+                    Date nowDate=new Date();
+                    long diff=reportDDL.getTime()-nowDate.getTime();
+                    if(diff>0) {
+                        long hours = diff / (1000 * 60 * 60);
+                        long minutes = diff % (1000 * 60 * 60) / (1000 * 60);
+                        String reportStatus ="未提交  距截止时间为"+hours+"时"+minutes+"分";
+                        map.put("reportStatus",reportStatus);
+                    }
+                    else{
+                        String reportStatus ="未提交";
+                        map.put("reportStatus",reportStatus);
+                    }
+                }
+            }
+
+            Klass klass=klassDao.getKlassByKlassId(seminarVO.getKlassId());
+            seminarVO.setKlassSerial(klass.getKlassSerial());
+            map.put("grade",klass.getGrade());
+            int teamSerial=teamDao.getTeamSerialByTeamId(teamId);
+            map.put("teamSerial",teamSerial);
+
+            if(attendance.getPptName().length()>0){
+                map.put("pptStatus",true);
+            }
+            else map.put("pptStatus",false);
+
+            map.put("attendanceId",attendance.getAttendanceId());
+            return map;
+        }
+    }
+
+    public List<Map> modifyAttendanceByAttendanceId(BigInteger attendanceId,Map<String,String> orderMap){
+        int teamOrder=new Integer(orderMap.get("teamOrder"));
+        int flag=presentationDao.updateAttendanceOrderByAttendanceId(attendanceId,teamOrder);
+        Map<String,Object> flagMap=new HashMap<>();
+        flagMap.put("isSuccess",flag);
+        Attendance attendance=presentationDao.getAttendanceByAttendanceId(attendanceId);
+        List<Map> map=seminarService.listStudentKlassSeminarByKlassSeminarId(attendance.getKlassSeminarId());
+        map.add(flagMap);
+        return map;
     }
 }

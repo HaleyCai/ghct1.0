@@ -91,4 +91,12 @@ public interface RoundMapper {
      * @return
      */
     int modifyEnrollNum(BigInteger klassId,BigInteger roundId,int num);
+
+    /**
+     * @author hzm
+     * 获取轮次序号
+     * @param roundId
+     * @return
+     */
+    Integer getRoundSerialByRoundId(BigInteger roundId);
 }

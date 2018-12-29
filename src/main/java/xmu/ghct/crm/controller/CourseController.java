@@ -40,6 +40,9 @@ public class CourseController {
     @Autowired
     SeminarService seminarService;
 
+    @Autowired
+    UploadExcelService uploadExcelService;
+
     /**
      * @cyq
      * 教师通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,main(主、从）
@@ -84,6 +87,12 @@ public class CourseController {
         else return false;
     }
 
+    /**
+     * 获得课程下的所有轮次
+     * @param courseId
+     * @return
+     * @throws RoundNotFindException
+     */
     @RequestMapping(value="/course/{courseId}/round",method = RequestMethod.GET)
     @ResponseBody
     public  List<Round> listRoundByCourseId(@PathVariable("courseId") BigInteger courseId) throws RoundNotFindException {
@@ -163,5 +172,15 @@ public class CourseController {
 //    public  List<StudentCourseVO> listKlassStudentByStudentId(@PathVariable("studentId") BigInteger studentId){
 //        return courseService.listKlassStudentByStudentId(studentId);
 //    }
+
+
+    @PostMapping("/uploadStudentNameList")
+    public String add(@RequestParam("file")MultipartFile file){
+        //Map<Integer, Map<Integer,Object>> map = uploadExcelService.addCustomerInfo(file);
+        uploadExcelService.addCustomerInfo(file);
+        //System.out.println(map);
+        return "success";
+    }
+
 
 }

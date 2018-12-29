@@ -44,4 +44,8 @@ public class KlassDao {
     public List<Integer> listStatusByKlassId(BigInteger klassId){
         return klassMapper.listStatusByKlassId(klassId);
     }
+
+    public int getKlassSerialByKlassId(BigInteger klassId){
+        return klassMapper.getKlassSerialByKlassId(klassId);
+    }
 }

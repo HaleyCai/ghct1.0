@@ -3,6 +3,7 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.mapper.StudentMapper;
 import xmu.ghct.crm.service.UserService;
 
 import java.util.HashMap;
@@ -16,6 +17,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    StudentMapper studentMapper;
 
     //***token做好后，放到httpRequest中，每个函数可以获得，jwt中有userId和type的值，现在先假定从前端传入
 

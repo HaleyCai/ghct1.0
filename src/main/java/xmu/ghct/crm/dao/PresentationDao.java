@@ -46,4 +46,8 @@ public class PresentationDao {
     public int insertAttendance(Attendance attendance){
         return presentationMapper.insertAttendance(attendance);
     }
+
+    public Attendance getAttendanceByKlassSeminarIdByTeamId(BigInteger klassSeminarId,BigInteger teamId){
+        return presentationMapper.getAttendanceByKlassSeminarIdByTeamId(klassSeminarId,teamId);
+    }
 }

@@ -74,4 +74,13 @@ public interface KlassMapper {
      * @return
      */
    List<Integer> listStatusByKlassId(BigInteger klassId);
+
+
+    /**
+     * @author hzm
+     * 根据klassId获取课次序号
+     * @param klassId
+     * @return
+     */
+   Integer getKlassSerialByKlassId(BigInteger klassId);
 }

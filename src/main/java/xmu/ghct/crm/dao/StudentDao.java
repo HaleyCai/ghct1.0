@@ -153,4 +153,14 @@ public class StudentDao {
         else
             return true;
     }
+
+    /**
+     * @author hzm
+     * 插入学生用户
+     * @param user
+     * @return
+     */
+    public int insertStudent(User user){
+        return studentMapper.insertStudent(user);
+    }
 }

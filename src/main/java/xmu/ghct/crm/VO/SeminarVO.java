@@ -6,6 +6,7 @@ import java.util.Date;
 public class SeminarVO {
 
     private BigInteger klassId;
+    private int klassSerial;
     private BigInteger klassSeminarId;
     private BigInteger seminarId;
     private String seminarName;
@@ -15,6 +16,7 @@ public class SeminarVO {
     private int maxTeam;
     private Date reportDDL;
     private BigInteger roundId;
+    private int roundSerial;
     private Date enrollStartTime;
     private Date enrollEndTime;
 
@@ -109,10 +111,36 @@ public class SeminarVO {
     }
 
 
+    public void setRoundId(BigInteger roundId) {
+        this.roundId = roundId;
+    }
+
+    public BigInteger getRoundId() {
+        return roundId;
+    }
+
+    public int getRoundSerial() {
+        return roundSerial;
+    }
+
+    public void setRoundSerial(int roundSerial) {
+        this.roundSerial = roundSerial;
+    }
+
+    public void setKlassSerial(int klassSerial) {
+        this.klassSerial = klassSerial;
+    }
+
+    public int getKlassSerial() {
+        return klassSerial;
+    }
+
+
     @Override
     public String toString() {
         return "SeminarVO{" +
                 "klassId=" + klassId +
+                ", klassSerial=" + klassSerial +
                 ", klassSeminarId=" + klassSeminarId +
                 ", seminarId=" + seminarId +
                 ", seminarName='" + seminarName + '\'' +
@@ -122,17 +150,10 @@ public class SeminarVO {
                 ", maxTeam=" + maxTeam +
                 ", reportDDL=" + reportDDL +
                 ", roundId=" + roundId +
+                ", roundSerial=" + roundSerial +
                 ", enrollStartTime=" + enrollStartTime +
                 ", enrollEndTime=" + enrollEndTime +
                 '}';
-    }
-
-    public void setRoundId(BigInteger roundId) {
-        this.roundId = roundId;
-    }
-
-    public BigInteger getRoundId() {
-        return roundId;
     }
 
 }

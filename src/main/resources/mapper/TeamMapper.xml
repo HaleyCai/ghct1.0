@@ -71,6 +71,12 @@
         where course_id=#{courseId}
     </select>
 
+    <select id="getTeamSerialByTeamId" resultType="java.lang.Integer">
+        select team_serial
+        from team
+        where id=#{teamId}
+    </select>
+
     <resultMap id="shareTeamMap" type="xmu.ghct.crm.VO.ShareTeamVO">
         <result property="mainCourseId" column="main_course_id"/>
         <result property="subCourseId" column="sub_course_id"/>

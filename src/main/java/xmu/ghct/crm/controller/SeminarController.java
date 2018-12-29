@@ -233,12 +233,15 @@ public class SeminarController {
     }
 
 
+    /**
+     * @author hzm
+     *获取班级讨论课的报名信息及报名小组ppt提交情况
+     * @param klassSeminarId
+     * @return
+     */
     @GetMapping("/round/seminar/{klassSeminarId}/attendance")
     public List<Map> listStudentKlassSeminarByKlassSeminarId(@PathVariable("klassSeminarId") BigInteger klassSeminarId){
              return seminarService.listStudentKlassSeminarByKlassSeminarId(klassSeminarId);
     }
-
-
-
 
 }

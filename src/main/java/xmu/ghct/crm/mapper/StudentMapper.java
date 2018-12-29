@@ -88,4 +88,12 @@ public interface StudentMapper {
      * @return
      */
     List<BigInteger> getAllStudentIdByCourseId(BigInteger courseId);
+
+    /**
+     * @author hzm
+     * 插入学生用户
+     * @param user
+     * @return
+     */
+    int insertStudent(User user);
 }

@@ -32,9 +32,8 @@ public class ScoreDao {
 
     /**
      * 根据课程查找所有的成绩
-     * @param courseId
      * @return
-     */
+
     public List<ScoreVO> listScoreByCourseId(BigInteger courseId){
         List<Round> roundList=roundMapper.listRoundByCourseId(courseId);  //获得该课程下的所有轮次
         List<ScoreVO> allScoreVOList=new ArrayList<>();                   //存储所有的小组的成绩ScoreVO
@@ -73,7 +72,9 @@ public class ScoreDao {
         }
         return allScoreVOList;
     }
+     */
 
+/*
     public List<ScoreVO> listTeamScoreByCourseId(BigInteger courseId,BigInteger teamId)
     {
         List<Round> roundList=roundMapper.listRoundByCourseId(courseId);  //获得该课程下的所有轮次
@@ -107,7 +108,9 @@ public class ScoreDao {
         }
         return allScoreVOList;
     }
+    */
 
+    /*
     public SeminarScoreVO scoreTOSeminarScoreVO(BigInteger sItem,BigInteger ksItem,Score score)
     {
         //Score转SeminarScoreVO
@@ -125,6 +128,7 @@ public class ScoreDao {
         return klassSeminarScoreVO;
     }
 
+*/
 
     public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
         return scoreMapper.deleteSeminarScoreBySeminarId(seminarId);
@@ -141,6 +145,10 @@ public class ScoreDao {
 
     public Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId){
         return scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+    }
+
+    public ScoreVO getTeamRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId){
+        return  scoreMapper.getTeamRoundScore(roundId,teamId);
     }
 
 
@@ -160,7 +168,7 @@ public class ScoreDao {
      * @param scoreVO
      * @return
      */
-    public int insertRoundScore(ScoreVO scoreVO){
-        return scoreMapper.insertRoundScore(scoreVO);
-    }
+    //public int insertRoundScore(ScoreVO scoreVO){
+ //       return scoreMapper.insertRoundScore(scoreVO);
+  //  }
 }
