@@ -17,69 +17,56 @@ public class QuestionController {
     QuestionService questionService;
 
     /**
-     *前端传入klassSeminarId和attendanceId,教师提问界面右边显示所有提问学生
+     *前端传入klassId、seminarId和attendanceId,教师提问界面右边显示所有提问学生
      * @return
      */
-    @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/question",
+    @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/{attendanceId}/question",
             method = RequestMethod.GET)
     public List<QuestionListVO> getAllQuestion(@PathVariable("seminarId") BigInteger seminarId,
-                                               @PathVariable("klassId") BigInteger klassId)
+                                               @PathVariable("klassId") BigInteger klassId,
+                                               @PathVariable("attendanceId") BigInteger attendanceId)
+
     {
         return questionService.getAllQuestion(
                 seminarId,
-                klassId);
+                klassId,
+                attendanceId);
     }
 
     /**
-     * 教师点击下个提问时，修改当前提问为已抽到
-     * @return
+     * 被抽取到提问，展示提问人信息
      */
-    @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/question/{question}",
-            method = RequestMethod.PUT)
-    public boolean updateQuestionSelected(@PathVariable("seminarId") BigInteger seminarId,
-                                          @PathVariable("klassId") BigInteger klassId,
-                                          @PathVariable("question") BigInteger question){
-        return questionService.updateQuestionSelected(question);
+    @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/attendanceId/{attendanceId}/question",method = RequestMethod.GET)
+    public QuestionListVO getOneQuestion(@PathVariable("seminarId") BigInteger seminarId,
+                                         @PathVariable("klassId") BigInteger klassId,
+                                         @PathVariable("attendanceId") BigInteger attendanceId)
+    {
+        return questionService.getOneQuestion(
+                seminarId,
+                klassId,
+                attendanceId);
     }
 
-    /**
-     * 学生提问界面，被抽取到提问，展示提问人信息
-     */
-    @RequestMapping(value="/question/{questionId}",method = RequestMethod.GET)
-    public QuestionListVO getOneQuestion(@PathVariable("questionId") BigInteger questionId){
-        return questionService.getOneQuestion(questionId);
-    }
 
     /**
-     * 前端传入lassSeminarId和attendanceId，发布提问，studentId通过jwt获得
+     * 前端传入klassId,seminarId和attendanceId，发布提问，studentId通过jwt获得
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/question",
+    @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/{attendanceId}/question",
             method = RequestMethod.POST)
     public boolean postQuestion(@PathVariable("seminarId") BigInteger seminarId,
                                 @PathVariable("klassId") BigInteger klassId,
+                                @PathVariable("attendanceId") BigInteger attendanceId,
                                 @RequestBody Map<String,Object> inMap)
     {
         return questionService.postQuestion(
-                new BigInteger(inMap.get("studentId").toString()),
                 seminarId,
-                klassId);
+                klassId,
+                attendanceId,
+                new BigInteger(inMap.get("studentId").toString())
+                );
 
-    }
-
-    /**
-     *前端传入klassSeminarId和attendanceId,统计已提问学生数
-     * @return
-     */
-    @RequestMapping(value="/teacher/seminar/{seminarId}/attendanceId/{attendanceId}",
-            method = RequestMethod.GET)
-    public int countQuestionNumber(@PathVariable("seminarId") BigInteger seminarId,
-                                   @PathVariable("attendanceId") BigInteger attendanceId)
-    {
-        return questionService.countQuestionNumber(
-                seminarId,
-                attendanceId);
     }
 
 
@@ -88,19 +75,17 @@ public class QuestionController {
      * @param inMap
      * @return
      */
-    @RequestMapping(value="/teacher/seminarId/{seminarId}/question/{questionId}",method = RequestMethod.PUT)
+    @RequestMapping(value="/teacher/seminarId/{seminarId}/{klassId}/question/{questionId}",method = RequestMethod.PUT)
     public boolean updateQuestionScore(@PathVariable("seminarId") BigInteger seminarId,
+                                       @PathVariable("klassId") BigInteger klassId,
                                        @PathVariable("questionId") BigInteger questionId,
-                                       @RequestBody Map<String,Object> inMap){
+                                       @RequestBody Map<String,Object> inMap)
+    {
         return questionService.updateQuestionScore(
-                questionId,
                 seminarId,
+                klassId,
+                questionId,
                 new Double(inMap.get("questionScore").toString()));
     }
-
-
-
-
-
 
 }

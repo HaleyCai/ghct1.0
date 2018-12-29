@@ -53,4 +53,5 @@ public interface QuestionMapper {
 
     int countQuestionNumber(@Param("klassSeminarId") BigInteger klassSeminarId, @Param("attendanceId") BigInteger attendanceId);
 
+    BigInteger getQuestionId(BigInteger klassSeminarId,BigInteger attendanceId,BigInteger studentId);
 }

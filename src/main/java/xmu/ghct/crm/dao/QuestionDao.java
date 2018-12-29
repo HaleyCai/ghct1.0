@@ -113,6 +113,11 @@ public class QuestionDao {
     }
 
 
+    public BigInteger getQuestionId(BigInteger klassSeminar,BigInteger attendanceId,BigInteger studentId)
+    {
+        return questionMapper.getQuestionId(klassSeminar,attendanceId,studentId);
+    }
+
     public int countQuestionNumber(BigInteger klassSeminarId,BigInteger attendanceId)
     {
         return questionMapper.countQuestionNumber(klassSeminarId,attendanceId);

@@ -39,6 +39,12 @@
         where id=#{questionId}
     </update>
 
+    <select id="getQuestionId" resultType="java.math.BigInteger">
+        select id
+        from question
+        where klass_seminar_id=#{klassSeminarId} and attendance_id=#{attendanceId} and student_id=#{studentId}
+    </select>
+
     <resultMap id="QuestionResult" type="xmu.ghct.crm.entity.Question">
         <id property="questionId" column="id"/>
         <result property="klassSeminarId" column="klass_seminar_id"/>
