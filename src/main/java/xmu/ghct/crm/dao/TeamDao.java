@@ -36,12 +36,11 @@ public class TeamDao {
     }
 
     /**
-     * 根据klassId获得组队学生，先找全部学生的id，再找组队学生的id，取交集，根据id查学生信息
+     * 根据courseId获得未组队学生，先找全部学生的id，再找组队学生的id，取交集，根据id查学生信息
      * @param courseId
      * @return
      */
     public List<StudentVO> getNoTeamStudentByCourseId(BigInteger courseId) {
-        //查course下所有的学生
         List<BigInteger> allStudentId=studentMapper.getAllStudentIdByCourseId(courseId);
         //查course下所有klass
         List<Klass> allKlass=klassMapper.listKlassByCourseId(courseId);
@@ -147,7 +146,12 @@ public class TeamDao {
         return teamMapper.getCourseIdByTeamId(teamId);
     }
 
-    public List<BigInteger> listTeamIdByCourseId(BigInteger courseId){
-        return teamMapper.listTeamIdByCourseId(courseId);
+    public boolean addTeamMember(BigInteger teamId,BigInteger studentId)
+    {
+        int v=teamMapper.addTeamMember(teamId,studentId);
+        if(v>0)
+            return true;
+        else
+            return false;
     }
 }

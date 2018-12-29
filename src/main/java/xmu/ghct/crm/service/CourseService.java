@@ -75,7 +75,7 @@ public class CourseService {
         return courseDao.listCourseByStudentId(studentId);
     }
 
-    public CourseVO getCourseByCourseId(BigInteger courseId) {
+    public Course getCourseByCourseId(BigInteger courseId) {
         return courseDao.getCourseByCourseId(courseId);
     }
 
@@ -151,16 +151,16 @@ public class CourseService {
      * @param studentId
      * @return
      */
-    public  List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId){
-        List<StudentCourseVO> studentCourseVOS=courseDao.listKlassStudentByStudentId(studentId);
-        for(StudentCourseVO item:studentCourseVOS){
-            Klass klass=klassDao.getKlassByKlassId(item.getKlassId());
-            item.setKlassSerial(klass.getKlassSerial());
-            item.setGrade(klass.getGrade());
-            CourseVO courseVO=courseDao.getCourseByCourseId(item.getCourseId());
-            item.setCourseName(courseVO.getCourseName());
-        }
-        return studentCourseVOS;
-    }
+//    public  List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId){
+//        List<StudentCourseVO> studentCourseVOS=courseDao.listKlassStudentByStudentId(studentId);
+//        for(StudentCourseVO item:studentCourseVOS){
+//            Klass klass=klassDao.getKlassByKlassId(item.getKlassId());
+//            item.setKlassSerial(klass.getKlassSerial());
+//            item.setGrade(klass.getGrade());
+//            Course course=courseDao.getCourseByCourseId(item.getCourseId());
+//            item.setCourseName(course.getCourseName());
+//        }
+//        return studentCourseVOS;
+//    }
 
 }

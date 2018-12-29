@@ -218,7 +218,7 @@ public class SeminarService {
         BigInteger courseId=courseDao.getCourseIdByTeamId(teamId);
         BigInteger klassId=teamDao.getKlassIdByTeamId(teamId);
         BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
-        CourseVO courseVO=courseDao.getCourseByCourseId(courseId);
+        Course course=courseDao.getCourseByCourseId(courseId);
         double presentationScore=new Double(seminarScoreMap.get("presentationScore").toString());
         score.setTeamId(teamId);
         score.setKlassSeminarId(klassSeminarId);
@@ -227,8 +227,8 @@ public class SeminarService {
         score.setQuestionScore(questionScore);
         double reportScore=new Double(seminarScoreMap.get("reportScore").toString());
         score.setReportScore(reportScore);
-        double totalScore=questionScore*(courseVO.getPresentationPercentage()*0.01)+questionScore*(courseVO.getQuestionPercentage()*0.01)+
-                          reportScore*(courseVO.getReportPercentage()*0.01);
+        double totalScore=questionScore*(course.getPresentationPercentage()*0.01)+questionScore*(course.getQuestionPercentage()*0.01)+
+                          reportScore*(course.getReportPercentage()*0.01);
         score.setTotalScore(totalScore);
         int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(score);
         ScoreVO roundScoreVO=new ScoreVO();

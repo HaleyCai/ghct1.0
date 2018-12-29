@@ -73,13 +73,11 @@ public class CourseController {
     }
 
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
-    @ResponseBody
-    public CourseVO getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
+    public Course getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
         return courseService.getCourseByCourseId(courseId);
     }
 
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.DELETE)
-    @ResponseBody
     public boolean deleteCourseByCourseId(@PathVariable("courseId")BigInteger courseId) {
         int flag=courseService.deleteCourseByCourseId(courseId);
         if(flag>0)return true;
@@ -131,34 +129,24 @@ public class CourseController {
         roundVO.setQuestionScoreMethod(inMap.get("reportScoreMethod").toString());
         roundVO.setReportScoreMethod(inMap.get("questionScoreMethod").toString());
         //将map中的object转为map
-        Map<String,Integer> enroll=new TreeMap<>();
-        Class<?> clazz = inMap.get("enrollNum").getClass();
-        System.out.println(clazz);
-        for (Field field : clazz.getDeclaredFields()) {
-            field.setAccessible(true);
-            String fieldName = field.getName();
-            System.out.println("fieldName "+ fieldName);
-            Integer value = Integer.valueOf(field.get(inMap.get("enrollNum")).toString());
-            System.out.println("value "+ value);
-            enroll.put(fieldName, value);
-        }
+        Map<String,String> enroll=new TreeMap<>();
+//        Class<?> clazz = inMap.get("enrollNum").getClass();
+//        System.out.println(clazz);
+//        for (Field field : clazz.getDeclaredFields()) {
+//            field.setAccessible(true);
+//            String fieldName = field.getName();
+//            System.out.println("fieldName "+ fieldName);
+//            Integer value = Integer.valueOf(field.get(inMap.get("enrollNum")).toString());
+//            System.out.println("value "+ value);
+//            enroll.put(fieldName, value);
+//        }
+        System.out.println("roundVO "+roundVO);
+        //enroll.put(inMap.get(6).toString(),inMap.get(6).toString());
         System.out.println("map:   "+enroll);
-        roundVO.setEnrollNum(enroll);
+        //roundVO.setEnrollNum(enroll);
         //修改本轮各个班级允许的报名次数
-        return courseService.modifyRoundByRoundId(roundVO);
+        return false;//courseService.modifyRoundByRoundId(roundVO);
     }
-
-    /**
-     * @cyq
-     * 学生界面，根据学生id获得所有课程\班级信息
-     * @return
-     */
-    /*
-    @RequestMapping(value = "/course/mycourse",method = RequestMethod.GET)
-    public List<KlassInfoVO> getKlassInfoByStudentId(@RequestBody Map<String,Object> inMap){
-    }
-    */
-
 
     /**
      * @author hzm
@@ -171,9 +159,9 @@ public class CourseController {
            return courseService.isBeingPresentSeminar(teacherId);
     }
 
-    @GetMapping("/{studentId}/course")
-    public  List<StudentCourseVO> listKlassStudentByStudentId(@PathVariable("studentId") BigInteger studentId){
-        return courseService.listKlassStudentByStudentId(studentId);
-    }
+//    @GetMapping("/{studentId}/course")
+//    public  List<StudentCourseVO> listKlassStudentByStudentId(@PathVariable("studentId") BigInteger studentId){
+//        return courseService.listKlassStudentByStudentId(studentId);
+//    }
 
 }

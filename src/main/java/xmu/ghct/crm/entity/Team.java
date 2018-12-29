@@ -4,13 +4,14 @@ import java.math.BigInteger;
 
 public class Team {
 
-    BigInteger teamId;
-    BigInteger klassId;
-    BigInteger courseId;
-    BigInteger leaderId;
-    String teamName;
-    int teamSerial;
-    int status;
+    private BigInteger teamId;
+    private BigInteger klassId;
+    private BigInteger courseId;
+    private BigInteger leaderId;
+    private String teamName;
+    private int teamSerial;
+    private int klassSerial;
+    private int status;
 
     public BigInteger getTeamId() {
         return teamId;
@@ -40,6 +41,13 @@ public class Team {
         return status;
     }
 
+    public int getKlassSerial() {
+        return klassSerial;
+    }
+
+    public void setKlassSerial(int klassSerial) {
+        this.klassSerial = klassSerial;
+    }
 
     public void setKlassId(BigInteger klassId) {
         this.klassId = klassId;
@@ -78,6 +86,7 @@ public class Team {
                 ", leaderId=" + leaderId +
                 ", teamName='" + teamName + '\'' +
                 ", teamSerial=" + teamSerial +
+                ", klassSerial=" + klassSerial +
                 ", status=" + status +
                 '}';
     }

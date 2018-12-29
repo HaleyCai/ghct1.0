@@ -68,20 +68,21 @@ public class TeamController {
     }
 
     /**
-     * 将学生加入该队伍，传参teamId,studentId，组队规则判断！！！从未组队的学生中选择，不需要判断是否是组长是否已组队！
-     * （两个课程中组队？）
+     * 将多名学生加入该队伍，传参teamId,studentId，从未组队的学生中选择，不需要判断是否是组长是否已组队！
+     * ***判断队伍的状态并修改
      * @param teamId
      * @param inMap
      */
     @RequestMapping(value="team/{teamId}/add",method = RequestMethod.PUT)
-    public void addTeamMumber(@PathVariable("teamId") BigInteger teamId,
+    public void addTeamMember(@PathVariable("teamId") BigInteger teamId,
                               @RequestBody Map<String,Object> inMap)
     {
-
+        //传参是List<BigInteger> studentId
     }
 
     /**
-     * 移除成员，或自己退出队伍（队长退出，直接解散队伍），退出的同时，修改team和student处的数据
+     * 移除成员(一次只能删一个），或自己退出队伍（队长退出，直接解散队伍），退出的同时，修改team和student处的数据
+     * ***判断队伍的状态并修改
      * @param teamId
      * @param inMap
      */
@@ -97,4 +98,13 @@ public class TeamController {
         return map;
     }
 
+    //在service层写判断小组是否合法的函数！！！
+    /**
+     * 创建小组，先创建组，初始加入成员为组长，判断是否合法后填写状态
+     */
+    @RequestMapping(value="/team/create", method = RequestMethod.POST)
+    public void createTeam()
+    {
+
+    }
 }

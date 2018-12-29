@@ -61,21 +61,12 @@ public class CourseDao {
         return courseStudentVOList;
     }
 
-    public CourseVO getCourseByCourseId(BigInteger courseId) {
+    public Course getCourseByCourseId(BigInteger courseId) {
         Course course = courseMapper.getCourseByCourseId(courseId);
-        CourseVO courseVO =teamMapper.getTeamMemberLimit();
-        courseVO.setCourseName(course.getCourseName());
-        courseVO.setIntroduction(course.getIntroduction());
-        courseVO.setPresentationPercentage(course.getPresentationPercentage());
-        courseVO.setQuestionPercentage(course.getQuestionPercentage());
-        courseVO.setReportPercentage(course.getReportPercentage());
-        courseVO.setTeamStartTime(course.getTeamStartTime());
-        courseVO.setTeamEndTime(course.getTeamEndTime());
-
-        if (courseVO == null) {
+        if (course == null) {
             //throw new CourseNotFindException();
         }
-        return courseVO;
+        return course;
     }
 
     public int deleteCourseByCourseId(BigInteger courseId) {

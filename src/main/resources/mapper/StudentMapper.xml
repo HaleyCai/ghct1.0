@@ -79,7 +79,7 @@
     </delete>
 
     <!--cyq-->
-    <select id="getKlassIdByCourseId" resultType="java.math.BigInteger">
-        select student_id from klass_student where course_id=#{courseId}
+    <select id="getAllStudentIdByCourseId" resultType="java.math.BigInteger">
+        select student_id from klass_student where course_id=#{courseId }
     </select>
 </mapper>

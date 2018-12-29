@@ -18,8 +18,6 @@ public class ShareController {
     @Autowired
     ShareService shareService;
 
-    ///查看共享组队、共享讨论课、非法组队申请信息
-
     /**
      * 共享分组界面：根据courseId获得，共享组队请求+共享讨论课请求信息，包括本课程是主还是从
      * @param courseId

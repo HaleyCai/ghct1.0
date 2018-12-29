@@ -83,7 +83,7 @@ public interface StudentMapper {
     int deleteStudentByStudentId(@Param("id") BigInteger studentId);
 
     /**
-     * 获取班级下所有学生的id
+     * 获取课程下所有学生的id
      * @param courseId
      * @return
      */

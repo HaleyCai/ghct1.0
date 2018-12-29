@@ -20,6 +20,7 @@ public class KlassController {
     @RequestMapping(value="/course/{courseId}/class",method = RequestMethod.POST)
     @ResponseBody
     public boolean createKlass(@PathVariable("courseId")BigInteger courseId,@RequestBody Map<String,Object> klassMap)  {
+        //创建之前先判断，是否有同一课程下的同样的班级次序，若有则失败
         int flag=klassService.creatKlass(courseId,klassMap);
         if(flag>0) return true;
         else return false;
@@ -44,9 +45,9 @@ public class KlassController {
         else return false;
     }
 
-    @RequestMapping(value="/course/courseId/class/deleteKlass",method = RequestMethod.DELETE)
+    @RequestMapping(value="/course/class/{klassId}",method = RequestMethod.DELETE)
     @ResponseBody
-    public boolean deleteKlassByKlassId(@Param("klassId") BigInteger klassId){
+    public boolean deleteKlassByKlassId(@PathVariable("klassId") BigInteger klassId){
         return klassService.deleteKlassByKlassId(klassId);
     }
 

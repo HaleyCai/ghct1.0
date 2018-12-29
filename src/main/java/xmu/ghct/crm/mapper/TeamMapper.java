@@ -107,6 +107,14 @@ public interface TeamMapper {
     BigInteger getKlassIdByTeamId(BigInteger teamId);
 
     /**
+     * @cyq
+     * 小组加成员
+     * @param teamId
+     * @param studentId
+     * @return
+     */
+    int addTeamMember(BigInteger teamId,BigInteger studentId);
+    /**
      * 根据teamId获得课程ID
      * @param teamId
      * @return
@@ -118,7 +126,7 @@ public interface TeamMapper {
      * @author hzm
      * 获取课程下所有队伍的id
      * @param courseId
-     * @return
+     * @retur
      */
     List<BigInteger> listTeamIdByCourseId(BigInteger courseId);
 

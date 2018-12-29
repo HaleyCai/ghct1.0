@@ -85,6 +85,7 @@
         <result property="leaderId" column="leader_id"/>
         <result property="teamName" column="team_name"/>
         <result property="teamSerial" column="team_serial"/>
+        <result property="klassSerial" column="klass_serial"/>
         <result property="status" column="status"/>
     </resultMap>
 
@@ -109,4 +110,8 @@
     <delete id="removeTeamMember">
         deldte from team_student where team_id=#{teamId} and student_id=#{studentId}
     </delete>
+
+    <insert id="addTeamMember">
+        insert into team_student (team_id,student_id) values (#{teamId},#{studentId})
+    </insert>
 </mapper>

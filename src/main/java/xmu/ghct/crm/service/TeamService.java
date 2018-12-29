@@ -89,6 +89,8 @@ public class TeamService {
         teamInfoVO.setTeamId(team.getTeamId());
         teamInfoVO.setTeamName(team.getTeamName());
         teamInfoVO.setTeamSerial(team.getTeamSerial());
+        teamInfoVO.setKlassId(team.getKlassId());
+        teamInfoVO.setKlassSerial(team.getKlassSerial());
         teamInfoVO.setStatus(team.getStatus());
         //查询组长信息
         StudentVO studentVO=new StudentVO();
@@ -156,6 +158,35 @@ public class TeamService {
             return teamDao.deleteTeam(teamId);
         else
             return teamDao.removeTeamMember(teamId,studentId);
+    }
+
+    /**
+     * 加入小组成员，先查有是否超过人数，再加入，再判断当前队伍状态
+     * @param teamId
+     * @param studentIds
+     * @return
+     */
+    public boolean addTeamMember(BigInteger teamId,List<BigInteger> studentIds)
+    {
+        boolean success=false;
+        for(BigInteger id:studentIds)
+        {
+            //if(team的人数已满，不能加入)，写在这还是写在判断组队是否合法处？？？
+            success=success&&teamDao.addTeamMember(teamId,id);
+        }
+        //判断并修改组队状态是否合法
+        return success;
+    }
+
+    /**
+     * @cyq
+     * 根据班级，判断组队是否合法并修改
+     * @param teamId
+     * @param courseId
+     * @return
+     */
+    public void judgeTeamValid(BigInteger teamId,BigInteger courseId)
+    {
     }
 
 
