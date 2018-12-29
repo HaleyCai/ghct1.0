@@ -128,9 +128,9 @@ public class StudentDao {
      * 管理员重置某一学生的密码
      * @return
      */
-    public boolean resetStudentPasswordByStudentId(BigInteger studentId,String studentPassword)
+    public boolean resetStudentPasswordByStudentId(BigInteger studentId)
     {
-        int v1=studentMapper.resetStudentPasswordByStudentId(studentId,studentPassword);
+        int v1=studentMapper.resetStudentPasswordByStudentId(studentId);
         if(v1<=0){
             //throw
             return false;

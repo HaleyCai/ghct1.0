@@ -69,7 +69,7 @@
 
     <update id="resetStudentPasswordByStudentId">
         update student
-        set password=#{password}
+        set password="123456"
         where id=#{id}
     </update>
 

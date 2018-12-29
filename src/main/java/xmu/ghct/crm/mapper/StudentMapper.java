@@ -74,7 +74,7 @@ public interface StudentMapper {
      * 管理员重置某一学生的密码
      * @return
      */
-    int resetStudentPasswordByStudentId(@Param("id") BigInteger studentId,@Param("password") String studentPassword);
+    int resetStudentPasswordByStudentId(@Param("id") BigInteger studentId);
 
     /**
      * 管理员按ID删除某一学生

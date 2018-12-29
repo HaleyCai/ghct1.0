@@ -90,13 +90,13 @@ public class AdminService {
      * 管理员重置某一用户的密码
      * @return
      */
-    public boolean resetUserPasswordByUserId(BigInteger userId,String newPassword,int type)
+    public boolean resetUserPasswordByUserId(BigInteger userId,int type)
     {
         boolean success;
         if(type==1)
-            success=teacherDao.resetTeacherPasswordByTeacherId(userId,newPassword);
+            success=teacherDao.resetTeacherPasswordByTeacherId(userId);
         else
-            success=studentDao.resetStudentPasswordByStudentId(userId,newPassword);
+            success=studentDao.resetStudentPasswordByStudentId(userId);
         return success;
     }
 

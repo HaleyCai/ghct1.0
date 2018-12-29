@@ -17,6 +17,17 @@ public class TeacherDao {
     private TeacherMapper teacherMapper;
 
     /**
+     * 根据管理员account查询个人信息
+     * @param account
+     * @return
+     */
+    public User getAdminByAccount(String account)
+    {
+        User resultUser=teacherMapper.getAdminByAccount(account);
+        return resultUser;
+    }
+
+    /**
      * 根据教师account查询个人信息
      * @param account
      * @return
@@ -125,9 +136,9 @@ public class TeacherDao {
      * 管理员重置某一教师的密码
      * @return
      */
-    public boolean resetTeacherPasswordByTeacherId(BigInteger teacherId,String teacherPassword)
+    public boolean resetTeacherPasswordByTeacherId(BigInteger teacherId)
     {
-        int v1=teacherMapper.resetTeacherPasswordByTeacherId(teacherId,teacherPassword);
+        int v1=teacherMapper.resetTeacherPasswordByTeacherId(teacherId);
         if(v1<=0){
             //throw
             return false;

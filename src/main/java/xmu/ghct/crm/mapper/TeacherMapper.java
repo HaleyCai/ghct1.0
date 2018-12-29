@@ -16,6 +16,13 @@ import java.util.List;
 @Repository
 public interface TeacherMapper {
     /**
+     * 根据account查询admin表信息
+     * @param account
+     * @return
+     */
+    User getAdminByAccount(@Param("account") String account);
+
+    /**
      * 根据account查询teacher表信息
      * @param account
      * @return
@@ -71,7 +78,7 @@ public interface TeacherMapper {
      * 管理员重置某一教师的密码
      * @return
      */
-    int resetTeacherPasswordByTeacherId(@Param("id") BigInteger teacherId,@Param("password") String teacherPassword);
+    int resetTeacherPasswordByTeacherId(@Param("id") BigInteger teacherId);
 
     /**
      * 管理员按ID删除某一教师

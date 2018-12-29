@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.TeacherMapper">
+    <select id="getAdminByAccount" resultMap="TeacherUserResult">
+        select id,account,password
+        from admin
+        where account=#{account}
+    </select>
+
     <select id="getTeacherByAccount" resultMap="TeacherUserResult">
         select id,account,password,teacher_name,email,is_active
         from teacher
@@ -47,7 +53,7 @@
                #{name},
                #{account},
                #{email},
-               #{123456}
+               #{password},
                0
               )
     </insert>
@@ -73,7 +79,7 @@
 
     <update id="resetTeacherPasswordByTeacherId">
         update teacher
-        set password=#{password}
+        set password="123456"
         where id=#{id}
     </update>
 

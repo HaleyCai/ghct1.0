@@ -105,7 +105,6 @@ public class AdminController {
     public boolean resetTeacherPasswordByTeacherId(@RequestBody Map<String,Object> inMap){
         return adminService.resetUserPasswordByUserId(
                 new BigInteger(inMap.get("teacherId").toString()),
-                (String)inMap.get("newPassword"),
                 (int)inMap.get("type"));
     }
 
@@ -117,7 +116,6 @@ public class AdminController {
     public boolean resetStudentPasswordByStudentId(@RequestBody Map<String,Object> inMap){
         return adminService.resetUserPasswordByUserId(
                 new BigInteger(inMap.get("studentId").toString()),
-                (String)inMap.get("newPassword"),
                 (int)inMap.get("type"));
     }
 

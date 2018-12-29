@@ -23,7 +23,7 @@ public class UserService {
     private StudentDao studentDao;
 
     /**
-     * 正常登录，判断用户名密码是否匹配
+     * 正常登录，判断用户名密码是否匹配(0学生，1教师，2管理员)
      * @param account
      * @param password
      * @param type
@@ -31,34 +31,46 @@ public class UserService {
     public Map<String,Object> login(String account,String password,int type){
         Map<String,Object> resultMap=new HashMap<>();
         User user;
-        if(type==1)
-            user=teacherDao.getUserByAccount(account);
-        else
-            user=studentDao.getUserByAccount(account);
-        if(user!=null)
+        if(type==2)
         {
-            //初始密码为“123456
-            if(user.getActive()==0 && "123456".equals(password))
-                //未激活，且初始密码正确，跳转到激活界面
-                resultMap.put("message",0);
-            else
-            {   //已激活，验证输入密码是否正确
-                if(user.getActive()==1)
+            user = teacherDao.getAdminByAccount(account);
+            if(user!=null)
+            {
+                if (user.getPassword().equals(password))
                 {
-                    if(user.getPassword().equals(password))
-                    {
-                        resultMap.put("message", 1);
-                        //生成Jwt，放在map中返回***
-                    }
-                    else
-                        resultMap.put("message",-1);
+                    resultMap.put("message", 1);
+                    //生成Jwt，放在map中返回***
                 }
-                else//未激活且密码不正确的，刷新登录界面
-                    resultMap.put("message",-1);
+                else
+                    resultMap.put("message", -1);
             }
+            else
+                resultMap.put("message", -1);
+
         }
-        else
-            resultMap.put("message",-1);
+        else {
+            if (type == 1)
+                user = teacherDao.getUserByAccount(account);
+            else
+                user = studentDao.getUserByAccount(account);
+            if (user != null) {
+                //初始密码为“123456
+                if (user.getActive() == 0 && "123456".equals(password))
+                    //未激活，且初始密码正确，跳转到激活界面
+                    resultMap.put("message", 0);
+                else {   //已激活，验证输入密码是否正确
+                    if (user.getActive() == 1) {
+                        if (user.getPassword().equals(password)) {
+                            resultMap.put("message", 1);
+                            //生成Jwt，放在map中返回***
+                        } else
+                            resultMap.put("message", -1);
+                    } else//未激活且密码不正确的，刷新登录界面
+                        resultMap.put("message", -1);
+                }
+            } else
+                resultMap.put("message", -1);
+        }
         //message返回1，登录成功，并且返回jwt；返回0，初次登录，跳转到激活页面；返回-1，用户名或密码错误
         return resultMap;
     }
