@@ -50,9 +50,9 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="/getCourse/teacher",method = RequestMethod.GET)
-    public List<CourseTeacherVO> teacherGetCourse(@RequestBody Map<String,Object> inMap)
+    public List<CourseTeacherVO> teacherGetCourse(@RequestParam("teacherId") BigInteger teacherId)
     {
-        return courseService.teacherGetCourse(new BigInteger(inMap.get("teacherId").toString()));
+        return courseService.teacherGetCourse(teacherId);
     }
 
     /**

@@ -32,8 +32,8 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher",method = RequestMethod.GET)
-    public List<User> getAllTeacher(@RequestBody Map<String,Object> inMap){
-        return adminService.getAllUser((int)inMap.get("type"));
+    public List<User> getAllTeacher(@RequestParam("type") int type){
+        return adminService.getAllUser(type);
     }
 
     /**
@@ -41,8 +41,8 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student",method = RequestMethod.GET)
-    public List<User> getAllStudent(@RequestBody Map<String,Object> inMap){
-        return adminService.getAllUser((int)inMap.get("type"));
+    public List<User> getAllStudent(@RequestParam("type") int type){
+        return adminService.getAllUser(type);
     }
 
     /**
@@ -50,10 +50,11 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher/searchteacher",method = RequestMethod.GET)
-    public User getTeacher(@RequestBody Map<String,Object> inMap){
+    public User getTeacher(@RequestParam("str") String str,
+                           @RequestParam("type") int type){
         return adminService.getUser(
-                (String)inMap.get("str"),
-                (int)inMap.get("type"));
+                str,
+                type);
     }
 
 
@@ -62,10 +63,11 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student/searchstudent",method = RequestMethod.GET)
-    public User getStudent(@RequestBody Map<String,Object> inMap){
+    public User getStudent(@RequestParam("str") String str,
+                           @RequestParam("type") int type){
         return adminService.getUser(
-                (String)inMap.get("str"),
-                (int)inMap.get("type"));
+                str,
+                type);
     }
 
 
@@ -104,10 +106,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher/{teacherId}/password",method = RequestMethod.PUT)
-    public boolean resetTeacherPasswordByTeacherId(@PathVariable("teacherId")BigInteger teacherId,
+    public boolean resetTeacherPasswordByTeacherId(@PathVariable("teacherId") String teacherId,
                                                    @RequestBody Map<String,Object> inMap){
         return adminService.resetUserPasswordByUserId(
-                teacherId,
+                new BigInteger(teacherId),
                 (int)inMap.get("type"));
     }
 
