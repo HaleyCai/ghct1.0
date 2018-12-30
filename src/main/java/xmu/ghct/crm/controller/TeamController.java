@@ -28,8 +28,8 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
-    public List<TeamSimpleInfo> listTeamByCourseId(@PathVariable("courseId") BigInteger courseId){
-        return teamService.listTeamByCourseId(courseId);
+    public List<TeamSimpleInfo> listTeamByCourseId(@PathVariable("courseId") String courseId){
+        return teamService.listTeamByCourseId(new BigInteger(courseId));
     }
 
     /**
@@ -37,9 +37,9 @@ public class TeamController {
      * 教师+学生：根据teamId获取队伍信息
      */
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.GET)
-    public TeamInfoVO getTeamInfo(@PathVariable("teamId") BigInteger teamId)
+    public TeamInfoVO getTeamInfo(@PathVariable("teamId") String teamId)
     {
-        return teamService.getTeamByCourseId(teamId);
+        return teamService.getTeamByCourseId(new BigInteger(teamId));
     }
 
     /**
@@ -49,8 +49,8 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}/noTeam",method = RequestMethod.GET)
-    public List<StudentVO> getNoTeamStudentByCourseId(@PathVariable("courseId")BigInteger courseId){
-        return teamService.getNoTeamStudentByCourseId(courseId);
+    public List<StudentVO> getNoTeamStudentByCourseId(@PathVariable("courseId")String courseId){
+        return teamService.getNoTeamStudentByCourseId(new BigInteger(courseId));
     }
 
     /**
@@ -58,10 +58,10 @@ public class TeamController {
      * @param teamId
      */
     @RequestMapping(value="team/{teamId}",method = RequestMethod.DELETE)
-    public Map<String,Object> deleteTeam(@PathVariable("teamId") BigInteger teamId)
+    public Map<String,Object> deleteTeam(@PathVariable("teamId") String teamId)
     {
         Map<String,Object> map=new HashMap<>();
-        if(teamService.deleteTeam(teamId))
+        if(teamService.deleteTeam(new BigInteger(teamId)))
             map.put("message",true);
         else map.put("message",false);
         return map;
@@ -74,7 +74,7 @@ public class TeamController {
      * @param inMap
      */
     @RequestMapping(value="team/{teamId}/add",method = RequestMethod.PUT)
-    public void addTeamMember(@PathVariable("teamId") BigInteger teamId,
+    public void addTeamMember(@PathVariable("teamId") String teamId,
                               @RequestBody Map<String,Object> inMap)
     {
         //传参是List<BigInteger> studentId
@@ -87,11 +87,11 @@ public class TeamController {
      * @param inMap
      */
     @RequestMapping(value="team/{teamId}/remove",method = RequestMethod.PUT)
-    public Map<String,Object> removeTeamMember(@PathVariable("teamId") BigInteger teamId,
+    public Map<String,Object> removeTeamMember(@PathVariable("teamId") String teamId,
                                  @RequestBody Map<String,Object> inMap)
     {
         Map<String,Object> map=new HashMap<>();
-        if(teamService.removeTeamMember(teamId,new BigInteger(inMap.get("studentId").toString())))
+        if(teamService.removeTeamMember(new BigInteger(teamId),new BigInteger(inMap.get("studentId").toString())))
             map.put("message",true);
         else
             map.put("message",true);
