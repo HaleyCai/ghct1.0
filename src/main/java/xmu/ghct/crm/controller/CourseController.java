@@ -59,7 +59,7 @@ public class CourseController {
      * 学生通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,klassId,klassName(Grade+KlassSerial)
      * @return
      */
-    @RequestMapping(value="getCourse/student",method = RequestMethod.GET)
+    @RequestMapping(value="/getCourse/student",method = RequestMethod.GET)
     public List<CourseStudentVO> studentGetCourse(@RequestParam("studentId") Long studentId)
     {
         return courseService.studentGetCourse(BigInteger.valueOf(studentId));

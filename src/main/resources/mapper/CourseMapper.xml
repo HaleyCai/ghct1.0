@@ -40,7 +40,7 @@
 
     <!--cyq-->
     <select id="listCourseByStudentId" resultMap="courseStudentMap">
-        select *
+        select klass_id,student_id,course_id
         from klass_student
         where student_id=#{studentId}
     </select>
@@ -99,7 +99,7 @@
 
     <resultMap id="courseStudentMap" type="xmu.ghct.crm.VO.CourseStudentVO">
         <result property="klassId" column="klass_id"/>
-        <result property="courseId" column="course_id"/>
         <result property="studentId" column="student_id"/>
+        <result property="courseId" column="course_id"/>
     </resultMap>
 </mapper>
