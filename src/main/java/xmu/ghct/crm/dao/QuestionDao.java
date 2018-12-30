@@ -19,10 +19,7 @@ public class QuestionDao {
         return questionMapper.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
     }
 
-    public BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId)
-    {
-        return questionMapper.getKlassIdByKlassSeminarId(klassSeminarId);
-    }
+
 
     public BigInteger getTeamIdByQuestionId(BigInteger questionId)
     {
@@ -47,11 +44,6 @@ public class QuestionDao {
     public boolean updateQuestionSelected(BigInteger questionId)
     {
         return questionMapper.updateQuestionSelected(questionId);
-    }
-
-    public Question getQuestionByQuestionId(BigInteger questionId)
-    {
-        return questionMapper.getQuestionByQuestionId(questionId);
     }
 
     public boolean postQuestion(Question question)
@@ -80,16 +72,10 @@ public class QuestionDao {
         return questionMapper.updateSeminarScoreEnd(klassSeminarId,teamId,totalScore);
     }
 
-    public BigInteger getSeminarIdByKlassSeminarId(BigInteger klassSeminarId)
-    {
-        return questionMapper.getSeminarIdByKlassSeminarId(klassSeminarId);
-    }
-
     public BigInteger getRoundIdBySeminarId(BigInteger seminarId)
     {
         return questionMapper.getRoundIdBySeminarId(seminarId);
     }
-
 
     public boolean updateRoundScoreEnd(BigInteger roundId,BigInteger teamId,Double presentationScore1,Double questionScore1,Double reportScore1,Double totalScore1)
     {
@@ -122,4 +108,20 @@ public class QuestionDao {
     {
         return questionMapper.countQuestionNumber(klassSeminarId,attendanceId);
     }
+
+    public BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId)
+    {
+        return questionMapper.getKlassIdByKlassSeminarId(klassSeminarId);
+    }
+
+    public BigInteger getSeminarIdByKlassSeminarId(BigInteger klassSeminarId)
+    {
+        return questionMapper.getSeminarIdByKlassSeminarId(klassSeminarId);
+    }
+
+    public Question getQuestionByQuestionId(BigInteger questionId)
+    {
+        return questionMapper.getQuestionByQuestionId(questionId);
+    }
+
 }

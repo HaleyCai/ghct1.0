@@ -2,9 +2,8 @@ package xmu.ghct.crm.websocket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import xmu.ghct.crm.VO.QuestionListVO;
-import xmu.ghct.crm.dao.TeamDao;
 import xmu.ghct.crm.dao.StudentDao;
-import xmu.ghct.crm.entity.Question;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 
@@ -12,30 +11,29 @@ import java.math.BigInteger;
 import java.util.*;
 
 public class GreetingController {
-    @Autowired
-    TeamDao teamDao;
+
     @Autowired
     StudentDao studentDao;
 
     private BigInteger attendanceId;
     private static Map<BigInteger,Queue<QuestionListVO>> questionQueueList=new HashMap<>(0);
-    private static Map<BigInteger,Set<BigInteger>> studentIDRecorderList=new HashMap<>(0);
+    private static Map<BigInteger,Set<BigInteger>> studentIdRecorderList=new HashMap<>(0);
 
     public GreetingController(BigInteger attendanceId){
         this.attendanceId=attendanceId;
         Queue<QuestionListVO> questionQueue=new LinkedList<>();
         Set<BigInteger> studentIDRecorder=new TreeSet<>();
         questionQueueList.put(attendanceId,questionQueue);
-        studentIDRecorderList.put(attendanceId,studentIDRecorder);
+        studentIdRecorderList.put(attendanceId,studentIDRecorder);
     }
 
-    public QuestionListVO getQuestion()
+    public QuestionListVO getOneQuestion()
     {
         if(questionQueueList.get(attendanceId).isEmpty()){
             return null;
         }
         QuestionListVO question=questionQueueList.get(attendanceId).peek();
-        while(studentIDRecorderList.get(attendanceId).contains(question.getStudentId()))
+        while(studentIdRecorderList.get(attendanceId).contains(question.getStudentId()))
         {
             questionQueueList.get(attendanceId).offer(question);
             questionQueueList.get(attendanceId).poll();
@@ -59,11 +57,11 @@ public class GreetingController {
 
     public boolean postQuestion(QuestionListVO question)
     {
-        if(studentIDRecorderList.get(attendanceId).contains(question.getStudentId())){
+        if(studentIdRecorderList.get(attendanceId).contains(question.getStudentId())){
             return false;
         }
         questionQueueList.get(attendanceId).offer(question);
-        studentIDRecorderList.get(attendanceId).add(question.getStudentId());
+        studentIdRecorderList.get(attendanceId).add(question.getStudentId());
         try{
             greeting();
         }catch (Exception e)
