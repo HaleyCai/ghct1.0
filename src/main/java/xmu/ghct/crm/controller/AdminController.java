@@ -76,10 +76,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher/{teacherId}/information",method = RequestMethod.PUT)
-    public boolean modifyTeacherByTeacherId(@PathVariable("teacherId")BigInteger teacherId,
+    public boolean modifyTeacherByTeacherId(@PathVariable("teacherId")String teacherId,
                                             @RequestBody Map<String,Object> inMap){
         return adminService.modifyUserByUserId(
-                teacherId,
+                new BigInteger(teacherId),
                 (String)inMap.get("newTeacherName"),
                 (String)inMap.get("newTeacherAccount"),
                 (String)inMap.get("newTeacherEmail"),
@@ -91,10 +91,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student/{studentId}/information",method = RequestMethod.PUT)
-    public boolean modifyStudentByStudentId(@PathVariable("studentId")BigInteger studentId,
+    public boolean modifyStudentByStudentId(@PathVariable("studentId")String studentId,
                                             @RequestBody Map<String,Object> inMap){
         return adminService.modifyUserByUserId(
-                studentId,
+                new BigInteger(studentId),
                 (String)inMap.get("newStudentName"),
                 (String)inMap.get("newStudentAccount"),
                 (String)inMap.get("newStudentEmail"),
@@ -118,10 +118,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student/{studentId}/password",method = RequestMethod.PUT)
-    public boolean resetStudentPasswordByStudentId(@PathVariable("studentId")BigInteger studentId,
+    public boolean resetStudentPasswordByStudentId(@PathVariable("studentId")String studentId,
                                                    @RequestBody Map<String,Object> inMap){
         return adminService.resetUserPasswordByUserId(
-                studentId,
+                new BigInteger(studentId),
                 (int)inMap.get("type"));
     }
 
@@ -130,10 +130,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher/{teacherId}",method = RequestMethod.DELETE)
-    public boolean deleteTeacherByTeacherId(@PathVariable("teacherId")BigInteger teacherId,
+    public boolean deleteTeacherByTeacherId(@PathVariable("teacherId")String teacherId,
                                             @RequestBody Map<String,Object> inMap){
         return adminService.deleteUserByUserId(
-                teacherId,
+                new BigInteger(teacherId),
                 (int)inMap.get("type"));
     }
 
@@ -142,10 +142,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student/{studentId}",method = RequestMethod.DELETE)
-    public boolean deleteStudentByStudentId(@PathVariable("studentId")BigInteger studentId,
+    public boolean deleteStudentByStudentId(@PathVariable("studentId")String studentId,
                                             @RequestBody Map<String,Object> inMap){
         return adminService.deleteUserByUserId(
-                studentId,
+                new BigInteger(studentId),
                 (int)inMap.get("type"));
     }
 

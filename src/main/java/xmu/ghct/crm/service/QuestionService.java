@@ -66,6 +66,7 @@ public class QuestionService {
                                          BigInteger attendanceId)
     {
         QuestionListVO question=greetingController.getQuestion();
+        questionDao.updateQuestionSelected(question.getQuestionId());
 
         return question;
     }

@@ -22,29 +22,29 @@ public class QuestionController {
      */
     @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/{attendanceId}/question",
             method = RequestMethod.GET)
-    public List<QuestionListVO> getAllQuestion(@PathVariable("seminarId") BigInteger seminarId,
-                                               @PathVariable("klassId") BigInteger klassId,
-                                               @PathVariable("attendanceId") BigInteger attendanceId)
+    public List<QuestionListVO> getAllQuestion(@PathVariable("seminarId") String seminarId,
+                                               @PathVariable("klassId") String klassId,
+                                               @PathVariable("attendanceId") String attendanceId)
 
     {
         return questionService.getAllQuestion(
-                seminarId,
-                klassId,
-                attendanceId);
+                new BigInteger(seminarId),
+                new BigInteger(klassId),
+                new BigInteger(attendanceId));
     }
 
     /**
      * 被抽取到提问，展示提问人信息
      */
     @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/attendanceId/{attendanceId}/question",method = RequestMethod.GET)
-    public QuestionListVO getOneQuestion(@PathVariable("seminarId") BigInteger seminarId,
-                                         @PathVariable("klassId") BigInteger klassId,
-                                         @PathVariable("attendanceId") BigInteger attendanceId)
+    public QuestionListVO getOneQuestion(@PathVariable("seminarId") String seminarId,
+                                         @PathVariable("klassId") String klassId,
+                                         @PathVariable("attendanceId") String attendanceId)
     {
         return questionService.getOneQuestion(
-                seminarId,
-                klassId,
-                attendanceId);
+                new BigInteger(seminarId),
+                new BigInteger(klassId),
+                new BigInteger(attendanceId));
     }
 
 
@@ -55,15 +55,15 @@ public class QuestionController {
      */
     @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/{attendanceId}/question",
             method = RequestMethod.POST)
-    public boolean postQuestion(@PathVariable("seminarId") BigInteger seminarId,
-                                @PathVariable("klassId") BigInteger klassId,
-                                @PathVariable("attendanceId") BigInteger attendanceId,
+    public boolean postQuestion(@PathVariable("seminarId") String seminarId,
+                                @PathVariable("klassId") String klassId,
+                                @PathVariable("attendanceId") String attendanceId,
                                 @RequestBody Map<String,Object> inMap)
     {
         return questionService.postQuestion(
-                seminarId,
-                klassId,
-                attendanceId,
+                new BigInteger(seminarId),
+                new BigInteger(klassId),
+                new BigInteger(attendanceId),
                 new BigInteger(inMap.get("studentId").toString())
                 );
 
@@ -76,15 +76,15 @@ public class QuestionController {
      * @return
      */
     @RequestMapping(value="/teacher/seminarId/{seminarId}/{klassId}/question/{questionId}",method = RequestMethod.PUT)
-    public boolean updateQuestionScore(@PathVariable("seminarId") BigInteger seminarId,
-                                       @PathVariable("klassId") BigInteger klassId,
-                                       @PathVariable("questionId") BigInteger questionId,
+    public boolean updateQuestionScore(@PathVariable("seminarId") String seminarId,
+                                       @PathVariable("klassId") String klassId,
+                                       @PathVariable("questionId") String questionId,
                                        @RequestBody Map<String,Object> inMap)
     {
         return questionService.updateQuestionScore(
-                seminarId,
-                klassId,
-                questionId,
+                new BigInteger(seminarId),
+                new BigInteger(klassId),
+                new BigInteger(questionId),
                 new Double(inMap.get("questionScore").toString()));
     }
 

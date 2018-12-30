@@ -59,12 +59,12 @@
     </insert>
 
     <select id="getAllTeacher" resultMap="TeacherUserResult">
-        select account,teacher_name,email
+        select id,account,teacher_name,email
         from teacher
     </select>
 
     <select id="getTeacherByTeacherName" resultMap="TeacherUserResult">
-        select account,teacher_name,email
+        select id,account,teacher_name,email
         from teacher
         where teacher_name=#{name}
     </select>

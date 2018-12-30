@@ -63,12 +63,12 @@
 
 
     <select id="getAllStudent" resultMap="StudentUserResult">
-        select account,student_name,email
+        select id,account,student_name,email
         from student
     </select>
 
     <select id="getStudentByStudentName" resultMap="StudentUserResult">
-        select account,student_name,email
+        select id,account,student_name,email
         from student
         where student_name=#{name}
     </select>
