@@ -65,8 +65,8 @@ public class PresentationController {
      * @return
      */
     @PutMapping("attendance/{attendanceId}")
-    public boolean updateAttendanceOrderByAttendanceId(@PathVariable("attendanceId") BigInteger attendanceId, @RequestBody Map<String,Object> orderMap){
-        int flag=presentationService.updateAttendanceOrderByAttendanceId(attendanceId,orderMap);
+    public boolean updateAttendanceOrderByAttendanceId(@PathVariable("attendanceId") Long attendanceId, @RequestBody Map<String,Object> orderMap){
+        int flag=presentationService.updateAttendanceOrderByAttendanceId(BigInteger.valueOf(attendanceId),orderMap);
         if(flag>0) return true;
         else return false;
     }
@@ -78,8 +78,8 @@ public class PresentationController {
      * @return
      */
     @DeleteMapping("attendance/{attendanceId}")
-    public boolean deleteAttendanceByAttendance(@PathVariable("attendanceId") BigInteger attendanceId){
-        int flag= presentationService.deleteAttendanceByAttendance(attendanceId);
+    public boolean deleteAttendanceByAttendance(@PathVariable("attendanceId") Long attendanceId){
+        int flag= presentationService.deleteAttendanceByAttendance(BigInteger.valueOf(attendanceId));
         if(flag>0) return true;
         else return false;
     }
@@ -93,8 +93,8 @@ public class PresentationController {
      * @throws IOException
      */
     @RequestMapping(value = "/attendance/{attendanceId}/report",method = RequestMethod.POST)
-    public boolean reportUpload(@PathVariable("attendanceId")BigInteger attendanceId,@RequestParam("file") MultipartFile file) throws IOException {
-        Attendance attendance=presentationService.getAttendanceByAttendanceId(attendanceId);
+    public boolean reportUpload(@PathVariable("attendanceId")Long attendanceId,@RequestParam("file") MultipartFile file) throws IOException {
+        Attendance attendance=presentationService.getAttendanceByAttendanceId(BigInteger.valueOf(attendanceId));
         BigInteger klassSeminarId=attendance.getKlassSeminarId();
         SeminarVO seminarVO =seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//修改日期格式
@@ -111,7 +111,7 @@ public class PresentationController {
             Map<String, String> reportMap = uploadFileService.uploadFile(file);
             String reportName = reportMap.get("name");
             String reportUrl = reportMap.get("path");
-            int flag = presentationService.updateReportByAttendanceId(attendanceId, reportUrl, reportName);
+            int flag = presentationService.updateReportByAttendanceId(BigInteger.valueOf(attendanceId), reportUrl, reportName);
             if (flag > 0)
                 return true;
             else return false;
@@ -127,8 +127,8 @@ public class PresentationController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/attendance/{attendanceId}/report")
-    public void reportDownload (HttpServletResponse  response,@PathVariable("attendanceId")BigInteger attendanceId) throws UnsupportedEncodingException {
-        Attendance attendance=presentationService.getAttendanceByAttendanceId(attendanceId);
+    public void reportDownload (HttpServletResponse  response,@PathVariable("attendanceId")Long attendanceId) throws UnsupportedEncodingException {
+        Attendance attendance=presentationService.getAttendanceByAttendanceId(BigInteger.valueOf(attendanceId));
         String filePath=attendance.getReportUrl();
         downloadFileDao.downloadFile(response,filePath);
     }

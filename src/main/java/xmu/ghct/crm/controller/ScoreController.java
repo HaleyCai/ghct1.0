@@ -64,8 +64,8 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/round/{roundId}")
-    public List<ScoreVO> listRoundScoreByRoundId(@PathVariable("roundId") BigInteger roundId){
-        return scoreService.listRoundScoreByRoundId(roundId);
+    public List<ScoreVO> listRoundScoreByRoundId(@PathVariable("roundId") Long roundId){
+        return scoreService.listRoundScoreByRoundId(BigInteger.valueOf(roundId));
     }
 
 
@@ -76,9 +76,10 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/round/{roundId}/{teamId}")
-    public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(@PathVariable("roundId")BigInteger roundId,@PathVariable("teamId")BigInteger teamId){
-        List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(roundId);
-        BigInteger klassId=teamService.getKlassIdByTeamId(teamId);
+    public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(@PathVariable("roundId")Long roundId,
+                                                               @PathVariable("teamId")Long teamId){
+        List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(BigInteger.valueOf(roundId));
+        BigInteger klassId=teamService.getKlassIdByTeamId(BigInteger.valueOf(teamId));
         List<SeminarVO> klassSeminarList=new ArrayList<>();
         List<Score> scoreList=new ArrayList<>();
         for(BigInteger item:seminarIdList){
@@ -86,7 +87,7 @@ public class ScoreController {
             klassSeminarList.add(seminarVO);
         }
         for(SeminarVO item:klassSeminarList){
-            Score score=scoreService.getKlassSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),teamId);
+            Score score=scoreService.getKlassSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),BigInteger.valueOf(teamId));
             Seminar seminar=seminarService.getSeminarBySeminarId(item.getSeminarId());
             if(score!=null){
                 score.setSeminarName(seminar.getSeminarName());
@@ -104,8 +105,9 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/{courseId}/{teamId}")
-    public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(@PathVariable("courseId")BigInteger courseId,@PathVariable("teamId")BigInteger teamId){
-        return scoreService.listTeamRoundInfoByCourseIdAndTeamId(courseId,teamId);
+    public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(@PathVariable("courseId")Long courseId,
+                                                                         @PathVariable("teamId")Long teamId){
+        return scoreService.listTeamRoundInfoByCourseIdAndTeamId(BigInteger.valueOf(courseId),BigInteger.valueOf(teamId));
     }
 
     /**
@@ -114,8 +116,9 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/round/{roundId}/{teamId}/roundSeminar")
-    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") BigInteger roundId,@PathVariable("teamId") BigInteger teamId){
-        return scoreService.getSeminarByRoundId(roundId,teamId);
+    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") Long roundId,
+                                                     @PathVariable("teamId") Long teamId){
+        return scoreService.getSeminarByRoundId(BigInteger.valueOf(roundId),BigInteger.valueOf(teamId));
     }
 
 
@@ -126,8 +129,9 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/round/{teamId}/{seminarId}/seminarScore")
-    public Score getTeamSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId")BigInteger seminarId,@PathVariable("teamId")BigInteger teamId){
-        return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(seminarId,teamId);
+    public Score getTeamSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId")Long seminarId,
+                                                         @PathVariable("teamId")Long teamId){
+        return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(BigInteger.valueOf(seminarId),BigInteger.valueOf(teamId));
 
     }
 

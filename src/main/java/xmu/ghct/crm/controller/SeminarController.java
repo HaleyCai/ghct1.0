@@ -34,9 +34,9 @@ public class SeminarController {
      */
     @RequestMapping(value="/round/{roundId}/seminar",method = RequestMethod.GET)
     @ResponseBody
-    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") BigInteger roundId)
+    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") Long roundId)
     {
-        return seminarService.getSeminarByRoundId(roundId);
+        return seminarService.getSeminarByRoundId(BigInteger.valueOf(roundId));
     }
 
     /**
@@ -59,8 +59,8 @@ public class SeminarController {
      * @return
      */
     @RequestMapping(value="/seminar/{seminarId}/klass",method = RequestMethod.GET)
-    public List<Klass> listKlassBySeminarId(@PathVariable("seminarId") BigInteger seminarId){
-        return klassService.listKlassBySeminarId(seminarId);
+    public List<Klass> listKlassBySeminarId(@PathVariable("seminarId") Long seminarId){
+        return klassService.listKlassBySeminarId(BigInteger.valueOf(seminarId));
     }
 
     /**
@@ -71,8 +71,9 @@ public class SeminarController {
      * @throws ParseException
      */
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.PUT)
-    public boolean updateSeminarBySeminarId(@PathVariable("seminarId")BigInteger seminarId,@RequestBody Map<String,Object> seminarMap)throws ParseException{
-        int flag=seminarService.updateSeminarBySeminarId(seminarId,seminarMap);
+    public boolean updateSeminarBySeminarId(@PathVariable("seminarId")Long seminarId,
+                                            @RequestBody Map<String,Object> seminarMap)throws ParseException{
+        int flag=seminarService.updateSeminarBySeminarId(BigInteger.valueOf(seminarId),seminarMap);
         if(flag>0) return true;
         else return false;
     }
@@ -83,10 +84,10 @@ public class SeminarController {
      * @return
      */
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.DELETE)
-    public boolean deleteSeminarBySeminarId(@PathVariable("seminarId") BigInteger seminarId){
-        int flag_1=seminarService.deleteSeminarBySeminarId(seminarId);
-        int flag_2=seminarService.deleteKlassSeminarBySeminarId(seminarId);
-        int flag_3=scoreService.deleteSeminarScoreBySeminarId(seminarId);
+    public boolean deleteSeminarBySeminarId(@PathVariable("seminarId") Long seminarId){
+        int flag_1=seminarService.deleteSeminarBySeminarId(BigInteger.valueOf(seminarId));
+        int flag_2=seminarService.deleteKlassSeminarBySeminarId(BigInteger.valueOf(seminarId));
+        int flag_3=scoreService.deleteSeminarScoreBySeminarId(BigInteger.valueOf(seminarId));
         if(flag_1>0&&flag_2>0&&flag_3>0) return true;
         else return false;
     }

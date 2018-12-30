@@ -46,25 +46,23 @@ public class CourseController {
     /**
      * @cyq
      * 教师通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,main(主、从）
-     * @param inMap
      * @return
      */
     @RequestMapping(value="/getCourse/teacher",method = RequestMethod.GET)
-    public List<CourseTeacherVO> teacherGetCourse(@RequestParam("teacherId") BigInteger teacherId)
+    public List<CourseTeacherVO> teacherGetCourse(@RequestParam("teacherId") Long teacherId)
     {
-        return courseService.teacherGetCourse(teacherId);
+        return courseService.teacherGetCourse(BigInteger.valueOf(teacherId));
     }
 
     /**
      * @cyq
      * 学生通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,klassId,klassName(Grade+KlassSerial)
-     * @param inMap
      * @return
      */
     @RequestMapping(value="getCourse/student",method = RequestMethod.GET)
-    public List<CourseStudentVO> studentGetCourse(@RequestBody Map<String,Object> inMap)
+    public List<CourseStudentVO> studentGetCourse(@RequestParam("studentId") Long studentId)
     {
-        return courseService.studentGetCourse(new BigInteger(inMap.get("studentId").toString()));
+        return courseService.studentGetCourse(BigInteger.valueOf(studentId));
     }
 
 
@@ -76,13 +74,13 @@ public class CourseController {
     }
 
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
-    public Course getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
-        return courseService.getCourseByCourseId(courseId);
+    public Course getCourseByCourseId(@PathVariable("courseId") Long courseId){
+        return courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
     }
 
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.DELETE)
-    public boolean deleteCourseByCourseId(@PathVariable("courseId")BigInteger courseId) {
-        int flag=courseService.deleteCourseByCourseId(courseId);
+    public boolean deleteCourseByCourseId(@PathVariable("courseId") Long courseId) {
+        int flag=courseService.deleteCourseByCourseId(BigInteger.valueOf(courseId));
         if(flag>0)return true;
         else return false;
     }
@@ -95,8 +93,8 @@ public class CourseController {
      */
     @RequestMapping(value="/course/{courseId}/round",method = RequestMethod.GET)
     @ResponseBody
-    public  List<Round> listRoundByCourseId(@PathVariable("courseId") BigInteger courseId) throws RoundNotFindException {
-        List<Round> roundList=courseService.listRoundByCourseId(courseId);
+    public  List<Round> listRoundByCourseId(@PathVariable("courseId") Long courseId) throws RoundNotFindException {
+        List<Round> roundList=courseService.listRoundByCourseId(BigInteger.valueOf(courseId));
         if(roundList==null){
             throw new RoundNotFindException("未找到该课程下的讨论课轮次");
         }
@@ -111,12 +109,12 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
-    public RoundVO getRoundByRoundId(@PathVariable("roundId") BigInteger roundId,
-                                     @RequestBody Map<String,Object> inMap)
+    public RoundVO getRoundByRoundId(@PathVariable("roundId") Long roundId,
+                                     @RequestParam("courseId") Long courseId)
     {
         return courseService.getRoundByRoundId(
-                new BigInteger(inMap.get("courseId").toString()),
-                roundId);
+                BigInteger.valueOf(courseId),
+                BigInteger.valueOf(roundId));
     }
 
     /**
@@ -126,7 +124,7 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value = "/round/{roundId}",method = RequestMethod.PUT)
-    public boolean modifyRoundByRoundId(@PathVariable("roundId") BigInteger roundId,
+    public boolean modifyRoundByRoundId(@PathVariable("roundId") Long roundId,
                                         @RequestBody Map<String,Object> inMap) throws IllegalAccessException
     {
         //修改轮次的评分方式
@@ -164,8 +162,8 @@ public class CourseController {
      * @return
      */
     @GetMapping("/{teacherId}/course/beingPresent")
-    public BigInteger isBeingPresentSeminar(@PathVariable("teacherId")BigInteger teacherId){
-           return courseService.isBeingPresentSeminar(teacherId);
+    public BigInteger isBeingPresentSeminar(@PathVariable("teacherId")Long teacherId){
+           return courseService.isBeingPresentSeminar(BigInteger.valueOf(teacherId));
     }
 
 //    @GetMapping("/{studentId}/course")

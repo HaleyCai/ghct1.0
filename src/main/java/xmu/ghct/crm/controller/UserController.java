@@ -70,14 +70,13 @@ public class UserController {
 
     /**
      * 根据account查询个人信息，前端传参account,type，account根据jwt获得
-     * @param inMap
      * @return
      */
     @RequestMapping(value="/user/information",method = RequestMethod.GET)
-    public User getInformation(@RequestBody Map<String,Object> inMap){
+    public User getInformation(@RequestParam String account,@RequestParam int type){
         return userService.getInformation(
-                (String)inMap.get("account"),
-                (int)inMap.get("type"));
+                account,
+                type);
     }
 
     /**
@@ -95,14 +94,13 @@ public class UserController {
 
     /**
      * 忘记密码时，将密码发送到用户的邮箱中，前端传参account，type，account根据jwt获得
-     * @param inMap
      */
     @RequestMapping(value="/user/password",method = RequestMethod.GET)
-    public boolean sendPasswordToEmail(@RequestBody Map<String,Object> inMap)
+    public boolean sendPasswordToEmail(@RequestParam String account,@RequestParam int type)
     {
         return userService.sendPasswordToEmail(
-                (String)inMap.get("account"),
-                (int)inMap.get("type"));
+                account,
+                type);
     }
 
     /**

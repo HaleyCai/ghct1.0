@@ -19,17 +19,17 @@ public class KlassController {
 
     @RequestMapping(value="/course/{courseId}/class",method = RequestMethod.POST)
     @ResponseBody
-    public boolean createKlass(@PathVariable("courseId")BigInteger courseId,@RequestBody Map<String,Object> klassMap)  {
+    public boolean createKlass(@PathVariable("courseId")Long courseId,@RequestBody Map<String,Object> klassMap)  {
         //创建之前先判断，是否有同一课程下的同样的班级次序，若有则失败
-        int flag=klassService.creatKlass(courseId,klassMap);
+        int flag=klassService.creatKlass(BigInteger.valueOf(courseId),klassMap);
         if(flag>0) return true;
         else return false;
     }
 
     @RequestMapping(value="/course/{courseId}/class",method = RequestMethod.GET)
     @ResponseBody
-    public List<Klass> listKlassByCourseId(@PathVariable("courseId") BigInteger courseId){
-        return klassService.listKlassByCourseId(courseId);
+    public List<Klass> listKlassByCourseId(@PathVariable("courseId") Long courseId){
+        return klassService.listKlassByCourseId(BigInteger.valueOf(courseId));
     }
 
     /**
@@ -39,16 +39,16 @@ public class KlassController {
      */
     @RequestMapping(value="/course/{courseId}/deleteKlass",method = RequestMethod.DELETE)
     @ResponseBody
-    public boolean deleteKlassByCourseId(@PathVariable("courseId")BigInteger courseId){
-        int flag= klassService.deleteKlassByCourseId(courseId);
+    public boolean deleteKlassByCourseId(@PathVariable("courseId")Long courseId){
+        int flag= klassService.deleteKlassByCourseId(BigInteger.valueOf(courseId));
         if(flag>0) return true;
         else return false;
     }
 
     @RequestMapping(value="/course/class/{klassId}",method = RequestMethod.DELETE)
     @ResponseBody
-    public boolean deleteKlassByKlassId(@PathVariable("klassId") BigInteger klassId){
-        return klassService.deleteKlassByKlassId(klassId);
+    public boolean deleteKlassByKlassId(@PathVariable("klassId") Long klassId){
+        return klassService.deleteKlassByKlassId(BigInteger.valueOf(klassId));
     }
 
 
