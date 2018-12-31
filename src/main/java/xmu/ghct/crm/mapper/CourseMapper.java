@@ -100,4 +100,6 @@ public interface CourseMapper {
      * @return
      */
     List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId);
+
+    List<CourseVO> getAllCourse();
 }

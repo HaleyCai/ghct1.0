@@ -172,4 +172,12 @@ public class TeacherDao {
         else
             return true;
     }
+
+    /**
+     * 根据teacherId获取teacherName
+     */
+    public String getTeacherNameByTeacherId(BigInteger teacherId)
+    {
+        return teacherMapper.getTeacherById(teacherId).getName();
+    }
 }

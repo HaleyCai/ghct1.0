@@ -7,6 +7,7 @@ import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.ClassNotFoundException;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.math.BigInteger;
@@ -17,6 +18,9 @@ public class CourseService {
 
     @Autowired
     CourseDao courseDao;
+
+    @Autowired
+    TeacherDao teacherDao;
 
     @Autowired
     RoundDao roundDao;
@@ -191,5 +195,26 @@ public class CourseService {
 //        }
 //        return studentCourseVOS;
 //    }
+
+    /**
+     * 创建课程时获得所有课程信息，以设置冲突课程
+     * @return
+     */
+     public List<Map> getAllCourse()
+     {
+         List<CourseVO> courseList=courseDao.getAllCourse();
+         List<Map> map=new ArrayList<>();
+         for(CourseVO item:courseList)
+         {
+             Map<String,Object> oneMap=new HashMap<>();
+             oneMap.put("CourseId",item.getCourseId());
+             oneMap.put("CourseName",item.getCourseName());
+             oneMap.put("TeacherId",item.getTeacherId());
+             oneMap.put("TeacherName",teacherDao.getTeacherNameByTeacherId(item.getTeacherId()));
+             map.add(oneMap);
+         }
+         return map;
+
+     }
 
 }

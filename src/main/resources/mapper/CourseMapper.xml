@@ -102,4 +102,16 @@
         <result property="studentId" column="student_id"/>
         <result property="courseId" column="course_id"/>
     </resultMap>
+
+    <select id="getAllCourse" resultMap="courseVOMap">
+        select id,teacher_id,course_name
+        from course
+    </select>
+
+    <resultMap id="courseVOMap" type="xmu.ghct.crm.VO.CourseVO">
+        <result property="courseId" column="id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="courseName" column="course_name"/>
+    </resultMap>
+
 </mapper>

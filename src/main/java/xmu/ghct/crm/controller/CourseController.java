@@ -191,4 +191,13 @@ public class CourseController {
     }
 
 
+    /**
+     * 创建课程时获得所有课程信息，以设置冲突课程
+     * @return
+     */
+    @RequestMapping(value = "/course/setConflictCourse",method = RequestMethod.GET)
+    public List<Map> getAllCourse()
+    {
+        return courseService.getAllCourse();
+    }
 }

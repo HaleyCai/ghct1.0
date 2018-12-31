@@ -138,4 +138,9 @@ public class CourseDao {
         BigInteger teacherId=courseMapper.getCourseByCourseId(courseId).getTeacherId();
         return teacherMapper.getTeacherById(teacherId).getName();
     }
+
+    public List<CourseVO> getAllCourse()
+    {
+        return courseMapper.getAllCourse();
+    }
 }
