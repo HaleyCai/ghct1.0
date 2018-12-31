@@ -35,7 +35,6 @@ public class ShareController {
     /**
      * 共享设置界面：取消某一个共享
      * 删除组队共享，同时删除klass_team的关系??
-     * 删除讨论课共享，同时删除klass_round的关系??
      * @return
      */
     @DeleteMapping(value="/share/deleteShare/{shareId}")

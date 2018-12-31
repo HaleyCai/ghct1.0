@@ -34,11 +34,9 @@ public class ShareDao {
     {
         List<ShareVO> all=new ArrayList<>();
         List<Share> allTeams=shareMapper.getAllTeamShare(courseId);
-        System.out.println("allTeams"+allTeams);
         all.addAll(shareToShareVO(allTeams,courseId,courseName,"共享分组",teacherId));
 
         List<Share> allSeminars=shareMapper.getAllSeminarShare(courseId);
-        System.out.println("allSeminars"+allSeminars);
         all.addAll(shareToShareVO(allSeminars,courseId,courseName,"共享讨论课",teacherId));
         return all;
     }
@@ -52,18 +50,21 @@ public class ShareDao {
             ShareVO shareVO=new ShareVO();
             shareVO.setShareId(item.getShareId());
             shareVO.setShareType(shareType);
-            shareVO.setCourseId(courseId);
-            shareVO.setCourseName(courseName);
+            //“我”是主课程
             if(item.getMainCourseId().equals(courseId))
-                shareVO.setCourseType("主课程");
+            {
+                shareVO.setMyCourseType("主课程");
+                shareVO.setOtherCourseId(item.getSubCourseId());
+                shareVO.setOtherCourseName(courseMapper.getCourseByCourseId(shareVO.getOtherCourseId()).getCourseName());
+                shareVO.setOtherTeacherName(courseDao.getTeacherNameByCourseId(shareVO.getOtherCourseId()));
+            }
             else
-                shareVO.setCourseType("从课程");
-
-            //“我”是从课程教师，则otherTeacher为主课程教师
-            if(item.getSubCourseTeacherId().equals(teacherId))
-                shareVO.setOtherTeacherName(courseDao.getTeacherNameByCourseId(item.getMainCourseId()));
-            else//“我”是主课程教师，则otherTeacher为从课程教师
-                shareVO.setOtherTeacherName(courseDao.getTeacherNameByCourseId(item.getSubCourseId()));
+            {
+                shareVO.setMyCourseType("从课程");
+                shareVO.setOtherCourseId(item.getMainCourseId());
+                shareVO.setOtherCourseName(courseMapper.getCourseByCourseId(shareVO.getOtherCourseId()).getCourseName());
+                shareVO.setOtherTeacherName(courseDao.getTeacherNameByCourseId(shareVO.getOtherCourseId()));
+            }
             shareVO.setStatus(1);
             shareVOS.add(shareVO);
         }
