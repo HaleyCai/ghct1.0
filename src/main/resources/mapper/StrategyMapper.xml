@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.ghct.crm.mapper.StrategyMapper">
+
+    <select id="selectMaxIdFromTeamOrStrategy" resultType="java.math.BigInteger">
+        select id
+        from  team_or_strategy
+        order by id desc limit 1;
+    </select>
+
+    <select id="selectMaxIdFromTeamAndStrategy" resultType="java.math.BigInteger">
+        select id
+        from  team_and_strategy
+        order by id desc limit 1;
+    </select>
+
+    <select id="selectMaxIdFromConflictCourseStrategy" resultType="java.math.BigInteger">
+        select id
+        from  conflict_course_strategy
+        order by id desc limit 1;
+    </select>
+
+    <insert id="insertAndStrategy">
+        insert into team_and_strategy(
+                                      id,
+                                      strategy_name,
+                                      strategy_id
+        ) values (
+                  #{id},
+                  #{strategyName},
+                  #{strategyId}
+                         )
+    </insert>
+
+    <select id="selectAndStrategy"  resultMap="AndOrOrMap">
+        select *
+        from team_and_strategy
+        where id=#{strategyId}
+    </select>
+
+    <select id="selectOrStrategy" resultMap="AndOrOrMap">
+        select *
+        from team_or_strategy
+        where id=#{strategyId}
+    </select>
+
+    <insert id="insertOrStrategy" parameterType="xmu.ghct.crm.VO.CourseVO" keyProperty="courseLimitId" useGeneratedKeys="true">
+        insert into team_or_strategy(
+            id,
+            strategy_name,
+            strategy_id
+        ) values (
+                     #{id},
+                     #{strategyName},
+                     #{strategyId}
+                 )
+    </insert>
+
+    <insert id="insertMemberLimit" parameterType="xmu.ghct.crm.VO.CourseVO" keyProperty="memberLimitId" useGeneratedKeys="true">
+        insert into member_limit_strategy(
+                                          min_member,
+                                          max_member
+        ) values(
+                 #{minMember},
+                 #{maxMember}
+                        )
+    </insert>
+    
+    <insert id="insertCourseMemberLimit" parameterType="xmu.ghct.crm.VO.CourseLimitVO" keyProperty="courseLimitId" useGeneratedKeys="true">
+        insert into course_member_limit_strategy(
+                                                 course_id,
+                                                 min_member,
+                                                 max_member
+        )  values (
+                   #{courseId},
+                   #{minMember},
+                   #{maxMember}
+                          )
+    </insert>
+
+    <select id="getCourseLimitByStrategyId" resultMap="CourseLimitMap">
+        select *
+        from course_member_limit_strategy
+        where id=#{strategyId}
+    </select>
+
+    <select id="getTeamMemberLimit" resultMap="limitMap">
+        select *
+        from member_limit_strategy
+        where id=#{memberLimitId}
+    </select>
+
+    <insert id="insertTeamStrategy" >
+        insert into team_strategy(
+                                  course_id,
+                                  strategy_serial,
+                                  strategy_id,
+                                  strategy_name
+        ) values (
+                  #{courseId},
+                  #{strategySerial},
+                  #{strategyId},
+                  #{strategyName}
+                         )
+    </insert>
+
+    <insert id="insertIntoConflictCourseStrategy">
+        insert into conflict_course_strategy(
+                                            id,
+                                            course_id
+        ) values (
+                  #{id},
+                  #{courseId}
+                         )
+    </insert>
+
+    <select id="listTeamStrategyByCourseId" resultMap="teamStrategyMap">
+        select *
+        from team_strategy
+        where course_id=#{courseId}
+    </select>
+
+    <select id="getTeamMemberNumber" resultType="java.lang.Integer">
+        SELECT SUM(team_id=#{teamId}) FROM team_student
+    </select>
+    
+    <select id="getCourseStudentNumber" resultType="java.lang.Integer">
+        select sum(course_id=#{courseId} and student_id=#{studentId}) from klass_student
+    </select>
+
+    <select id="listStudentIdByTeamId" resultType="java.math.BigInteger">
+        select student_id
+        from team_student
+        where team_id=#{teamId}
+    </select>
+
+    <select id="listConflictCourseId" resultType="java.math.BigInteger">
+        select course_id
+        from conflict_course_strategy
+        where id=#{strategyId}
+    </select>
+
+    <resultMap id="CourseLimitMap" type="xmu.ghct.crm.VO.CourseLimitVO">
+        <result property="courseLimitId" column="id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="minMember" column="min_member"/>
+        <result property="maxMember" column="max_member"/>
+    </resultMap>
+
+    <resultMap id="AndOrOrMap" type="xmu.ghct.crm.VO.AndOrOrStrategyVO">
+        <result property="id" column="id"/>
+        <result property="strategyName" column="strategy_name"/>
+        <result property="strategyId" column="strategy_id"/>
+    </resultMap>
+
+    <resultMap id="limitMap" type="xmu.ghct.crm.VO.CourseVO">
+        <result property="memberLimitId" column="id"/>
+        <result property="minMember" column="min_member"/>
+        <result property="maxMember" column="max_member"/>
+    </resultMap>
+
+    <resultMap id="teamStrategyMap" type="xmu.ghct.crm.VO.TeamStrategyVO">
+        <result property="courseId" column="course_id"/>
+        <result property="strategySerial" column="strategy_serial"/>
+        <result property="strategyId" column="strategy_id"/>
+        <result property="strategyName" column="strategy_name"/>
+    </resultMap>
+
+</mapper>
