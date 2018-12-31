@@ -65,8 +65,7 @@ public class KlassController {
      */
     @PostMapping("klass/{klassId}/uploadStudentNameList")
     public Boolean add(@PathVariable("klassId")BigInteger klassId,@RequestParam("file") MultipartFile file){
-        //Map<Integer, Map<Integer,Object>> map = uploadExcelService.addCustomerInfo(file);
-         return uploadExcelService.addCustomerInfo(klassId,file);
+         return uploadExcelService.addStudentInfo(klassId,file);
     }
 
 

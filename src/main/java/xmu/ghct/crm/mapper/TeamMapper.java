@@ -125,4 +125,60 @@ public interface TeamMapper {
      */
     Integer getTeamSerialByTeamId(BigInteger teamId);
 
+    /**
+     * 获取班级下最大队伍序号
+     * @param klassId
+     * @return
+     */
+    int getMaxTeamSerialOfTeam(BigInteger klassId);
+
+
+    /**
+     * 创建队伍
+     * @param team
+     * @return
+     */
+    int insertTeam(Team team);
+
+    /**
+     * 更新队伍合法状态
+     * @param teamId
+     * @param status
+     * @return
+     */
+    int updateStatusByTeamId(BigInteger teamId,int status);
+
+    /**
+     * 插入班级-队伍关联信息
+     * @param klassId
+     * @param teamId
+     * @return
+     */
+    int insertKlassTeam(BigInteger klassId,BigInteger teamId);
+
+    /**
+     * 插入学生-队伍关联信息
+     * @param teamId
+     * @param studentId
+     * @return
+     */
+    int insertTeamStudent(BigInteger teamId,BigInteger studentId);
+
+
+    /**
+     * 插入学生-班级-课程关联信息
+     * @param klassId
+     * @param studentId
+     * @param courseId
+     * @return
+     */
+    int insertKlassStudent(BigInteger klassId,BigInteger studentId,BigInteger courseId);
+
+    /**
+     * 获取学生所在队伍ID
+     * @param studentId
+     * @return
+     */
+    BigInteger getTeamIdByStudentId(BigInteger studentId);
+
 }

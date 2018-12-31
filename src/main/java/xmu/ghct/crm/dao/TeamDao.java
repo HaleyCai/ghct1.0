@@ -158,4 +158,75 @@ public class TeamDao {
     public int getTeamSerialByTeamId(BigInteger teamId){
         return teamMapper.getTeamSerialByTeamId(teamId);
     }
+
+
+    /**
+     * 获取班级下最大队伍序号
+     * @param klassId
+     * @return
+     */
+    public int getMaxTeamSerialOfTeam(BigInteger klassId){
+        return teamMapper.getMaxTeamSerialOfTeam(klassId);
+    }
+
+    /**
+     * 创建队伍
+     * @param team
+     * @return
+     */
+    public int insertTeam(Team team){
+        return teamMapper.insertTeam(team);
+    }
+
+    /**
+     * 更新队伍合法状态
+     * @param teamId
+     * @param status
+     * @return
+     */
+    public int updateStatusByTeamId(BigInteger teamId,int status){
+        return teamMapper.updateStatusByTeamId(teamId,status);
+    }
+
+    /**
+     * 插入班级-队伍关联信息
+     * @param klassId
+     * @param teamId
+     * @return
+     */
+    public int insertKlassTeam(BigInteger klassId,BigInteger teamId){
+        return teamMapper.insertKlassTeam(klassId,teamId);
+    }
+
+    /**
+     * 插入学生-队伍关联信息
+     * @param teamId
+     * @param studentId
+     * @return
+     */
+    public int insertTeamStudent(BigInteger teamId,BigInteger studentId){
+        return teamMapper.insertTeamStudent(teamId,studentId);
+    }
+
+
+    /**
+     * 插入学生-班级-课程关联信息
+     * @param klassId
+     * @param studentId
+     * @param courseId
+     * @return
+     */
+    public int insertKlassStudent(BigInteger klassId,BigInteger studentId,BigInteger courseId){
+        return teamMapper.insertKlassStudent(klassId,studentId,courseId);
+    }
+
+    /**
+     * 获取学生所在队伍ID
+     * @param studentId
+     * @return
+     */
+     public BigInteger getTeamIdByStudentId(BigInteger studentId){
+        return teamMapper.getTeamIdByStudentId(studentId);
+    }
+
 }

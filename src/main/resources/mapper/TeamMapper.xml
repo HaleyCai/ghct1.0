@@ -24,12 +24,83 @@
         select course_id from team where id=#{teamId}
     </select>
 
+    <select id="getTeamIdByStudentId" resultType="java.math.BigInteger">
+        select team_id
+        from team_student
+        where student_id=#{studentId}
+    </select>
+
      <!--hzm-->
     <select id="getKlassIdByTeamId" resultType="java.math.BigInteger">
         select klass_id
         from team
         where id=#{teamId}
     </select>
+
+    <select id="getMaxTeamSerialOfTeam" resultType="java.lang.Integer">
+        select max(team_serial)
+        from team
+        where klass_id=#{klassId}
+    </select>
+
+    <update id="updateStatusByTeamId" >
+        update team
+        set status=#{status}
+        where id=#{teamId}
+    </update>
+
+    <!--hzm-->
+    <insert id="insertTeam" parameterType="xmu.ghct.crm.entity.Team" keyProperty="teamId" useGeneratedKeys="true">
+         insert into team(
+                          klass_id,
+                          course_id,
+                          leader_id,
+                          team_name,
+                          team_serial,
+                          klass_serial,
+                          status
+         ) values(
+                  #{klassId},
+                  #{courseId},
+                  #{leaderId},
+                  #{teamName},
+                  #{teamSerial},
+                  #{klassSerial},
+                  #{status}
+                          )
+    </insert>
+
+    <insert id="insertKlassTeam" >
+        insert into klass_team(
+                               klass_id,
+                               team_id
+        ) values (
+                  #{klassId},
+                  #{teamId}
+                         )
+    </insert>
+
+    <insert id="insertTeamStudent" >
+        insert into team_student(
+                                 team_id,
+                                 student_id
+        ) values (
+                  #{teamId},
+                  #{studentId}
+                         )
+    </insert>
+
+    <insert id="insertKlassStudent">
+        insert into klass_student(
+                                  klass_id,
+                                  student_id,
+                                  course_id
+        ) values (
+                  #{klassId},
+                  #{studentId},
+                  #{courseId}
+                         )
+    </insert>
 
     <!--cyq-->
     <select id="listTeamIdByKlassId" resultType="java.math.BigInteger">
@@ -94,7 +165,7 @@
     </delete>
 
     <delete id="removeTeamMember">
-        deldte from team_student where team_id=#{teamId} and student_id=#{studentId}
+        delete from team_student where team_id=#{teamId} and student_id=#{studentId}
     </delete>
 
     <insert id="addTeamMember">

@@ -30,7 +30,7 @@ public class UploadExcelService {
     @Autowired
     KlassDao klassDao;
 
-    public boolean addCustomerInfo(BigInteger klassId,MultipartFile file) {
+    public boolean addStudentInfo(BigInteger klassId,MultipartFile file) {
         Map<Integer, Map<Integer,Object>> map = new HashMap<>();
         try {
             boolean flag=readExcelContentz(klassId,file);
@@ -62,9 +62,11 @@ public class UploadExcelService {
             row = sheet.getRow(i);
             User user=new User();
             String account= getCellFormatValue(row.getCell(0)).toString().replaceAll("\\u00A0", "");
+            if(account.length()<=0) continue;
             account=account.replaceAll(" ","");
             user.setAccount(account);
             String name=getCellFormatValue(row.getCell(1)).toString().replaceAll("\\u00A0","");
+            if(name.length()<=0) continue;
             name=name.replaceAll(" ","");
             user.setName(name);
             System.out.println(user);

@@ -13,6 +13,7 @@ import xmu.ghct.crm.entity.User;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TeamService {
@@ -153,44 +154,38 @@ public class TeamService {
      * @param studentId
      * @return
      */
-    public boolean removeTeamMember(BigInteger teamId,BigInteger studentId)
+    public int removeTeamMember(BigInteger teamId,BigInteger studentId)
     {
         //*******用jwt中的id判断操作人是否是该队伍组长，若是，继续删除，若不是返回删除失败
         //删除操作，判断删除的student是否是组长，是则解散小组，否则删除成员
         Team team=teamDao.getTeamInfoByTeamId(teamId);
-        if(team.getLeaderId()==studentId)
-            return teamDao.deleteTeam(teamId);
-        else
-            return teamDao.removeTeamMember(teamId,studentId);
+        if(team.getLeaderId()==studentId){
+            if(teamDao.deleteTeam(teamId)) return 1;
+            else return 0;
+        }
+        else{
+            boolean flag= teamDao.removeTeamMember(teamId,studentId);
+            if(flag) {
+                if(judgeIllegal(teamId)) return 2;
+                else return 3;
+            }
+            else return 0;
+        }
+
     }
 
     /**
      * 加入小组成员，先查有是否超过人数，再加入，再判断当前队伍状态
      * @param teamId
-     * @param studentIds
+     * @param studentIdList
      * @return
      */
-    public boolean addTeamMember(BigInteger teamId,List<BigInteger> studentIds)
+    public boolean addTeamMember(Long teamId,List<BigInteger> studentIdList)
     {
-        boolean success=false;
-        for(BigInteger id:studentIds)
-        {
-            //if(team的人数已满，不能加入)，写在这还是写在判断组队是否合法处？？？
-            success=success&&teamDao.addTeamMember(teamId,id);
+        for(BigInteger item:studentIdList){
+            if(teamDao.insertTeamStudent(BigInteger.valueOf(teamId),item)<0) return false;
         }
-        //判断并修改组队状态是否合法
-        return success;
-    }
-
-    /**
-     * @cyq
-     * 根据班级，判断组队是否合法并修改
-     * @param teamId
-     * @param courseId
-     * @return
-     */
-    public void judgeTeamValid(BigInteger teamId,BigInteger courseId)
-    {
+        return true;
     }
 
 
@@ -203,6 +198,62 @@ public class TeamService {
     public BigInteger getKlassIdByTeamId(BigInteger teamId){
         return teamDao.getKlassIdByTeamId(teamId);
    }
+
+
+    /**
+     * 获取班级下最大队伍序号
+     * @param klassId
+     * @return
+     */
+    public int getMaxTeamSerialOfTeam(BigInteger klassId){
+        return teamDao.getMaxTeamSerialOfTeam(klassId);
+    }
+
+    /**
+     * 创建队伍
+     * @return
+     */
+    public BigInteger insertTeam(BigInteger studentId, List<List<Map>> creatTeamMap){
+        BigInteger teamId=teamDao.getTeamIdByStudentId(studentId);
+        if(teamId!=null) {System.out.println("学生已组队！");return null;}
+        Team team=new Team();
+        Map<String,Object> teamMap=creatTeamMap.get(0).get(0);
+        BigInteger klassId=new BigInteger(teamMap.get("klassId").toString());
+        int teamSerial=teamDao.getMaxTeamSerialOfTeam(klassId)+1;
+        team.setKlassId(klassId);
+        BigInteger courseId=new BigInteger(teamMap.get("courseId").toString());
+        team.setCourseId(courseId);
+        team.setTeamSerial(teamSerial);
+        team.setLeaderId(studentId);
+        team.setTeamName(teamMap.get("teamName").toString());
+        team.setKlassSerial(new Integer(teamMap.get("klassSerial").toString()));
+        int flag=teamDao.insertTeam(team);
+        int flag_1=teamDao.insertKlassTeam(klassId,team.getTeamId());
+        int flag_2=teamDao.insertTeamStudent(team.getTeamId(),studentId);
+        List<Map> listMap=creatTeamMap.get(1);
+        int size=listMap.size();
+        System.out.println(size);
+        while(size>0){
+            BigInteger memberStudentId=new BigInteger(listMap.get(size-1).get("studentId").toString());
+            System.out.println(memberStudentId);
+            teamDao.insertTeamStudent(team.getTeamId(),memberStudentId);
+            size--;
+        }
+        if(flag>0&&flag_1>0&&flag_2>0){System.out.println(flag+"**"+flag_1+"**"+flag_2);return team.getTeamId();}
+        else return null;
+    }
+
+    /**
+     * 更新队伍合法状态
+     * @param teamId
+     * @param status
+     * @return
+     */
+    public int updateStatusByTeamId(BigInteger teamId,int status){
+        return teamDao.updateStatusByTeamId(teamId,status);
+    }
+
+
 
     /**
      * 判断队伍有效性
@@ -258,4 +309,6 @@ public class TeamService {
         }
         return true;
    }
+
+
 }

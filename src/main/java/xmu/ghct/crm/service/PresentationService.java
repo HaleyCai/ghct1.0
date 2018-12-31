@@ -95,6 +95,7 @@ public class PresentationService {
         Map<String,Object> map=new HashMap<>();
         map.put("seminarVO",seminarVO);
         if(isAttendance==false){   //未报名讨论课
+            map.put("attendanceStatus",false);
             return map;
         }
         else{                     //已报名讨论课
@@ -130,7 +131,7 @@ public class PresentationService {
                 map.put("pptStatus",true);
             }
             else map.put("pptStatus",false);
-
+            map.put("attendanceStatus",true);
             map.put("attendanceId",attendance.getAttendanceId());
             return map;
         }

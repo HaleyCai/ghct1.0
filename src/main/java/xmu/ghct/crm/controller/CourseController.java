@@ -74,6 +74,12 @@ public class CourseController {
     }
 
 
+    /**
+     * 创建课程
+     * @param courseMap
+     * @return
+     * @throws ParseException
+     */
     @RequestMapping(value="/course/creatCourse",method = RequestMethod.POST)
     public boolean creatCourse(@RequestBody List<List<Map>> courseMap) throws ParseException {
         int flag= courseService.creatCourse(courseMap);
@@ -81,11 +87,21 @@ public class CourseController {
         else return false;
     }
 
+    /**
+     * 根据课程ID查找课程
+     * @param courseId
+     * @return
+     */
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
     public Course getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
         return courseService.getCourseByCourseId(courseId);
     }
 
+    /**
+     * 根据课程ID删除课程
+     * @param courseId
+     * @return
+     */
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.DELETE)
     public boolean deleteCourseByCourseId(@PathVariable("courseId")BigInteger courseId) {
         int flag=courseService.deleteCourseByCourseId(courseId);
@@ -180,17 +196,11 @@ public class CourseController {
 //    }
 
 
-    @PostMapping("/{klassId}/uploadStudentNameList")
-    public String add(@PathVariable("klassId")BigInteger klassId,@RequestParam("file")MultipartFile file){
-        //Map<Integer, Map<Integer,Object>> map = uploadExcelService.addCustomerInfo(file);
-        uploadExcelService.addCustomerInfo(klassId,file);
-        //System.out.println(map);
-        return "success";
-    }
-
     @PostMapping("/TEST")
-    public void test(@RequestParam BigInteger teamId){
-        System.out.println(teamService.judgeIllegal(teamId));
+    public void test(@RequestBody ArrayList<Map> listMap){
+        Map<String,ArrayList<BigInteger>> map=listMap.get(1);
+        BigInteger bigIntegers=new BigInteger(map.get("studentId").get(0).toString());
+        System.out.println(bigIntegers);
     }
 
 

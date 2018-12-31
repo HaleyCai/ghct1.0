@@ -75,30 +75,49 @@ public class TeamController {
      * 将多名学生加入该队伍，传参teamId,studentId，从未组队的学生中选择，不需要判断是否是组长是否已组队！
      * ***判断队伍的状态并修改
      * @param teamId
-     * @param inMap
+     * @param studentIdList
      */
     @RequestMapping(value="team/{teamId}/add",method = RequestMethod.PUT)
-    public void addTeamMember(@PathVariable("teamId") Long teamId,
-                              @RequestBody Map<String,Object> inMap)
+    public boolean addTeamMember(@PathVariable("teamId") Long teamId,
+                              @RequestBody List<BigInteger> studentIdList)
     {
-        //传参是List<BigInteger> studentId
+        Boolean flag=teamService.addTeamMember(teamId,studentIdList);
+        if(teamService.judgeIllegal(BigInteger.valueOf(teamId))){
+            teamService.updateStatusByTeamId(BigInteger.valueOf(teamId),1);
+        }
+        else {
+            teamService.updateStatusByTeamId(BigInteger.valueOf(teamId),0);
+        }
+        return flag;
     }
 
     /**
      * 移除成员(一次只能删一个），或自己退出队伍（队长退出，直接解散队伍），退出的同时，修改team和student处的数据
      * ***判断队伍的状态并修改
      * @param teamId
+     * @param inMap
      */
     @RequestMapping(value="team/{teamId}/remove",method = RequestMethod.PUT)
-    public Map<String,Object> removeTeamMember( HttpServletRequest request,
-                                                @PathVariable("teamId") Long teamId)
+    public Map<String,Object> removeTeamMember(@PathVariable("teamId") Long teamId,
+                                 @RequestBody Map<String,Object> inMap)
     {
-        BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
         Map<String,Object> map=new HashMap<>();
-        if(teamService.removeTeamMember(BigInteger.valueOf(teamId),studentId))
+        int flag=teamService.removeTeamMember(BigInteger.valueOf(teamId),new BigInteger(inMap.get("studentId").toString()));
+        if(flag==0){
+            map.put("message",false);
+        }
+        else if(flag==1){
             map.put("message",true);
-        else
+        }
+        else if(flag==2){
+            teamService.updateStatusByTeamId(BigInteger.valueOf(teamId),1);
             map.put("message",true);
+        }
+        else if(flag==3){
+                teamService.updateStatusByTeamId(BigInteger.valueOf(teamId),0);
+            map.put("message",true);
+            }
+
         return map;
     }
 
@@ -107,8 +126,19 @@ public class TeamController {
      * 创建小组，先创建组，初始加入成员为组长，判断是否合法后填写状态
      */
     @RequestMapping(value="/team/create", method = RequestMethod.POST)
-    public void createTeam()
-    {
-
+    public boolean createTeam(@RequestParam BigInteger studentId,@RequestBody List<List<Map>> creatTeamMap){
+        BigInteger teamId=teamService.insertTeam(studentId,creatTeamMap);
+        if(teamId!=null){
+            int status;
+            if(teamService.judgeIllegal(teamId)){
+                status=1;
+            }
+            else {
+                status=0;
+            }
+            teamService.updateStatusByTeamId(teamId,status);
+            return true;
+        }
+        else return false;
     }
 }
