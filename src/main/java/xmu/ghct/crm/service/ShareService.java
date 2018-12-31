@@ -2,11 +2,18 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xmu.ghct.crm.VO.CourseTeacherVO;
+import xmu.ghct.crm.VO.ShareRequestVO;
+import xmu.ghct.crm.VO.ShareTeamVO;
+import xmu.ghct.crm.VO.ShareVO;
+import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.dao.ShareDao;
 import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.mapper.ShareMapper;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,46 +21,47 @@ import java.util.Map;
 public class ShareService {
     @Autowired
     ShareDao shareDao;
-    //可以合并
-    public List<Share> listTeamShareMessageByCourseId(BigInteger courseId) {
-        List<Share> listShare=shareDao.listTeamShareMessageByCourseId(courseId);
-        for(Share item:listShare)
-            item.setShareType("teamShare");
-        return listShare;
+    @Autowired
+    CourseDao courseDao;
+    /**
+     * 获取所有已同意的共享申请，查teacher的所有课程，再查课程的所有相关的某状态共享，不管是主还是从
+     * @param teacherId
+     * @return
+     */
+    public List<ShareVO> getAllSuccessShare(BigInteger teacherId){
+        List<ShareVO> allShare=new ArrayList<>();
+        List<CourseTeacherVO> courseTeacherVOS=courseDao.listCourseByTeacherId(teacherId);
+        for(CourseTeacherVO oneCourse:courseTeacherVOS)
+        {
+            allShare.addAll(shareDao.getAllSuccessShare(oneCourse.getCourseId(),oneCourse.getCourseName(),teacherId));
+        }
+        return allShare;
     }
 
-    public  int  deleteTeamShareByCourseIdAndShareId(BigInteger courseId,BigInteger shareId){
-        return shareDao.deleteTeamShareByCourseIdAndShareId(courseId, shareId);
+    /**
+     * 删除共享，删除记录
+     * @param shareId
+     * @param type
+     * @return
+     */
+    public boolean deleteShare(BigInteger shareId,String type)
+    {
+        if(type.equals("共享分组"))
+            return shareDao.deleteTeamShareByShareId(shareId);
+        else if(type.equals("共享讨论课"))
+            return shareDao.deleteSeminarShareByShareId(shareId);
+        else
+            return false;
     }
 
-    //可以合并
-    public int launchTeamShareRequest(BigInteger courseId, Map<String,Object> shareMap)  {
-        Share share=new Share();
-        share.setMainCourseId(new BigInteger(courseId.toString()));
-        share.setSubCourseId(new BigInteger(shareMap.get("subCourseId").toString()));
-        share.setSubCourseTeacherId(new BigInteger(shareMap.get("subCourseTeacherId").toString()));
-        share.setStatus((int)shareMap.get("status"));
-        return shareDao.launchTeamShareRequest(share);
-    }
-    //可以合并
-    public List<Share> listSeminarShareMessageByCourseId(BigInteger courseId) {
-        List<Share> listShare=shareDao.listSeminarShareMessageByCourseId(courseId);
-        for(Share item:listShare)
-            item.setShareType("seminarShare");
-        return listShare;
-    }
-
-    public  int  deleteSeminarShareByCourseIdAndShareId(BigInteger courseId,BigInteger shareId){
-        return shareDao.deleteSeminarShareByCourseIdAndShareId(courseId, shareId);
-    }
-
-    public int launchSeminarShareRequest( BigInteger courseId,Map<String,Object> shareMap)  {
-        Share share=new Share();
-        share.setMainCourseId(new BigInteger(courseId.toString()));
-        share.setSubCourseId(new BigInteger(shareMap.get("subCourseId").toString()));
-        share.setSubCourseTeacherId(new BigInteger(shareMap.get("subCourseTeacherId").toString()));
-        share.setStatus((int)shareMap.get("status"));
-        return shareDao.launchSeminarShareRequest(share);
+    public List<ShareRequestVO> getUntreatedShare(BigInteger teacherId){
+        List<ShareRequestVO> shareRequestVOS=new ArrayList<>();
+        List<CourseTeacherVO> courseTeacherVOS=courseDao.listCourseByTeacherId(teacherId);
+        for(CourseTeacherVO item:courseTeacherVOS)
+        {
+            shareRequestVOS.addAll(shareDao.getUntreatedShare(item.getCourseId(),item.getCourseName(),teacherId));
+        }
+        return shareRequestVOS;
     }
 
 }

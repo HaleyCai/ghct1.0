@@ -8,6 +8,7 @@ import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.ClassNotFoundException;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -83,11 +84,11 @@ public class CourseService {
     public List<CourseTeacherVO> teacherGetCourse(BigInteger teacherId) throws ClassNotFoundException {
         List<CourseTeacherVO> courseTeachers=new ArrayList<>();
         //根据teacherId查course
-        List<Course> courses=courseDao.listCourseByTeacherId(teacherId);
+        List<CourseTeacherVO> courses=courseDao.listCourseByTeacherId(teacherId);
         if(courses==null){
             throw new ClassNotFoundException(String.format("not find teacher'courses whose id is %d",teacherId),"404");
         }
-        for(Course item:courses)
+        for(CourseTeacherVO item:courses)
         {
             System.out.println(item);
             CourseTeacherVO courseTeacherVO=new CourseTeacherVO();

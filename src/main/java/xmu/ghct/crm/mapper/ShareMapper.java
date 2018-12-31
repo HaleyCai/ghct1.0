@@ -2,6 +2,7 @@ package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.ShareRequestVO;
 import xmu.ghct.crm.entity.Share;
 
 import java.math.BigInteger;
@@ -12,42 +13,42 @@ import java.util.List;
 public interface ShareMapper {
 
     /**
-     * 根据courseId获得共享队伍信息
+     * 获得某状态的，全部team共享信息
      * @param courseId
      * @return
      */
-    List<Share> listTeamShareMessageByCourseId(BigInteger courseId);
+    List<Share> getAllTeamShare(BigInteger courseId);
 
     /**
-     * 根据courseId和shareId删除共享队伍信息
-     * @param courseId
-     * @param shareId
-     * @return
-     */
-    int deleteTeamShareByCourseIdAndShareId(BigInteger courseId,BigInteger shareId);
-
-    /**
-     * 发布共享队伍请求
-     * @param share
-     * @return
-     */
-    int launchTeamShareRequest(Share share);
-
-    /**
-     * 根据courseId获得讨论可共享信息
+     * 获得某状态的，全部courseId共享信息
      * @param courseId
      * @return
      */
-    List<Share> listSeminarShareMessageByCourseId(BigInteger courseId);
+    List<Share> getAllSeminarShare(BigInteger courseId);
 
     /**
-     * 根据courseId和shareId删除共享讨论课信息
-     * @param courseId
-     * @param shareId
+     * 获取待办的共享组队请求
+     * @param teacherId
      * @return
      */
-    int deleteSeminarShareByCourseIdAndShareId(BigInteger courseId,BigInteger shareId);
+    List<Share> getTeamShareRequest(BigInteger teacherId);
 
+    /**
+     * 获取待办的共享讨论课
+     * @param teacherId
+     * @return
+     */
+    List<Share> getSeminarShareRequest(BigInteger teacherId);
+
+    Share getTeamShareByShareId(BigInteger shareId);
+
+    Share getSeminarShareByShareId(BigInteger shareId);
+
+
+
+    int deleteTeamShareByShareId(BigInteger shareId);
+
+    int deleteSeminarShareByShareId(BigInteger shareId);
     /**
      * 发布共享讨论课请求
      * @param share
