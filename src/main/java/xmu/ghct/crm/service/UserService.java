@@ -9,6 +9,7 @@ import xmu.ghct.crm.dao.StudentDao;
 import xmu.ghct.crm.dao.TeacherDao;
 import xmu.ghct.crm.entity.User;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,37 +78,37 @@ public class UserService {
 
     /**
      * 教师激活账号
-     * @param account
+     * @param id
      * @param password
      * @return
      */
-    public boolean teacherActive(String account, String password){
-        return teacherDao.activeByAccount(account,password);
+    public boolean teacherActive(BigInteger id, String password){
+        return teacherDao.activeById(id,password);
     }
 
     /**
      * 学生激活账号
-     * @param account
+     * @param id
      * @param password
      * @param email
      * @return
      */
-    public boolean studentActive(String account,String password,String email){
-        return studentDao.activeByAccount(account,password,email);
+    public boolean studentActive(BigInteger id,String password,String email){
+        return studentDao.activeById(id,password,email);
     }
 
     /**
-     * 根据account获取个人信息
-     * @param account
+     * 根据id获取个人信息
+     * @param id
      * @param type
      */
-    public User getInformation(String account,int type)
+    public User getInformation(BigInteger id,int type)
     {
         User user;
         if(type==1)
-            user=teacherDao.getUserByAccount(account);
+            user=teacherDao.getUserById(id);
         else
-            user=studentDao.getUserByAccount(account);
+            user=studentDao.getStudentByStudentId(id);
         return user;
     }
 
@@ -149,20 +150,20 @@ public class UserService {
     }
 
     /**
-     * 根据account修改密码
-     * @param account
+     * 根据id修改密码
+     * @param id
      * @param newPassword
      * @param type
      * @return
      */
-    public boolean modifyPassword(String account, String newPassword, int type)
+    public boolean modifyPassword(BigInteger id, String newPassword, int type)
     {
         Map<String,Object> resultMap=new HashMap<>();
         boolean success=false;
         if(type==1)
-            success=teacherDao.setPasswordByAccount(account,newPassword);
+            success=teacherDao.setPasswordById(id,newPassword);
         else
-            success=studentDao.setPasswordByAccount(account,newPassword);
+            success=studentDao.setPasswordById(id,newPassword);
         if(success)
             return true;
         else
@@ -170,20 +171,20 @@ public class UserService {
 }
 
     /**
-     * 根据account修改邮箱
-     * @param account
+     * 根据id修改邮箱
+     * @param id
      * @param newEmail
      * @param type
      * @return
      */
-    public boolean modifyEmail(String account, String newEmail,int type)
+    public boolean modifyEmail(BigInteger id, String newEmail,int type)
     {
         Map<String,Object> resultMap=new HashMap<>();
         boolean success=false;
         if(type==1)
-            success=teacherDao.setEmailByAccount(account,newEmail);
+            success=teacherDao.setEmailById(id,newEmail);
         else
-            success=studentDao.setEmailByAccount(account,newEmail);
+            success=studentDao.setEmailById(id,newEmail);
         if(success)
             return true;
         else

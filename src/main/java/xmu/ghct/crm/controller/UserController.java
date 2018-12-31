@@ -6,6 +6,7 @@ import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.mapper.StudentMapper;
 import xmu.ghct.crm.service.UserService;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     /**
-     * 教师激活账号，前端传参password，account根据jwt获得
+     * 教师激活账号，前端传参password，id根据jwt获得
      * @param inMap
      * @return
      */
@@ -47,7 +48,7 @@ public class UserController {
     public Map<String,Object> teacherActive(@RequestBody Map<String,Object> inMap){
         Map<String,Object> map=new HashMap<>();
         if(userService.teacherActive(
-                inMap.get("account").toString(),
+                new BigInteger(inMap.get("id").toString()),
                 inMap.get("password").toString()))
             map.put("message",true);
         else map.put("message",false);
@@ -55,39 +56,39 @@ public class UserController {
     }
 
     /**
-     * 学生激活账号，前端传参password，email，account根据jwt获得
+     * 学生激活账号，前端传参password，email，id根据jwt获得
      * @param inMap
      * @return
      */
     @RequestMapping(value="/student/active",method = RequestMethod.PUT)
     public Map<String,Object> studentActive(@RequestBody Map<String,Object> inMap){
         Map<String,Object> map=new HashMap<>();
-        if(userService.studentActive(inMap.get("account").toString(), inMap.get("password").toString(),inMap.get("email").toString()))
+        if(userService.studentActive(new BigInteger(inMap.get("id").toString()), inMap.get("password").toString(),inMap.get("email").toString()))
             map.put("message",true);
         else map.put("message",false);
         return map;
     }
 
     /**
-     * 根据account查询个人信息，前端传参account,type，account根据jwt获得
+     * 根据id查询个人信息，前端传参account,type，id根据jwt获得
      * @return
      */
     @RequestMapping(value="/user/information",method = RequestMethod.GET)
-    public User getInformation(@RequestParam String account,@RequestParam int type){
+    public User getInformation(@RequestParam BigInteger id,@RequestParam int type){
         return userService.getInformation(
-                account,
+                id,
                 type);
     }
 
     /**
-     * 根据account修改密码，前端传参account,password,type，account从前端获得
+     * 根据id修改密码，前端传参id,password,type，id从jwt获得
      * @param inMap
      * @return
      */
     @RequestMapping(value="/user/password",method = RequestMethod.PUT)
     public boolean modifyPassword(@RequestBody Map<String,Object> inMap){
         return userService.modifyPassword(
-                (String)inMap.get("account"),
+                new BigInteger(inMap.get("id").toString()),
                 (String)inMap.get("password"),
                 (int)inMap.get("type"));
     }
@@ -104,14 +105,14 @@ public class UserController {
     }
 
     /**
-     * 根据account修改邮箱，前端传参account，email，type，account根据jwt获得
+     * 根据id修改邮箱，前端传参id，email，type，id根据jwt获得
      * @param inMap
      * @return
      */
     @RequestMapping(value="/user/email",method = RequestMethod.PUT)
     public boolean modifyEmail(@RequestBody Map<String,Object> inMap){
         return userService.modifyEmail(
-                (String)inMap.get("account"),
+                new BigInteger(inMap.get("id").toString()),
                 (String)inMap.get("email"),
                 (int)inMap.get("type"));
     }

@@ -43,22 +43,22 @@
         <result property="active" column="is_active"/>
     </resultMap>
 
-    <update id="setStudentPasswordByAccount">
+    <update id="setStudentPasswordById">
         update student
         set password = #{password}
-        where account=#{account}
+        where id=#{id}
     </update>
 
-    <update id="setStudentEmailByAccount">
+    <update id="setStudentEmailById">
         update student
         set email = #{email}
-        where account=#{account}
+        where id=#{id}
     </update>
 
-    <update id="setStudentActiveByAccount">
+    <update id="setStudentActiveById">
         update student
         set is_active = 1
-        where account=#{account}
+        where id=#{id}
     </update>
 
 

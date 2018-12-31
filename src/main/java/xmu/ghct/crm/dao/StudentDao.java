@@ -39,32 +39,32 @@ public class StudentDao {
     }
 
     /**
-     * 根据学生account激活用户
-     * @param account
+     * 根据学生id激活用户
+     * @param id
      * @param password
      * @param email
      * @return
      */
-    public boolean activeByAccount(String account,String password,String email)
+    public boolean activeById(BigInteger id,String password,String email)
     {
         int v1,v2,v3;
-        v1=studentMapper.setStudentActiveByAccount(account);
-        v2=studentMapper.setStudentPasswordByAccount(account,password);
-        v3=studentMapper.setStudentEmailByAccount(account,email);
+        v1=studentMapper.setStudentActiveById(id);
+        v2=studentMapper.setStudentPasswordById(id,password);
+        v3=studentMapper.setStudentEmailById(id,email);
         if(v1==1 && v2==1 && v3==1)
             return true;
         else return false;
     }
 
     /**
-     * 根据学生account修改密码
-     * @param account
+     * 根据学生id修改密码
+     * @param id
      * @param password
      * @return
      */
-    public boolean setPasswordByAccount(String account,String password)
+    public boolean setPasswordById(BigInteger id,String password)
     {
-        int v1=studentMapper.setStudentPasswordByAccount(account,password);
+        int v1=studentMapper.setStudentPasswordById(id,password);
         if(v1==1)
             return true;
         else
@@ -72,14 +72,14 @@ public class StudentDao {
     }
 
     /**
-     * 根据学生account修改邮箱
-     * @param account
+     * 根据学生id修改邮箱
+     * @param id
      * @param email
      * @return
      */
-    public boolean setEmailByAccount(String account,String email)
+    public boolean setEmailById(BigInteger id,String email)
     {
-        int v1=studentMapper.setStudentEmailByAccount(account,email);
+        int v1=studentMapper.setStudentEmailById(id,email);
         if(v1==1)
             return true;
         else

@@ -31,25 +31,25 @@ public interface StudentMapper {
     User getStudentByStudentId(@Param("studentId") BigInteger studentId);
 
     /**
-     * 根据account设置student新密码
-     * @param account
+     * 根据id设置student新密码
+     * @param id
      * @return
      */
-    int setStudentPasswordByAccount(@Param("account") String account, @Param("password") String password);
+    int setStudentPasswordById(@Param("id") BigInteger id, @Param("password") String password);
 
     /**
-     * 根据account设置student新邮箱
-     * @param account
+     * 根据id设置student新邮箱
+     * @param id
      * @return
      */
-    int setStudentEmailByAccount(@Param("account") String account, @Param("email") String email);
+    int setStudentEmailById(@Param("int") BigInteger id, @Param("email") String email);
 
     /**
-     * 根据account激活student
-     * @param account
+     * 根据id激活student
+     * @param id
      * @return
      */
-    int setStudentActiveByAccount(@Param("account") String account);
+    int setStudentActiveById(@Param("id") BigInteger id);
 
     /**
      *管理员获得所有学生信息

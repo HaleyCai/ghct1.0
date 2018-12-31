@@ -13,6 +13,12 @@
         where account=#{account}
     </select>
 
+    <select id="getTeacherById" resultMap="TeacherUserResult">
+        select id,account,password,teacher_name,email,is_active
+        from teacher
+        where id=#{id}
+    </select>
+
     <resultMap id="TeacherUserResult" type="xmu.ghct.crm.entity.User">
         <id property="id" column="id"/>
         <result property="account" column="account"/>
@@ -22,22 +28,22 @@
         <result property="active" column="is_active"/>
     </resultMap>
 
-    <update id="setTeacherPasswordByAccount" >
+    <update id="setTeacherPasswordById" >
         update teacher
         set password = #{password}
-        where account=#{account}
+        where id=#{id}
     </update>
 
-    <update id="setTeacherEmailByAccount">
+    <update id="setTeacherEmailById">
         update teacher
         set email = #{email}
-        where account=#{account}
+        where id=#{id}
     </update>
 
-    <update id="setTeacherActiveByAccount">
+    <update id="setTeacherActiveById">
         update teacher
         set is_active = 1
-        where account=#{account}
+        where id=#{id}
     </update>
 
 

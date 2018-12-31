@@ -76,15 +76,15 @@ public class QuestionController {
      * @return
      */
     @RequestMapping(value="/teacher/seminarId/{seminarId}/{klassId}/question/{questionId}",method = RequestMethod.PUT)
-    public boolean updateQuestionScore(@PathVariable("seminarId") String seminarId,
-                                       @PathVariable("klassId") String klassId,
-                                       @PathVariable("questionId") String questionId,
+    public boolean updateQuestionScore(@PathVariable("seminarId") Long seminarId,
+                                       @PathVariable("klassId") Long klassId,
+                                       @PathVariable("questionId") Long questionId,
                                        @RequestBody Map<String,Object> inMap)
     {
         return questionService.updateQuestionScore(
-                new BigInteger(seminarId),
-                new BigInteger(klassId),
-                new BigInteger(questionId),
+                BigInteger.valueOf(seminarId),
+                BigInteger.valueOf(klassId),
+                BigInteger.valueOf(questionId),
                 new Double(inMap.get("questionScore").toString()));
     }
 

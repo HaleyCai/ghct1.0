@@ -39,16 +39,27 @@ public class TeacherDao {
     }
 
     /**
-     * 根据教师account激活用户
-     * @param account
+     * 根据教师id查询个人信息
+     * @param id
+     * @return
+     */
+    public User getUserById(BigInteger id)
+    {
+        User resultUser=teacherMapper.getTeacherById(id);
+        return resultUser;
+    }
+
+    /**
+     * 根据教师id激活用户
+     * @param id
      * @param password
      * @return
      */
-    public boolean activeByAccount(String account,String password)
+    public boolean activeById(BigInteger id,String password)
     {
         int v1,v2;
-        v1=teacherMapper.setTeacherActiveByAccount(account);
-        v2=teacherMapper.setTeacherPasswordByAccount(account,password);
+        v1=teacherMapper.setTeacherActiveById(id);
+        v2=teacherMapper.setTeacherPasswordById(id,password);
         //教师激活时不用输入邮箱
         if(v1==1 && v2==1)
             return true;
@@ -56,14 +67,14 @@ public class TeacherDao {
     }
 
     /**
-     * 根据教师account修改密码
-     * @param account
+     * 根据教师id修改密码
+     * @param id
      * @param password
      * @return
      */
-    public boolean setPasswordByAccount(String account,String password)
+    public boolean setPasswordById(BigInteger id,String password)
     {
-        int v1=teacherMapper.setTeacherPasswordByAccount(account,password);
+        int v1=teacherMapper.setTeacherPasswordById(id,password);
         if(v1==1)
             return true;
         else
@@ -71,14 +82,14 @@ public class TeacherDao {
     }
 
     /**
-     * 根据教师account修改邮箱
-     * @param account
+     * 根据教师id修改邮箱
+     * @param id
      * @param email
      * @return
      */
-    public boolean setEmailByAccount(String account,String email)
+    public boolean setEmailById(BigInteger id,String email)
     {
-        int v1=teacherMapper.setTeacherEmailByAccount(account,email);
+        int v1=teacherMapper.setTeacherEmailById(id,email);
         if(v1==1)
             return true;
         else

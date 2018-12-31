@@ -30,25 +30,32 @@ public interface TeacherMapper {
     User getTeacherByAccount(@Param("account") String account);
 
     /**
-     * 根据account设置teacher新密码
-     * @param account
+     * 根据id查询teacher表信息
+     * @param id
      * @return
      */
-    int setTeacherPasswordByAccount(@Param("account") String account, @Param("password") String password);
+    User getTeacherById(@Param("id") BigInteger id);
 
     /**
-     * 根据account设置teacher新邮箱
-     * @param account
+     * 根据id设置teacher新密码
+     * @param id
      * @return
      */
-    int setTeacherEmailByAccount(@Param("account") String account, @Param("email") String email);
+    int setTeacherPasswordById(@Param("id") BigInteger id, @Param("password") String password);
 
     /**
-     * 根据account激活teacher
-     * @param account
+     * 根据id设置teacher新邮箱
+     * @param id
      * @return
      */
-    int setTeacherActiveByAccount(@Param("account") String account);
+    int setTeacherEmailById(@Param("it") BigInteger id, @Param("email") String email);
+
+    /**
+     * 根据id激活teacher
+     * @param id
+     * @return
+     */
+    int setTeacherActiveById(@Param("id") BigInteger id);
 
     /**
      * 管理员创建一个教师
