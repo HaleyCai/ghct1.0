@@ -22,7 +22,7 @@ public class StudentDao {
      * @param account
      * @return
      */
-    public User getUserByAccount(String account)
+    public User getStudentByAccount(String account)
     {
         User resultUser=studentMapper.getStudentByAccount(account);
         return resultUser;
@@ -32,7 +32,7 @@ public class StudentDao {
      * 根据学生id查询个人信息
      * @return
      */
-    public User getStudentByStudentId(BigInteger studentId)
+    public User getStudentById(BigInteger studentId)
     {
         User resultUser=studentMapper.getStudentByStudentId(studentId);
         return resultUser;

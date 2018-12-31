@@ -64,9 +64,9 @@ public class AdminService {
         }
         else {
             if(type==1)
-                user=teacherDao.getUserByAccount(str);
+                user=teacherDao.getTeacherByAccount(str);
             else
-                user=studentDao.getUserByAccount(str);
+                user=studentDao.getStudentByAccount(str);
         }
         return user;
     }

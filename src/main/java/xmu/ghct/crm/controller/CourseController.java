@@ -10,6 +10,7 @@ import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.StrategyDao;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.ClassNotFoundException;
+import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +48,8 @@ public class CourseController {
     @Autowired
     TeamService teamService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
     /**
      * @cyq
      * 教师通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,main(主、从）
@@ -54,20 +57,21 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="/getCourse/teacher",method = RequestMethod.GET)
-    public List<CourseTeacherVO> teacherGetCourse(@RequestBody Map<String,Object> inMap) throws ClassNotFoundException {
-        return courseService.teacherGetCourse(new BigInteger(inMap.get("teacherId").toString()));
+    public List<CourseTeacherVO> teacherGetCourse(HttpServletRequest request) throws ClassNotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        return courseService.teacherGetCourse(id);
     }
 
     /**
      * @cyq
      * 学生通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,klassId,klassName(Grade+KlassSerial)
-     * @param inMap
      * @return
      */
     @RequestMapping(value="getCourse/student",method = RequestMethod.GET)
-    public List<CourseStudentVO> studentGetCourse(@RequestBody Map<String,Object> inMap)
+    public List<CourseStudentVO> studentGetCourse(HttpServletRequest request)
     {
-        return courseService.studentGetCourse(new BigInteger(inMap.get("studentId").toString()));
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        return courseService.studentGetCourse(id);
     }
 
 

@@ -32,7 +32,7 @@ public class TeacherDao {
      * @param account
      * @return
      */
-    public User getUserByAccount(String account)
+    public User getTeacherByAccount(String account)
     {
         User resultUser=teacherMapper.getTeacherByAccount(account);
         return resultUser;
@@ -43,7 +43,7 @@ public class TeacherDao {
      * @param id
      * @return
      */
-    public User getUserById(BigInteger id)
+    public User getTeacherById(BigInteger id)
     {
         User resultUser=teacherMapper.getTeacherById(id);
         return resultUser;

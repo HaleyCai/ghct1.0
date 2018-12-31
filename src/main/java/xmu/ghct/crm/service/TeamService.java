@@ -98,7 +98,7 @@ public class TeamService {
         teamInfoVO.setStatus(team.getStatus());
         //查询组长信息
         StudentVO studentVO=new StudentVO();
-        User leader=studentDao.getStudentByStudentId(team.getLeaderId());
+        User leader=studentDao.getStudentById(team.getLeaderId());
         studentVO.setAccount(leader.getAccount());
         studentVO.setEmail(leader.getEmail());
         studentVO.setName(leader.getName());
@@ -112,7 +112,7 @@ public class TeamService {
         for(BigInteger studentIdItem:studentIdList){
             if(studentIdItem.equals(team.getLeaderId()))
                 continue;
-            User student=studentDao.getStudentByStudentId(studentIdItem);
+            User student=studentDao.getStudentById(studentIdItem);
             StudentVO member=new StudentVO();
             member.setName(student.getName());
             member.setStudentId(student.getId());

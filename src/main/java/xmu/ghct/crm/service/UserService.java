@@ -1,16 +1,20 @@
 package xmu.ghct.crm.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import xmu.ghct.crm.VO.LoginUserVO;
 import xmu.ghct.crm.dao.StudentDao;
 import xmu.ghct.crm.dao.TeacherDao;
 import xmu.ghct.crm.entity.User;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,57 +27,39 @@ public class UserService {
     @Autowired
     private StudentDao studentDao;
 
-    /**
-     * 正常登录，判断用户名密码是否匹配(0学生，1教师，2管理员)
-     * @param account
-     * @param password
-     * @param type
-     */
-    public Map<String,Object> login(String account,String password,int type){
-        Map<String,Object> resultMap=new HashMap<>();
-        User user;
-        if(type==2)
+    public LoginUserVO getUserByUserAccount(String account)
+    {
+        User user=teacherDao.getAdminByAccount(account);
+        LoginUserVO userVO=new LoginUserVO();
+        if(user!=null)
         {
-            user = teacherDao.getAdminByAccount(account);
-            if(user!=null)
-            {
-                if (user.getPassword().equals(password))
-                {
-                    resultMap.put("message", 1);
-                    //生成Jwt，放在map中返回***
-                }
-                else
-                    resultMap.put("message", -1);
-            }
-            else
-                resultMap.put("message", -1);
-
+            BeanUtils.copyProperties(user,userVO);
+            System.out.println("admin"+userVO);
+            userVO.setRole("admin");
         }
         else {
-            if (type == 1)
-                user = teacherDao.getUserByAccount(account);
+            user=teacherDao.getTeacherByAccount(account);
+            if(user!=null)
+            {
+                BeanUtils.copyProperties(user,userVO);
+                System.out.println("teacher"+userVO);
+                userVO.setRole("teacher");
+            }
             else
-                user = studentDao.getUserByAccount(account);
-            if (user != null) {
-                //初始密码为“123456
-                if (user.getActive() == 0 && "123456".equals(password))
-                    //未激活，且初始密码正确，跳转到激活界面
-                    resultMap.put("message", 0);
-                else {   //已激活，验证输入密码是否正确
-                    if (user.getActive() == 1) {
-                        if (user.getPassword().equals(password)) {
-                            resultMap.put("message", 1);
-                            //生成Jwt，放在map中返回***
-                        } else
-                            resultMap.put("message", -1);
-                    } else//未激活且密码不正确的，刷新登录界面
-                        resultMap.put("message", -1);
+            {
+                user=studentDao.getStudentByAccount(account);
+                if(user!=null)
+                {
+                    BeanUtils.copyProperties(user,userVO);
+                    System.out.println("student"+userVO);
+                    userVO.setRole("student");
                 }
-            } else
-                resultMap.put("message", -1);
+            }
         }
-        //message返回1，登录成功，并且返回jwt；返回0，初次登录，跳转到激活页面；返回-1，用户名或密码错误
-        return resultMap;
+        if(userVO==null)
+            return null;
+        else
+            return userVO;
     }
 
     /**
@@ -100,37 +86,34 @@ public class UserService {
     /**
      * 根据id获取个人信息
      * @param id
-     * @param type
+     * @param role
      */
-    public User getInformation(BigInteger id,int type)
+    public User getInformation(BigInteger id,String role)
     {
         User user;
-        if(type==1)
-            user=teacherDao.getUserById(id);
+        if(role.equals("teacher"))
+            user=teacherDao.getTeacherById(id);
         else
-            user=studentDao.getStudentByStudentId(id);
+            user=studentDao.getStudentById(id);
         return user;
     }
 
     /**
      * 忘记密码，向邮箱发送密码
      * @param account
-     * @param type
      */
     @Autowired
     JavaMailSender jms;
     @Value("${spring.mail.username}")  //发送人的邮箱
     private String from;
 
-    public boolean sendPasswordToEmail(String account,int type)
+    public boolean sendPasswordToEmail(String account)
     {
-        User user;
-        if(type==1)
-            user=teacherDao.getUserByAccount(account);
-        else
-            user=studentDao.getUserByAccount(account);
-        //用户不存在或未激活
-        if(user==null||user.getActive()==0){
+        User user=teacherDao.getTeacherByAccount(account);
+        if(user==null)
+            user=studentDao.getStudentByAccount(account);
+        //用户不存在
+        if(user==null){
             return false;
         }
         System.out.println("发送到邮箱 ");
@@ -153,35 +136,31 @@ public class UserService {
      * 根据id修改密码
      * @param id
      * @param newPassword
-     * @param type
+     * @param role
      * @return
      */
-    public boolean modifyPassword(BigInteger id, String newPassword, int type)
+    public boolean modifyPassword(BigInteger id, String newPassword, String role)
     {
-        Map<String,Object> resultMap=new HashMap<>();
         boolean success=false;
-        if(type==1)
+        if(role.equals("teacher"))
             success=teacherDao.setPasswordById(id,newPassword);
         else
             success=studentDao.setPasswordById(id,newPassword);
-        if(success)
-            return true;
-        else
-            return false;
+        return success;
 }
 
     /**
      * 根据id修改邮箱
      * @param id
      * @param newEmail
-     * @param type
+     * @param role
      * @return
      */
-    public boolean modifyEmail(BigInteger id, String newEmail,int type)
+    public boolean modifyEmail(BigInteger id, String newEmail,String role)
     {
         Map<String,Object> resultMap=new HashMap<>();
         boolean success=false;
-        if(type==1)
+        if(role.equals("teacher"))
             success=teacherDao.setEmailById(id,newEmail);
         else
             success=studentDao.setEmailById(id,newEmail);
