@@ -53,7 +53,6 @@ public class CourseController {
     /**
      * @cyq
      * 教师通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,main(主、从）
-     * @param inMap
      * @return
      */
     @RequestMapping(value="/getCourse/teacher",method = RequestMethod.GET)
@@ -167,12 +166,12 @@ public class CourseController {
     /**
      * @author hzm
      * 获取该教师所有正在进行的班级讨论课id
-     * @param teacherId
      * @return
      */
     @GetMapping("/{teacherId}/course/beingPresent")
-    public BigInteger isBeingPresentSeminar(@PathVariable("teacherId")BigInteger teacherId){
-           return courseService.isBeingPresentSeminar(teacherId);
+    public BigInteger isBeingPresentSeminar(HttpServletRequest request){
+        BigInteger teacherId=jwtTokenUtil.getIDFromRequest(request);
+        return courseService.isBeingPresentSeminar(teacherId);
     }
 
 //    @GetMapping("/{studentId}/course")

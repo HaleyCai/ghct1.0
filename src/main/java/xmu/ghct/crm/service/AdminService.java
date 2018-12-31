@@ -38,9 +38,9 @@ public class AdminService {
      *管理员获得所有教师/学生信息
      * @return
      */
-    public List<User> getAllUser(int type)
+    public List<User> getAllUser(String role)
     {
-        if(type==1)
+        if(role=="teacher")
             return teacherDao.getAllTeacher();
         else
             return studentDao.getAllStudent();
@@ -50,20 +50,20 @@ public class AdminService {
      * 管理员根据用户姓名或账号获得用户信息
      * @return
      */
-    public User getUser(String str,int type)
+    public User getUser(String str,String role)
     {
         User user;
 
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
         if(!isNum.matches()){
-            if(type==1)
+            if(role=="teacher")
                 user=teacherDao.getTeacherByTeacherName(str);
             else
                 user=studentDao.getStudentByStudentName(str);
         }
         else {
-            if(type==1)
+            if(role=="teacher")
                 user=teacherDao.getTeacherByAccount(str);
             else
                 user=studentDao.getStudentByAccount(str);
@@ -76,10 +76,10 @@ public class AdminService {
      * @return
      */
     public boolean modifyUserByUserId(BigInteger userId,String newUserName,
-                                      String newUserAccount,String newUserEmail,int type)
+                                      String newUserAccount,String newUserEmail,String role)
     {
         boolean success;
-        if(type==1)
+        if(role=="teacher")
             success=teacherDao.modifyTeacherByTeacherId(userId,newUserName,newUserAccount,newUserEmail);
         else
             success=studentDao.modifyStudentByStudentId(userId,newUserName,newUserAccount,newUserEmail);
@@ -90,10 +90,10 @@ public class AdminService {
      * 管理员重置某一用户的密码
      * @return
      */
-    public boolean resetUserPasswordByUserId(BigInteger userId,int type)
+    public boolean resetUserPasswordByUserId(BigInteger userId,String role)
     {
         boolean success;
-        if(type==1)
+        if(role=="teacher")
             success=teacherDao.resetTeacherPasswordByTeacherId(userId);
         else
             success=studentDao.resetStudentPasswordByStudentId(userId);
@@ -104,10 +104,10 @@ public class AdminService {
      * 管理员按ID删除某一用户
      * @return
      */
-    public boolean deleteUserByUserId(BigInteger userId,int type)
+    public boolean deleteUserByUserId(BigInteger userId,String role)
     {
         boolean success;
-        if(type==1)
+        if(role=="teacher")
             success=teacherDao.deleteTeacherByTeacherId(userId);
         else
             success=studentDao.deleteStudentByStudentId(userId);

@@ -8,8 +8,10 @@ import xmu.ghct.crm.VO.TeamInfoVO;
 import xmu.ghct.crm.VO.TeamSimpleInfo;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.TeamService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +22,8 @@ public class TeamController {
 
     @Autowired
     TeamService teamService;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     /**
      * @cyq
@@ -84,14 +88,14 @@ public class TeamController {
      * 移除成员(一次只能删一个），或自己退出队伍（队长退出，直接解散队伍），退出的同时，修改team和student处的数据
      * ***判断队伍的状态并修改
      * @param teamId
-     * @param inMap
      */
     @RequestMapping(value="team/{teamId}/remove",method = RequestMethod.PUT)
-    public Map<String,Object> removeTeamMember(@PathVariable("teamId") Long teamId,
-                                 @RequestBody Map<String,Object> inMap)
+    public Map<String,Object> removeTeamMember( HttpServletRequest request,
+                                                @PathVariable("teamId") Long teamId)
     {
+        BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
         Map<String,Object> map=new HashMap<>();
-        if(teamService.removeTeamMember(BigInteger.valueOf(teamId),new BigInteger(inMap.get("studentId").toString())))
+        if(teamService.removeTeamMember(BigInteger.valueOf(teamId),studentId))
             map.put("message",true);
         else
             map.put("message",true);
