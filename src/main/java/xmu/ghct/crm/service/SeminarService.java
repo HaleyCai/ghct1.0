@@ -53,17 +53,17 @@ public class SeminarService {
     @Autowired
     TotalScoreDao totalScoreDao;
 
-    public int creatSeminar(Map<String,Object> seminarMap) throws ParseException {
+    public int creatSeminar(BigInteger courseId,Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
-        seminar.setCourseId(new BigInteger(seminarMap.get("courseId").toString()));
+        seminar.setCourseId(courseId);
         if(seminarMap.get("roundId").toString()==""){
             Round round=new Round();
-            round.setCourseId(new BigInteger(seminarMap.get("courseId").toString()));
+            round.setCourseId(courseId);
             round.setPresentationScoreMethod(1);
             round.setQuestionScoreMethod(0);
             round.setReportScoreMethod(1);
             round.setRoundSerial(roundDao.getNewRoundNum(round.getCourseId()));//默认创建，序号为最大序号+1
-            roundDao.insertRound(round,new BigInteger(seminarMap.get("courseId").toString()));
+            roundDao.insertRound(round,courseId);
             seminar.setRoundId(round.getRoundId());
             //默认创建每个班每轮允许报名次数为1
             roundDao.defaultEnrollNumber(seminar.getCourseId(),seminar.getRoundId());
@@ -79,7 +79,12 @@ public class SeminarService {
         seminar.setEnrollStartTime(start);
         Date end = dateDao.transferToDateTime(seminarMap.get("enrollEndTime").toString());
         seminar.setEnrollEndTime(end);
-        return seminarDao.creatSeminar(seminar);
+        int flag= seminarDao.creatSeminar(seminar);
+        List<Klass> klassList=klassDao.listKlassByCourseId(courseId);
+        for(Klass item:klassList){
+            seminarDao.insertKlassSeminarBySeminarIdAndKlassId(seminar.getSeminarId(),item.getKlassId());
+        }
+        return flag;
     }
 
 
@@ -138,6 +143,8 @@ public class SeminarService {
         Date reportDDL = dateDao.transferToDateTime(seminarMap.get("reportDDL").toString());
         return seminarDao.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,reportDDL);
     }
+
+
 
     public int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId){
         return seminarDao.deleteKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);

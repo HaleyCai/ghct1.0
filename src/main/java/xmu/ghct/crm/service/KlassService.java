@@ -25,9 +25,14 @@ public class KlassService {
 
     public int creatKlass(BigInteger courseId, Map<String,Object> klassMap)  {
         Klass klass=new Klass();
-        klass.setCourseId(new BigInteger(courseId.toString()));
+        klass.setCourseId(courseId);
+        int klassSerial=new Integer(klassMap.get("klassSerial").toString());
+        List<Klass> klassList=klassDao.listKlassByCourseId(courseId);
+        for(Klass item:klassList){
+            if(klassSerial==item.getKlassSerial()) return 0;
+        }
         klass.setGrade(new Integer(klassMap.get("grade").toString()));
-        klass.setKlassSerial(new Integer(klassMap.get("klassSerial").toString()));
+        klass.setKlassSerial(klassSerial);
         klass.setKlassTime(klassMap.get("klassTime").toString());
         klass.setKlassLocation(klassMap.get("klassLocation").toString());
         return klassDao.creatKlass(klass);

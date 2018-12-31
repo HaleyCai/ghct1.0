@@ -5,14 +5,11 @@ import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
+import xmu.ghct.crm.exception.ClassNotFoundException;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CourseService {
@@ -38,30 +35,61 @@ public class CourseService {
     @Autowired
     TeamService teamService;
 
-    public int creatCourse( Map<String,Object> courseMap) throws ParseException {
+    public int creatCourse( List<List<Map>> courseMap) throws ParseException {
         CourseVO courseVO =new CourseVO();
-        courseVO.setCourseName(courseMap.get("courseName").toString());
-        courseVO.setIntroduction(courseMap.get("introduction").toString());
-        courseVO.setPresentationPercentage(new Double(courseMap.get("presentationPercentage").toString()));
-        courseVO.setQuestionPercentage(new Double(courseMap.get("questionPercentage").toString()));
-        courseVO.setReportPercentage(new Double(courseMap.get("reportPercentage").toString()));
-        courseVO.setTeacherId(new BigInteger(courseMap.get("teacherId").toString()));
-        Date end = dateDao.transferToDateTime(courseMap.get("teamEndTime").toString());
+        Map<String,Object> infoMap=courseMap.get(0).get(0);
+        courseVO.setCourseName(infoMap.get("courseName").toString());
+        courseVO.setIntroduction(infoMap.get("introduction").toString());
+        courseVO.setPresentationPercentage(new Double(infoMap.get("presentationPercentage").toString()));
+        courseVO.setQuestionPercentage(new Double(infoMap.get("questionPercentage").toString()));
+        courseVO.setReportPercentage(new Double(infoMap.get("reportPercentage").toString()));
+        courseVO.setTeacherId(new BigInteger(infoMap.get("teacherId").toString()));
+        Date end = dateDao.transferToDateTime(infoMap.get("teamEndTime").toString());
         courseVO.setTeamEndTime(end);
-        Date start = dateDao.transferToDateTime(courseMap.get("teamStartTime").toString());
+        Date start = dateDao.transferToDateTime(infoMap.get("teamStartTime").toString());
         courseVO.setTeamStartTime(start);
-        courseVO.setMinMember(new Integer(courseMap.get("minMember").toString()));
-        courseVO.setMaxMember(new Integer(courseMap.get("maxMember").toString()));
+        courseVO.setMinMember(new Integer(infoMap.get("minMember").toString()));
+        courseVO.setMaxMember(new Integer(infoMap.get("maxMember").toString()));
+        courseVO.setFlag(new Boolean(infoMap.get("flag").toString()));
+        List<CourseLimitVO> courseLimitVOS=new ArrayList<>();
+        List<Map> courseLimitMap=courseMap.get(1);
+        int size=courseMap.get(1).size();
+        while(size>0){
+            CourseLimitVO courseLimitVO=new CourseLimitVO();
+            courseLimitVO.setCourseId(new BigInteger(courseLimitMap.get(size-1).get("courseId").toString()));
+            courseLimitVO.setCourseName(courseLimitMap.get(size-1).get("courseName").toString());
+            courseLimitVO.setMaxMember(new Integer(courseLimitMap.get(size-1).get("maxMember").toString()));
+            courseLimitVO.setMinMember(new Integer(courseLimitMap.get(size-1).get("minMember").toString()));
+            courseLimitVOS.add(courseLimitVO);
+            size--;
+        }
+        System.out.println(courseLimitVOS);
+        courseVO.setCourseLimitVOS(courseLimitVOS);
+        List<Map> conflictCourseIdMap=courseMap.get(2);
+        int conflictSize=courseMap.get(2).size();
+        List<BigInteger> courseIdList=new ArrayList<>();
+        while(conflictSize>0){
+            BigInteger courseId=new BigInteger(conflictCourseIdMap.get(conflictSize-1).get("courseId").toString());
+            courseIdList.add(courseId);
+            conflictSize--;
+        }
+        courseVO.setConflictCourseIdS(courseIdList);
+       // courseMap.get("courseLimitVOS")
+       // List<CourseLimitVO> courseLimitVOS=new ArrayList<>();
+        //courseVO.setCourseLimitVOS(new List<CourseLimitVO>());
         return courseDao.insertCourse(courseVO);
     }
 
-    public List<CourseTeacherVO> teacherGetCourse(BigInteger teacherId)
-    {
+    public List<CourseTeacherVO> teacherGetCourse(BigInteger teacherId) throws ClassNotFoundException {
         List<CourseTeacherVO> courseTeachers=new ArrayList<>();
         //根据teacherId查course
         List<Course> courses=courseDao.listCourseByTeacherId(teacherId);
+        if(courses==null){
+            throw new ClassNotFoundException(String.format("not find teacher'courses whose id is %d",teacherId),"404");
+        }
         for(Course item:courses)
         {
+            System.out.println(item);
             CourseTeacherVO courseTeacherVO=new CourseTeacherVO();
             courseTeacherVO.setCourseId(item.getCourseId());
             courseTeacherVO.setCourseName(item.getCourseName());

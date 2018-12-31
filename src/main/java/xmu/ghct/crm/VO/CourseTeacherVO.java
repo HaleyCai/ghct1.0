@@ -5,6 +5,24 @@ import java.math.BigInteger;
 public class CourseTeacherVO {
     private BigInteger courseId;
     private String courseName;
+    private BigInteger klassSeminarId;
+
+    @Override
+    public String toString() {
+        return "CourseTeacherVO{" +
+                "courseId=" + courseId +
+                ", courseName='" + courseName + '\'' +
+                ", klassSeminarId=" + klassSeminarId +
+                '}';
+    }
+
+    public void setKlassSeminarId(BigInteger klassSeminarId) {
+        this.klassSeminarId = klassSeminarId;
+    }
+
+    public BigInteger getKlassSeminarId() {
+        return klassSeminarId;
+    }
 
     public BigInteger getCourseId() {
         return courseId;
@@ -22,11 +40,4 @@ public class CourseTeacherVO {
         this.courseName = courseName;
     }
 
-    @Override
-    public String toString() {
-        return "CourseTeacherVO{" +
-                "courseId=" + courseId +
-                ", courseName='" + courseName + '\'' +
-                '}';
-    }
 }

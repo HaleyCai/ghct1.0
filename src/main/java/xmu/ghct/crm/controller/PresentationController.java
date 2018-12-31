@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static xmu.ghct.crm.dao.DownloadFileDao.encodeURIComponent;
+
 @RestController
 public class PresentationController {
 
@@ -181,15 +183,21 @@ public class PresentationController {
     public void multiReportDownload(HttpServletResponse response,@PathVariable("seminarId") BigInteger seminarId,@PathVariable("klassId") BigInteger klassId) throws UnsupportedEncodingException {
         BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId, klassId);
         List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
-        ArrayList<String> names = new ArrayList<String>();
-        ArrayList<String> paths = new ArrayList<String>();
+        List<String> names = new ArrayList<String>();
+        List<String> paths = new ArrayList<String>();
         for (Attendance item : listAttendance) {
-            names.add(item.getReportName());
-            System.out.println(item.getReportName());
-            paths.add(item.getReportUrl());
-            System.out.println(item.getReportUrl());
+            if(item.getReportName()!=null){
+                String reportName=encodeURIComponent(item.getReportUrl());
+                names.add(reportName);
+                System.out.println(item.getReportName());
+            }
+            if(item.getReportUrl()!=null){
+                String reportUrl=encodeURIComponent(item.getReportUrl());
+                paths.add(reportUrl);
+                System.out.println(item.getReportUrl());
+            }
         }
-        downloadFileDao.multiFileDownload(response,paths);
+        downloadFileDao.multiFileDownload(seminarId,response,paths);
     }
 
 
@@ -208,7 +216,7 @@ public class PresentationController {
             names.add(item.getPptName());
             paths.add(item.getPptUrl());
         }
-        downloadFileDao.multiFileDownload(response,paths);
+        downloadFileDao.multiFileDownload(seminarId,response,paths);
     }
 
 

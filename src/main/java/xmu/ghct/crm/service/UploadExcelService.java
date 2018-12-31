@@ -6,12 +6,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import xmu.ghct.crm.dao.KlassDao;
 import xmu.ghct.crm.dao.StudentDao;
+import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.User;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,23 +27,28 @@ public class UploadExcelService {
     @Autowired
     StudentDao studentDao;
 
-    public /*Map<Integer, Map<Integer,Object>>*/ void addCustomerInfo(MultipartFile file) {
+    @Autowired
+    KlassDao klassDao;
+
+    public boolean addCustomerInfo(BigInteger klassId,MultipartFile file) {
         Map<Integer, Map<Integer,Object>> map = new HashMap<>();
         try {
-            readExcelContentz(file);
+            boolean flag=readExcelContentz(klassId,file);
+            return flag;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         //excel数据存在map里，map.get(0).get(0)为excel第1行第1列的值，此处可对数据进行处理
-        //return map;
+        return true;
     }
 
 
 
-    public /*Map<Integer, Map<Integer,Object>>*/ void readExcelContentz(MultipartFile file) throws Exception{
-        Map<Integer, Map<Integer, Object>> content = new HashMap<Integer, Map<Integer, Object>>();
+    public boolean readExcelContentz(BigInteger klassId,MultipartFile file) throws Exception{
         // 上传文件名
+        Klass klass =klassDao.getKlassByKlassId(klassId);
+        BigInteger courseId=klass.getCourseId();
         Workbook wb = getWb(file);
         if (wb == null) {
             throw new Exception("Workbook对象为空！");
@@ -48,8 +56,7 @@ public class UploadExcelService {
         Sheet sheet = wb.getSheetAt(0);
         // 得到总行数
         int rowNum = sheet.getLastRowNum();
-        Row row = sheet.getRow(0);
-        //int colNum = row.getPhysicalNumberOfCells();
+        Row row;
         // 正文内容应该从第二行开始,第一行为表头的标题
         for (int i = 1; i <= rowNum; i++) {
             row = sheet.getRow(i);
@@ -61,19 +68,13 @@ public class UploadExcelService {
             name=name.replaceAll(" ","");
             user.setName(name);
             System.out.println(user);
-            studentDao.insertStudent(user);
-          //  int j = 0;
-           // Map<Integer, Object> cellValue = new HashMap<Integer, Object>();
-           // while (j < 2) {
-               // Object obj = getCellFormatValue(row.getCell(j));
-                //cellValue.put(j, obj);
-            //    j++;
-           // }
-            //content.put(i, cellValue);
-
+            int flag_1=studentDao.insertStudent(user);
+            int flag_2=studentDao.insertKlassStudent(user.getId(),klassId,courseId);
+            if(flag_1<0||flag_2<0) return false;
         }
-        //return content;
+        return true;
     }
+
     //根据Cell类型设置数据
     private static Object getCellFormatValue(Cell cell) {
         Object cellvalue = "";

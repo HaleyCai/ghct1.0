@@ -3,7 +3,7 @@
 <mapper namespace="xmu.ghct.crm.mapper.CourseMapper">
 
     <!--parameterType="BigInteger,xmu.ghct.crm.entity.Course"-->
-    <insert id="insertCourse"  parameterType="xmu.ghct.crm.VO.CourseVO">
+    <insert id="insertCourse"  parameterType="xmu.ghct.crm.VO.CourseVO" keyProperty="courseId" useGeneratedKeys="true">
         insert into course (
             teacher_id,
             course_name,

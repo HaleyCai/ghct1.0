@@ -2,6 +2,7 @@ package xmu.ghct.crm.VO;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 public class CourseVO {
 
@@ -16,7 +17,42 @@ public class CourseVO {
     private Date teamEndTime;
     private int minMember;
     private int maxMember;
+    private BigInteger memberLimitId;
+    private boolean flag;
+    private List<CourseLimitVO> courseLimitVOS;
+    private List<BigInteger> conflictCourseIdS;
 
+    public void setMemberLimitId(BigInteger memberLimitId) {
+        this.memberLimitId = memberLimitId;
+    }
+
+    public BigInteger getMemberLimitId() {
+        return memberLimitId;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setCourseLimitVOS(List<CourseLimitVO> courseLimitVOS) {
+        this.courseLimitVOS = courseLimitVOS;
+    }
+
+    public void setConflictCourseIdS(List<BigInteger> conflictCourseIdS) {
+        this.conflictCourseIdS = conflictCourseIdS;
+    }
+
+    public List<CourseLimitVO> getCourseLimitVOS() {
+        return courseLimitVOS;
+    }
+
+    public List<BigInteger> getConflictCourseIdS() {
+        return conflictCourseIdS;
+    }
 
     public void setCourseId(BigInteger courseId) {
         this.courseId = courseId;
@@ -108,6 +144,7 @@ public class CourseVO {
         return maxMember;
     }
 
+
     @Override
     public String toString() {
         return "CourseVO{" +
@@ -122,6 +159,9 @@ public class CourseVO {
                 ", teamEndTime=" + teamEndTime +
                 ", minMember=" + minMember +
                 ", maxMember=" + maxMember +
+                ", flag=" + flag +
+                ", courseLimitVOS=" + courseLimitVOS +
+                ", conflictCourseIdS=" + conflictCourseIdS +
                 '}';
     }
 }

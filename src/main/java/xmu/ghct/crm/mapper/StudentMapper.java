@@ -96,4 +96,14 @@ public interface StudentMapper {
      * @return
      */
     int insertStudent(User user);
+
+
+    /**
+     * 创建klass_student信息
+     * @param studentId
+     * @param klassId
+     * @param courseId
+     * @return
+     */
+    int insertKlassStudent(BigInteger studentId,BigInteger klassId,BigInteger courseId);
 }

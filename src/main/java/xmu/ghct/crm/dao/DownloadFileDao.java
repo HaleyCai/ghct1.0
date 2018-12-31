@@ -1,14 +1,19 @@
 package xmu.ghct.crm.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.mapper.SeminarMapper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -17,6 +22,9 @@ import static jdk.nashorn.internal.runtime.GlobalFunctions.encodeURIComponent;
 
 @Component
 public class DownloadFileDao {
+
+    @Autowired
+    SeminarMapper seminarMapper;
 
 
     public static String encodeURIComponent(String value) {
@@ -76,18 +84,19 @@ public class DownloadFileDao {
      * @param paths
      * @throws UnsupportedEncodingException
      */
-    public void multiFileDownload(HttpServletResponse response,ArrayList<String> paths) throws UnsupportedEncodingException {
+    public void multiFileDownload(BigInteger seminarId,HttpServletResponse response, List<String> paths) throws UnsupportedEncodingException {
+
+        Seminar seminar=seminarMapper.getSeminarBySeminarId(seminarId);
 
         //存放--服务器上zip文件的目录
-        String directory = "H:\\学科\\J2EE\\ghct1.0\\批量文件";
-        File directoryFile=new File(directory);
+        File directoryFile=new File("temp");
         if(!directoryFile.isDirectory() && !directoryFile.exists()){
             directoryFile.mkdirs();
         }
         //设置最终输出zip文件的目录+文件名
-        SimpleDateFormat formatter  = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-        String zipFileName = formatter.format(new Date())+".zip";
-        String strZipPath = directory+"\\"+zipFileName;
+      //  SimpleDateFormat formatter  = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
+        String zipFileName = seminar.getSeminarName()+".zip";
+        String strZipPath = directoryFile+"\\"+zipFileName;
 
         ZipOutputStream zipStream = null;
         FileInputStream zipSource = null;
@@ -100,6 +109,7 @@ public class DownloadFileDao {
 
                 //解码获取真实路径与文件名
                 String realFilePath = URLDecoder.decode(paths.get(i),"UTF-8");
+                System.out.println(realFilePath);
                 String realFileName=realFilePath.substring(realFilePath.lastIndexOf("\\")+1);
                 File file = new File(realFilePath);
                 //TODO:未对文件不存在时进行操作，后期优化。
@@ -145,6 +155,7 @@ public class DownloadFileDao {
         if(zipFile.exists()){
             downloadFile(response,strZipPath);
             zipFile.delete();
+            directoryFile.delete();
         }
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.KlassDao;
+import xmu.ghct.crm.dao.StrategyDao;
 import xmu.ghct.crm.dao.StudentDao;
 import xmu.ghct.crm.dao.TeamDao;
 import xmu.ghct.crm.entity.Team;
@@ -24,6 +25,9 @@ public class TeamService {
 
     @Autowired
     KlassDao klassDao;
+
+    @Autowired
+    StrategyDao strategyDao;
     /**
      * @cyq
      * 查课程下所有队伍的简单信息
@@ -198,5 +202,60 @@ public class TeamService {
      */
     public BigInteger getKlassIdByTeamId(BigInteger teamId){
         return teamDao.getKlassIdByTeamId(teamId);
-    }
+   }
+
+    /**
+     * 判断队伍有效性
+     * @param teamId
+     * @return
+     */
+    public boolean judgeIllegal(BigInteger teamId){
+        BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
+        List<BigInteger> studentIdList=strategyDao.listStudentIdByTeamId(teamId);
+        List<TeamStrategyVO> teamStrategyVOList=strategyDao.listTeamStrategyByCourseId(courseId);
+        for(TeamStrategyVO item:teamStrategyVOList){
+            if(item.getStrategyName().equals("MemberLimitStrategy")){
+                System.out.println("MemberLimitStrategy");
+                int teamMemberNumber=strategyDao.getTeamMemberNumber(teamId);
+                CourseVO courseVO=strategyDao.getTeamMemberLimit(item.getStrategyId());
+                if(teamMemberNumber>courseVO.getMaxMember()||teamMemberNumber<courseVO.getMinMember())return false;
+            }
+            else if(item.getStrategyName().equals("TeamAndStrategy")){
+                System.out.println("TeamAndStrategy");
+                List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectAndStrategy(item.getStrategyId());
+                for(AndOrOrStrategyVO andOrOrStrategyVO:andOrOrStrategyVOS){
+                   CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(andOrOrStrategyVO.getStrategyId());
+                   int studentNumber=0;
+                   for(BigInteger studentId:studentIdList){
+                       studentNumber+=strategyDao.getCourseStudentNumber(courseLimitVO.getCourseId(),studentId);
+                   }
+                   if(studentNumber>courseLimitVO.getMaxMember()||studentNumber<courseLimitVO.getMinMember()) return false;
+                }
+            }else if(item.getStrategyName().equals("TeamOrStrategy")){
+                System.out.println("TeamOrStrategy");
+                boolean flag=false;
+                List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectOrStrategy(item.getStrategyId());
+                for(AndOrOrStrategyVO andOrOrStrategyVO:andOrOrStrategyVOS){
+                    CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(andOrOrStrategyVO.getStrategyId());
+                    int studentNumber=0;
+                    for(BigInteger studentId:studentIdList){
+                        studentNumber+=strategyDao.getCourseStudentNumber(courseLimitVO.getCourseId(),studentId);
+                    }
+                    if(studentNumber<courseLimitVO.getMaxMember()&&studentNumber>courseLimitVO.getMinMember()) {flag=true;break;}
+                }
+                if(flag=true) continue;
+                else return false;
+            }
+            else if(item.getStrategyName().equals("ConflictCourseStrategy")){
+                System.out.println("ConflictCourseStrategy");
+                List<BigInteger> conflictCourseIdList=strategyDao.listConflictCourseId(item.getStrategyId());
+                for(BigInteger courseIdItem:conflictCourseIdList){
+                    for(BigInteger studentId:studentIdList){
+                        if(strategyDao.getCourseStudentNumber(courseIdItem,studentId)>0)return false;
+                    }
+                }
+            }
+        }
+        return true;
+   }
 }

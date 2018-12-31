@@ -22,19 +22,6 @@ public interface TeamMapper {
     List<Team> listTeamInfoByCourseId(BigInteger courseId);
 
     /**
-     * 插入小组人数限制
-     * @param courseVO
-     * @return
-     */
-    int insertTeamMemberLimit(CourseVO courseVO);
-
-    /**
-     * 获取组队人数限制
-     * @return
-     */
-    CourseVO getTeamMemberLimit();
-
-    /**
      * 根据teamId获取队伍下的学生ID
      * @param teamId
      * @return

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.StudentMapper">
 
-    <insert id="insertStudent" parameterType="xmu.ghct.crm.entity.User">
+    <insert id="insertStudent" parameterType="xmu.ghct.crm.entity.User" keyProperty="id" useGeneratedKeys="true">
         insert ignore into student(
                             account,
                             password,
@@ -96,4 +96,16 @@
     <select id="getAllStudentIdByCourseId" resultType="java.math.BigInteger">
         select student_id from klass_student where course_id=#{courseId }
     </select>
+
+    <insert id="insertKlassStudent" parameterType="java.math.BigInteger">
+        insert into klass_student(
+                                  klass_id,
+                                  student_id,
+                                  course_id
+        ) values(
+                 #{klassId},
+                 #{studentId},
+                 #{courseId}
+                        )
+    </insert>
 </mapper>

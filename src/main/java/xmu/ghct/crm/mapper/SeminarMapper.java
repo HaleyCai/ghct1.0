@@ -163,4 +163,14 @@ public interface SeminarMapper {
      * @return
      */
     List<SeminarVO> listKlassSeminarIdByKlassId(BigInteger klassId);
+
+
+    /**
+     * @author hzm
+     * 创建班级讨论课(klass_seminar)
+     * @param seminarId
+     * @param klassId
+     * @return
+     */
+    int insertKlassSeminarBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId);
 }

@@ -43,12 +43,13 @@ public class SeminarController {
      * @author hzm
      * 创建讨论课
      * @param seminarMap
+     * @param courseId
      * @return
      * @throws ParseException
      */
-    @RequestMapping(value="/seminar",method = RequestMethod.POST)
-    public Boolean creatSeminar(@RequestBody Map<String,Object> seminarMap) throws ParseException {
-        int flag=seminarService.creatSeminar(seminarMap);
+    @RequestMapping(value="/course/{courseId}/seminar/creatSeminar",method = RequestMethod.POST)
+    public Boolean creatSeminar(@PathVariable("courseId") BigInteger courseId,@RequestBody Map<String,Object> seminarMap) throws ParseException {
+        int flag=seminarService.creatSeminar(courseId,seminarMap);
         if(flag>0) return true;
         else  return false;
     }
@@ -110,7 +111,7 @@ public class SeminarController {
      * @return
      * @throws ParseException
      */
-    @PutMapping("/seminar/{seminarId}/klass/{klassId}")
+    @PutMapping("/seminar/{seminarId}/klass/{klassId}/updateReportDDL")
     public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId,
                                                            @RequestBody Map<String,Object> klassMap) throws ParseException {
         int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,klassMap);
@@ -144,6 +145,7 @@ public class SeminarController {
         return seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
 
     }
+
 
     /**
      * 修改班级讨论课进行时状态
@@ -199,7 +201,7 @@ public class SeminarController {
 
 
     /**
-     *教师给报告成绩
+     * 教师给报告成绩
      * @param klassSeminarId
      * @param reportMapList
      * @return

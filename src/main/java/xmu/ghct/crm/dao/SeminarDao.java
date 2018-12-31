@@ -77,4 +77,8 @@ public class SeminarDao {
         return seminarMapper.listKlassSeminarIdByKlassId(klassId);
     }
 
+    public int insertKlassSeminarBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId){
+        return seminarMapper.insertKlassSeminarBySeminarIdAndKlassId(seminarId,klassId);
+    }
+
 }

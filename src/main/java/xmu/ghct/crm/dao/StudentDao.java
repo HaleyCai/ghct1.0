@@ -163,4 +163,8 @@ public class StudentDao {
     public int insertStudent(User user){
         return studentMapper.insertStudent(user);
     }
+
+    public int insertKlassStudent(BigInteger studentId,BigInteger klassId,BigInteger courseId){
+        return studentMapper.insertKlassStudent(studentId,klassId,courseId);
+    }
 }

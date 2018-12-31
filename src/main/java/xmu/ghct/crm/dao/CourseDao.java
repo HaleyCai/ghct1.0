@@ -2,10 +2,12 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.CourseLimitVO;
 import xmu.ghct.crm.VO.CourseStudentVO;
 import xmu.ghct.crm.VO.CourseVO;
 import xmu.ghct.crm.VO.StudentCourseVO;
 import xmu.ghct.crm.entity.*;
+import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.mapper.*;
 
 import java.math.BigInteger;
@@ -29,20 +31,50 @@ public class CourseDao {
     @Autowired
     ShareMapper shareMapper;
 
+    @Autowired
+    StrategyMapper strategyMapper;
+
 
     public int insertCourse(CourseVO courseVO) {
-
         int flag_1=courseMapper.insertCourse(courseVO);
-        int flag_2=teamMapper.insertTeamMemberLimit(courseVO);
+        int flag_2=strategyMapper.insertMemberLimit(courseVO);
+        int strategySerial=1;
+        strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,courseVO.getMemberLimitId(),"MemberLimitStrategy");
+        strategySerial++;
+        List<CourseLimitVO> courseLimitVOS=courseVO.getCourseLimitVOS();
+        if(courseVO.isFlag()==true){
+            BigInteger id=strategyMapper.selectMaxIdFromTeamAndStrategy().add(new BigInteger("1"));
+            System.out.println("strategy_id:"+id);
+            for(CourseLimitVO item:courseLimitVOS){
+                strategyMapper.insertCourseMemberLimit(item);
+                strategyMapper.insertAndStrategy(id,"CourseMemberLimitStrategy",item.getCourseLimitId());
+            }
+            strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,id,"TeamAndStrategy");
+            strategySerial++;
+        }
+        else{
+            BigInteger id=strategyMapper.selectMaxIdFromTeamOrStrategy().add(new BigInteger("1"));
+            for(CourseLimitVO item:courseLimitVOS){
+                strategyMapper.insertCourseMemberLimit(item);
+                strategyMapper.insertOrStrategy(id,"CourseMemberLimitStrategy",item.getCourseLimitId());
+            }
+            strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,id,"TeamOrStrategy");
+            strategySerial++;
+        }
+        BigInteger conflictCourseId=strategyMapper.selectMaxIdFromConflictCourseStrategy().add(new BigInteger("1"));
+        for(BigInteger item:courseVO.getConflictCourseIdS()){
+            strategyMapper.insertIntoConflictCourseStrategy(conflictCourseId,item);
+        }
+        strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,conflictCourseId,"ConflictCourseStrategy");
         return (flag_1&flag_2);
     }
 
-    public List<Course> listCourseByTeacherId(BigInteger teacherId) {
+    public List<Course> listCourseByTeacherId(BigInteger teacherId) throws ClassNotFoundException {
         List<Course> courseList = courseMapper.listCourseByTeacherId(teacherId);
         if (courseList == null) {
-            //throw new CourseNotFindException();
+            throw new ClassNotFoundException("未查找到用户课程数据！");
         }
-        return courseList;
+        else return courseList;
     }
 
     public List<CourseStudentVO> listCourseByStudentId(BigInteger studentId)

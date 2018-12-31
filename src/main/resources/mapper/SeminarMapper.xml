@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.SeminarMapper">
 
-    <insert id="creatSeminar" parameterType="xmu.ghct.crm.entity.Seminar">
+    <insert id="creatSeminar" parameterType="xmu.ghct.crm.entity.Seminar" keyProperty="seminarId" useGeneratedKeys="true">
         insert into seminar(
                             course_id,
                             round_id,
@@ -154,4 +154,16 @@
         from klass_seminar
         where id=#{klassSeminarId}
     </select>
+
+    <insert id="insertKlassSeminarBySeminarIdAndKlassId" parameterType="java.math.BigInteger">
+        insert into klass_seminar(
+                                  klass_id,
+                                  seminar_id,
+                                  status
+        ) values (
+                  #{klassId},
+                  #{seminarId},
+                  0
+                         )
+    </insert>
 </mapper>
