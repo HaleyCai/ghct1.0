@@ -74,7 +74,7 @@ public class StrategyDao {
     }
 
     /**
-     * 活的磕碜人数限制（本课程组队对其他课程人数的限制）
+     * 获得课程人数限制（本课程组队对其他课程人数的限制）
      * @param strategyId
      * @return
      */
