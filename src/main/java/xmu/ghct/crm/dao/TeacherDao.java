@@ -159,8 +159,8 @@ public class TeacherDao {
     {
         User teacher=teacherMapper.getTeacherById(teacherId);
         if(teacher.getName().equals(teacherName)&&
-            teacher.getAccount().equals(teacherAccount)&&
-            teacher.getEmail().equals(teacherEmail))
+                teacher.getAccount().equals(teacherAccount)&&
+                teacher.getEmail().equals(teacherEmail))
         {
             throw new SQLException("教师信息未改动");
         }

@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.QuestionListVO;
 import xmu.ghct.crm.VO.QuestionVO;
 import xmu.ghct.crm.dao.StrategyDao;
-import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.QuestionService;
 
@@ -85,7 +84,7 @@ public class QuestionController {
     public boolean updateQuestionScore(@PathVariable("seminarId") String seminarId,
                                        @PathVariable("klassId") String klassId,
                                        @PathVariable("questionId")String questionId,
-                                       @RequestBody Map<String,Object> inMap) throws NotFoundException
+                                       @RequestBody Map<String,Object> inMap)
     {
         return questionService.updateQuestionScore(
                 new BigInteger(seminarId),

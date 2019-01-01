@@ -14,7 +14,6 @@ import xmu.ghct.crm.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
 
@@ -80,8 +79,7 @@ public class CourseController {
      * @throws ParseException
      */
     @RequestMapping(value="/course/creatCourse",method = RequestMethod.POST)
-    public boolean creatCourse(@RequestBody List<List<Map>> courseMap) throws ParseException, SQLException
-    {
+    public boolean creatCourse(@RequestBody List<List<Map>> courseMap) throws ParseException {
         int flag= courseService.creatCourse(courseMap);
         if(flag>0)return true;
         else return false;
@@ -103,7 +101,7 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.DELETE)
-    public boolean deleteCourseByCourseId(@PathVariable("courseId")String courseId) throws NotFoundException {
+    public boolean deleteCourseByCourseId(@PathVariable("courseId")String courseId) {
         int flag=courseService.deleteCourseByCourseId(new BigInteger(courseId));
         if(flag>0)return true;
         else return false;
@@ -277,15 +275,11 @@ public class CourseController {
      * @return
      */
     @GetMapping("/{teacherId}/course/beingPresent")
-    public BigInteger isBeingPresentSeminar(HttpServletRequest request) throws NotFoundException{
+    public BigInteger isBeingPresentSeminar(HttpServletRequest request){
         BigInteger teacherId=jwtTokenUtil.getIDFromRequest(request);
         return courseService.isBeingPresentSeminar(teacherId);
     }
 
-//    @GetMapping("/{studentId}/course")
-//    public  List<StudentCourseVO> listKlassStudentByStudentId(@PathVariable("studentId") BigInteger studentId){
-//        return courseService.listKlassStudentByStudentId(studentId);
-//    }
 
 
     @PostMapping("/TEST")

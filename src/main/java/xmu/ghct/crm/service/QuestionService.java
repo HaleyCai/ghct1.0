@@ -6,7 +6,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.QuestionListVO;
-import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.websocket.GreetingController;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.VO.QuestionVO;
@@ -120,7 +119,7 @@ public class QuestionService {
      * @return
      */
     public boolean updateQuestionScore(BigInteger seminarId,BigInteger klassId,
-                                       BigInteger questionId,Double questionScore) throws NotFoundException
+                                       BigInteger questionId,Double questionScore)
     {
 
         BigInteger teamId=questionDao.getTeamIdByQuestionId(questionId);

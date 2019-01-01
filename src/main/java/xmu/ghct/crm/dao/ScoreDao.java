@@ -35,44 +35,41 @@ public class ScoreDao {
     /**
      * 根据课程查找所有的成绩
      * @return
-
     public List<ScoreVO> listScoreByCourseId(BigInteger courseId){
-        List<Round> roundList=roundMapper.listRoundByCourseId(courseId);  //获得该课程下的所有轮次
-        List<ScoreVO> allScoreVOList=new ArrayList<>();                   //存储所有的小组的成绩ScoreVO
-        for(Round roundItem:roundList){                                   //依次循环每一轮次
-            List<ScoreVO> scoreVOList=scoreMapper.getRoundScore(roundItem.getRoundId());                  //在round_score表查询该轮次下的总成绩
-            List<BigInteger> seminarIdList=seminarMapper.getSeminarIdByRoundId(roundItem.getRoundId());   //获得该课程该轮次下的所有讨论课ID
-            for(ScoreVO scoreVOItem:scoreVOList){
-                //一个scoreVO，对应一个team的一个轮次成绩，查找一个team在该轮次的所有klass_seminar的每次成绩，加入scoreVO的list
-                //写入round序号
-                scoreVOItem.setRoundSerial(roundItem.getRoundSerial());
-                //写入team序号
-                scoreVOItem.setTeamSerial(teamMapper.getTeamInfoByTeamId(scoreVOItem.getTeamId()).getTeamSerial());
-                List<SeminarScoreVO> scoreList= new ArrayList<>();
-
-                for(BigInteger sItem:seminarIdList) {
-                    //查出每一个seminar下的，该小组参加的，klass_seminar
-                    //所有的klass_seminar
-                    List<BigInteger> klassSeminarIdList=seminarMapper.getAllKlassSeminarIdBySeminarId(sItem);
-
-                    //依次遍历每节讨论课，查找该team参加的讨论课成绩
-                    for(BigInteger ksItem:klassSeminarIdList){
-                        Score klassSeminarScore=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(ksItem, scoreVOItem.getTeamId());
-                        if(klassSeminarScore!=null)
-                        {
-                            //Score转SeminarScoreVO
-                            scoreList.add(scoreTOSeminarScoreVO(sItem,ksItem,klassSeminarScore));
-                        }
-                    }
-                }
-                scoreVOItem.setScoreList(scoreList);     //添加讨论课List进ScoreVO
-                allScoreVOList.add(scoreVOItem);         //将ScoreVO加进 allScoreVOList
-            }
-        }
-        if(allScoreVOList==null){
-            //throw new TeamNotFindException();
-        }
-        return allScoreVOList;
+    List<Round> roundList=roundMapper.listRoundByCourseId(courseId);  //获得该课程下的所有轮次
+    List<ScoreVO> allScoreVOList=new ArrayList<>();                   //存储所有的小组的成绩ScoreVO
+    for(Round roundItem:roundList){                                   //依次循环每一轮次
+    List<ScoreVO> scoreVOList=scoreMapper.getRoundScore(roundItem.getRoundId());                  //在round_score表查询该轮次下的总成绩
+    List<BigInteger> seminarIdList=seminarMapper.getSeminarIdByRoundId(roundItem.getRoundId());   //获得该课程该轮次下的所有讨论课ID
+    for(ScoreVO scoreVOItem:scoreVOList){
+    //一个scoreVO，对应一个team的一个轮次成绩，查找一个team在该轮次的所有klass_seminar的每次成绩，加入scoreVO的list
+    //写入round序号
+    scoreVOItem.setRoundSerial(roundItem.getRoundSerial());
+    //写入team序号
+    scoreVOItem.setTeamSerial(teamMapper.getTeamInfoByTeamId(scoreVOItem.getTeamId()).getTeamSerial());
+    List<SeminarScoreVO> scoreList= new ArrayList<>();
+    for(BigInteger sItem:seminarIdList) {
+    //查出每一个seminar下的，该小组参加的，klass_seminar
+    //所有的klass_seminar
+    List<BigInteger> klassSeminarIdList=seminarMapper.getAllKlassSeminarIdBySeminarId(sItem);
+    //依次遍历每节讨论课，查找该team参加的讨论课成绩
+    for(BigInteger ksItem:klassSeminarIdList){
+    Score klassSeminarScore=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(ksItem, scoreVOItem.getTeamId());
+    if(klassSeminarScore!=null)
+    {
+    //Score转SeminarScoreVO
+    scoreList.add(scoreTOSeminarScoreVO(sItem,ksItem,klassSeminarScore));
+    }
+    }
+    }
+    scoreVOItem.setScoreList(scoreList);     //添加讨论课List进ScoreVO
+    allScoreVOList.add(scoreVOItem);         //将ScoreVO加进 allScoreVOList
+    }
+    }
+    if(allScoreVOList==null){
+    //throw new TeamNotFindException();
+    }
+    return allScoreVOList;
     }
      */
 
@@ -93,7 +90,6 @@ public class ScoreDao {
             for(BigInteger sItem:seminarIdList)
             {
                 List<BigInteger> klassSeminarIdList=seminarMapper.getAllKlassSeminarIdBySeminarId(sItem);
-
                 //依次遍历每节讨论课，查找该team参加的讨论课成绩
                 for(BigInteger ksItem:klassSeminarIdList) {
                     Score klassSeminarScore = scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(ksItem, teamId);
@@ -129,7 +125,6 @@ public class ScoreDao {
         klassSeminarScoreVO.setTotalScore(score.getTotalScore());
         return klassSeminarScoreVO;
     }
-
 */
 
     public int deleteSeminarScoreBySeminarId(BigInteger seminarId) throws NotFoundException {
@@ -204,6 +199,6 @@ public class ScoreDao {
      * @return
      */
     //public int insertRoundScore(ScoreVO scoreVO){
- //       return scoreMapper.insertRoundScore(scoreVO);
-  //  }
+    //       return scoreMapper.insertRoundScore(scoreVO);
+    //  }
 }

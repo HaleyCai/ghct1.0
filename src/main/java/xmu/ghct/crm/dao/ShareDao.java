@@ -151,7 +151,7 @@ public class ShareDao {
         if(type==1&&shareMapper.deleteTeamShareInCourse(subCourseId)>0)
             return true;
 
-        //修改从课程的course表中seminar_main_course_id为null
+            //修改从课程的course表中seminar_main_course_id为null
         else if(shareMapper.deleteSeminarShareInCourse(subCourseId)>0)
             return true;
         else
@@ -204,4 +204,3 @@ public class ShareDao {
             throw new NotFoundException("未找到request");
     }
 }
-
