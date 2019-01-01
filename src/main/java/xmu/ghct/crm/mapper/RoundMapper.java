@@ -38,6 +38,7 @@ public interface RoundMapper {
      * @return
      */
     int modifyRoundByRoundId(@Param("roundId") BigInteger roundId,
+                             @Param("courseId") BigInteger courseId,
                              @Param("presentationScoreMethod") int presentationScoreMethod,
                              @Param("reportScoreMethod") int reportScoreMethod,
                              @Param("questionScoreMethod") int questionScoreMethod);
@@ -62,7 +63,7 @@ public interface RoundMapper {
      * @param courseId
      * @return
      */
-    int getRoundNumByCourseId(BigInteger courseId);
+    Integer getRoundNumByCourseId(BigInteger courseId);
 
     /**
      * @cyq
@@ -80,7 +81,7 @@ public interface RoundMapper {
      * @param roundId
      * @return
      */
-    int getEnrollNum(BigInteger klassId, BigInteger roundId);
+    Integer getEnrollNum(BigInteger klassId, BigInteger roundId);
 
     /**
      * @cyq

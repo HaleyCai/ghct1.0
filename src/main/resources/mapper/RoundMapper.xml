@@ -58,10 +58,10 @@
 
     <update id="modifyRoundByRoundId">
         update round
-        set presentation_score_method=#{presentationScoreMethod}.
+        set presentation_score_method=#{presentationScoreMethod},
             report_score_method=#{reportScoreMethod},
             question_score_method=#{questionScoreMethod}
-        where id=#{roundId}
+        where id=#{roundId} and course_id=#{courseId}
     </update>
 
     <resultMap id="RoundResult" type="xmu.ghct.crm.entity.Round">
@@ -91,7 +91,8 @@
     </insert>
 
     <select id="getEnrollNum" resultType="java.lang.Integer">
-        select enroll_number from klass_round
+        select enroll_number
+        from klass_round
         where klass_id=#{klassId} and round_id=#{roundId}
     </select>
 

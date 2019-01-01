@@ -126,17 +126,18 @@ public class CourseController {
     /**
      * @cyq
      * 根据roundId获取轮次信息
-     * @cyq
      * @param roundId
      * @return
      */
     @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
     public RoundVO getRoundByRoundId(@PathVariable("roundId") String roundId,
-                                     @RequestBody Map<String,Object> inMap)
+                                     @RequestParam String courseId)
     {
-        return courseService.getRoundByRoundId(
-                new BigInteger(inMap.get("courseId").toString()),
+        RoundVO roundVO=courseService.getRoundByRoundId(
+                new BigInteger(courseId),
                 new BigInteger(roundId));
+        System.out.println("roundVO==="+roundVO);
+        return roundVO;
     }
 
     /**
@@ -155,8 +156,10 @@ public class CourseController {
         roundVO.setPresentationScoreMethod(inMap.get("presentationScoreMethod").toString());
         roundVO.setQuestionScoreMethod(inMap.get("reportScoreMethod").toString());
         roundVO.setReportScoreMethod(inMap.get("questionScoreMethod").toString());
-        //roundVO.setEnrollNum(List<RoundEnrollVO>inMap.get("enrollNum"));
-
+//        List<RoundEnrollVO> roundEnrollVOS=(List<RoundEnrollVO>)inMap.get("enrollNum");
+//        System.out.println("roundEnrollVOS "+roundEnrollVOS);
+//
+//        roundVO.setEnrollNum(roundEnrollVOS);
         System.out.println("roundVO "+roundVO);
         //enroll.put(inMap.get(6).toString(),inMap.get(6).toString());
         //System.out.println("map:   "+enroll);

@@ -35,7 +35,6 @@ public class ShareDao {
         List<ShareVO> all=new ArrayList<>();
         List<Share> allTeams=shareMapper.getAllTeamShare(courseId);
         all.addAll(shareToShareVO(allTeams,courseId,courseName,"共享分组",teacherId));
-
         List<Share> allSeminars=shareMapper.getAllSeminarShare(courseId);
         all.addAll(shareToShareVO(allSeminars,courseId,courseName,"共享讨论课",teacherId));
         return all;

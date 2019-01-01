@@ -45,6 +45,10 @@
         where student_id=#{studentId}
     </select>
 
+    <select id="getCourseByTeacherId" resultMap="courseStudentMap">
+        select * from course
+        where teacher_id=#{teacherId}
+    </select>
     <delete id="deleteCourseByCourseId">
         delete from course where id=#{courseId}
     </delete>

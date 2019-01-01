@@ -6,6 +6,7 @@ public class RoundEnrollVO {
     private BigInteger klassId;
     private int klassSerial;
     private int grade;
+    private int enroll;
 
     public BigInteger getKlassId() {
         return klassId;
@@ -29,5 +30,13 @@ public class RoundEnrollVO {
 
     public void setGrade(int grade) {
         this.grade = grade;
+    }
+
+    public int getEnroll() {
+        return enroll;
+    }
+
+    public void setEnroll(int enroll) {
+        this.enroll = enroll;
     }
 }

@@ -8,6 +8,8 @@ import xmu.ghct.crm.VO.ShareTeamVO;
 import xmu.ghct.crm.VO.ShareVO;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.dao.ShareDao;
+import xmu.ghct.crm.entity.Course;
+import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.exception.NotFoundException;

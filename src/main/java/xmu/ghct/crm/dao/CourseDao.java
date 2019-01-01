@@ -134,7 +134,7 @@ public class CourseDao {
         return courseMapper.listKlassIdByCourseId(courseId);
     }
 
-    public  List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId){
+    public List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId){
         return courseMapper.listKlassStudentByStudentId(studentId);
     }
 
@@ -147,5 +147,10 @@ public class CourseDao {
     public List<CourseVO> getAllCourse()
     {
         return courseMapper.getAllCourse();
+    }
+
+    public List<Course> getCourseByTeacherId(BigInteger teacherId)
+    {
+        return courseMapper.getCourseByTeacherId(teacherId);
     }
 }

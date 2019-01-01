@@ -124,6 +124,12 @@ public class RoundDao {
             enrollVO.setKlassId(item.getKlassId());
             enrollVO.setKlassSerial(item.getKlassSerial());
             enrollVO.setGrade(item.getGrade());
+            //最大允许报名次数
+            Integer max=roundMapper.getEnrollNum(enrollVO.getKlassId(),roundId);
+            if(max==null)
+                enrollVO.setEnroll(0);
+            else
+                enrollVO.setEnroll(max);
             enrollNum.add(enrollVO);
         }
         return enrollNum;
@@ -137,23 +143,18 @@ public class RoundDao {
     public boolean modifyRoundByRoundId(RoundVO roundVO){
         //修改成绩评定方式
         roundMapper.modifyRoundByRoundId(roundVO.getRoundId(),
+                roundVO.getCourseId(),
                 stringToInt(roundVO.getPresentationScoreMethod()),
                 stringToInt(roundVO.getReportScoreMethod()),
                 stringToInt(roundVO.getQuestionScoreMethod()));
-        //将map变为klassId和num，传roundId
-        Map<BigInteger,Integer> enroll=new TreeMap<>();
-//        for(String klassName:roundVO.getEnrollNum().keySet())
-//        {
-//            String s[]=klassName.split(" ");
-//            int grade=Integer.parseInt(s[0]);
-//            int klassSerial=Integer.parseInt(s[1]);
-//            BigInteger klassId=klassMapper.getKlassByGradeAndKlassSerial(grade,klassSerial).getKlassId();
-//            enroll.put(klassId,roundVO.getEnrollNum().get(klassSerial));
-//        }
         //修改各班下的最大报名次数
-        for(BigInteger klassId:enroll.keySet())
+        System.out.println("roundVO.getEnrollNum().class==="+roundVO.getEnrollNum().getClass());
+        for(RoundEnrollVO roundEnrollVO:roundVO.getEnrollNum())
         {
-            roundMapper.modifyEnrollNum(klassId,roundVO.getRoundId(),enroll.get(klassId));
+            roundMapper.modifyEnrollNum(
+                    roundEnrollVO.getKlassId(),
+                    roundVO.getRoundId(),
+                    roundEnrollVO.getEnroll());
         }
         return true;
     }
