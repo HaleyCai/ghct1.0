@@ -3,15 +3,14 @@ package xmu.ghct.crm.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.*;
-import xmu.ghct.crm.dao.KlassDao;
-import xmu.ghct.crm.dao.StrategyDao;
-import xmu.ghct.crm.dao.StudentDao;
-import xmu.ghct.crm.dao.TeamDao;
+import xmu.ghct.crm.dao.*;
+import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +24,9 @@ public class TeamService {
     StudentDao studentDao;
 
     @Autowired
+    CourseDao courseDao;
+
+    @Autowired
     KlassDao klassDao;
 
     @Autowired
@@ -36,27 +38,12 @@ public class TeamService {
      * @return
      */
     public List<TeamSimpleInfo> listTeamByCourseId(BigInteger courseId) {
-        BigInteger mainCourse=getTeamMainCourseId(courseId);
-        List<Team> teamList=teamDao.listTeamInfoByCourseId(mainCourse);
+        //查course下所有klass,再查klass下所有team
+        List<Klass> klasses=klassDao.listKlassByCourseId(courseId);
+        List<Team> teamList=new ArrayList<>();
+        for(Klass item:klasses)
+            teamList.addAll(teamDao.listTeamByKlassId(item.getKlassId()));
         return teamTOTeamSimpleInfo(teamList);
-    }
-
-    /**
-     * @cyq
-     * 判断一个课程是否为共享组队主课程
-     * @return
-     */
-    public BigInteger getTeamMainCourseId(BigInteger courseId)
-    {
-        //*******查表，看courseId是从课程还是主课程，是主课程或未共享分组，则根据该courseId查询
-        List<ShareTeamVO> shareTeamVOs=teamDao.getShareTeamInfoByCourseId(courseId);
-        System.out.println("shareTeamVO"+shareTeamVOs);
-        for(ShareTeamVO shareTeamItem:shareTeamVOs)
-        {
-            if(courseId.equals(shareTeamItem.getSubCourseId()))
-                return shareTeamItem.getMainCourseId();
-        }
-        return courseId;
     }
 
     /**
@@ -75,7 +62,7 @@ public class TeamService {
             //队伍的序号是班号-队伍号
             //根据klassId查klassSerial
             int klassSerial=klassDao.getKlassByKlassId(teamItem.getKlassId()).getKlassSerial();
-            teamSimpleInfo.setTeamSerial(String.valueOf(klassSerial)+"-"+String.valueOf(teamItem.getTeamSerial()));
+            teamSimpleInfo.setTeamSerial(klassSerial+"-"+teamItem.getTeamSerial());
             teamSimpleInfo.setStatus(teamItem.getStatus());
             teamSimpleInfoList.add(teamSimpleInfo);
         }
@@ -310,5 +297,21 @@ public class TeamService {
         return true;
    }
 
+   public Map<String,Object> getUserTeamStatusById(BigInteger id)
+   {
+       Map<String,Object> map=new HashMap<>();
+       BigInteger teamId=teamDao.getTeamIdByStudentId(id);
+       if(teamId!=null)
+       {
+           map.put("isTeam",true);
+           map.put("myTeamId",teamId);
+       }
+       else
+       {
+           map.put("isTeam",false);
+           map.put("myTeamId",null);
+       }
+       return map;
+   }
 
 }

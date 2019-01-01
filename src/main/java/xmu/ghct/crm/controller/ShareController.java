@@ -24,6 +24,7 @@ public class ShareController {
     ShareService shareService;
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
     /**
      * 共享设置界面：根据teacherId获得，已同意的，共享组队请求+共享讨论课请求信息，包括本课程是主还是从
      * @param teacherId

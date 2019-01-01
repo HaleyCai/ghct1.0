@@ -14,6 +14,8 @@ public class Course implements Serializable {
     private Double reportPercentage;
     private Date teamStartTime;
     private Date teamEndTime;
+    private BigInteger teamMainCourseId;
+    private BigInteger seminarMainCourseId;
 
     public BigInteger getCourseId() {
         return courseId;
@@ -87,6 +89,22 @@ public class Course implements Serializable {
         this.teamEndTime = teamEndTime;
     }
 
+    public BigInteger getTeamMainCourseId() {
+        return teamMainCourseId;
+    }
+
+    public void setTeamMainCourseId(BigInteger teamMainCourseId) {
+        this.teamMainCourseId = teamMainCourseId;
+    }
+
+    public BigInteger getSeminarMainCourseId() {
+        return seminarMainCourseId;
+    }
+
+    public void setSeminarMainCourseId(BigInteger seminarMainCourseId) {
+        this.seminarMainCourseId = seminarMainCourseId;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -99,6 +117,8 @@ public class Course implements Serializable {
                 ", reportPercentage=" + reportPercentage +
                 ", teamStartTime=" + teamStartTime +
                 ", teamEndTime=" + teamEndTime +
+                ", teamMainCourseId=" + teamMainCourseId +
+                ", seminarMainCourseId=" + seminarMainCourseId +
                 '}';
     }
 }

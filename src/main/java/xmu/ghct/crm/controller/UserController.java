@@ -134,7 +134,7 @@ public class UserController {
     /**
      * 忘记密码时，将密码发送到用户的邮箱中，前端传参account，type，account根据jwt获得
      */
-    @RequestMapping(value="/user/password",method = RequestMethod.GET)
+    @RequestMapping(value="/user/forgetpassword",method = RequestMethod.GET)
     public boolean sendPasswordToEmail(@RequestParam String account)
     {
         return userService.sendPasswordToEmail(account);

@@ -27,7 +27,7 @@
     </insert>
 
     <select id="getCourseByCourseId" resultMap="courseResultMap">
-        select id,teacher_id,course_name,introduction,presentation_percentage,question_percentage,report_percentage,team_start_time,team_end_time
+        select id,teacher_id,course_name,introduction,presentation_percentage,question_percentage,report_percentage,team_start_time,team_end_time,team_main_course_id,seminar_main_course_id
         from course
         where id = #{courseId}
     </select>
@@ -95,6 +95,8 @@
         <result property="reportPercentage" column="report_percentage"/>
         <result property="teamStartTime" column="team_start_time"/>
         <result property="teamEndTime" column="team_end_time"/>
+        <result property="teamMainCourseId" column="team_main_course_id"/>
+        <result property="seminarMainCourseId" column="seminar_main_course_id"/>
     </resultMap>
 
     <resultMap id="courseStudentMap" type="xmu.ghct.crm.VO.CourseStudentVO">

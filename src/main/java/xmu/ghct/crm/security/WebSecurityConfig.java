@@ -56,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/user/login").permitAll()
+                .antMatchers("/user/forgetpassword").permitAll()
                 .anyRequest().authenticated()
                 .and().headers().cacheControl();
         httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);

@@ -6,9 +6,11 @@ import xmu.ghct.crm.VO.StudentVO;
 import xmu.ghct.crm.VO.TeamApplicationVO;
 import xmu.ghct.crm.VO.TeamInfoVO;
 import xmu.ghct.crm.VO.TeamSimpleInfo;
+import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.security.JwtTokenUtil;
+import xmu.ghct.crm.service.CourseService;
 import xmu.ghct.crm.service.TeamService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,8 @@ public class TeamController {
     @Autowired
     TeamService teamService;
     @Autowired
+    CourseService courseService;
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     /**
@@ -32,8 +36,19 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
-    public List<TeamSimpleInfo> listTeamByCourseId(@PathVariable("courseId") Long courseId){
-        return teamService.listTeamByCourseId(BigInteger.valueOf(courseId));
+    public Map<String,Object> listTeamByCourseId(HttpServletRequest request, @PathVariable("courseId") Long courseId){
+        List<TeamSimpleInfo> teamSimpleInfos=teamService.listTeamByCourseId(BigInteger.valueOf(courseId));
+        Map<String,Object> map=new HashMap<>();
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        map.put("teams",teamSimpleInfos);
+        //开始时间，结束时间，是否组队，
+        Map<String,Object> team=teamService.getUserTeamStatusById(id);
+        map.put("isTeam",team.get("isTeam"));
+        map.put("myTeamId",team.get("myTeamId"));
+        Course course=courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
+        map.put("startTime",course.getTeamStartTime());
+        map.put("endTime",course.getTeamEndTime());
+        return map;
     }
 
     /**

@@ -25,15 +25,6 @@ public class TeamDao {
     StudentMapper studentMapper;
     @Autowired
     KlassMapper klassMapper;
-    /**
-     * 根据courseId查team的信息
-     * @param courseId
-     * @return
-     */
-    public List<Team> listTeamInfoByCourseId(BigInteger courseId) {
-        List<Team> teamList = teamMapper.listTeamInfoByCourseId(courseId);
-        return teamList;
-    }
 
     /**
      * 根据courseId获得未组队学生，先找全部学生的id，再找组队学生的id，取交集，根据id查学生信息
