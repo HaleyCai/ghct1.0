@@ -12,6 +12,7 @@ import xmu.ghct.crm.mapper.ScoreMapper;
 import xmu.ghct.crm.mapper.SeminarMapper;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,7 +55,7 @@ public class SeminarService {
     @Autowired
     TotalScoreDao totalScoreDao;
 
-    public int creatSeminar(BigInteger courseId,Map<String,Object> seminarMap) throws ParseException, NotFoundException {
+    public int creatSeminar(BigInteger courseId,Map<String,Object> seminarMap) throws ParseException, NotFoundException, SQLException {
         Seminar seminar=new Seminar();
         seminar.setCourseId(courseId);
         if(seminarMap.get("roundId").toString().equals("0")){
@@ -373,7 +374,7 @@ public class SeminarService {
         return map;
     }
 
-    public List<Seminar> listSeminarByRoundId(BigInteger roundId){
+    public List<Seminar> listSeminarByRoundId(BigInteger roundId) throws NotFoundException {
         return roundDao.listSeminarByRoundId(roundId);
     }
 

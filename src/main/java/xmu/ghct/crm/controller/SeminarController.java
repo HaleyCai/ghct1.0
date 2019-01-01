@@ -10,6 +10,7 @@ import xmu.ghct.crm.service.KlassService;
 import xmu.ghct.crm.service.ScoreService;
 import xmu.ghct.crm.service.SeminarService;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class SeminarController {
      */
     @RequestMapping(value="/course/{courseId}/seminar/creatSeminar",method = RequestMethod.POST)
     public Boolean creatSeminar(@PathVariable("courseId") String courseId,
-                                @RequestBody Map<String,Object> seminarMap) throws ParseException, NotFoundException {
+                                @RequestBody Map<String,Object> seminarMap) throws ParseException, NotFoundException, SQLException {
         int flag=seminarService.creatSeminar(new BigInteger(courseId),seminarMap);
         if(flag>0) return true;
         else  return false;

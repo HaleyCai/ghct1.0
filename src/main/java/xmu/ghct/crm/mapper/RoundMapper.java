@@ -100,4 +100,6 @@ public interface RoundMapper {
      * @return
      */
     Integer getRoundSerialByRoundId(BigInteger roundId);
+
+    Round getRoundByCourseIdAndRoundSerial(BigInteger courseId,int roundSerial);
 }

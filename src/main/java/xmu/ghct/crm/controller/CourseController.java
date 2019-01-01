@@ -132,7 +132,7 @@ public class CourseController {
      * @return
      */
     @GetMapping("course/{courseId}/pc")
-    public List<List<Map>> listRoundAndSeminarByCourseId(@PathVariable("courseId") String courseId){
+    public List<List<Map>> listRoundAndSeminarByCourseId(@PathVariable("courseId") String courseId) throws NotFoundException {
         List<Round> roundList=courseService.listRoundByCourseId(new BigInteger(courseId));
         List<List<Map>> map=new ArrayList<>();
         for(Round round:roundList){
@@ -246,8 +246,7 @@ public class CourseController {
      */
     @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
     public RoundVO getRoundByRoundId(@PathVariable("roundId") String roundId,
-                                     @RequestParam String courseId)
-    {
+                                     @RequestParam String courseId) throws NotFoundException {
         RoundVO roundVO=courseService.getRoundByRoundId(
                 new BigInteger(courseId),
                 new BigInteger(roundId));

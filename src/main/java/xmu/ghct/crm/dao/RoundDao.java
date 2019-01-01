@@ -1,5 +1,6 @@
 package xmu.ghct.crm.dao;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.RoundEnrollVO;
@@ -9,12 +10,14 @@ import xmu.ghct.crm.VO.SeminarSimpleVO;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.KlassMapper;
 import xmu.ghct.crm.mapper.RoundMapper;
 import xmu.ghct.crm.mapper.ScoreMapper;
 import xmu.ghct.crm.mapper.TeamMapper;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -25,6 +28,7 @@ public class RoundDao {
 
     @Autowired
     private RoundMapper roundMapper;
+
     @Autowired
     private KlassMapper klassMapper;
 
@@ -39,7 +43,7 @@ public class RoundDao {
      * @param roundId
      * @return
      */
-    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId){
+    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId) throws NotFoundException {
         List<Seminar> list=roundMapper.getSeminarByRoundId(roundId);
         List<SeminarSimpleVO> simpleList=new ArrayList<>();
         for(Seminar item:list)
@@ -50,8 +54,8 @@ public class RoundDao {
             temp.setOrder(item.getSeminarSerial());
             simpleList.add(temp);
         }
-        if(list==null){
-            //throw
+        if(list==null&&list.isEmpty()){
+            throw new NotFoundException("未找到该轮次下的讨论课");
         }
         return simpleList;
     }
@@ -62,8 +66,13 @@ public class RoundDao {
      * @param roundId
      * @return
      */
-    public List<Seminar> listSeminarByRoundId(BigInteger roundId){
-        return roundMapper.getSeminarByRoundId(roundId);
+    public List<Seminar> listSeminarByRoundId(BigInteger roundId) throws NotFoundException {
+        List<Seminar> list=roundMapper.getSeminarByRoundId(roundId);
+        if(list==null&&list.isEmpty())
+        {
+            throw new NotFoundException("未找到该轮次下的讨论课");
+        }
+        return list;
     }
 
     /**
@@ -100,7 +109,7 @@ public class RoundDao {
      * @param roundId
      * @return
      */
-    public RoundVO getRoundByRoundId(BigInteger courseId,BigInteger roundId){
+    public RoundVO getRoundByRoundId(BigInteger courseId,BigInteger roundId) throws NotFoundException {
         Round round=roundMapper.getRoundByRoundId(roundId);
         if(round==null){
             //throw
@@ -114,6 +123,10 @@ public class RoundDao {
         roundVO.setQuestionScoreMethod(intToString(round.getQuestionScoreMethod()));
         //查找round下各班的最大报名组数
         roundVO.setEnrollNum(getKlassEnrollNum(courseId,roundId));
+        if(round==null)
+        {
+            throw new NotFoundException("未找到该轮次");
+        }
         return roundVO;
     }
 
@@ -150,13 +163,17 @@ public class RoundDao {
      * @param roundVO
      * @return
      */
-    public boolean modifyRoundByRoundId(RoundVO roundVO){
+    public boolean modifyRoundByRoundId(RoundVO roundVO) throws NotFoundException {
         //修改成绩评定方式
-        roundMapper.modifyRoundByRoundId(roundVO.getRoundId(),
+        int flag=roundMapper.modifyRoundByRoundId(roundVO.getRoundId(),
                 roundVO.getCourseId(),
                 stringToInt(roundVO.getPresentationScoreMethod()),
                 stringToInt(roundVO.getReportScoreMethod()),
                 stringToInt(roundVO.getQuestionScoreMethod()));
+        if(flag<=0)
+        {
+            throw new NotFoundException("未找到该轮次");
+        }
         //修改各班下的最大报名次数
         System.out.println("roundVO.getEnrollNum().class==="+roundVO.getEnrollNum().getClass());
         for(RoundEnrollVO roundEnrollVO:roundVO.getEnrollNum())
@@ -174,8 +191,13 @@ public class RoundDao {
      * @param courseId
      * @return
      */
-    public List<Round> listRoundByCourseId(BigInteger courseId){
-        return roundMapper.listRoundByCourseId(courseId);
+    public List<Round> listRoundByCourseId(BigInteger courseId) throws NotFoundException {
+        List<Round> list=roundMapper.listRoundByCourseId(courseId);
+        if(list==null&&list.isEmpty())
+        {
+            throw new NotFoundException("课程下未找到轮次");
+        }
+        return list;
     }
 
     /**
@@ -183,7 +205,12 @@ public class RoundDao {
      * @param round
      * @return
      */
-    public int insertRound(Round round,BigInteger courseId){
+    public int insertRound(Round round,BigInteger courseId) throws SQLException {
+        Round round1=roundMapper.getRoundByCourseIdAndRoundSerial(round.getCourseId(),round.getRoundSerial());
+        if(round1!=null)
+        {
+            throw new SQLException("该轮次已存在");
+        }
         int flag= roundMapper.insertRound(round);
         List<BigInteger> teamIdList=teamMapper.listTeamIdByCourseId(courseId);
         for(BigInteger teamId:teamIdList){
@@ -227,8 +254,13 @@ public class RoundDao {
      * @param roundId
      * @return
      */
-    public int getRoundSerialByRoundId(BigInteger roundId){
-        return  roundMapper.getRoundSerialByRoundId(roundId);
+    public int getRoundSerialByRoundId(BigInteger roundId) throws NotFoundException {
+        int count=roundMapper.getRoundSerialByRoundId(roundId);
+        if(count<=0)
+        {
+            throw new NotFoundException("未找到该轮次");
+        }
+        return count;
     }
 
 

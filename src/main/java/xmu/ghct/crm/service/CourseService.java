@@ -116,7 +116,7 @@ public class CourseService {
         return courseDao.deleteCourseByCourseId(courseId);
     }
 
-    public List<Round> listRoundByCourseId(BigInteger courseId){
+    public List<Round> listRoundByCourseId(BigInteger courseId) throws NotFoundException {
         return roundDao.listRoundByCourseId(courseId);
     }
 
@@ -127,8 +127,7 @@ public class CourseService {
      * @param roundId
      * @return
      */
-    public RoundVO getRoundByRoundId(BigInteger courseId,BigInteger roundId)
-    {
+    public RoundVO getRoundByRoundId(BigInteger courseId,BigInteger roundId) throws NotFoundException {
         return roundDao.getRoundByRoundId(courseId,roundId);
     }
 
@@ -138,8 +137,7 @@ public class CourseService {
      * @param roundVO
      * @return
      */
-    public boolean modifyRoundByRoundId(RoundVO roundVO)
-    {
+    public boolean modifyRoundByRoundId(RoundVO roundVO) throws NotFoundException {
         return roundDao.modifyRoundByRoundId(roundVO);
     }
 

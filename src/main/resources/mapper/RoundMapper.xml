@@ -65,6 +65,12 @@
         where id=#{roundId} and course_id=#{courseId}
     </update>
 
+    <select id="getRoundByCourseIdAndRoundSerial" resultMap="RoundResult">
+        select *
+        from round
+        where course_id=#{courseId} and round_serial=#{roundSerial}
+    </select>
+
     <resultMap id="RoundResult" type="xmu.ghct.crm.entity.Round">
         <id property="roundId" column="id"/>
         <result property="courseId" column="course_id"/>
