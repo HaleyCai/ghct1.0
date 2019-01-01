@@ -72,7 +72,7 @@ public class SeminarController {
      */
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.PUT)
     public boolean updateSeminarBySeminarId(@PathVariable("seminarId")String seminarId,
-                                            @RequestBody Map<String,Object> seminarMap)throws ParseException{
+                                            @RequestBody Map<String,Object> seminarMap) throws ParseException, NotFoundException {
         int flag=seminarService.updateSeminarBySeminarId(new BigInteger(seminarId),seminarMap);
         if(flag>0) return true;
         else return false;
@@ -99,7 +99,7 @@ public class SeminarController {
      * @return
      */
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.GET)
-    public  Seminar getSeminarBySeminarId(@PathVariable("seminarId") String seminarId){
+    public  Seminar getSeminarBySeminarId(@PathVariable("seminarId") String seminarId) throws NotFoundException {
         return seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
     }
 
@@ -114,7 +114,7 @@ public class SeminarController {
     @PutMapping("/seminar/{seminarId}/klass/{klassId}/updateReportDDL")
     public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("seminarId") String seminarId,
                                                            @PathVariable("klassId") String klassId,
-                                                           @RequestBody Map<String,Object> klassMap) throws ParseException {
+                                                           @RequestBody Map<String,Object> klassMap) throws ParseException, NotFoundException {
         int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(
                 new BigInteger(klassId),
                 new BigInteger(seminarId),
@@ -132,7 +132,7 @@ public class SeminarController {
      */
     @DeleteMapping("/seminar/{seminarId}/klass/{klassId}")
     public boolean deleteKlassSeminarBySeminarIdAndKlassId(@PathVariable("seminarId") String seminarId,
-                                                           @PathVariable("klassId") String klassId){
+                                                           @PathVariable("klassId") String klassId) throws NotFoundException {
         int flag=seminarService.deleteKlassSeminarBySeminarIdAndKlassId(
                 new BigInteger(klassId),
                 new BigInteger(seminarId));
@@ -162,7 +162,7 @@ public class SeminarController {
      * @return
      */
     @PutMapping("presentation/{klassSeminarId}/status")
-    public boolean updateKlassSeminarStatus(@PathVariable("klassSeminarId") String klassSeminarId,@RequestParam int status){
+    public boolean updateKlassSeminarStatus(@PathVariable("klassSeminarId") String klassSeminarId,@RequestParam int status) throws NotFoundException {
         int flag=seminarService.updateKlassSeminarStatus(new BigInteger(klassSeminarId),status);
         if(flag>0)return true;
         else return  false;

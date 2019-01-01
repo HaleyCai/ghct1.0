@@ -83,8 +83,7 @@ public class QuestionService {
      * @return
      */
     public boolean postQuestion(BigInteger seminar,BigInteger klassId,
-                                BigInteger attendanceId,BigInteger studentId)
-    {
+                                BigInteger attendanceId,BigInteger studentId) throws NotFoundException {
         Question question=new Question();
         BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminar,klassId);
         question.setKlassSeminarId(klassSeminarId);

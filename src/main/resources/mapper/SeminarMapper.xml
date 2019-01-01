@@ -33,7 +33,7 @@
         order by seminar_serial
     </select>
 
-    
+
     <update id="updateSeminarBySeminarId" parameterType="xmu.ghct.crm.entity.Seminar">
         update seminar
            set round_id=#{roundId},
@@ -109,7 +109,14 @@
         from klass_seminar
         where klass_id=#{klassId}
     </select>
-    
+
+    <select id="getSeminarByCourseIdAndRoundId" resultMap="seminarResultMap">
+        select *
+        from seminar
+        where course_id=#{courseId} and round_id=#{roundId}
+    </select>
+
+
     <resultMap id="klassSeminarResultMap" type="xmu.ghct.crm.VO.SeminarVO">
         <id property="klassSeminarId" column="id"/>
         <result property="klassId" column="klass_id"/>

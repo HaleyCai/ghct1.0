@@ -63,8 +63,7 @@ public class QuestionController {
     public boolean postQuestion(HttpServletRequest request,
                                 @PathVariable("seminarId") String seminarId,
                                 @PathVariable("klassId") String klassId,
-                                @PathVariable("attendanceId") String attendanceId)
-    {
+                                @PathVariable("attendanceId") String attendanceId) throws NotFoundException {
         BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
         return questionService.postQuestion(
                 new BigInteger(seminarId),

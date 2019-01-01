@@ -110,7 +110,7 @@ public class SeminarService {
      * @param seminarId
      * @return
      */
-    public int updateSeminarBySeminarId(BigInteger seminarId,@RequestBody Map<String,Object> seminarMap) throws ParseException {
+    public int updateSeminarBySeminarId(BigInteger seminarId,@RequestBody Map<String,Object> seminarMap) throws ParseException, NotFoundException {
         Seminar seminar=new Seminar();
         Date enrollStartTime = dateDao.transferToDateTime(seminarMap.get("enrollStartTime").toString());
         seminar.setEnrollStartTime(enrollStartTime);
@@ -128,26 +128,26 @@ public class SeminarService {
     }
 
 
-    public int deleteSeminarBySeminarId(BigInteger seminarId){
+    public int deleteSeminarBySeminarId(BigInteger seminarId) throws NotFoundException {
         return seminarDao.deleteSeminarBySeminarId(seminarId);
     }
 
-    public int deleteKlassSeminarBySeminarId(BigInteger seminarId){
+    public int deleteKlassSeminarBySeminarId(BigInteger seminarId) throws NotFoundException {
         return seminarDao.deleteKlassSeminarBySeminarId(seminarId);
     }
 
-    public  Seminar getSeminarBySeminarId(BigInteger seminarId){
+    public  Seminar getSeminarBySeminarId(BigInteger seminarId) throws NotFoundException {
         return seminarDao.getSeminarBySeminarId(seminarId);
     }
 
-    public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId,Map<String,Object> seminarMap) throws ParseException {
+    public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId,Map<String,Object> seminarMap) throws ParseException, NotFoundException {
         Date reportDDL = dateDao.transferToDateTime(seminarMap.get("reportDDL").toString());
         return seminarDao.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,reportDDL);
     }
 
 
 
-    public int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId){
+    public int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId) throws NotFoundException {
         return seminarDao.deleteKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
     }
 
@@ -185,7 +185,7 @@ public class SeminarService {
      * @param status
      * @return
      */
-    public int updateKlassSeminarStatus(BigInteger klassSeminarId,int status){
+    public int updateKlassSeminarStatus(BigInteger klassSeminarId,int status) throws NotFoundException {
         return seminarDao.updateKlassSeminarStatus(klassSeminarId,status);
     }
 
@@ -379,20 +379,20 @@ public class SeminarService {
     }
 
 
-    public SeminarVO getKlassSeminarByKlassSeminarId(BigInteger klassSeminarId){
+    public SeminarVO getKlassSeminarByKlassSeminarId(BigInteger klassSeminarId) throws NotFoundException {
         return seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
     }
 
-    public BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId){
+    public BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId) throws NotFoundException {
         return seminarDao.getKlassIdByKlassSeminarId(klassSeminarId);
     }
 
 
-    public BigInteger getRoundIdBySeminarId(BigInteger seminarId){
+    public BigInteger getRoundIdBySeminarId(BigInteger seminarId) throws NotFoundException {
         return seminarDao.getRoundIdBySeminarId(seminarId);
     }
 
-    public List<BigInteger> listSeminarIdByRoundId(BigInteger roundId){
+    public List<BigInteger> listSeminarIdByRoundId(BigInteger roundId) throws NotFoundException {
         return seminarDao.listSeminarIdByRoundId(roundId);
     }
 }

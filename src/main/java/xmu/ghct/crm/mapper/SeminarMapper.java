@@ -173,4 +173,6 @@ public interface SeminarMapper {
      * @return
      */
     int insertKlassSeminarBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId);
+
+    Seminar getSeminarByCourseIdAndRoundId(BigInteger courseId,BigInteger roundId);
 }
