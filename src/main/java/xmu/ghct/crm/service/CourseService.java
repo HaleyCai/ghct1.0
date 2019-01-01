@@ -9,6 +9,7 @@ import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.exception.NotFoundException;
 
 import java.lang.reflect.Array;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.math.BigInteger;
@@ -41,7 +42,7 @@ public class CourseService {
     @Autowired
     TeamService teamService;
 
-    public int creatCourse( List<List<Map>> courseMap) throws ParseException {
+    public int creatCourse( List<List<Map>> courseMap) throws ParseException, SQLException {
         CourseVO courseVO =new CourseVO();
         Map<String,Object> infoMap=courseMap.get(0).get(0);
         courseVO.setCourseName(infoMap.get("courseName").toString());
@@ -111,7 +112,7 @@ public class CourseService {
         return courseDao.getCourseByCourseId(courseId);
     }
 
-    public int deleteCourseByCourseId(BigInteger courseId){
+    public int deleteCourseByCourseId(BigInteger courseId) throws NotFoundException {
         return courseDao.deleteCourseByCourseId(courseId);
     }
 
@@ -148,7 +149,7 @@ public class CourseService {
      * @param klassId
      * @return
      */
-    public BigInteger getCourseIdByKlassId(BigInteger klassId){
+    public BigInteger getCourseIdByKlassId(BigInteger klassId) throws NotFoundException {
         return courseDao.getCourseIdByKlassId(klassId);
     }
 
@@ -159,7 +160,7 @@ public class CourseService {
      * @param teacherId
      * @return
      */
-    public BigInteger isBeingPresentSeminar(BigInteger teacherId){
+    public BigInteger isBeingPresentSeminar(BigInteger teacherId) throws NotFoundException {
         List<BigInteger> courseIdList=courseDao.listCourseIdByTeacherId(teacherId);
         System.out.println(courseIdList);
         for(BigInteger courseId:courseIdList){
