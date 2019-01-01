@@ -24,9 +24,9 @@ public class KlassController {
 
     @RequestMapping(value="/course/{courseId}/klass",method = RequestMethod.POST)
     @ResponseBody
-    public boolean createKlass(@PathVariable("courseId")Long courseId,@RequestBody Map<String,Object> klassMap)  {
+    public boolean createKlass(@PathVariable("courseId")String courseId,@RequestBody Map<String,Object> klassMap)  {
         //创建之前先判断，是否有同一课程下的同样的班级次序，若有则失败
-        int flag=klassService.creatKlass(BigInteger.valueOf(courseId),klassMap);
+        int flag=klassService.creatKlass(new BigInteger(courseId),klassMap);
         if(flag>0) return true;
         else return false;
     }
@@ -44,16 +44,21 @@ public class KlassController {
      */
     @RequestMapping(value="/course/{courseId}/deleteKlass",method = RequestMethod.DELETE)
     @ResponseBody
-    public boolean deleteKlassByCourseId(@PathVariable("courseId")Long courseId){
-        int flag= klassService.deleteKlassByCourseId(BigInteger.valueOf(courseId));
+    public boolean deleteKlassByCourseId(@PathVariable("courseId")String courseId){
+        int flag= klassService.deleteKlassByCourseId(new BigInteger(courseId));
         if(flag>0) return true;
         else return false;
     }
 
+    /**
+     * 删除某个班级
+     * @param klassId
+     * @return
+     */
     @RequestMapping(value="/course/class/{klassId}",method = RequestMethod.DELETE)
     @ResponseBody
-    public boolean deleteKlassByKlassId(@PathVariable("klassId") Long klassId){
-        return klassService.deleteKlassByKlassId(BigInteger.valueOf(klassId));
+    public boolean deleteKlassByKlassId(@PathVariable("klassId") String klassId){
+        return klassService.deleteKlassByKlassId(new BigInteger(klassId));
     }
 
 
@@ -64,8 +69,8 @@ public class KlassController {
      * @return
      */
     @PostMapping("klass/{klassId}/uploadStudentNameList")
-    public Boolean add(@PathVariable("klassId")BigInteger klassId,@RequestParam("file") MultipartFile file){
-         return uploadExcelService.addStudentInfo(klassId,file);
+    public Boolean add(@PathVariable("klassId")String klassId,@RequestParam("file") MultipartFile file){
+         return uploadExcelService.addStudentInfo(new BigInteger(klassId),file);
     }
 
 

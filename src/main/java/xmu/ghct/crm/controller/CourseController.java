@@ -93,8 +93,8 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
-    public Course getCourseByCourseId(@PathVariable("courseId")BigInteger courseId){
-        return courseService.getCourseByCourseId(courseId);
+    public Course getCourseByCourseId(@PathVariable("courseId")String courseId){
+        return courseService.getCourseByCourseId(new BigInteger(courseId));
     }
 
     /**
@@ -103,8 +103,8 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.DELETE)
-    public boolean deleteCourseByCourseId(@PathVariable("courseId")BigInteger courseId) {
-        int flag=courseService.deleteCourseByCourseId(courseId);
+    public boolean deleteCourseByCourseId(@PathVariable("courseId")String courseId) {
+        int flag=courseService.deleteCourseByCourseId(new BigInteger(courseId));
         if(flag>0)return true;
         else return false;
     }
@@ -117,8 +117,8 @@ public class CourseController {
      */
     @RequestMapping(value="/course/{courseId}/round",method = RequestMethod.GET)
     @ResponseBody
-    public  List<Round> listRoundByCourseId(@PathVariable("courseId") BigInteger courseId) throws ClassNotFoundException {
-        List<Round> roundList=courseService.listRoundByCourseId(courseId);
+    public  List<Round> listRoundByCourseId(@PathVariable("courseId") String courseId) throws ClassNotFoundException {
+        List<Round> roundList=courseService.listRoundByCourseId(new BigInteger(courseId));
         if(roundList==null){
          throw new ClassNotFoundException("未找到该课程下的讨论课轮次数据!");
         }
@@ -133,23 +133,21 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value = "/round/{roundId}",method = RequestMethod.GET)
-    public RoundVO getRoundByRoundId(@PathVariable("roundId") BigInteger roundId,
+    public RoundVO getRoundByRoundId(@PathVariable("roundId") String roundId,
                                      @RequestBody Map<String,Object> inMap)
     {
         return courseService.getRoundByRoundId(
                 new BigInteger(inMap.get("courseId").toString()),
-                roundId);
+                new BigInteger(roundId));
     }
 
     /**
      * @cyq
      * 根据roundId修改轮次信息（修改轮次的评分方式, 修改本轮各个班级允许的报名次数）
-     * @param roundId
      * @return
      */
-    @RequestMapping(value = "/round/{roundId}",method = RequestMethod.PUT)
-    public boolean modifyRoundByRoundId(@PathVariable("roundId") BigInteger roundId,
-                                        @RequestBody Map<String,Object> inMap) throws IllegalAccessException
+    @RequestMapping(value = "/round/modifyRoundInfo",method = RequestMethod.PUT)
+    public boolean modifyRoundByRoundId(@RequestBody Map<String,Object> inMap) throws IllegalAccessException
     {
         //修改轮次的评分方式
         RoundVO roundVO=new RoundVO();

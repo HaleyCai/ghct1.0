@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.QuestionListVO;
 import xmu.ghct.crm.VO.QuestionVO;
+import xmu.ghct.crm.dao.StrategyDao;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.QuestionService;
 
@@ -26,29 +27,29 @@ public class QuestionController {
      */
     @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/{attendanceId}/question",
             method = RequestMethod.GET)
-    public List<QuestionListVO> getAllQuestion(@PathVariable("seminarId") Long seminarId,
-                                               @PathVariable("klassId") Long klassId,
-                                               @PathVariable("attendanceId") Long attendanceId)
+    public List<QuestionListVO> getAllQuestion(@PathVariable("seminarId") String seminarId,
+                                               @PathVariable("klassId") String klassId,
+                                               @PathVariable("attendanceId") String attendanceId)
 
     {
         return questionService.getAllQuestion(
-                BigInteger.valueOf(seminarId),
-                BigInteger.valueOf(klassId),
-                BigInteger.valueOf(attendanceId));
+                new BigInteger(seminarId),
+                new BigInteger(klassId),
+                new BigInteger(attendanceId));
     }
 
     /**
      * 被抽取到提问，展示提问人信息
      */
     @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/attendanceId/{attendanceId}/question",method = RequestMethod.GET)
-    public QuestionListVO getOneQuestion(@PathVariable("seminarId") Long seminarId,
-                                         @PathVariable("klassId") Long klassId,
-                                         @PathVariable("attendanceId") Long attendanceId)
+    public QuestionListVO getOneQuestion(@PathVariable("seminarId")String seminarId,
+                                         @PathVariable("klassId")String klassId,
+                                         @PathVariable("attendanceId")String attendanceId)
     {
         return questionService.getOneQuestion(
-                BigInteger.valueOf(seminarId),
-                BigInteger.valueOf(klassId),
-                BigInteger.valueOf(attendanceId));
+                new BigInteger(seminarId),
+                new BigInteger(klassId),
+                new BigInteger(attendanceId));
     }
 
 
@@ -59,15 +60,15 @@ public class QuestionController {
     @RequestMapping(value="/seminar/{seminarId}/klass/{klassId}/{attendanceId}/question",
             method = RequestMethod.POST)
     public boolean postQuestion(HttpServletRequest request,
-                                @PathVariable("seminarId") Long seminarId,
-                                @PathVariable("klassId") Long klassId,
-                                @PathVariable("attendanceId") Long attendanceId)
+                                @PathVariable("seminarId") String seminarId,
+                                @PathVariable("klassId") String klassId,
+                                @PathVariable("attendanceId") String attendanceId)
     {
         BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
         return questionService.postQuestion(
-                BigInteger.valueOf(seminarId),
-                BigInteger.valueOf(klassId),
-                BigInteger.valueOf(attendanceId),
+                new BigInteger(seminarId),
+                new BigInteger(klassId),
+                new BigInteger(attendanceId),
                 studentId
                 );
 
@@ -80,15 +81,15 @@ public class QuestionController {
      * @return
      */
     @RequestMapping(value="/teacher/seminarId/{seminarId}/{klassId}/question/{questionId}",method = RequestMethod.PUT)
-    public boolean updateQuestionScore(@PathVariable("seminarId") Long seminarId,
-                                       @PathVariable("klassId") Long klassId,
-                                       @PathVariable("questionId") Long questionId,
+    public boolean updateQuestionScore(@PathVariable("seminarId") String seminarId,
+                                       @PathVariable("klassId") String klassId,
+                                       @PathVariable("questionId")String questionId,
                                        @RequestBody Map<String,Object> inMap)
     {
         return questionService.updateQuestionScore(
-                BigInteger.valueOf(seminarId),
-                BigInteger.valueOf(klassId),
-                BigInteger.valueOf(questionId),
+                new BigInteger(seminarId),
+                new BigInteger(klassId),
+                new BigInteger(questionId),
                 new Double(inMap.get("questionScore").toString()));
     }
 

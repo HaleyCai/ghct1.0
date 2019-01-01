@@ -39,33 +39,14 @@ public class ScoreController {
     */
 
     /**
-     * @cyq
-     * 自己写的api！！！！
-     * 根据某小组查看自己的某次讨论课的成绩：每次讨论课成绩+总成绩
-     * @param courseId
-     * @param teamId
-     * @return
-     */
-    //////////////////////需要重写
-    /*
-    @RequestMapping(value="/course/{courseId}/team/{teamId}/score",method = RequestMethod.GET)
-    public List<ScoreVO> getScoreByRoundIdTeamId(@PathVariable("courseId") BigInteger courseId,
-                                       @PathVariable("teamId") BigInteger teamId)
-    {
-        return scoreService.listTeamScoreByCourseId(courseId,teamId);
-    }
-    */
-
-
-    /**
      * @author hzm
      *根据roundId获得轮次下所有小组的轮次成绩
      * @param roundId
      * @return
      */
     @GetMapping("/course/round/{roundId}")
-    public List<ScoreVO> listRoundScoreByRoundId(@PathVariable("roundId") Long roundId){
-        return scoreService.listRoundScoreByRoundId(BigInteger.valueOf(roundId));
+    public List<ScoreVO> listRoundScoreByRoundId(@PathVariable("roundId") String roundId){
+        return scoreService.listRoundScoreByRoundId(new BigInteger(roundId));
     }
 
 
@@ -76,10 +57,10 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/round/{roundId}/{teamId}")
-    public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(@PathVariable("roundId")Long roundId,
-                                                               @PathVariable("teamId")Long teamId){
-        List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(BigInteger.valueOf(roundId));
-        BigInteger klassId=teamService.getKlassIdByTeamId(BigInteger.valueOf(teamId));
+    public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(@PathVariable("roundId")String roundId,
+                                                               @PathVariable("teamId")String teamId){
+        List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(new BigInteger(roundId));
+        BigInteger klassId=teamService.getKlassIdByTeamId(new BigInteger(teamId));
         List<SeminarVO> klassSeminarList=new ArrayList<>();
         List<Score> scoreList=new ArrayList<>();
         for(BigInteger item:seminarIdList){
@@ -87,7 +68,7 @@ public class ScoreController {
             klassSeminarList.add(seminarVO);
         }
         for(SeminarVO item:klassSeminarList){
-            Score score=scoreService.getKlassSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),BigInteger.valueOf(teamId));
+            Score score=scoreService.getKlassSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),new BigInteger(teamId));
             Seminar seminar=seminarService.getSeminarBySeminarId(item.getSeminarId());
             if(score!=null){
                 score.setSeminarName(seminar.getSeminarName());
@@ -105,9 +86,9 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/{courseId}/{teamId}")
-    public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(@PathVariable("courseId")Long courseId,
-                                                                         @PathVariable("teamId")Long teamId){
-        return scoreService.listTeamRoundInfoByCourseIdAndTeamId(BigInteger.valueOf(courseId),BigInteger.valueOf(teamId));
+    public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(@PathVariable("courseId")String courseId,
+                                                                         @PathVariable("teamId")String teamId){
+        return scoreService.listTeamRoundInfoByCourseIdAndTeamId(new BigInteger(courseId),new BigInteger(teamId));
     }
 
     /**
@@ -116,9 +97,9 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/round/{roundId}/{teamId}/roundSeminar")
-    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") Long roundId,
-                                                     @PathVariable("teamId") Long teamId){
-        return scoreService.getSeminarByRoundId(BigInteger.valueOf(roundId),BigInteger.valueOf(teamId));
+    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") String roundId,
+                                                     @PathVariable("teamId") String teamId){
+        return scoreService.getSeminarByRoundId(new BigInteger(roundId),new BigInteger(teamId));
     }
 
 
@@ -129,9 +110,9 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/round/{teamId}/{seminarId}/seminarScore")
-    public Score getTeamSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId")Long seminarId,
-                                                         @PathVariable("teamId")Long teamId){
-        return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(BigInteger.valueOf(seminarId),BigInteger.valueOf(teamId));
+    public Score getTeamSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId")String seminarId,
+                                                         @PathVariable("teamId")String teamId){
+        return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),new BigInteger(teamId));
 
     }
 

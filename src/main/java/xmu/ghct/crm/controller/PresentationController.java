@@ -67,8 +67,8 @@ public class PresentationController {
      * @return
      */
     @PutMapping("attendance/{attendanceId}")
-    public boolean updateAttendanceOrderByAttendanceId(@PathVariable("attendanceId") Long attendanceId, @RequestBody Map<String,Object> orderMap){
-        int flag=presentationService.updateAttendanceOrderByAttendanceId(BigInteger.valueOf(attendanceId),orderMap);
+    public boolean updateAttendanceOrderByAttendanceId(@PathVariable("attendanceId") String attendanceId, @RequestBody Map<String,Object> orderMap){
+        int flag=presentationService.updateAttendanceOrderByAttendanceId(new BigInteger(attendanceId),orderMap);
         if(flag>0) return true;
         else return false;
     }
@@ -80,8 +80,8 @@ public class PresentationController {
      * @return
      */
     @DeleteMapping("attendance/{attendanceId}")
-    public boolean deleteAttendanceByAttendance(@PathVariable("attendanceId") Long attendanceId){
-        int flag= presentationService.deleteAttendanceByAttendance(BigInteger.valueOf(attendanceId));
+    public boolean deleteAttendanceByAttendance(@PathVariable("attendanceId") String attendanceId){
+        int flag= presentationService.deleteAttendanceByAttendance(new BigInteger(attendanceId));
         if(flag>0) return true;
         else return false;
     }
@@ -95,8 +95,8 @@ public class PresentationController {
      * @throws IOException
      */
     @RequestMapping(value = "/attendance/{attendanceId}/report",method = RequestMethod.POST)
-    public boolean reportUpload(@PathVariable("attendanceId")Long attendanceId,@RequestParam("file") MultipartFile file) throws IOException {
-        Attendance attendance=presentationService.getAttendanceByAttendanceId(BigInteger.valueOf(attendanceId));
+    public boolean reportUpload(@PathVariable("attendanceId")String attendanceId,@RequestParam("file") MultipartFile file) throws IOException {
+        Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         BigInteger klassSeminarId=attendance.getKlassSeminarId();
         SeminarVO seminarVO =seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//修改日期格式
@@ -113,7 +113,7 @@ public class PresentationController {
             Map<String, String> reportMap = uploadFileService.uploadFile(file);
             String reportName = reportMap.get("name");
             String reportUrl = reportMap.get("path");
-            int flag = presentationService.updateReportByAttendanceId(BigInteger.valueOf(attendanceId), reportUrl, reportName);
+            int flag = presentationService.updateReportByAttendanceId(new BigInteger(attendanceId), reportUrl, reportName);
             if (flag > 0)
                 return true;
             else return false;
@@ -129,8 +129,9 @@ public class PresentationController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/attendance/{attendanceId}/report")
-    public void reportDownload (HttpServletResponse  response,@PathVariable("attendanceId")Long attendanceId) throws UnsupportedEncodingException {
-        Attendance attendance=presentationService.getAttendanceByAttendanceId(BigInteger.valueOf(attendanceId));
+    public void reportDownload (HttpServletResponse  response,@PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException {
+        System.out.println("下载报告");
+        Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         String filePath=attendance.getReportUrl();
         downloadFileDao.downloadFile(response,filePath);
     }
@@ -146,11 +147,11 @@ public class PresentationController {
      * @throws IOException
      */
     @RequestMapping(value = "/attendance/{attendanceId}/powerPoint",method = RequestMethod.POST)
-    public boolean pptUpload(@PathVariable("attendanceId")BigInteger attendanceId,@RequestParam("file") MultipartFile file) throws IOException {
+    public boolean pptUpload(@PathVariable("attendanceId")String attendanceId,@RequestParam("file") MultipartFile file) throws IOException {
             Map<String, String> pptMap = uploadFileService.uploadFile(file);
             String pptName = pptMap.get("name");
             String pptUrl = pptMap.get("path");
-            int flag = presentationService.updatePPTByAttendanceId(attendanceId, pptUrl, pptName);
+            int flag = presentationService.updatePPTByAttendanceId(new BigInteger(attendanceId), pptUrl, pptName);
             if (flag > 0)
                 return true;
             else return false;
@@ -165,8 +166,8 @@ public class PresentationController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/attendance/{attendanceId}/powerPoint")
-    public void pptDownload (HttpServletResponse  response,@PathVariable("attendanceId")BigInteger attendanceId) throws UnsupportedEncodingException {
-        Attendance attendance=presentationService.getAttendanceByAttendanceId(attendanceId);
+    public void pptDownload (HttpServletResponse  response,@PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException {
+        Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         String filePath=attendance.getPptUrl();
         downloadFileDao.downloadFile(response,filePath);
     }
@@ -180,8 +181,8 @@ public class PresentationController {
      * @param response
      */
     @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/report", method = RequestMethod.GET)
-    public void multiReportDownload(HttpServletResponse response,@PathVariable("seminarId") BigInteger seminarId,@PathVariable("klassId") BigInteger klassId) throws UnsupportedEncodingException {
-        BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId, klassId);
+    public void multiReportDownload(HttpServletResponse response,@PathVariable("seminarId") String seminarId,@PathVariable("klassId")String klassId) throws UnsupportedEncodingException {
+        BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(new BigInteger(seminarId), new BigInteger(klassId));
         List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
         List<String> names = new ArrayList<String>();
         List<String> paths = new ArrayList<String>();
@@ -197,7 +198,7 @@ public class PresentationController {
                 System.out.println(item.getReportUrl());
             }
         }
-        downloadFileDao.multiFileDownload(seminarId,response,paths);
+        downloadFileDao.multiFileDownload(new BigInteger(seminarId),response,paths);
     }
 
 
@@ -207,8 +208,8 @@ public class PresentationController {
      * @param response
      */
     @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/ppt", method = RequestMethod.GET)
-    public void multiPPTDownload(HttpServletResponse response,@PathVariable("seminarId") BigInteger seminarId,@PathVariable("klassId") BigInteger klassId) throws UnsupportedEncodingException {
-        BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId, klassId);
+    public void multiPPTDownload(HttpServletResponse response,@PathVariable("seminarId") String seminarId,@PathVariable("klassId") String klassId) throws UnsupportedEncodingException {
+        BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(new BigInteger(seminarId), new BigInteger(klassId));
         List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> paths = new ArrayList<>();
@@ -216,7 +217,7 @@ public class PresentationController {
             names.add(item.getPptName());
             paths.add(item.getPptUrl());
         }
-        downloadFileDao.multiFileDownload(seminarId,response,paths);
+        downloadFileDao.multiFileDownload(new BigInteger(seminarId),response,paths);
     }
 
 
@@ -226,8 +227,8 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/presentation/{klassSeminarId}")
-    public Map<String,List> beingPresentation(@PathVariable("klassSeminarId") BigInteger klassSeminarId){
-        List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
+    public Map<String,List> beingPresentation(@PathVariable("klassSeminarId") String klassSeminarId){
+        List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
         boolean flag=false;
         BigInteger id=new BigInteger("0");
         for(Attendance item:attendanceList) {
@@ -247,7 +248,7 @@ public class PresentationController {
                 System.out.println(id);
                 presentationService.updatePresentByAttendanceId(id,new Integer(1));
             }
-        List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,id);
+        List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(new BigInteger(klassSeminarId),id);
         Map<String,List> presentationMap=new HashMap<>();
         presentationMap.put("attendanceList",attendanceList);
         presentationMap.put("questionList",questionList);
@@ -263,24 +264,24 @@ public class PresentationController {
      * @return
      */
     @PutMapping("/presentation/{klassSeminarId}/attendance/{teamId}")
-    public boolean updatePresentationScore(@PathVariable("klassSeminarId") BigInteger klassSeminarId,@PathVariable("teamId")BigInteger teamId,
+    public boolean updatePresentationScore(@PathVariable("klassSeminarId") String klassSeminarId,@PathVariable("teamId")String teamId,
                                            @RequestBody  Map<String,Object> presentationScoreMap){
         double presentationScore=new Double(presentationScoreMap.get("presentationScore").toString());
-        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));
         score.setPresentationScore(presentationScore);
-        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId);
+        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
         BigInteger courseId=courseService.getCourseIdByKlassId(seminarVO.getKlassId());
         Score totalScore=totalScoreDao.totalScoreCalculation(score,courseId);
         int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(totalScore);
         BigInteger roundId=seminarService.getRoundIdBySeminarId(seminarVO.getSeminarId());
-        Score score1=scoreCalculationDao.roundScoreCalculation(totalScore,roundId,teamId,courseId);
+        Score score1=scoreCalculationDao.roundScoreCalculation(totalScore,roundId,new BigInteger(teamId),courseId);
         ScoreVO scoreVO=new ScoreVO();
         scoreVO.setTotalScore(score1.getTotalScore());
         scoreVO.setReportScore(score1.getReportScore());
         scoreVO.setQuestionScore(score1.getQuestionScore());
         scoreVO.setPresentationScore(score1.getPresentationScore());
         scoreVO.setRoundId(roundId);
-        scoreVO.setTeamId(teamId);
+        scoreVO.setTeamId(new BigInteger(teamId));
         scoreDao.updateRoundScoreByRoundIdAndTeamId(scoreVO);
         if(flag>0) return true;
         else return false;
@@ -296,12 +297,12 @@ public class PresentationController {
      */
     //需要teamId，但是应该是根据jwt获得，所以这里teamId用于测试用
     @RequestMapping(value="/seminar/{klassSeminarId}/attendance" ,method = RequestMethod.POST)
-    public boolean attendanceSeminar(@PathVariable("klassSeminarId")BigInteger klassSeminarId,@RequestParam("teamId") BigInteger teamId,@RequestBody Map<String,Object> attendanceMap){
-        SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
+    public boolean attendanceSeminar(@PathVariable("klassSeminarId")String klassSeminarId,@RequestParam("teamId") String teamId,@RequestBody Map<String,Object> attendanceMap){
+        SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
-        List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
+        List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
         for(Attendance attendance:attendanceList){
-            if(teamId==attendance.getTeamId()) return false;//该队伍已报名讨论课
+            if(new BigInteger(teamId)==attendance.getTeamId()) return false;//该队伍已报名讨论课
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//修改日期格式
         String enrollEndTime=dateFormat.format(seminar.getEnrollEndTime());
@@ -315,7 +316,7 @@ public class PresentationController {
             return false;
         }
         else{
-            int flag= presentationService.insertAttendance(klassSeminarId,teamId,attendanceMap);
+            int flag= presentationService.insertAttendance(new BigInteger(klassSeminarId),new BigInteger(teamId),attendanceMap);
             if(flag>0) return true;
             else return false;
         }
@@ -330,8 +331,8 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/seminar/{klassSeminarId}/{teamId}/seminarInfo")
-    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(@PathVariable("klassSeminarId")BigInteger klassSeminarId,@PathVariable("teamId")BigInteger teamId){
-             return presentationService.getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(@PathVariable("klassSeminarId")String klassSeminarId,@PathVariable("teamId")String teamId){
+             return presentationService.getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));
     }
 
 
@@ -342,8 +343,8 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/klassSeminar/attendance/{attendanceId}/modifyAttendance")
-    public List<Map> modifyAttendanceByAttendanceId(@PathVariable("attendanceId")BigInteger attendanceId,@RequestBody Map<String,String> orderMap){
-        return presentationService.modifyAttendanceByAttendanceId(attendanceId,orderMap);
+    public List<Map> modifyAttendanceByAttendanceId(@PathVariable("attendanceId")String attendanceId,@RequestBody Map<String,String> orderMap){
+        return presentationService.modifyAttendanceByAttendanceId(new BigInteger(attendanceId),orderMap);
     }
 
 
