@@ -34,7 +34,7 @@
         where team_serial="";
     </select>
 
-    <select id="getStudentIdByStudentIdAndKlassId" resultMap="java.math.BigInteger">
+    <select id="getStudentIdByStudentIdAndKlassId" resultType="java.math.BigInteger">
         select student_id
         from klass_student
         where student_id=#{studentId} and klass_id=#{klassId}
