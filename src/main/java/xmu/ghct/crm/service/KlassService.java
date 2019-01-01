@@ -61,27 +61,20 @@ public class KlassService {
     }
 
     /**
-     * 根据seminarId获得讨论课下所有班级ID
-     * @param seminarId
-     * @return
-     */
-    public List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId){
-        return klassDao.listKlassIdBySeminarId(seminarId);
-    }
-
-
-    /**
      * 根据seminarId获得其所属班级信息
      * @param seminarId
      * @return
      */
     public List<Klass> listKlassBySeminarId(BigInteger seminarId){
         List<BigInteger> klassIdList=klassDao.listKlassIdBySeminarId(seminarId);
+        System.out.println("klassIdList "+klassIdList);
         List<Klass> klassList=new ArrayList<>();
         for(BigInteger item:klassIdList){
             Klass klass =klassDao.getKlassByKlassId(item);
-            klassList.add(klass);
+            if(klass!=null)
+                klassList.add(klass);
         }
+        System.out.println("klassList: "+klassList);
         return klassList;
     }
 

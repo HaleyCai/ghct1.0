@@ -2,6 +2,7 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.ghct.crm.VO.RoundEnrollVO;
 import xmu.ghct.crm.VO.RoundVO;
 import xmu.ghct.crm.VO.ScoreVO;
 import xmu.ghct.crm.VO.SeminarSimpleVO;
@@ -112,20 +113,20 @@ public class RoundDao {
      * @param roundId
      * @return
      */
-    public Map<String,Integer> getKlassEnrollNum(BigInteger courseId,BigInteger roundId)
+    public List<RoundEnrollVO> getKlassEnrollNum(BigInteger courseId,BigInteger roundId)
     {
-        Map<String,Integer> result=new TreeMap<>();
         //查round下所有的klass
         List<Klass> klassList=klassMapper.listKlassByCourseId(courseId);
-        System.out.println(klassList);
+        List<RoundEnrollVO> enrollNum=new ArrayList<>();
         for(Klass item:klassList)
         {
-            String klassName=item.getGrade()+" "+String.valueOf(item.getKlassSerial());//班级名字是由年级+班级序号
-            //查表找报名次数
-            int times=roundMapper.getEnrollNum(item.getKlassId(),roundId);
-            result.put(klassName,times);
+            RoundEnrollVO enrollVO=new RoundEnrollVO();
+            enrollVO.setKlassId(item.getKlassId());
+            enrollVO.setKlassSerial(item.getKlassSerial());
+            enrollVO.setGrade(item.getGrade());
+            enrollNum.add(enrollVO);
         }
-        return result;
+        return enrollNum;
     }
 
     /**
@@ -141,14 +142,14 @@ public class RoundDao {
                 stringToInt(roundVO.getQuestionScoreMethod()));
         //将map变为klassId和num，传roundId
         Map<BigInteger,Integer> enroll=new TreeMap<>();
-        for(String klassName:roundVO.getEnrollNum().keySet())
-        {
-            String s[]=klassName.split(" ");
-            int grade=Integer.parseInt(s[0]);
-            int klassSerial=Integer.parseInt(s[1]);
-            BigInteger klassId=klassMapper.getKlassByGradeAndKlassSerial(grade,klassSerial).getKlassId();
-            enroll.put(klassId,roundVO.getEnrollNum().get(klassSerial));
-        }
+//        for(String klassName:roundVO.getEnrollNum().keySet())
+//        {
+//            String s[]=klassName.split(" ");
+//            int grade=Integer.parseInt(s[0]);
+//            int klassSerial=Integer.parseInt(s[1]);
+//            BigInteger klassId=klassMapper.getKlassByGradeAndKlassSerial(grade,klassSerial).getKlassId();
+//            enroll.put(klassId,roundVO.getEnrollNum().get(klassSerial));
+//        }
         //修改各班下的最大报名次数
         for(BigInteger klassId:enroll.keySet())
         {

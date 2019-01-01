@@ -2,9 +2,7 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.SeminarScoreVO;
-import xmu.ghct.crm.VO.SeminarSimpleVO;
-import xmu.ghct.crm.VO.SeminarVO;
+import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.service.KlassService;
@@ -34,9 +32,9 @@ public class SeminarController {
      */
     @RequestMapping(value="/round/{roundId}/seminar",method = RequestMethod.GET)
     @ResponseBody
-    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") Long roundId)
+    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") String roundId)
     {
-        return seminarService.getSeminarByRoundId(BigInteger.valueOf(roundId));
+        return seminarService.getSeminarByRoundId(new BigInteger(roundId));
     }
 
     /**
@@ -48,20 +46,21 @@ public class SeminarController {
      * @throws ParseException
      */
     @RequestMapping(value="/course/{courseId}/seminar/creatSeminar",method = RequestMethod.POST)
-    public Boolean creatSeminar(@PathVariable("courseId") BigInteger courseId,@RequestBody Map<String,Object> seminarMap) throws ParseException {
-        int flag=seminarService.creatSeminar(courseId,seminarMap);
+    public Boolean creatSeminar(@PathVariable("courseId") String courseId,
+                                @RequestBody Map<String,Object> seminarMap) throws ParseException {
+        int flag=seminarService.creatSeminar(new BigInteger(courseId),seminarMap);
         if(flag>0) return true;
         else  return false;
     }
 
     /**
-     * 根据讨论课ID获取讨论课所属班级
+     * 根据讨论课ID获取讨论课所属班级简单信息
      * @param seminarId
      * @return
      */
     @RequestMapping(value="/seminar/{seminarId}/klass",method = RequestMethod.GET)
-    public List<Klass> listKlassBySeminarId(@PathVariable("seminarId") Long seminarId){
-        return klassService.listKlassBySeminarId(BigInteger.valueOf(seminarId));
+    public List<Klass> listKlassSeminarBySeminarId(@PathVariable("seminarId") String seminarId){
+        return klassService.listKlassBySeminarId(new BigInteger(seminarId));
     }
 
     /**
@@ -72,9 +71,9 @@ public class SeminarController {
      * @throws ParseException
      */
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.PUT)
-    public boolean updateSeminarBySeminarId(@PathVariable("seminarId")Long seminarId,
+    public boolean updateSeminarBySeminarId(@PathVariable("seminarId")String seminarId,
                                             @RequestBody Map<String,Object> seminarMap)throws ParseException{
-        int flag=seminarService.updateSeminarBySeminarId(BigInteger.valueOf(seminarId),seminarMap);
+        int flag=seminarService.updateSeminarBySeminarId(new BigInteger(seminarId),seminarMap);
         if(flag>0) return true;
         else return false;
     }
@@ -85,10 +84,10 @@ public class SeminarController {
      * @return
      */
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.DELETE)
-    public boolean deleteSeminarBySeminarId(@PathVariable("seminarId") Long seminarId){
-        int flag_1=seminarService.deleteSeminarBySeminarId(BigInteger.valueOf(seminarId));
-        int flag_2=seminarService.deleteKlassSeminarBySeminarId(BigInteger.valueOf(seminarId));
-        int flag_3=scoreService.deleteSeminarScoreBySeminarId(BigInteger.valueOf(seminarId));
+    public boolean deleteSeminarBySeminarId(@PathVariable("seminarId") String seminarId){
+        int flag_1=seminarService.deleteSeminarBySeminarId(new BigInteger(seminarId));
+        int flag_2=seminarService.deleteKlassSeminarBySeminarId(new BigInteger(seminarId));
+        int flag_3=scoreService.deleteSeminarScoreBySeminarId(new BigInteger(seminarId));
         if(flag_1>0&&flag_2>0&&flag_3>0) return true;
         else return false;
     }
@@ -99,8 +98,8 @@ public class SeminarController {
      * @return
      */
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.GET)
-    public  Seminar getSeminarBySeminarId(@PathVariable("seminarId") BigInteger seminarId){
-        return seminarService.getSeminarBySeminarId(seminarId);
+    public  Seminar getSeminarBySeminarId(@PathVariable("seminarId") String seminarId){
+        return seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
     }
 
     /**
@@ -112,9 +111,13 @@ public class SeminarController {
      * @throws ParseException
      */
     @PutMapping("/seminar/{seminarId}/klass/{klassId}/updateReportDDL")
-    public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId,
+    public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("seminarId") String seminarId,
+                                                           @PathVariable("klassId") String klassId,
                                                            @RequestBody Map<String,Object> klassMap) throws ParseException {
-        int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,klassMap);
+        int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(
+                new BigInteger(klassId),
+                new BigInteger(seminarId),
+                klassMap);
         if(flag>0) return true;
         else return  false;
     }
@@ -127,8 +130,11 @@ public class SeminarController {
      * @return
      */
     @DeleteMapping("/seminar/{seminarId}/klass/{klassId}")
-    public boolean deleteKlassSeminarBySeminarIdAndKlassId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId){
-        int flag=seminarService.deleteKlassSeminarBySeminarIdAndKlassId(klassId,seminarId);
+    public boolean deleteKlassSeminarBySeminarIdAndKlassId(@PathVariable("seminarId") String seminarId,
+                                                           @PathVariable("klassId") String klassId){
+        int flag=seminarService.deleteKlassSeminarBySeminarIdAndKlassId(
+                new BigInteger(klassId),
+                new BigInteger(seminarId));
         if(flag>0) return true;
         else return false;
     }
@@ -141,8 +147,9 @@ public class SeminarController {
      * @return
      */
     @GetMapping("seminar/{seminarId}/klass/{klassId}")
-    public SeminarVO getKlassSeminarByKlassIdAndSeminarId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId") BigInteger seminarId){
-        return seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
+    public SeminarVO getKlassSeminarByKlassIdAndSeminarId(@PathVariable("seminarId") String seminarId,
+                                                          @PathVariable("klassId") String klassId){
+        return seminarService.getKlassSeminarByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
 
     }
 

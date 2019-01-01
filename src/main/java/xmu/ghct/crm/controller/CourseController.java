@@ -159,21 +159,11 @@ public class CourseController {
         roundVO.setPresentationScoreMethod(inMap.get("presentationScoreMethod").toString());
         roundVO.setQuestionScoreMethod(inMap.get("reportScoreMethod").toString());
         roundVO.setReportScoreMethod(inMap.get("questionScoreMethod").toString());
-        //将map中的object转为map
-        Map<String,String> enroll=new TreeMap<>();
-//        Class<?> clazz = inMap.get("enrollNum").getClass();
-//        System.out.println(clazz);
-//        for (Field field : clazz.getDeclaredFields()) {
-//            field.setAccessible(true);
-//            String fieldName = field.getName();
-//            System.out.println("fieldName "+ fieldName);
-//            Integer value = Integer.valueOf(field.get(inMap.get("enrollNum")).toString());
-//            System.out.println("value "+ value);
-//            enroll.put(fieldName, value);
-//        }
+        //roundVO.setEnrollNum(List<RoundEnrollVO>inMap.get("enrollNum"));
+
         System.out.println("roundVO "+roundVO);
         //enroll.put(inMap.get(6).toString(),inMap.get(6).toString());
-        System.out.println("map:   "+enroll);
+        //System.out.println("map:   "+enroll);
         //roundVO.setEnrollNum(enroll);
         //修改本轮各个班级允许的报名次数
         return false;//courseService.modifyRoundByRoundId(roundVO);

@@ -48,4 +48,5 @@ public class KlassDao {
     public int getKlassSerialByKlassId(BigInteger klassId){
         return klassMapper.getKlassSerialByKlassId(klassId);
     }
+
 }
