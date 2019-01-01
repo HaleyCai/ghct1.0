@@ -160,7 +160,7 @@ public class ShareDao {
         List<Klass> klasses=klassMapper.listKlassByCourseId(subCourseId);
         for(Klass oneKlass:klasses)
         {
-            shareMapper.deleteTeamWithKlass(oneKlass.getKlassId());
+            klassMapper.deleteTeamWithKlass(oneKlass.getKlassId());
         }
     }
 

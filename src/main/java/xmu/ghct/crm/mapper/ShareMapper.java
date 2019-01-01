@@ -45,12 +45,11 @@ public interface ShareMapper {
 
     Share getSeminarShareByShareId(BigInteger shareId);
 
-
     int deleteTeamShareByShareId(BigInteger shareId);
 
     int deleteTeamShareInCourse(BigInteger subCourseId);
 
-    void deleteTeamWithKlass(BigInteger klassId);
+
 
     int deleteSeminarShareInCourse(BigInteger subCourseId);
 

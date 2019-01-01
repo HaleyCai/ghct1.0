@@ -55,11 +55,6 @@
         where id=#{subCourseId}
     </update>
 
-    <delete id="deleteTeamWithKlass">
-        delete from klass_team
-        where klass_id=#{klassId}
-    </delete>
-
     <delete id="deleteSeminarShareByShareId">
         delete from share_seminar_application  where id=#{shareId}
     </delete>

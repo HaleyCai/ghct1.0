@@ -83,4 +83,10 @@ public interface KlassMapper {
      * @return
      */
    Integer getKlassSerialByKlassId(BigInteger klassId);
+
+    /**
+     * 根据klassId删除klass_team关系
+     * @param klassId
+     */
+    void deleteTeamWithKlass(BigInteger klassId);
 }

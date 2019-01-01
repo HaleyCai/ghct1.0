@@ -57,6 +57,10 @@
         where id=#{klassId}
     </select>
 
+    <delete id="deleteTeamWithKlass">
+        delete from klass_team
+        where klass_id=#{klassId}
+    </delete>
 
     <resultMap id="klassResultMap" type="xmu.ghct.crm.entity.Klass">
         <id property="klassId" column="id"/>
