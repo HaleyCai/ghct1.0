@@ -4,43 +4,60 @@
 
     <!--cyq-->
     <select id="getAllTeamShare" resultMap="shareResultMap">
-           select distinct *
+           select *
            from share_team_application
            where (main_course_id=#{courseId} or sub_course_id=#{courseId}) and status=1
     </select>
 
     <select id="getAllSeminarShare" resultMap="shareResultMap">
-        select distinct *
+        select *
         from share_seminar_application
         where (main_course_id=#{courseId} or sub_course_id=#{courseId}) and status=1
     </select>
 
     <select id="getTeamShareRequest" resultMap="shareResultMap">
-        select distinct *
+        select *
         from share_team_application
         where sub_course_teacher_id=#{teacherId} and status=null
     </select>
 
     <select id="getSeminarShareRequest" resultMap="shareResultMap">
-        select distinct *
+        select *
         from share_seminar_application
         where sub_course_teacher_id=#{teacherId} and status=null
     </select>
 
     <select id="getTeamShareByShareId" resultMap="shareResultMap">
-        select distinct *
+        select *
         from share_team_application
         where id=#{shareId}
     </select>
 
     <select id="getSeminarShareByShareId" resultMap="shareResultMap">
-        select distinct *
+        select *
         from share_seminar_application
         where id=#{shareId}
     </select>
 
     <delete id="deleteTeamShareByShareId">
         delete from share_team_application where id=#{shareId}
+    </delete>
+
+    <update id="deleteTeamShareInCourse">
+        update course
+        set team_main_course_id=null
+        where id=#{subCourseId}
+    </update>
+
+    <update id="deleteSeminarShareInCourse">
+        update course
+        set seminar_main_course_id=null
+        where id=#{subCourseId}
+    </update>
+
+    <delete id="deleteTeamWithKlass">
+        delete from klass_team
+        where klass_id=#{klassId}
     </delete>
 
     <delete id="deleteSeminarShareByShareId">
@@ -54,8 +71,6 @@
         <result property="subCourseTeacherId" column="sub_course_teacher_id"/>
         <result property="status" column="status"/>
     </resultMap>
-
-
 
     <insert id="launchTeamShareRequest" parameterType="xmu.ghct.crm.entity.Share">
         insert into share_team_application(

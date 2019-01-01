@@ -49,17 +49,32 @@ public class ShareService {
      */
     public boolean deleteShare(BigInteger shareId,String type)
     {
+        boolean success;
         if(type.equals("共享分组"))
-            return shareDao.deleteTeamShareByShareId(shareId);
+        {
+            Share share=shareDao.getTeamShareByShareId(shareId);
+            success=shareDao.deleteTeamShareByShareId(shareId);
+            //删除course表的关联记录
+            success=shareDao.deleteShareInCourse(share.getSubCourseId(),1);
+            //删除klass_team表的记录
+            shareDao.deleteTeamWithKlass(share.getSubCourseId());
+            return success;
+        }
         else if(type.equals("共享讨论课"))
-            return shareDao.deleteSeminarShareByShareId(shareId);
-        else
-            return false;
+        {
+            Share share=shareDao.getSeminarShareByShareId(shareId);
+            success=shareDao.deleteSeminarShareByShareId(shareId);
+            //删除course表的关联记录
+            success=shareDao.deleteShareInCourse(share.getSubCourseId(),2);
+            return success;
+        }
+        return false;
     }
 
     public List<ShareRequestVO> getUntreatedShare(BigInteger teacherId) throws NotFoundException {
         List<ShareRequestVO> shareRequestVOS=new ArrayList<>();
         List<CourseTeacherVO> courseTeacherVOS=courseDao.listCourseByTeacherId(teacherId);
+        System.out.println("courseTeacherVOS=="+courseTeacherVOS);
         for(CourseTeacherVO item:courseTeacherVOS)
         {
             shareRequestVOS.addAll(shareDao.getUntreatedShare(item.getCourseId(),item.getCourseName(),teacherId));

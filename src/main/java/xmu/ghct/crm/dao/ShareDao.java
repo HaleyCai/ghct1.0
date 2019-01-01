@@ -5,8 +5,10 @@ import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.ShareRequestVO;
 import xmu.ghct.crm.VO.ShareVO;
 import xmu.ghct.crm.entity.Course;
+import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.mapper.CourseMapper;
+import xmu.ghct.crm.mapper.KlassMapper;
 import xmu.ghct.crm.mapper.ShareMapper;
 import xmu.ghct.crm.mapper.TeacherMapper;
 
@@ -25,6 +27,8 @@ public class ShareDao {
     CourseDao courseDao;
     @Autowired
     TeacherMapper teacherMapper;
+    @Autowired
+    KlassMapper klassMapper;
     /**
      * 获取已同意的，共享组队和共享讨论课信息
      * @param courseId
@@ -107,9 +111,11 @@ public class ShareDao {
         return shareRequestVOS;
     }
 
-
-
-
+    /**
+     * 获取一条share的application信息
+     * @param shareId
+     * @return
+     */
     public Share getTeamShareByShareId(BigInteger shareId)
     {
         return shareMapper.getTeamShareByShareId(shareId);
@@ -120,12 +126,42 @@ public class ShareDao {
         return shareMapper.getSeminarShareByShareId(shareId);
     }
 
+
     public boolean deleteTeamShareByShareId(BigInteger shareId)
     {
         if(shareMapper.deleteTeamShareByShareId(shareId)>0)
             return true;
         else
             return false;
+    }
+
+    public boolean deleteShareInCourse(BigInteger subCourseId,int type)
+    {
+        if(type==1)//修改从课程的course表中team_main_course_id为null
+        {
+            if(shareMapper.deleteTeamShareInCourse(subCourseId)>0)
+                return true;
+        }
+        else//修改从课程的course表中seminar_main_course_id为null
+        {
+            if(shareMapper.deleteSeminarShareInCourse(subCourseId)>0)
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * 删除共享后，从课程下共享的队伍被删除
+     * @param subCourseId
+     * @return
+     */
+    public void deleteTeamWithKlass(BigInteger subCourseId)
+    {
+        List<Klass> klasses=klassMapper.listKlassByCourseId(subCourseId);
+        for(Klass oneKlass:klasses)
+        {
+            shareMapper.deleteTeamWithKlass(oneKlass.getKlassId());
+        }
     }
 
     public boolean deleteSeminarShareByShareId(BigInteger shareId)

@@ -28,17 +28,17 @@ public class ShareController {
 
     /**
      * 共享设置界面：根据teacherId获得，已同意的，共享组队请求+共享讨论课请求信息，包括本课程是主还是从
-     * @param teacherId
      * @return
      */
-    @GetMapping(value="/share/{teacherId}/share")
-    public List<ShareVO> getSuccessShare(@PathVariable String teacherId) throws NotFoundException {
-        return shareService.getAllSuccessShare(new BigInteger(teacherId));
+    @GetMapping(value="/share/successShare")
+    public List<ShareVO> getSuccessShare(HttpServletRequest request) throws NotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        System.out.println("teacherId===="+id);
+        return shareService.getAllSuccessShare(id);
     }
 
     /**
      * 共享设置界面：取消某一个共享
-     * 删除组队共享，同时删除klass_team的关系??
      * @return
      */
     @DeleteMapping(value="/share/deleteShare/{shareId}")
@@ -55,6 +55,7 @@ public class ShareController {
     @GetMapping(value="/share/untreatedRequest")
     public List<ShareRequestVO> getUntreatedShare(HttpServletRequest request) throws NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        System.out.println("teacherId===="+id);
         return shareService.getUntreatedShare(id);
     }
 

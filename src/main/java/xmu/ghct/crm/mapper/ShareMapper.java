@@ -3,6 +3,7 @@ package xmu.ghct.crm.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.ShareRequestVO;
+import xmu.ghct.crm.VO.TeamApplicationVO;
 import xmu.ghct.crm.entity.Share;
 
 import java.math.BigInteger;
@@ -45,8 +46,13 @@ public interface ShareMapper {
     Share getSeminarShareByShareId(BigInteger shareId);
 
 
-
     int deleteTeamShareByShareId(BigInteger shareId);
+
+    int deleteTeamShareInCourse(BigInteger subCourseId);
+
+    void deleteTeamWithKlass(BigInteger klassId);
+
+    int deleteSeminarShareInCourse(BigInteger subCourseId);
 
     int deleteSeminarShareByShareId(BigInteger shareId);
     /**
@@ -55,4 +61,11 @@ public interface ShareMapper {
      * @return
      */
     int launchSeminarShareRequest(Share share);
+
+    /**
+     * 查找所有发给自己的、未处理的，非法组队申请
+     * @param teacherId
+     * @return
+     */
+    List<TeamApplicationVO> getTeamApplication(BigInteger teacherId);
 }
