@@ -40,7 +40,7 @@ public class ShareDao {
      * @param courseId
      * @return
      */
-    public List<ShareVO> getAllSuccessShare(BigInteger courseId,String courseName,BigInteger teacherId)
+    public List<ShareVO> getAllSuccessShare(BigInteger courseId,String courseName,BigInteger teacherId) throws NotFoundException
     {
         List<ShareVO> all=new ArrayList<>();
         List<Share> allTeams=shareMapper.getAllTeamShare(courseId);
@@ -51,7 +51,7 @@ public class ShareDao {
     }
 
     public List<ShareVO> shareToShareVO(List<Share> shares,BigInteger courseId,String courseName,
-                                        String shareType,BigInteger teacherId)
+                                        String shareType,BigInteger teacherId) throws NotFoundException
     {
         List<ShareVO> shareVOS=new ArrayList<>();
         for(Share item:shares)
