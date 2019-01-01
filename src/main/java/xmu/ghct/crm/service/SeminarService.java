@@ -365,6 +365,10 @@ public class SeminarService {
         return map;
     }
 
+    public List<Seminar> listSeminarByRoundId(BigInteger roundId){
+        return roundDao.listSeminarByRoundId(roundId);
+    }
+
 
     public SeminarVO getKlassSeminarByKlassSeminarId(BigInteger klassSeminarId){
         return seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);

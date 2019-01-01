@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+import javafx.beans.value.ObservableObjectValue;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +13,8 @@ import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.io.*;
 import java.math.BigInteger;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -27,6 +22,12 @@ public class CourseController {
 
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    KlassService klassService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     UploadFileService uploadFileService;
@@ -120,6 +121,108 @@ public class CourseController {
          throw new NotFoundException("未找到该课程下的讨论课轮次数据!");
         }
         else return roundList;
+    }
+
+
+    /**
+     * @author hzm
+     * pc端获取某课程轮次信息及轮次下所有讨论课基础信息
+     * @param courseId
+     * @return
+     */
+    @GetMapping("course/{courseId}/pc")
+    public List<List<Map>> listRoundAndSeminarByCourseId(@PathVariable("courseId") String courseId){
+        List<Round> roundList=courseService.listRoundByCourseId(new BigInteger(courseId));
+        List<List<Map>> map=new ArrayList<>();
+        for(Round round:roundList){
+            List<Map> mapList=new ArrayList<>();
+            Map<String,Object> roundMap=new HashMap<>();
+            roundMap.put("roundId",round.getRoundId());
+            roundMap.put("roundSerial",round.getRoundSerial());
+            mapList.add(roundMap);
+            List<Seminar> seminarList=seminarService.listSeminarByRoundId(round.getRoundId());
+            for(Seminar item:seminarList){
+                Map<String,Object> oneMap=new HashMap<>();
+                oneMap.put("seminarId",item.getSeminarId());
+                oneMap.put("seminarName",item.getSeminarName());
+                oneMap.put("seminarSerial",item.getSeminarSerial());
+                mapList.add(oneMap);
+            }
+            map.add(mapList);
+        }
+        return map;
+    }
+
+    /**
+     * 获取讨论课信息及讨论课所属全部班级
+     * @param seminarId
+     * @return
+     */
+    @GetMapping("seminar/{seminarId}/attendance/pc")
+    public List<Map> listKlassInfoBySeminarId(@PathVariable("seminarId")String seminarId){
+        Seminar seminar=seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
+        List<Klass> klassList=klassService.listKlassBySeminarId(new BigInteger(seminarId));
+        List<Map> map=new ArrayList<>();
+        Map<String, Object> oneMap=new HashMap<>();
+        oneMap.put("seminarId",seminar.getSeminarId());
+        oneMap.put("seminarSerial",seminar.getSeminarSerial());
+        oneMap.put("seminarName",seminar.getSeminarName());
+        oneMap.put("introduction",seminar.getIntroduction());
+        oneMap.put("enrollStartTime",seminar.getEnrollStartTime());
+        oneMap.put("enrollEndTime",seminar.getEnrollEndTime());
+        map.add(oneMap);
+        for(Klass klass:klassList){
+            Map<String,Object> klassMap=new HashMap<>();
+            klassMap.put("klassSerial",klass.getKlassSerial());
+            klassMap.put("klassId",klass.getKlassId());
+            map.add(klassMap);
+        }
+        return map;
+    }
+
+    /**
+     * 获取班级讨论课报名信息
+     * @param seminarId
+     * @param klassId
+     * @return
+     * @throws NotFoundException
+     */
+    @GetMapping("seminar/{seminarId}/{klassId}/klassSeminar/pc")
+    public List<Map> listAttendanceStatusByKlassIdAndSeminar(@PathVariable("seminarId")String seminarId,@PathVariable("klassId")String klassId) throws NotFoundException {
+        SeminarVO klassSeminar=seminarService.getKlassSeminarByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
+        List<Map> map=new ArrayList<>();
+        Map<String,Object> aMap=new HashMap<>();
+        aMap.put("maxTeam",klassSeminar.getMaxTeam());
+        List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminar.getKlassSeminarId());
+        aMap.put("attendanceNumber",attendanceList.size());
+        map.add(aMap);
+        for(Attendance attendance:attendanceList){
+            BigInteger teamId=attendance.getTeamId();
+            Team team=teamService.getTeamInfoByTeamId(teamId);
+            User user=userService.getInformation(team.getLeaderId(),"student");
+            Map<String,Object> oneMap=new HashMap<>();
+            oneMap.put("teamSerial",team.getTeamSerial());
+            oneMap.put("teamOrder",attendance.getTeamOrder());
+            oneMap.put("leaderName",user.getName());
+            String pptName=attendance.getPptName();
+            String pptUrl=attendance.getPptUrl();
+            if(pptName==null||pptName.length()<=0){
+                pptName="未提交";
+                pptUrl=null;
+            }
+            oneMap.put("pptName",pptName);
+            oneMap.put("pptUrl",pptUrl);
+            String reportName=attendance.getReportName();
+            String reportUrl=attendance.getReportUrl();
+            if(reportName==null||reportName.length()<=0){
+                reportName="未提交";
+                reportUrl=null;
+            }
+            oneMap.put("reportName",pptName);
+            oneMap.put("reportUrl",reportUrl);
+            map.add(oneMap);
+        }
+        return map;
     }
 
     /**

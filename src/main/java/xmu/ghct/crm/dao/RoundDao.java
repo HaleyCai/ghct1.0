@@ -56,6 +56,16 @@ public class RoundDao {
         return simpleList;
     }
 
+
+    /**
+     * 获取轮次下讨论课完整信息
+     * @param roundId
+     * @return
+     */
+    public List<Seminar> listSeminarByRoundId(BigInteger roundId){
+        return roundMapper.getSeminarByRoundId(roundId);
+    }
+
     /**
      * @cyq
      * 将表示成绩评定方式的数字转为字符串

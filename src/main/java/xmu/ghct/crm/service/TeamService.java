@@ -186,6 +186,15 @@ public class TeamService {
         return teamDao.getKlassIdByTeamId(teamId);
    }
 
+    /**
+     * 根据teamId获取队伍信息
+     * @param teamId
+     * @return
+     */
+   public Team getTeamInfoByTeamId(BigInteger teamId){
+        return teamDao.getTeamInfoByTeamId(teamId);
+   }
+
 
     /**
      * 获取班级下最大队伍序号
