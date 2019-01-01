@@ -78,10 +78,10 @@
         delete from klass_seminar where id=#{seminarId} and klass_id=#{klassId}
     </delete>
 
-    <update id="updateKlassSeminarStatus" parameterType="xmu.ghct.crm.VO.SeminarVO">
+    <update id="updateKlassSeminarStatus">
         update klass_seminar
         set status=#{status}
-        where klass_id=#{klassId}
+        where id=#{klassSeminarId}
     </update>
 
     <select id="getRoundIdBySeminarId" resultType="java.math.BigInteger">

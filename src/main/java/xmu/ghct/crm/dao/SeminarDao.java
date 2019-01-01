@@ -48,8 +48,8 @@ public class SeminarDao {
         return seminarMapper.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
     }
 
-    public int updateKlassSeminarStatus(SeminarVO seminarVO){
-       return seminarMapper.updateKlassSeminarStatus(seminarVO);
+    public int updateKlassSeminarStatus(BigInteger klassSeminarId,int status){
+       return seminarMapper.updateKlassSeminarStatus(klassSeminarId,status);
     }
 
 

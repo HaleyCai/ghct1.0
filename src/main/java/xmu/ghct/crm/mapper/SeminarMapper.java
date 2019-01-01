@@ -88,10 +88,10 @@ public interface SeminarMapper {
     /**
      * @author hzm
      * 修改班级讨论课的讨论课状态
-     * @param seminarVO
+     * @param klassSeminarId
      * @return
      */
-    int updateKlassSeminarStatus(SeminarVO seminarVO);
+    int updateKlassSeminarStatus(BigInteger klassSeminarId,Integer status);
 
 
     /**

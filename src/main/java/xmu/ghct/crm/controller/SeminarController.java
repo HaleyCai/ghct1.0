@@ -156,13 +156,13 @@ public class SeminarController {
 
     /**
      * 修改班级讨论课进行时状态
-     * @param seminarId
-     * @param klassMap
+     * @param klassSeminarId
+     * @param status
      * @return
      */
-    @PutMapping("seminar/{seminarId}/status")
-    public boolean updateKlassSeminarStatus(@PathVariable("seminarId") String seminarId,@RequestBody Map<String,Object> klassMap){
-        int flag=seminarService.updateKlassSeminarStatus(new BigInteger(seminarId),klassMap);
+    @PutMapping("presentation/{klassSeminarId}/status")
+    public boolean updateKlassSeminarStatus(@PathVariable("klassSeminarId") String klassSeminarId,@RequestParam int status){
+        int flag=seminarService.updateKlassSeminarStatus(new BigInteger(klassSeminarId),status);
         if(flag>0)return true;
         else return  false;
     }

@@ -180,16 +180,12 @@ public class SeminarService {
     /**
      * @author hzm
      * 修改班级讨论课状态
-     * @param seminarId
-     * @param klassMap
+     * @param klassSeminarId
+     * @param status
      * @return
      */
-    public int updateKlassSeminarStatus(BigInteger seminarId,Map<String,Object> klassMap){
-        SeminarVO seminarVO=new SeminarVO();
-        seminarVO.setSeminarId(seminarId);
-        seminarVO.setKlassId(new BigInteger(klassMap.get("klassId").toString()));
-        seminarVO.setStatus(new Integer(klassMap.get("status").toString()));
-        return seminarDao.updateKlassSeminarStatus(seminarVO);
+    public int updateKlassSeminarStatus(BigInteger klassSeminarId,int status){
+        return seminarDao.updateKlassSeminarStatus(klassSeminarId,status);
     }
 
     public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(BigInteger teamId, BigInteger seminarId) throws NotFoundException {
@@ -339,8 +335,9 @@ public class SeminarService {
         Klass klass=klassDao.getKlassByKlassId(klassId);
         int klassSerial=klass.getKlassSerial();
         List<Map> map=new ArrayList<>();
-        int account=0;
+        int account=1;
         for(Attendance item:attendanceList){
+   //         if(item.)
             BigInteger teamId=item.getTeamId();
             Team team=teamDao.getTeamInfoByTeamId(teamId);
             Map<String,Object> oneMap=new HashMap<>();
