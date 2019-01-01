@@ -247,7 +247,6 @@ public class PresentationController {
     }
 
 
-
     /**
      * 获取报名小组和提问学生信息（展示打分页面）
      * @param klassSeminarId

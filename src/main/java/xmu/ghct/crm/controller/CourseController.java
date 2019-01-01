@@ -192,16 +192,22 @@ public class CourseController {
     public List<Map> listAttendanceStatusByKlassIdAndSeminar(@PathVariable("seminarId")String seminarId,@PathVariable("klassId")String klassId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         SeminarVO klassSeminar=seminarService.getKlassSeminarByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
         List<Map> map=new ArrayList<>();
-        Map<String,Object> aMap=new HashMap<>();
-        aMap.put("maxTeam",klassSeminar.getMaxTeam());
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminar.getKlassSeminarId());
-        aMap.put("attendanceNumber",attendanceList.size());
-        map.add(aMap);
+        int maxTeam=klassSeminar.getMaxTeam();
+        int account=0;
         for(Attendance attendance:attendanceList){
+            account++;
+            Map<String,Object> oneMap=new HashMap<>();
+           if(account==attendance.getTeamOrder()){
+               oneMap.put("attendanceStatus",false);
+               map.add(oneMap);
+               continue;
+           }
+           else oneMap.put("attendanceStatus",true);
             BigInteger teamId=attendance.getTeamId();
             Team team=teamService.getTeamInfoByTeamId(teamId);
             User user=userService.getInformation(team.getLeaderId(),"student");
-            Map<String,Object> oneMap=new HashMap<>();
+
             oneMap.put("teamSerial",team.getTeamSerial());
             oneMap.put("teamOrder",attendance.getTeamOrder());
             oneMap.put("leaderName",user.getName());
@@ -221,6 +227,12 @@ public class CourseController {
             }
             oneMap.put("reportName",pptName);
             oneMap.put("reportUrl",reportUrl);
+            map.add(oneMap);
+        }
+        if(account<maxTeam){
+            account++;
+            Map<String,Object> oneMap=new HashMap<>();
+            oneMap.put("attendanceStatus",false);
             map.add(oneMap);
         }
         return map;
