@@ -120,38 +120,42 @@ public class ShareDao {
      * @param shareId
      * @return
      */
-    public Share getTeamShareByShareId(BigInteger shareId)
-    {
-        return shareMapper.getTeamShareByShareId(shareId);
+    public Share getTeamShareByShareId(BigInteger shareId) throws NotFoundException {
+        Share share=shareMapper.getTeamShareByShareId(shareId);
+        if(share==null)
+        {
+            throw new NotFoundException("未找到该组队共享");
+        }
+        return share;
     }
 
-    public Share getSeminarShareByShareId(BigInteger shareId)
-    {
-        return shareMapper.getSeminarShareByShareId(shareId);
+    public Share getSeminarShareByShareId(BigInteger shareId) throws NotFoundException {
+        Share share=shareMapper.getSeminarShareByShareId(shareId);
+        if(share==null)
+        {
+            throw new NotFoundException("未找到该讨论课共享");
+        }
+        return share;
     }
 
 
-    public boolean deleteTeamShareByShareId(BigInteger shareId)
-    {
+    public boolean deleteTeamShareByShareId(BigInteger shareId) throws NotFoundException {
         if(shareMapper.deleteTeamShareByShareId(shareId)>0)
             return true;
         else
-            return false;
+            throw new NotFoundException("未找到该组队共享");
     }
 
-    public boolean deleteShareInCourse(BigInteger subCourseId,int type)
-    {
-        if(type==1)//修改从课程的course表中team_main_course_id为null
-        {
-            if(shareMapper.deleteTeamShareInCourse(subCourseId)>0)
-                return true;
-        }
-        else//修改从课程的course表中seminar_main_course_id为null
-        {
-            if(shareMapper.deleteSeminarShareInCourse(subCourseId)>0)
-                return true;
-        }
-        return false;
+    public boolean deleteShareInCourse(BigInteger subCourseId,int type) throws NotFoundException {
+        //修改从课程的course表中team_main_course_id为null
+        if(type==1&&shareMapper.deleteTeamShareInCourse(subCourseId)>0)
+            return true;
+
+        //修改从课程的course表中seminar_main_course_id为null
+        else if(shareMapper.deleteSeminarShareInCourse(subCourseId)>0)
+            return true;
+        else
+            throw new NotFoundException("未找到该共享");
     }
 
     /**
@@ -159,21 +163,23 @@ public class ShareDao {
      * @param subCourseId
      * @return
      */
-    public void deleteTeamWithKlass(BigInteger subCourseId)
-    {
+    public void deleteTeamWithKlass(BigInteger subCourseId) throws NotFoundException {
         List<Klass> klasses=klassMapper.listKlassByCourseId(subCourseId);
+        if(klasses==null&&klasses.isEmpty())
+        {
+            throw new NotFoundException("未找到班级列表");
+        }
         for(Klass oneKlass:klasses)
         {
             klassMapper.deleteTeamWithKlass(oneKlass.getKlassId());
         }
     }
 
-    public boolean deleteSeminarShareByShareId(BigInteger shareId)
-    {
+    public boolean deleteSeminarShareByShareId(BigInteger shareId) throws NotFoundException {
         if(shareMapper.deleteSeminarShareByShareId(shareId)>0)
             return true;
         else
-            return false;
+            throw new NotFoundException("未找到该讨论课共享");
     }
 
     public List<TeamApplicationVO> getUntreatedTeamApplication(BigInteger teacherId) throws NotFoundException {
@@ -190,12 +196,12 @@ public class ShareDao {
         return teamApplicationVOS;
     }
 
-    public boolean launchTeamRequest(TeamApplicationVO applicationVO)
+    public boolean launchTeamRequest(TeamApplicationVO applicationVO) throws NotFoundException
     {
         if(shareMapper.launchTeamRequest(applicationVO)>0)
             return true;
         else
-            return false;
+            throw new NotFoundException("未找到request");
     }
 }
 
