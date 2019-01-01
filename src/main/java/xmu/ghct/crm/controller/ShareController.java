@@ -71,7 +71,6 @@ public class ShareController {
      * 代办处理界面：教师同意/拒绝共享分组申请、共享讨论课申请，shareTeamId，type=1组队,0讨论课，status（1同意，0拒绝）
      * 同意的情况下，修改本条记录的状态，并本课程的分组名单要改成主课程的名单
      * 拒绝就只修改该条记录的状态，
-     * @param courseId
      * @return
      */
 
@@ -80,16 +79,23 @@ public class ShareController {
     /**
      * 代办处理界面：教师同意/拒绝非法组队申请，teamValidId，status（1同意，0拒绝）
      * 修改队伍状态
-     * @param courseId
      * @return
      */
+
+    /**
+     * 进入新增共享界面调用的api，返回所有课程
+     */
+    @GetMapping("/share/showSendShare")
+    public void showSendShare(){
+
+    }
 
     /**
      * 新增共享界面：教师向教师发送一个共享组队/共享讨论课请求信息，发送者默认为主课程，type=1组队0讨论课，subCourseId, subCourseTeacherId
      * @return
      */
-    @PostMapping("/course/createShare")
-    public void createShare(){
+    @PostMapping("/course/sendShare")
+    public void sendShare(){
 
     }
 
@@ -98,7 +104,7 @@ public class ShareController {
      * @param inMap
      */
     @PostMapping("/team/teamValidRequest")
-    public boolean sentValidTeamRequest(@RequestBody Map<String,Object> inMap) throws NotFoundException {
+    public boolean sendValidTeamRequest(@RequestBody Map<String,Object> inMap) throws NotFoundException {
         BigInteger courseId=new BigInteger(inMap.get("courseId").toString());
         BigInteger teacherId=courseService.getCourseByCourseId(courseId).getTeacherId();
         TeamApplicationVO teamApplicationVO=new TeamApplicationVO();

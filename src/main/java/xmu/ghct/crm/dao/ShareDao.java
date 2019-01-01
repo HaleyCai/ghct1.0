@@ -178,14 +178,13 @@ public class ShareDao {
 
     public List<TeamApplicationVO> getUntreatedTeamApplication(BigInteger teacherId) throws NotFoundException {
         List<TeamApplicationVO> teamApplicationVOS=shareMapper.getUntreatedTeamApplication(teacherId);
+        System.out.println("teamApplicationVOS  "+teamApplicationVOS);
         for(TeamApplicationVO oneTeam:teamApplicationVOS)
         {
             BigInteger teamId=oneTeam.getTeamId();
             BigInteger klassId=teamMapper.getKlassIdByTeamId(teamId);
-            System.out.println("klassId "+klassId);
-            Klass klass=klassDao.getKlassByKlassId(klassId);
-            System.out.println("kkkkk");
-            oneTeam.setKlassSerial(klass.getKlassSerial());
+            System.out.println("klassId  "+klassId);
+            oneTeam.setKlassSerial(klassMapper.getKlassByKlassId(klassId).getKlassSerial());
             oneTeam.setTeamSerial(teamMapper.getTeamInfoByTeamId(teamId).getTeamSerial());
         }
         return teamApplicationVOS;
