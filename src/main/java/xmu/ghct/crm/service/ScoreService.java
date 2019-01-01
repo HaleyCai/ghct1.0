@@ -9,6 +9,7 @@ import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.entity.Team;
+import xmu.ghct.crm.exception.NotFoundException;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class ScoreService {
         return scoreDao.listTeamScoreByCourseId(courseId,teamId);
     }*/
 
-    public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
+    public int deleteSeminarScoreBySeminarId(BigInteger seminarId) throws NotFoundException {
         return scoreDao.deleteSeminarScoreBySeminarId(seminarId);
     }
 
@@ -66,7 +67,7 @@ public class ScoreService {
 //    }
 
 
-    public Score getKlassSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId){
+    public Score getKlassSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId) throws NotFoundException{
         return scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
     }
 
@@ -76,7 +77,7 @@ public class ScoreService {
      * @param roundId
      * @return
      */
-    public List<ScoreVO> listRoundScoreByRoundId(BigInteger roundId){
+    public List<ScoreVO> listRoundScoreByRoundId(BigInteger roundId) throws NotFoundException{
         List<ScoreVO> scoreVOList= scoreDao.listRoundScoreByRoundId(roundId);
         for(ScoreVO item:scoreVOList){
            int teamSerial=teamDao.getTeamSerialByTeamId(item.getTeamId());
@@ -88,7 +89,8 @@ public class ScoreService {
         return scoreVOList;
     }
 
-    public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(BigInteger courseId,BigInteger teamId){
+    public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(BigInteger courseId,BigInteger teamId) throws NotFoundException
+    {
         List<Round> roundList=roundDao.listRoundByCourseId(courseId);
         List<ScoreVO> scoreVOList=new ArrayList<>();
         List<Map<String,Object>> map=new ArrayList<>();
@@ -109,7 +111,8 @@ public class ScoreService {
      * @param roundId
      * @return
      */
-    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId,BigInteger teamId){
+    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId,BigInteger teamId) throws NotFoundException
+    {
         List<SeminarSimpleVO> seminarSimpleVOS= roundDao.getSeminarByRoundId(roundId);
         BigInteger klassId=teamDao.getKlassIdByTeamId(teamId);
         List<SeminarSimpleVO> seminarScoreVOList=new ArrayList<>();
@@ -129,7 +132,8 @@ public class ScoreService {
      * @param teamId
      * @return
      */
-    public Score getTeamSeminarScoreBySeminarIdAndTeamId(BigInteger seminarId,BigInteger teamId){
+    public Score getTeamSeminarScoreBySeminarIdAndTeamId(BigInteger seminarId,BigInteger teamId) throws NotFoundException
+    {
         BigInteger klassId=teamDao.getKlassIdByTeamId(teamId);
         BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
         Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);

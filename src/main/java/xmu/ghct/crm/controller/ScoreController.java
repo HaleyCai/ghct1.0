@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+import xmu.ghct.crm.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.ScoreVO;
@@ -45,7 +46,7 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/round/{roundId}")
-    public List<ScoreVO> listRoundScoreByRoundId(@PathVariable("roundId") String roundId){
+    public List<ScoreVO> listRoundScoreByRoundId(@PathVariable("roundId") String roundId) throws NotFoundException {
         return scoreService.listRoundScoreByRoundId(new BigInteger(roundId));
     }
 
@@ -58,7 +59,8 @@ public class ScoreController {
      */
     @GetMapping("/course/round/{roundId}/{teamId}")
     public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(@PathVariable("roundId")String roundId,
-                                                               @PathVariable("teamId")String teamId){
+                                                               @PathVariable("teamId")String teamId) throws NotFoundException
+    {
         List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(new BigInteger(roundId));
         BigInteger klassId=teamService.getKlassIdByTeamId(new BigInteger(teamId));
         List<SeminarVO> klassSeminarList=new ArrayList<>();
@@ -87,7 +89,8 @@ public class ScoreController {
      */
     @GetMapping("/course/{courseId}/{teamId}")
     public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(@PathVariable("courseId")String courseId,
-                                                                         @PathVariable("teamId")String teamId){
+                                                                         @PathVariable("teamId")String teamId) throws NotFoundException
+    {
         return scoreService.listTeamRoundInfoByCourseIdAndTeamId(new BigInteger(courseId),new BigInteger(teamId));
     }
 
@@ -98,7 +101,8 @@ public class ScoreController {
      */
     @GetMapping("/course/round/{roundId}/{teamId}/roundSeminar")
     public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") String roundId,
-                                                     @PathVariable("teamId") String teamId){
+                                                     @PathVariable("teamId") String teamId) throws NotFoundException
+    {
         return scoreService.getSeminarByRoundId(new BigInteger(roundId),new BigInteger(teamId));
     }
 
@@ -111,7 +115,8 @@ public class ScoreController {
      */
     @GetMapping("/course/round/{teamId}/{seminarId}/seminarScore")
     public Score getTeamSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId")String seminarId,
-                                                         @PathVariable("teamId")String teamId){
+                                                         @PathVariable("teamId")String teamId) throws NotFoundException
+    {
         return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),new BigInteger(teamId));
 
     }

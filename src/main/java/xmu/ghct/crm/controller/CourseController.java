@@ -159,7 +159,7 @@ public class CourseController {
      * @return
      */
     @GetMapping("seminar/{seminarId}/attendance/pc")
-    public List<Map> listKlassInfoBySeminarId(@PathVariable("seminarId")String seminarId) throws NotFoundException {
+    public List<Map> listKlassInfoBySeminarId(@PathVariable("seminarId")String seminarId) throws NotFoundException{
         Seminar seminar=seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
         List<Klass> klassList=klassService.listKlassBySeminarId(new BigInteger(seminarId));
         List<Map> map=new ArrayList<>();

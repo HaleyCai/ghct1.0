@@ -268,7 +268,7 @@ public class PresentationController {
      */
     @PutMapping("/presentation/{klassSeminarId}/attendance/{teamId}")
     public boolean updatePresentationScore(@PathVariable("klassSeminarId") String klassSeminarId,@PathVariable("teamId")String teamId,
-                                           @RequestBody  Map<String,Object> presentationScoreMap){
+                                           @RequestBody  Map<String,Object> presentationScoreMap) throws NotFoundException{
         double presentationScore=new Double(presentationScoreMap.get("presentationScore").toString());
         Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));
         score.setPresentationScore(presentationScore);
