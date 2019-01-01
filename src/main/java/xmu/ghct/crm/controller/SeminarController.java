@@ -84,7 +84,8 @@ public class SeminarController {
      * @return
      */
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.DELETE)
-    public boolean deleteSeminarBySeminarId(@PathVariable("seminarId") String seminarId){
+    public boolean deleteSeminarBySeminarId(@PathVariable("seminarId") String seminarId) throws NotFoundException
+    {
         int flag_1=seminarService.deleteSeminarBySeminarId(new BigInteger(seminarId));
         int flag_2=seminarService.deleteKlassSeminarBySeminarId(new BigInteger(seminarId));
         int flag_3=scoreService.deleteSeminarScoreBySeminarId(new BigInteger(seminarId));
@@ -214,7 +215,7 @@ public class SeminarController {
      * @return
      */
     @PostMapping("seminar/{klassSeminarId}/updateReportScore")
-    public boolean updateReportScoreByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,@RequestBody List<Map> reportMapList) {
+    public boolean updateReportScoreByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,@RequestBody List<Map> reportMapList) throws NotFoundException{
         return seminarService.updateReportScoreByKlassSeminarId(new BigInteger(klassSeminarId),reportMapList);
     }
 

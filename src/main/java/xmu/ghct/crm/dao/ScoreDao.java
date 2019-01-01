@@ -2,11 +2,13 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.rmi.runtime.NewThreadAction;
 import xmu.ghct.crm.VO.ScoreVO;
 import xmu.ghct.crm.VO.SeminarScoreVO;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.RoundMapper;
 import xmu.ghct.crm.mapper.ScoreMapper;
 import xmu.ghct.crm.mapper.SeminarMapper;
@@ -130,25 +132,53 @@ public class ScoreDao {
 
 */
 
-    public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
-        return scoreMapper.deleteSeminarScoreBySeminarId(seminarId);
+    public int deleteSeminarScoreBySeminarId(BigInteger seminarId) throws NotFoundException {
+        int count=scoreMapper.deleteSeminarScoreBySeminarId(seminarId);
+        if(count<=0)
+        {
+            throw new NotFoundException("该讨论课成绩不存在");
+        }
+        return count;
     }
 
-    public  int updateSeminarScoreBySeminarIdAndTeamId(Score score){
-        return scoreMapper.updateSeminarScoreBySeminarIdAndTeamId(score);
+    public  int updateSeminarScoreBySeminarIdAndTeamId(Score score) throws NotFoundException{
+        int count=scoreMapper.updateSeminarScoreBySeminarIdAndTeamId(score);
+        if(count<=0)
+        {
+            throw new NotFoundException("该讨论课成绩不存在");
+        }
+        return count;
     }
 
 
-    public int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO){
-        return scoreMapper.updateRoundScoreByRoundIdAndTeamId(scoreVO);
+    public int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO) throws NotFoundException
+    {
+        int count=scoreMapper.updateRoundScoreByRoundIdAndTeamId(scoreVO);
+        if(count<=0)
+        {
+            throw new NotFoundException("该轮成绩不存在");
+        }
+        return count;
     }
 
-    public Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId){
-        return scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+    public Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId) throws NotFoundException
+    {
+        Score score=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+        if(score==null)
+        {
+            throw new NotFoundException("该讨论课成绩不存在");
+        }
+        return score;
     }
 
-    public ScoreVO getTeamRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId){
-        return  scoreMapper.getTeamRoundScore(roundId,teamId);
+    public ScoreVO getTeamRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId) throws NotFoundException
+    {
+        ScoreVO score=scoreMapper.getTeamRoundScore(roundId,teamId);
+        if(score==null)
+        {
+            throw new NotFoundException("队伍该轮成绩不存在");
+        }
+        return score;
     }
 
 
@@ -158,8 +188,13 @@ public class ScoreDao {
      * @param roundId
      * @return
      */
-    public List<ScoreVO> listRoundScoreByRoundId(BigInteger roundId){
-        return scoreMapper.listRoundScoreByRoundId(roundId);
+    public List<ScoreVO> listRoundScoreByRoundId(BigInteger roundId) throws NotFoundException{
+        List<ScoreVO> scoreVO=scoreMapper.listRoundScoreByRoundId(roundId);
+        if(scoreVO==null&&scoreVO.isEmpty())
+        {
+            throw new NotFoundException("轮次成绩列表不存在");
+        }
+        return scoreVO;
     }
 
     /**

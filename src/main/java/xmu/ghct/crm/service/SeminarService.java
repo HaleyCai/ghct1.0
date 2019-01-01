@@ -284,7 +284,7 @@ public class SeminarService {
     }
 
 
-    public boolean updateReportScoreByKlassSeminarId(BigInteger klassSeminarId,List<Map> reportMapList){
+    public boolean updateReportScoreByKlassSeminarId(BigInteger klassSeminarId,List<Map> reportMapList) throws NotFoundException{
         for(Map<String,Object> reportMap:reportMapList)
         {
             BigInteger teamId=new BigInteger(reportMap.get("teamId").toString());
