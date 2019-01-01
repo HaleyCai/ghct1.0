@@ -78,6 +78,12 @@
         where klass_id=#{klassId}
     </delete>
 
+    <select id="getKlassByCourseIdAndKlassSerial" resultMap="klassResultMap">
+        select *
+        from klass
+        where course_id=#{courseId} and klass_serial=#{klassSerial}
+    </select>
+
     <resultMap id="klassResultMap" type="xmu.ghct.crm.entity.Klass">
         <id property="klassId" column="id"/>
         <result property="courseId" column="course_id"/>
@@ -88,10 +94,4 @@
 
     </resultMap>
 
-    <!--cyq-->
-    <select id="getKlassByCourseIdAndKlassSerial" resultType="java.math.BigInteger">
-        select id
-        from klass
-        where course_id=#{courseId} and klass_serial=#{klassSerial}
-    </select>
 </mapper>

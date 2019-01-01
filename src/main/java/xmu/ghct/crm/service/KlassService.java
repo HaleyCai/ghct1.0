@@ -8,6 +8,7 @@ import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.exception.NotFoundException;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,11 @@ public class KlassService {
     @Autowired
     RoundDao roundDao;
 
-    public List<Klass> listKlassByCourseId(BigInteger courseId){
+    public List<Klass> listKlassByCourseId(BigInteger courseId) throws NotFoundException {
         return klassDao.listKlassByCourseId(courseId);
     }
 
-    public int creatKlass(BigInteger courseId, Map<String,Object> klassMap)  {
+    public int creatKlass(BigInteger courseId, Map<String,Object> klassMap) throws NotFoundException, SQLException {
         Klass klass=new Klass();
         klass.setCourseId(courseId);
         int klassSerial=new Integer(klassMap.get("klassSerial").toString());
@@ -44,7 +45,7 @@ public class KlassService {
      * @param courseId
      * @return
      */
-    public int deleteKlassByCourseId(BigInteger courseId){
+    public int deleteKlassByCourseId(BigInteger courseId) throws NotFoundException {
         return klassDao.deleteKlassByCourseId(courseId);
     }
 
@@ -55,7 +56,7 @@ public class KlassService {
      * @param klassId
      * @return
      */
-    public boolean deleteKlassByKlassId(BigInteger klassId){
+    public boolean deleteKlassByKlassId(BigInteger klassId) throws NotFoundException {
         int flag=klassDao.deleteKlassByKlassId(klassId);
         klassDao.deleteKlassRoundByKlassId(klassId);
         klassDao.deleteKlassSeminarByKlassId(klassId);

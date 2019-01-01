@@ -111,4 +111,12 @@ public interface KlassMapper {
      * @param klassId
      */
     int deleteTeamWithKlass(BigInteger klassId);
+
+    /**
+     * 查找班级下是否有该班级
+     * @param courseId
+     * @param klassSerial
+     * @return
+     */
+    Klass getKlassByCourseIdAndKlassSerial(BigInteger courseId,int klassSerial);
 }

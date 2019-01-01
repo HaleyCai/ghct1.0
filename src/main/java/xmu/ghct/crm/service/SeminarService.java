@@ -54,7 +54,7 @@ public class SeminarService {
     @Autowired
     TotalScoreDao totalScoreDao;
 
-    public int creatSeminar(BigInteger courseId,Map<String,Object> seminarMap) throws ParseException {
+    public int creatSeminar(BigInteger courseId,Map<String,Object> seminarMap) throws ParseException, NotFoundException {
         Seminar seminar=new Seminar();
         seminar.setCourseId(courseId);
         if(seminarMap.get("roundId").toString().equals("0")){
@@ -157,7 +157,7 @@ public class SeminarService {
      * @param seminarId
      * @return
      */
-    public SeminarVO getKlassSeminarByKlassIdAndSeminarId(BigInteger klassId, BigInteger seminarId) {
+    public SeminarVO getKlassSeminarByKlassIdAndSeminarId(BigInteger klassId, BigInteger seminarId) throws NotFoundException {
         BigInteger klassSeminarId=seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarId);

@@ -47,7 +47,7 @@ public class SeminarController {
      */
     @RequestMapping(value="/course/{courseId}/seminar/creatSeminar",method = RequestMethod.POST)
     public Boolean creatSeminar(@PathVariable("courseId") String courseId,
-                                @RequestBody Map<String,Object> seminarMap) throws ParseException {
+                                @RequestBody Map<String,Object> seminarMap) throws ParseException, NotFoundException {
         int flag=seminarService.creatSeminar(new BigInteger(courseId),seminarMap);
         if(flag>0) return true;
         else  return false;
@@ -149,7 +149,7 @@ public class SeminarController {
      */
     @GetMapping("seminar/{seminarId}/klass/{klassId}")
     public SeminarVO getKlassSeminarByKlassIdAndSeminarId(@PathVariable("seminarId") String seminarId,
-                                                          @PathVariable("klassId") String klassId){
+                                                          @PathVariable("klassId") String klassId) throws NotFoundException {
         return seminarService.getKlassSeminarByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
 
     }

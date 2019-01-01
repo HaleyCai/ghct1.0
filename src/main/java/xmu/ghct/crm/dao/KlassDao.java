@@ -7,6 +7,7 @@ import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.KlassMapper;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -14,24 +15,38 @@ public class KlassDao {
     @Autowired
     KlassMapper klassMapper;
 
-    public List<Klass> listKlassByCourseId(BigInteger courseId) {
+    public List<Klass> listKlassByCourseId(BigInteger courseId) throws NotFoundException {
         List<Klass> klassList = klassMapper.listKlassByCourseId(courseId);
         if (klassList == null) {
-            //throw new NoStudentNotFindException();
+            throw new NotFoundException("该课程下没有班级");
         }
         return klassList;
     }
 
-    public int creatKlass(Klass klass) {
+    public int creatKlass(Klass klass) throws SQLException {
+        if(klassMapper.getKlassByCourseIdAndKlassSerial(klass.getCourseId(),klass.getKlassSerial())==null)
+        {
+            throw new SQLException("该班级已存在");
+        }
         return klassMapper.creatKlass(klass);
     }
 
-    public int deleteKlassByCourseId(BigInteger courseId) {
-        return klassMapper.deleteKlassByCourseId(courseId);
+    public int deleteKlassByCourseId(BigInteger courseId) throws NotFoundException {
+        int count=klassMapper.deleteKlassByCourseId(courseId);
+        if(count<=0)
+        {
+            throw new NotFoundException("该课程下没有班级");
+        }
+        return count;
     }
 
-    public int deleteKlassByKlassId(BigInteger klassId){
-        return klassMapper.deleteKlassByKlassId(klassId);
+    public int deleteKlassByKlassId(BigInteger klassId) throws NotFoundException {
+        int count=klassMapper.deleteKlassByKlassId(klassId);
+        if(count<=0)
+        {
+            throw new NotFoundException("未找到班级");
+        }
+        return count;
     }
 
     public Klass getKlassByKlassId(BigInteger klassId) throws NotFoundException {
@@ -45,16 +60,27 @@ public class KlassDao {
         return klass;
     }
 
-    public List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId){
-        return klassMapper.listKlassIdBySeminarId(seminarId);
+    public List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId) throws NotFoundException {
+        List<BigInteger> list=klassMapper.listKlassIdBySeminarId(seminarId);
+        if(list==null&&list.isEmpty())
+        {
+            throw new NotFoundException("未找到该讨论课");
+        }
+        return list;
     }
 
     public List<Integer> listStatusByKlassId(BigInteger klassId){
         return klassMapper.listStatusByKlassId(klassId);
     }
 
-    public int getKlassSerialByKlassId(BigInteger klassId){
-        return klassMapper.getKlassSerialByKlassId(klassId);
+    public int getKlassSerialByKlassId(BigInteger klassId) throws NotFoundException {
+
+        int serial=klassMapper.getKlassSerialByKlassId(klassId);
+        if(serial<=0)
+        {
+            throw new NotFoundException("未找到该班级");
+        }
+        return serial;
     }
 
     /**
@@ -62,8 +88,13 @@ public class KlassDao {
      * @param klassId
      * @return
      */
-    public int deleteKlassRoundByKlassId(BigInteger klassId){
-        return klassMapper.deleteKlassRoundByKlassId(klassId);
+    public int deleteKlassRoundByKlassId(BigInteger klassId) throws NotFoundException {
+        int count=klassMapper.deleteKlassRoundByKlassId(klassId);
+        if(count<=0)
+        {
+            throw new NotFoundException("未找到轮次关联");
+        }
+        return count;
     }
 
     /**
@@ -71,8 +102,13 @@ public class KlassDao {
      * @param klassId
      * @return
      */
-    public int deleteKlassStudentByKlassId(BigInteger klassId){
-        return klassMapper.deleteKlassStudentByKlassId(klassId);
+    public int deleteKlassStudentByKlassId(BigInteger klassId) throws NotFoundException {
+        int count=klassMapper.deleteKlassStudentByKlassId(klassId);
+        if(count<=0)
+        {
+            throw new NotFoundException("未找到班级-学生关系");
+        }
+        return count;
     }
 
     /**
@@ -80,16 +116,26 @@ public class KlassDao {
      * @param klassId
      * @return
      */
-    public int deleteKlassSeminarByKlassId(BigInteger klassId){
-        return klassMapper.deleteKlassSeminarByKlassId(klassId);
+    public int deleteKlassSeminarByKlassId(BigInteger klassId) throws NotFoundException {
+        int count=klassMapper.deleteKlassSeminarByKlassId(klassId);
+        if(count<=0)
+        {
+            throw new NotFoundException("未找到班级-讨论课关系");
+        }
+        return count;
     }
 
     /**
      * 根据klassId删除klass_team关系
      * @param klassId
      */
-    public int deleteTeamWithKlass(BigInteger klassId){
-        return klassMapper.deleteTeamWithKlass(klassId);
+    public int deleteTeamWithKlass(BigInteger klassId) throws NotFoundException {
+        int count=klassMapper.deleteTeamWithKlass(klassId);
+        if(count<=0)
+        {
+            throw new NotFoundException("未找到班级-队伍关系");
+        }
+        return count;
     }
 
 }
