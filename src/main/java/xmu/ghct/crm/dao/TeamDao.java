@@ -8,6 +8,7 @@ import xmu.ghct.crm.VO.TeamInfoVO;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.CourseMapper;
 import xmu.ghct.crm.mapper.KlassMapper;
 import xmu.ghct.crm.mapper.StudentMapper;
@@ -31,7 +32,7 @@ public class TeamDao {
      * @param courseId
      * @return
      */
-    public List<StudentVO> getNoTeamStudentByCourseId(BigInteger courseId) {
+    public List<StudentVO> getNoTeamStudentByCourseId(BigInteger courseId) throws NotFoundException {
         List<BigInteger> allStudentId=studentMapper.getAllStudentIdByCourseId(courseId);
         //查course下所有klass
         List<Klass> allKlass=klassMapper.listKlassByCourseId(courseId);
@@ -60,18 +61,33 @@ public class TeamDao {
             studentVO.setName(user.getName());
             noTeamStudent.add(studentVO);
         }
+        if(noTeamStudent==null&&noTeamStudent.isEmpty())
+        {
+            throw new NotFoundException("未找到未组队学生");
+        }
         return noTeamStudent;
     }
 
-    public  List<BigInteger> getStudentIdByTeamId(BigInteger teamId){
-        return teamMapper.getStudentIdByTeamId(teamId);
+    public List<BigInteger> getStudentIdByTeamId(BigInteger teamId) throws NotFoundException {
+
+        List<BigInteger> list=teamMapper.getStudentIdByTeamId(teamId);
+        if(list==null&&list.isEmpty())
+        {
+            throw new NotFoundException("该组下没有学生");
+        }
+        return list;
     }
 
-    public Team getTeamInfoByTeamId(BigInteger teamId){
-        return teamMapper.getTeamInfoByTeamId(teamId);
+    public Team getTeamInfoByTeamId(BigInteger teamId) throws NotFoundException {
+        Team team=teamMapper.getTeamInfoByTeamId(teamId);
+        if(team==null)
+        {
+            throw new NotFoundException("未找到该组");
+        }
+        return team;
     }
 
-    public List<Team> listTeamByKlassId(BigInteger klassId) {
+    public List<Team> listTeamByKlassId(BigInteger klassId) throws NotFoundException {
         //*********考虑到从课程的关系，要先查klass_team表找到所有的team，再根据teamId查信息
         //注意返回值从课程与主课程klassId不同
         List<BigInteger> teamIds=teamMapper.listTeamIdByKlassId(klassId);
@@ -82,6 +98,10 @@ public class TeamDao {
             if(team.getKlassId()!=klassId)//如果是从课程，则改变klassId
                 team.setKlassId(klassId);
             teams.add(team);
+        }
+        if(teams==null&&teams.isEmpty())
+        {
+            throw new NotFoundException("未找到该班级");
         }
         return teams;
     }
@@ -102,15 +122,14 @@ public class TeamDao {
      * @param teamId
      * @return
      */
-    public boolean deleteTeam(BigInteger teamId)
-    {
+    public boolean deleteTeam(BigInteger teamId) throws NotFoundException {
         int v1=teamMapper.deleteTeamInfo(teamId);
         int v2=teamMapper.deleteKlassTeam(teamId);
         int v3=teamMapper.deleteStudentTeam(teamId);
         if(v1+v2+v3>0)
             return true;
         else
-            return false;
+            throw new NotFoundException("该组不在表中");
     }
 
     /**
@@ -128,13 +147,23 @@ public class TeamDao {
     }
 
 
-    public BigInteger getKlassIdByTeamId(BigInteger teamId){
-        return teamMapper.getKlassIdByTeamId(teamId);
+    public BigInteger getKlassIdByTeamId(BigInteger teamId) throws NotFoundException {
+        BigInteger flag=teamMapper.getKlassIdByTeamId(teamId);
+        if(flag==null)
+        {
+            throw new NotFoundException("未找到该组所在的班级");
+        }
+        return flag;
     }
 
 
-    public BigInteger getCourseIdByTeamId(BigInteger teamId){
-        return teamMapper.getCourseIdByTeamId(teamId);
+    public BigInteger getCourseIdByTeamId(BigInteger teamId) throws NotFoundException {
+        BigInteger flag=teamMapper.getCourseIdByTeamId(teamId);
+        if(flag==null)
+        {
+            throw new NotFoundException("未找到该组所在的课程");
+        }
+        return flag;
     }
 
     public boolean addTeamMember(BigInteger teamId,BigInteger studentId)
@@ -146,8 +175,13 @@ public class TeamDao {
             return false;
     }
 
-    public int getTeamSerialByTeamId(BigInteger teamId){
-        return teamMapper.getTeamSerialByTeamId(teamId);
+    public int getTeamSerialByTeamId(BigInteger teamId) throws NotFoundException {
+        int count=teamMapper.getTeamSerialByTeamId(teamId);
+        if(count<=0)
+        {
+            throw new NotFoundException("未找到该组");
+        }
+        return count;
     }
 
 
@@ -216,8 +250,13 @@ public class TeamDao {
      * @param studentId
      * @return
      */
-     public BigInteger getTeamIdByStudentId(BigInteger studentId){
-        return teamMapper.getTeamIdByStudentId(studentId);
-    }
+     public BigInteger getTeamIdByStudentId(BigInteger studentId) throws NotFoundException {
+         BigInteger flag = teamMapper.getTeamIdByStudentId(studentId);
+         if(flag==null)
+         {
+             throw new NotFoundException("未找到该学生的队伍或未找到该学生");
+         }
+         return flag;
+     }
 
 }

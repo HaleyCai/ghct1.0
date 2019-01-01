@@ -227,7 +227,7 @@ public class SeminarController {
      * @return
      */
     @GetMapping("/seminar/{klassSeminarId}/updateReportScore")
-    public List<Map> listReportUploadByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException {
+    public List<Map> listReportUploadByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException, NotFoundException {
         return seminarService.listFileUploadStatusByKlassSeminarId(new BigInteger(klassSeminarId));
     }
 
@@ -239,7 +239,7 @@ public class SeminarController {
      * @return
      */
     @GetMapping("/seminar/{klassSeminarId}/pptUploadStatus")
-    public List<Map> listPPTUploadStatusByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException {
+    public List<Map> listPPTUploadStatusByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException, NotFoundException {
         return seminarService.listFileUploadStatusByKlassSeminarId(new BigInteger(klassSeminarId));
     }
 

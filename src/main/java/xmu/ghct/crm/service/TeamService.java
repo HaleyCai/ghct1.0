@@ -119,7 +119,7 @@ public class TeamService {
      * @param courseId
      * @return
      */
-    public List<StudentVO> getNoTeamStudentByCourseId(BigInteger courseId) {
+    public List<StudentVO> getNoTeamStudentByCourseId(BigInteger courseId) throws NotFoundException {
         return teamDao.getNoTeamStudentByCourseId(courseId);
     }
 
@@ -129,8 +129,7 @@ public class TeamService {
      * @param teamId
      * @return
      */
-    public boolean deleteTeam(BigInteger teamId)
-    {
+    public boolean deleteTeam(BigInteger teamId) throws NotFoundException {
         return teamDao.deleteTeam(teamId);
     }
 
@@ -141,8 +140,7 @@ public class TeamService {
      * @param studentId
      * @return
      */
-    public int removeTeamMember(BigInteger teamId,BigInteger studentId)
-    {
+    public int removeTeamMember(BigInteger teamId,BigInteger studentId) throws NotFoundException {
         //*******用jwt中的id判断操作人是否是该队伍组长，若是，继续删除，若不是返回删除失败
         //删除操作，判断删除的student是否是组长，是则解散小组，否则删除成员
         Team team=teamDao.getTeamInfoByTeamId(teamId);
@@ -182,7 +180,7 @@ public class TeamService {
      * @param teamId
      * @return
      */
-    public BigInteger getKlassIdByTeamId(BigInteger teamId){
+    public BigInteger getKlassIdByTeamId(BigInteger teamId) throws NotFoundException {
         return teamDao.getKlassIdByTeamId(teamId);
    }
 
@@ -191,7 +189,7 @@ public class TeamService {
      * @param teamId
      * @return
      */
-   public Team getTeamInfoByTeamId(BigInteger teamId){
+   public Team getTeamInfoByTeamId(BigInteger teamId) throws NotFoundException {
         return teamDao.getTeamInfoByTeamId(teamId);
    }
 
@@ -209,7 +207,7 @@ public class TeamService {
      * 创建队伍
      * @return
      */
-    public BigInteger insertTeam(BigInteger studentId, List<List<Map>> creatTeamMap){
+    public BigInteger insertTeam(BigInteger studentId, List<List<Map>> creatTeamMap) throws NotFoundException {
         BigInteger teamId=teamDao.getTeamIdByStudentId(studentId);
         if(teamId!=null) {System.out.println("学生已组队！");return null;}
         Team team=new Team();
@@ -256,7 +254,7 @@ public class TeamService {
      * @param teamId
      * @return
      */
-    public boolean judgeIllegal(BigInteger teamId){
+    public boolean judgeIllegal(BigInteger teamId) throws NotFoundException {
         BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
         List<BigInteger> studentIdList=strategyDao.listStudentIdByTeamId(teamId);
         List<TeamStrategyVO> teamStrategyVOList=strategyDao.listTeamStrategyByCourseId(courseId);
@@ -306,8 +304,7 @@ public class TeamService {
         return true;
    }
 
-   public Map<String,Object> getUserTeamStatusById(BigInteger id)
-   {
+   public Map<String,Object> getUserTeamStatusById(BigInteger id) throws NotFoundException {
        Map<String,Object> map=new HashMap<>();
        BigInteger teamId=teamDao.getTeamIdByStudentId(id);
        if(teamId!=null)

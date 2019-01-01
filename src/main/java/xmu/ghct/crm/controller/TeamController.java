@@ -69,7 +69,7 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}/noTeam",method = RequestMethod.GET)
-    public List<StudentVO> getNoTeamStudentByCourseId(@PathVariable("courseId") String courseId){
+    public List<StudentVO> getNoTeamStudentByCourseId(@PathVariable("courseId") String courseId) throws NotFoundException {
         return teamService.getNoTeamStudentByCourseId(new BigInteger(courseId));
     }
 
@@ -78,8 +78,7 @@ public class TeamController {
      * @param teamId
      */
     @RequestMapping(value="team/{teamId}",method = RequestMethod.DELETE)
-    public Map<String,Object> deleteTeam(@PathVariable("teamId") String teamId)
-    {
+    public Map<String,Object> deleteTeam(@PathVariable("teamId") String teamId) throws NotFoundException {
         Map<String,Object> map=new HashMap<>();
         if(teamService.deleteTeam(new BigInteger(teamId)))
             map.put("message",true);
@@ -95,8 +94,7 @@ public class TeamController {
      */
     @RequestMapping(value="team/{teamId}/add",method = RequestMethod.PUT)
     public boolean addTeamMember(@PathVariable("teamId") String teamId,
-                              @RequestBody List<BigInteger> studentIdList)
-    {
+                              @RequestBody List<BigInteger> studentIdList) throws NotFoundException {
         Boolean flag=teamService.addTeamMember(new BigInteger(teamId),studentIdList);
         if(teamService.judgeIllegal(new BigInteger(teamId))){
             teamService.updateStatusByTeamId(new BigInteger(teamId),1);
@@ -115,8 +113,7 @@ public class TeamController {
      */
     @RequestMapping(value="team/{teamId}/remove",method = RequestMethod.PUT)
     public Map<String,Object> removeTeamMember(@PathVariable("teamId") String teamId,
-                                 @RequestBody Map<String,Object> inMap)
-    {
+                                 @RequestBody Map<String,Object> inMap) throws NotFoundException {
         Map<String,Object> map=new HashMap<>();
         int flag=teamService.removeTeamMember(new BigInteger(teamId),new BigInteger(inMap.get("studentId").toString()));
         if(flag==0){
@@ -142,7 +139,7 @@ public class TeamController {
      * 创建小组，先创建组，初始加入成员为组长，判断是否合法后填写状态
      */
     @RequestMapping(value="/team/create", method = RequestMethod.POST)
-    public boolean createTeam(HttpServletRequest request,@RequestBody List<List<Map>> creatTeamMap){
+    public boolean createTeam(HttpServletRequest request,@RequestBody List<List<Map>> creatTeamMap) throws NotFoundException {
         BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
         BigInteger teamId=teamService.insertTeam(studentId,creatTeamMap);
         if(teamId!=null){
