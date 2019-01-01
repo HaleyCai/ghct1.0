@@ -36,6 +36,7 @@
         select id,course_name
         from course
         where teacher_id = #{teacherId}
+        order by course_name
     </select>
 
     <!--cyq-->
@@ -112,6 +113,7 @@
     <select id="getAllCourse" resultMap="courseVOMap">
         select id,teacher_id,course_name
         from course
+        order by course_name
     </select>
 
     <resultMap id="courseVOMap" type="xmu.ghct.crm.VO.CourseVO">

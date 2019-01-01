@@ -94,7 +94,7 @@ public class ShareController {
      * 新增共享界面：教师向教师发送一个共享组队/共享讨论课请求信息，发送者默认为主课程，type=1组队0讨论课，subCourseId, subCourseTeacherId
      * @return
      */
-    @PostMapping("/course/sendShare")
+    @PostMapping("/share/sendShare")
     public void sendShare(){
 
     }

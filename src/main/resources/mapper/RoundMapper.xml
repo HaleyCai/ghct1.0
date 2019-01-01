@@ -31,6 +31,7 @@
         select id,course_id,round_serial,presentation_score_method,question_score_method,report_score_method
         from round
         where course_id=#{courseId}
+        order by round_serial
     </select>
 
     <select id="getRoundSerialByRoundId" resultType="java.lang.Integer">

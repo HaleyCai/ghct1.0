@@ -30,6 +30,7 @@
         select id
         from seminar
         where round_id=#{roundId}
+        order by seminar_serial
     </select>
 
     
