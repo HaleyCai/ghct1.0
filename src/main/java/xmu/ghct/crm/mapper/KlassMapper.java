@@ -84,9 +84,31 @@ public interface KlassMapper {
      */
    Integer getKlassSerialByKlassId(BigInteger klassId);
 
+
+    /**
+     * 删除班级-轮次关联
+     * @param klassId
+     * @return
+     */
+   int deleteKlassRoundByKlassId(BigInteger klassId);
+
+    /**
+     * 删除班级-学生关系
+     * @param klassId
+     * @return
+     */
+   int deleteKlassStudentByKlassId(BigInteger klassId);
+
+    /**
+     * 删除班级—讨论课关系
+     * @param klassId
+     * @return
+     */
+   int deleteKlassSeminarByKlassId(BigInteger klassId);
+
     /**
      * 根据klassId删除klass_team关系
      * @param klassId
      */
-    void deleteTeamWithKlass(BigInteger klassId);
+    int deleteTeamWithKlass(BigInteger klassId);
 }

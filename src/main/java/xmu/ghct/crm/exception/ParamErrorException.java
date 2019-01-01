@@ -3,7 +3,7 @@ package xmu.ghct.crm.exception;
 import java.io.Serializable;
 
 /**
- * @author TYJ
+ * @author hzm
  * 参数错误异常
  */
 public class ParamErrorException extends Exception implements Serializable {

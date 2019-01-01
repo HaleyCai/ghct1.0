@@ -38,7 +38,7 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
-    public Map<String,Object> listTeamByCourseId(HttpServletRequest request, @PathVariable("courseId") String courseId){
+    public Map<String,Object> listTeamByCourseId(HttpServletRequest request, @PathVariable("courseId") String courseId) throws NotFoundException {
         List<TeamSimpleInfo> teamSimpleInfos=teamService.listTeamByCourseId(new BigInteger(courseId));
         Map<String,Object> map=new HashMap<>();
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);

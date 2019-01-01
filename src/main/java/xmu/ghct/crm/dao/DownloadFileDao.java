@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.mapper.SeminarMapper;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigInteger;
@@ -36,19 +37,35 @@ public class DownloadFileDao {
         }
     }
 
-    public void downloadFile(HttpServletResponse response,String filePath) throws UnsupportedEncodingException {
+    public void downloadFile(HttpServletResponse response, HttpServletRequest request,String filePath) throws UnsupportedEncodingException {
         String fileName=filePath.substring(filePath.lastIndexOf("\\")+1);
         String type=fileName.substring(fileName.lastIndexOf("."));
         File file=new File(filePath);
+
+        final String userAgent = request.getHeader("USER-AGENT").toLowerCase();
+        System.out.println(userAgent);
         if(file.exists()) {  //判断文件父目录是否存在
              response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
 
             //设置文件头
-            String headerValue = "attachment;";
-            headerValue += " filename=\"" + encodeURIComponent(fileName) +"\";";
-            headerValue += " filename*=utf-8''" + encodeURIComponent(fileName);
-            headerValue += encodeURIComponent(type);                             //添加文件后缀
+            String headerValue = "attachment; filename=\"";
+            if(userAgent.contains("msie")){
+                System.out.println("msie");
+                headerValue += URLEncoder.encode(fileName,"UTF8")+URLEncoder.encode(type,"UTF8");
+            }
+            else if(userAgent.contains("safari")||userAgent.contains("postman")){
+                System.out.println("safari");
+                headerValue +=encodeURIComponent(fileName) +"\";";
+                headerValue += " filename*=utf-8''" + encodeURIComponent(fileName);
+                headerValue += encodeURIComponent(type);                             //添加文件后缀
+            }  else if(userAgent.contains("mozilla")){
+                System.out.println("mozilla");
+                headerValue +=new String(fileName.getBytes(), "ISO8859-1")+new String(type.getBytes(), "ISO8859-1");
+            } else {
+                System.out.println("other");
+                headerValue += URLEncoder.encode(fileName, "UTF8") + URLEncoder.encode(type, "UTF8");//其他浏览器
+            }
             response.setHeader("Content-Disposition", headerValue);
             byte[] buff = new byte[1024];                                        //5.创建数据缓冲区
             BufferedInputStream bis = null;
@@ -84,7 +101,7 @@ public class DownloadFileDao {
      * @param paths
      * @throws UnsupportedEncodingException
      */
-    public void multiFileDownload(BigInteger seminarId,HttpServletResponse response, List<String> paths) throws UnsupportedEncodingException {
+    public void multiFileDownload(BigInteger seminarId,HttpServletResponse response,HttpServletRequest request, List<String> paths) throws UnsupportedEncodingException {
 
         Seminar seminar=seminarMapper.getSeminarBySeminarId(seminarId);
 
@@ -94,7 +111,6 @@ public class DownloadFileDao {
             directoryFile.mkdirs();
         }
         //设置最终输出zip文件的目录+文件名
-      //  SimpleDateFormat formatter  = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
         String zipFileName = seminar.getSeminarName()+".zip";
         String strZipPath = directoryFile+"\\"+zipFileName;
 
@@ -153,7 +169,7 @@ public class DownloadFileDao {
         }
         //判断系统压缩文件是否存在：true-把该压缩文件通过流输出给客户端后删除该压缩文件  false-未处理
         if(zipFile.exists()){
-            downloadFile(response,strZipPath);
+            downloadFile(response,request,strZipPath);
             zipFile.delete();
             directoryFile.delete();
         }

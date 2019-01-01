@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.ScoreMapper;
 import xmu.ghct.crm.mapper.SeminarMapper;
 
@@ -56,7 +57,7 @@ public class SeminarService {
     public int creatSeminar(BigInteger courseId,Map<String,Object> seminarMap) throws ParseException {
         Seminar seminar=new Seminar();
         seminar.setCourseId(courseId);
-        if(seminarMap.get("roundId").toString()==""){
+        if(seminarMap.get("roundId").toString().equals("0")){
             Round round=new Round();
             round.setCourseId(courseId);
             round.setPresentationScoreMethod(1);
@@ -93,12 +94,11 @@ public class SeminarService {
      * @param roundId
      * @return
      */
-    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId)
-    {
+    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId) throws NotFoundException {
         List<SeminarSimpleVO> list = roundDao.getSeminarByRoundId(roundId);
-        if(list==null)
+        if(list==null||list.isEmpty())
         {
-            //throw
+            throw new NotFoundException("未查找到该轮次下的讨论课信息！");
         }
         return list;
     }
@@ -226,7 +226,7 @@ public class SeminarService {
      * @param seminarScoreMap
      * @return
      */
-    public int updateSeminarScoreBySeminarIdAndTeamId(BigInteger seminarId, BigInteger teamId, Map<String,Object> seminarScoreMap){
+    public int updateSeminarScoreBySeminarIdAndTeamId(BigInteger seminarId, BigInteger teamId, Map<String,Object> seminarScoreMap) throws NotFoundException {
         Score score=new Score();
         BigInteger roundId=seminarMapper.getRoundIdBySeminarId(seminarId);
         BigInteger courseId=courseDao.getCourseIdByTeamId(teamId);

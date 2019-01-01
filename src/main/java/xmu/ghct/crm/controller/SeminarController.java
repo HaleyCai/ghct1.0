@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.service.KlassService;
 import xmu.ghct.crm.service.ScoreService;
 import xmu.ghct.crm.service.SeminarService;
@@ -32,8 +33,7 @@ public class SeminarController {
      */
     @RequestMapping(value="/round/{roundId}/seminar",method = RequestMethod.GET)
     @ResponseBody
-    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") String roundId)
-    {
+    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") String roundId) throws NotFoundException {
         return seminarService.getSeminarByRoundId(new BigInteger(roundId));
     }
 
@@ -188,7 +188,7 @@ public class SeminarController {
      */
     @PutMapping("seminar/{seminarId}/team/{teamId}/seminarScore")
     public boolean updateSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId") String seminarId,
-                                                          @PathVariable("teamId") String teamId,@RequestBody Map<String,Object> seminarScoreMap){
+                                                          @PathVariable("teamId") String teamId,@RequestBody Map<String,Object> seminarScoreMap) throws NotFoundException {
         int flag=seminarService.updateSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),new BigInteger(teamId),seminarScoreMap);
         if(flag>0) return true;
         else return false;

@@ -7,6 +7,7 @@ import xmu.ghct.crm.VO.ShareVO;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.CourseMapper;
 import xmu.ghct.crm.mapper.KlassMapper;
 import xmu.ghct.crm.mapper.ShareMapper;
@@ -78,8 +79,7 @@ public class ShareDao {
      * 获取当前课程下，未处理状态的共享请求，本课程为从课程
      * @return
      */
-    public List<ShareRequestVO> getUntreatedShare(BigInteger courseId,String courseName,BigInteger teacherId)
-    {
+    public List<ShareRequestVO> getUntreatedShare(BigInteger courseId,String courseName,BigInteger teacherId) throws NotFoundException {
         List<ShareRequestVO> all=new ArrayList<>();
         List<Share> allTeams=shareMapper.getTeamShareRequest(courseId);
         all.addAll(shareToShareRequestVO(allTeams,courseId,courseName,"共享分组申请",teacherId));
@@ -89,8 +89,7 @@ public class ShareDao {
     }
 
     public List<ShareRequestVO> shareToShareRequestVO(List<Share> shares,BigInteger courseId,String courseName,
-                                                      String shareType,BigInteger teacherId)
-    {
+                                                      String shareType,BigInteger teacherId) throws NotFoundException {
         List<ShareRequestVO> shareRequestVOS=new ArrayList<>();
         for(Share item:shares)
         {

@@ -1,7 +1,7 @@
 package xmu.ghct.crm.exception;
 
 /**
- * @author TYJ
+ * @author hzm
  * 未找到目标资源异常
  */
 public class NotFoundException extends Exception{

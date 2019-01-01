@@ -56,6 +56,10 @@ public class KlassService {
      */
     public boolean deleteKlassByKlassId(BigInteger klassId){
         int flag=klassDao.deleteKlassByKlassId(klassId);
+        klassDao.deleteKlassRoundByKlassId(klassId);
+        klassDao.deleteKlassSeminarByKlassId(klassId);
+        klassDao.deleteKlassStudentByKlassId(klassId);
+        klassDao.deleteTeamWithKlass(klassId);
         if(flag>0)return true;
         else return false;
     }

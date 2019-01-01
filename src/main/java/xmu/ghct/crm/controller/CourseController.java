@@ -65,8 +65,7 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="getCourse/student",method = RequestMethod.GET)
-    public List<CourseStudentVO> studentGetCourse(HttpServletRequest request)
-    {
+    public List<CourseStudentVO> studentGetCourse(HttpServletRequest request) throws NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         return courseService.studentGetCourse(id);
     }
@@ -91,7 +90,7 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
-    public Course getCourseByCourseId(@PathVariable("courseId")String courseId){
+    public Course getCourseByCourseId(@PathVariable("courseId")String courseId) throws NotFoundException {
         return courseService.getCourseByCourseId(new BigInteger(courseId));
     }
 

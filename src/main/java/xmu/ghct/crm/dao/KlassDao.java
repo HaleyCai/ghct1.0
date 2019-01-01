@@ -49,4 +49,39 @@ public class KlassDao {
         return klassMapper.getKlassSerialByKlassId(klassId);
     }
 
+    /**
+     * 删除班级-轮次关联
+     * @param klassId
+     * @return
+     */
+    public int deleteKlassRoundByKlassId(BigInteger klassId){
+        return klassMapper.deleteKlassRoundByKlassId(klassId);
+    }
+
+    /**
+     * 删除班级-学生关系
+     * @param klassId
+     * @return
+     */
+    public int deleteKlassStudentByKlassId(BigInteger klassId){
+        return klassMapper.deleteKlassStudentByKlassId(klassId);
+    }
+
+    /**
+     * 删除班级—讨论课关系
+     * @param klassId
+     * @return
+     */
+    public int deleteKlassSeminarByKlassId(BigInteger klassId){
+        return klassMapper.deleteKlassSeminarByKlassId(klassId);
+    }
+
+    /**
+     * 根据klassId删除klass_team关系
+     * @param klassId
+     */
+    public int deleteTeamWithKlass(BigInteger klassId){
+        return klassMapper.deleteTeamWithKlass(klassId);
+    }
+
 }

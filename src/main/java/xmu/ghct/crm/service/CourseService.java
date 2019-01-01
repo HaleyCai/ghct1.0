@@ -103,12 +103,11 @@ public class CourseService {
         return courseTeachers;
     }
 
-    public List<CourseStudentVO> studentGetCourse(BigInteger studentId)
-    {
+    public List<CourseStudentVO> studentGetCourse(BigInteger studentId) throws NotFoundException {
         return courseDao.listCourseByStudentId(studentId);
     }
 
-    public Course getCourseByCourseId(BigInteger courseId) {
+    public Course getCourseByCourseId(BigInteger courseId) throws NotFoundException {
         return courseDao.getCourseByCourseId(courseId);
     }
 

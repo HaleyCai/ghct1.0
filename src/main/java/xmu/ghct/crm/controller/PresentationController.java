@@ -13,6 +13,7 @@ import xmu.ghct.crm.service.PresentationService;
 import xmu.ghct.crm.service.SeminarService;
 import xmu.ghct.crm.service.UploadFileService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigInteger;
@@ -129,11 +130,11 @@ public class PresentationController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/attendance/{attendanceId}/report")
-    public void reportDownload (HttpServletResponse  response,@PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException {
+    public void reportDownload (HttpServletResponse  response, HttpServletRequest request, @PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException {
         System.out.println("下载报告");
         Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         String filePath=attendance.getReportUrl();
-        downloadFileDao.downloadFile(response,filePath);
+        downloadFileDao.downloadFile(response,request,filePath);
     }
 
 
@@ -166,10 +167,10 @@ public class PresentationController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/attendance/{attendanceId}/powerPoint")
-    public void pptDownload (HttpServletResponse  response,@PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException {
+    public void pptDownload (HttpServletResponse  response,HttpServletRequest request,@PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException {
         Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         String filePath=attendance.getPptUrl();
-        downloadFileDao.downloadFile(response,filePath);
+        downloadFileDao.downloadFile(response,request,filePath);
     }
 
 
@@ -181,7 +182,7 @@ public class PresentationController {
      * @param response
      */
     @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/report", method = RequestMethod.GET)
-    public void multiReportDownload(HttpServletResponse response,@PathVariable("seminarId") String seminarId,@PathVariable("klassId")String klassId) throws UnsupportedEncodingException {
+    public void multiReportDownload(HttpServletResponse response,HttpServletRequest request,@PathVariable("seminarId") String seminarId,@PathVariable("klassId")String klassId) throws UnsupportedEncodingException {
         BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(new BigInteger(seminarId), new BigInteger(klassId));
         List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
         List<String> names = new ArrayList<String>();
@@ -198,7 +199,7 @@ public class PresentationController {
                 System.out.println(item.getReportUrl());
             }
         }
-        downloadFileDao.multiFileDownload(new BigInteger(seminarId),response,paths);
+        downloadFileDao.multiFileDownload(new BigInteger(seminarId),response,request,paths);
     }
 
 
@@ -208,7 +209,7 @@ public class PresentationController {
      * @param response
      */
     @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/ppt", method = RequestMethod.GET)
-    public void multiPPTDownload(HttpServletResponse response,@PathVariable("seminarId") String seminarId,@PathVariable("klassId") String klassId) throws UnsupportedEncodingException {
+    public void multiPPTDownload(HttpServletResponse response,HttpServletRequest request,@PathVariable("seminarId") String seminarId,@PathVariable("klassId") String klassId) throws UnsupportedEncodingException {
         BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(new BigInteger(seminarId), new BigInteger(klassId));
         List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
         ArrayList<String> names = new ArrayList<>();
@@ -217,7 +218,7 @@ public class PresentationController {
             names.add(item.getPptName());
             paths.add(item.getPptUrl());
         }
-        downloadFileDao.multiFileDownload(new BigInteger(seminarId),response,paths);
+        downloadFileDao.multiFileDownload(new BigInteger(seminarId),response,request,paths);
     }
 
 
