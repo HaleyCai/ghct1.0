@@ -2,10 +2,7 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.ShareRequestVO;
-import xmu.ghct.crm.VO.ShareTeamVO;
-import xmu.ghct.crm.VO.ShareVO;
-import xmu.ghct.crm.VO.TeamApplicationVO;
+import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
@@ -86,8 +83,8 @@ public class ShareController {
      * 进入新增共享界面调用的api，返回所有课程
      */
     @GetMapping("/share/showSendShare")
-    public void showSendShare(){
-
+    public List<CourseWithTeacherVO> showSendCourse(@RequestBody Map<String,Object> inMap) throws NotFoundException {
+        return shareService.showSendCourse(new BigInteger(inMap.get("courseId").toString()));
     }
 
     /**
@@ -95,7 +92,7 @@ public class ShareController {
      * @return
      */
     @PostMapping("/share/sendShare")
-    public void sendShare(){
+    public void sendShare(@RequestBody Map<String,Object> inMap){
 
     }
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.dao.ShareDao;
+import xmu.ghct.crm.dao.TeacherDao;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Share;
@@ -23,6 +24,8 @@ public class ShareService {
     ShareDao shareDao;
     @Autowired
     CourseDao courseDao;
+    @Autowired
+    TeacherDao teacherDao;
     /**
      * 获取所有已同意的共享申请，查teacher的所有课程，再查课程的所有相关的某状态共享，不管是主还是从
      * @param teacherId
@@ -94,5 +97,20 @@ public class ShareService {
 
     public boolean sentValidTeamRequest(TeamApplicationVO applicationVO) throws NotFoundException {
         return shareDao.launchTeamRequest(applicationVO);
+    }
+
+    public List<CourseWithTeacherVO> showSendCourse(BigInteger courseId) throws NotFoundException {
+        List<CourseWithTeacherVO> allCourses=new ArrayList<>();
+        List<CourseVO> courseVOS=courseDao.getAllCourse();
+        for(CourseVO item:courseVOS)
+        {
+            CourseWithTeacherVO one=new CourseWithTeacherVO();
+            one.setCourseId(item.getCourseId());
+            one.setCourseNaem(item.getCourseName());
+            one.setTeacherId(item.getTeacherId());
+            one.setTeacherName(teacherDao.getTeacherNameByTeacherId(one.getTeacherId()));
+            allCourses.add(one);
+        }
+        return allCourses;
     }
 }

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.TeacherMapper">
-    <select id="getAdminByAccount" resultMap="TeacherUserResult">
+    <select id="getAdminByAccount" resultMap="UserResult">
         select id,account,password
         from admin
         where account=#{account}
     </select>
 
-    <select id="getTeacherByAccount" resultMap="TeacherUserResult">
+    <select id="getTeacherByAccount" resultMap="UserResult">
         select id,account,password,teacher_name,email,is_active
         from teacher
         where account=#{account}
     </select>
 
-    <select id="getTeacherById" resultMap="TeacherUserResult">
+    <select id="getTeacherById" resultMap="UserResult">
         select id,account,password,teacher_name,email,is_active
         from teacher
         where id=#{id}
     </select>
 
-    <resultMap id="TeacherUserResult" type="xmu.ghct.crm.entity.User">
+    <resultMap id="UserResult" type="xmu.ghct.crm.entity.User">
         <id property="id" column="id"/>
         <result property="account" column="account"/>
         <result property="password" column="password"/>
@@ -64,12 +64,12 @@
               )
     </insert>
 
-    <select id="getAllTeacher" resultMap="TeacherUserResult">
+    <select id="getAllTeacher" resultMap="UserResult">
         select id,account,teacher_name,email
         from teacher
     </select>
 
-    <select id="getTeacherByTeacherName" resultMap="TeacherUserResult">
+    <select id="getTeacherByTeacherName" resultMap="UserResult">
         select id,account,teacher_name,email
         from teacher
         where teacher_name=#{name}
