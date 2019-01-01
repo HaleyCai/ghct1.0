@@ -44,8 +44,7 @@ public class ShareService {
      * @param type
      * @return
      */
-    public boolean deleteShare(BigInteger shareId,String type)
-    {
+    public boolean deleteShare(BigInteger shareId,String type) throws NotFoundException {
         boolean success;
         if(type.equals("共享分组"))
         {
@@ -93,8 +92,7 @@ public class ShareService {
         return shareDao.getUntreatedTeamApplication(teacherId);
     }
 
-    public boolean sentValidTeamRequest(TeamApplicationVO applicationVO)
-    {
+    public boolean sentValidTeamRequest(TeamApplicationVO applicationVO) throws NotFoundException {
         return shareDao.launchTeamRequest(applicationVO);
     }
 }
