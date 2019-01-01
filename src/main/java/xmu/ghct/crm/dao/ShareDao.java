@@ -8,6 +8,7 @@ import xmu.ghct.crm.VO.TeamApplicationVO;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.mapper.*;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.CourseMapper;
@@ -16,8 +17,8 @@ import xmu.ghct.crm.mapper.ShareMapper;
 import xmu.ghct.crm.mapper.TeacherMapper;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class ShareDao {
@@ -32,7 +33,6 @@ public class ShareDao {
     TeacherMapper teacherMapper;
     @Autowired
     KlassMapper klassMapper;
-    KlassDao klassDao;
     @Autowired
     TeamMapper teamMapper;
     /**
@@ -86,9 +86,9 @@ public class ShareDao {
      */
     public List<ShareRequestVO> getUntreatedShare(BigInteger courseId,String courseName,BigInteger teacherId) throws NotFoundException {
         List<ShareRequestVO> all=new ArrayList<>();
-        List<Share> allTeams=shareMapper.getTeamShareRequest(teacherId);
+        List<Share> allTeams=shareMapper.getTeamShareRequest(courseId);
         all.addAll(shareToShareRequestVO(allTeams,courseId,courseName,"共享分组申请",teacherId));
-        List<Share> allSeminars=shareMapper.getSeminarShareRequest(teacherId);
+        List<Share> allSeminars=shareMapper.getSeminarShareRequest(courseId);
         all.addAll(shareToShareRequestVO(allSeminars,courseId,courseName,"共享讨论课申请",teacherId));
         return all;
     }
@@ -140,22 +140,14 @@ public class ShareDao {
 
 
     public boolean deleteTeamShareByShareId(BigInteger shareId) throws NotFoundException {
-        if(shareMapper.deleteTeamShareByShareId(shareId)>0)
+        if(shareMapper.deleteTeamShareByShareId(shareId)>0){
+            Share share=shareMapper.getTeamShareByShareId(shareId);
+            shareMapper.deleteTeamShareInCourse(share.getSubCourseId());//course从课程中的team_main置为null
+            deleteTeamWithKlass(share.getSubCourseId());//删除klass_team表的记录
             return true;
+        }
         else
             throw new NotFoundException("未找到该组队共享");
-    }
-
-    public boolean deleteShareInCourse(BigInteger subCourseId,int type) throws NotFoundException {
-        //修改从课程的course表中team_main_course_id为null
-        if(type==1&&shareMapper.deleteTeamShareInCourse(subCourseId)>0)
-            return true;
-
-            //修改从课程的course表中seminar_main_course_id为null
-        else if(shareMapper.deleteSeminarShareInCourse(subCourseId)>0)
-            return true;
-        else
-            throw new NotFoundException("未找到该共享");
     }
 
     /**
@@ -176,26 +168,70 @@ public class ShareDao {
     }
 
     public boolean deleteSeminarShareByShareId(BigInteger shareId) throws NotFoundException {
-        if(shareMapper.deleteSeminarShareByShareId(shareId)>0)
+        if(shareMapper.deleteSeminarShareByShareId(shareId)>0){
+            Share share=shareMapper.getSeminarShareByShareId(shareId);
+            shareMapper.deleteSeminarShareInCourse(share.getSubCourseId());
             return true;
+        }
         else
             throw new NotFoundException("未找到该讨论课共享");
     }
 
     public List<TeamApplicationVO> getUntreatedTeamApplication(BigInteger teacherId) throws NotFoundException {
         List<TeamApplicationVO> teamApplicationVOS=shareMapper.getUntreatedTeamApplication(teacherId);
-        System.out.println("teamApplicationVOS  "+teamApplicationVOS);
         for(TeamApplicationVO oneTeam:teamApplicationVOS)
         {
             BigInteger teamId=oneTeam.getTeamId();
             BigInteger klassId=teamMapper.getKlassIdByTeamId(teamId);
-            System.out.println("klassId  "+klassId);
             oneTeam.setKlassSerial(klassMapper.getKlassByKlassId(klassId).getKlassSerial());
             oneTeam.setTeamSerial(teamMapper.getTeamInfoByTeamId(teamId).getTeamSerial());
+            oneTeam.setStatus(-1);//-1代表Null
         }
         return teamApplicationVOS;
     }
 
+    /**
+     * 处理非法组队申请，修改application表和team表
+     * @param teamValidId
+     * @param status
+     * @return
+     */
+    public boolean dealTeamValidRequest(BigInteger teamValidId,int status)
+    {
+        TeamApplicationVO teamApplicationVO=shareMapper.getOneTeamApplication(teamValidId);
+        int v1=shareMapper.dealTeamValidRequest(teamValidId, status);
+        int v2=teamMapper.updateStatusByTeamId(teamApplicationVO.getTeamId(),status);
+        if(v1>0 && v2>0)
+            return true;
+        return false;
+    }
+
+    /**
+     * 发送共享请求
+     * @param share
+     * @return
+     */
+    public boolean launchShareRequest(Share share)
+    {
+        int v=0;
+        if(share.getShareType().equals("共享组队")) {
+            v = shareMapper.launchTeamShareRequest(share);
+        }
+        else {
+            v = shareMapper.launchSeminarShareRequest(share);
+        }
+        if(v>0)
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     * 发送非法组队请求
+     * @param applicationVO
+     * @return
+     * @throws NotFoundException
+     */
     public boolean launchTeamRequest(TeamApplicationVO applicationVO) throws NotFoundException
     {
         if(shareMapper.launchTeamRequest(applicationVO)>0)
@@ -203,4 +239,94 @@ public class ShareDao {
         else
             throw new NotFoundException("未找到request");
     }
+
+    /**
+     * 处理共享组队申请
+     * @param shareId
+     * @param status
+     * @return
+     */
+    public boolean dealTeamShare(BigInteger shareId,int status)
+    {
+        if(shareMapper.updateTeamShareStatusByShareId(shareId, status)>0){
+            if(status==1){//同意的话，还要修改从课程course的team_main
+                Share share=shareMapper.getTeamShareByShareId(shareId);
+                courseMapper.updateMainTeamByCourseId(share.getSubCourseId(),share.getMainCourseId());
+            }
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /**
+     * 处理共享讨论课申请
+     * @param shareId
+     * @param status
+     * @return
+     */
+    public boolean dealSeminarShare(BigInteger shareId,int status)
+    {
+        if(shareMapper.updateSeminarShareStatusByShareId(shareId,status)>0){
+            if(status==1) {//同意的话，还要修改从课程course中seminar_main_
+                Share share=shareMapper.getSeminarShareByShareId(shareId);
+                courseMapper.updateMainSemianrByCourseId(share.getSubCourseId(),share.getMainCourseId());
+            }
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean createSubCourseTeamList(BigInteger shareId)
+    {
+        Share share=shareMapper.getTeamShareByShareId(shareId);
+        System.out.println("share "+share);
+        BigInteger mainCourseId=share.getMainCourseId();
+        BigInteger subCourseId=share.getSubCourseId();
+        //查主课程下，所有班级，所有班级下的所有队伍，
+        List<BigInteger> teamIds=new ArrayList<>();//所有的team
+        List<Klass> mainCourseKlasses=klassMapper.listKlassByCourseId(mainCourseId);
+        for(Klass oneKlass:mainCourseKlasses)
+        {
+            teamIds.addAll(teamMapper.listTeamIdByKlassId(oneKlass.getKlassId()));
+        }
+        //每个队伍下的每个成员都选了哪些课，一个小组的判断一次选最多课的，作为新的klassId，存在表里
+        int i=0;
+        for(BigInteger teamId:teamIds)
+        {
+            List<BigInteger> studentIds=teamMapper.getStudentIdByTeamId(teamId);
+            //根据studentId获得每个人在subCourse中的klassId，加入Map统计个数
+            Map<BigInteger, Integer> klassIdMap = new TreeMap<>();
+            for(BigInteger studentId:studentIds)
+            {
+                BigInteger klassId=klassMapper.getKlassIdByCourseIdAndStudentId(subCourseId,studentId);
+                System.out.println("klassId=="+klassId);
+                if(klassId!=null)//该学生有选修从课程的课
+                {
+                    if(klassIdMap.containsKey(klassId))
+                    {
+                        klassIdMap.put(klassId,klassIdMap.get(klassId)+1);
+                    }
+                    else
+                        klassIdMap.put(klassId,1);
+                }
+            }
+            System.out.println("klassIdMap==="+klassIdMap);
+            if(!klassIdMap.isEmpty())
+            {
+                BigInteger subCourseKlassId=((TreeMap<BigInteger, Integer>) klassIdMap).lastKey();
+                System.out.println("subCourseKlassId==="+subCourseKlassId);
+                i+=teamMapper.insertKlassTeam(subCourseKlassId,teamId);
+            }
+        }
+        if(i>0)
+            return true;
+        else
+            return false;
+    }
+
+
+
+
 }

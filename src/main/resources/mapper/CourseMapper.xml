@@ -85,6 +85,18 @@
         where student_id=#{studentId}
     </select>
 
+    <update id="updateMainTeamByCourseId">
+        update course
+        set team_main_course_id=#{mainCourseId}
+        where id=#{subCourseId}
+    </update>
+
+    <update id="updateMainSemianrByCourseId">
+        update course
+        set seminar_main_course_id=#{mainCourseId}
+        where id=#{SubCourseId}
+    </update>
+
     <resultMap id="klassStudentMap" type="xmu.ghct.crm.VO.StudentCourseVO">
         <result property="courseId" column="course_id"/>
         <result property="klassId" column="klass_id"/>

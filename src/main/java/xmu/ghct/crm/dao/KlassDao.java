@@ -76,7 +76,7 @@ public class KlassDao {
     public int getKlassSerialByKlassId(BigInteger klassId) throws NotFoundException {
 
         int serial=klassMapper.getKlassSerialByKlassId(klassId);
-        if(serial<=0)
+        if(serial<0)
         {
             throw new NotFoundException("未找到该班级");
         }

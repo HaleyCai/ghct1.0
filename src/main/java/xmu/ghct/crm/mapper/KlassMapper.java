@@ -119,4 +119,12 @@ public interface KlassMapper {
      * @return
      */
     Klass getKlassByCourseIdAndKlassSerial(BigInteger courseId,int klassSerial);
+
+    /**
+     * 查学生在某课程里的班级
+     * @param courseId
+     * @param studentId
+     * @return
+     */
+    BigInteger getKlassIdByCourseIdAndStudentId(BigInteger courseId,BigInteger studentId);
 }

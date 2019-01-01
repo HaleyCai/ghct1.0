@@ -48,24 +48,13 @@ public class ShareService {
      * @return
      */
     public boolean deleteShare(BigInteger shareId,String type) throws NotFoundException {
-        boolean success;
         if(type.equals("共享分组"))
         {
-            Share share=shareDao.getTeamShareByShareId(shareId);
-            success=shareDao.deleteTeamShareByShareId(shareId);
-            //删除course表的关联记录
-            success=shareDao.deleteShareInCourse(share.getSubCourseId(),1);
-            //删除klass_team表的记录
-            shareDao.deleteTeamWithKlass(share.getSubCourseId());
-            return success;
+            return shareDao.deleteTeamShareByShareId(shareId);
         }
         else if(type.equals("共享讨论课"))
         {
-            Share share=shareDao.getSeminarShareByShareId(shareId);
-            success=shareDao.deleteSeminarShareByShareId(shareId);
-            //删除course表的关联记录
-            success=shareDao.deleteShareInCourse(share.getSubCourseId(),2);
-            return success;
+            return shareDao.deleteSeminarShareByShareId(shareId);
         }
         return false;
     }
@@ -95,9 +84,21 @@ public class ShareService {
         return shareDao.getUntreatedTeamApplication(teacherId);
     }
 
+    public boolean dealTeamValidRequest(BigInteger teamValidId,int status)
+    {
+        return shareDao.dealTeamValidRequest(teamValidId, status);
+    }
+
+    /**
+     * 发送非法组队请求
+     * @param applicationVO
+     * @return
+     * @throws NotFoundException
+     */
     public boolean sentValidTeamRequest(TeamApplicationVO applicationVO) throws NotFoundException {
         return shareDao.launchTeamRequest(applicationVO);
     }
+
 
     public List<CourseWithTeacherVO> showSendCourse(BigInteger courseId) throws NotFoundException {
         List<CourseWithTeacherVO> allCourses=new ArrayList<>();
@@ -112,5 +113,31 @@ public class ShareService {
             allCourses.add(one);
         }
         return allCourses;
+    }
+
+    public boolean launchShareRequest(Share share)
+    {
+        return shareDao.launchShareRequest(share);
+    }
+
+    /**
+     * 处理共享（1组队+2讨论课）
+     * @return
+     */
+    public boolean dealShare(BigInteger shareId,int type,int status)
+    {
+        if(type==1) {
+            boolean success=shareDao.dealTeamShare(shareId,status);
+            if(status==1)
+            {
+                //更新从课程名单，存klass_team的关系，根据小组成员选课情况，判断klassId
+                success=shareDao.createSubCourseTeamList(shareId);
+            }
+            return success;
+        }
+        else if(type==2) {
+            return shareDao.dealSeminarShare(shareId,status);
+        }
+        return false;
     }
 }

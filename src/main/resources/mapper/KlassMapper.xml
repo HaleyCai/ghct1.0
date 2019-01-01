@@ -84,6 +84,12 @@
         where course_id=#{courseId} and klass_serial=#{klassSerial}
     </select>
 
+    <select id="getKlassIdByCourseIdAndStudentId" resultType="java.math.BigInteger">
+        select klass_id
+        from klass_student
+        where course_id=#{courseId} and student_id=#{studentId}
+    </select>
+
     <resultMap id="klassResultMap" type="xmu.ghct.crm.entity.Klass">
         <id property="klassId" column="id"/>
         <result property="courseId" column="course_id"/>

@@ -52,7 +52,7 @@ public class ShareController {
      * teacherId：通过jwt获得
      * @return
      */
-    @GetMapping(value="/request/untreatedRequest")
+    @GetMapping(value="/share/getUntreatedShare")
     public Map<String,Object> getUntreatedShare(HttpServletRequest request) throws NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         List<ShareRequestVO> shareRequestVOS=shareService.getUntreatedShare(id);
@@ -70,7 +70,14 @@ public class ShareController {
      * 拒绝就只修改该条记录的状态，
      * @return
      */
-
+    @PutMapping("/share/dealShare")
+    public boolean dealShare(@RequestBody Map<String,Object> inMap)
+    {
+        BigInteger shareId=new BigInteger(inMap.get("shareId").toString());//共享申请信息的id
+        int type=(int)inMap.get("type");//共享类型，1共享组队，2共享讨论课
+        int status=(int)inMap.get("status");//处理：1同意，0不同意
+        return shareService.dealShare(shareId,type,status);
+    }
 
 
     /**
@@ -78,6 +85,13 @@ public class ShareController {
      * 修改队伍状态
      * @return
      */
+    @PutMapping("/team/teamValidRequest/deal")
+    public boolean dealTeamValidRequest(@RequestBody Map<String,Object> inMap)
+    {
+        BigInteger teamValidId=new BigInteger(inMap.get("teamValidId").toString());
+        int status=(int)inMap.get("status");
+        return shareService.dealTeamValidRequest(teamValidId,status);
+    }
 
     /**
      * 进入新增共享界面调用的api，返回所有课程
@@ -92,8 +106,24 @@ public class ShareController {
      * @return
      */
     @PostMapping("/share/sendShare")
-    public void sendShare(@RequestBody Map<String,Object> inMap){
-
+    public boolean sendShare(@RequestBody Map<String,Object> inMap){
+        Share share=new Share();
+        share.setMainCourseId(new BigInteger(inMap.get("mainCourseId").toString()));
+        share.setSubCourseId(new BigInteger(inMap.get("subCourseId").toString()));
+        share.setSubCourseTeacherId(new BigInteger(inMap.get("subCourseTeacherId").toString()));
+        int type=(int)inMap.get("type");
+        if(type==1)
+        {
+            share.setShareType("共享组队");
+        }
+        else if(type==2)
+        {
+            share.setShareType("共享讨论课");
+        }
+        else{
+            return false;
+        }
+        return shareService.launchShareRequest(share);
     }
 
     /**

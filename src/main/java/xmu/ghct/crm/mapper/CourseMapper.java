@@ -104,4 +104,14 @@ public interface CourseMapper {
     List<CourseVO> getAllCourse();
 
     List<Course> getCourseByTeacherId(BigInteger teacherId);
+
+    /**
+     * 修改从课程course表的team_main和seminar_main字段为主课程Id
+     * @param subCourseId
+     * @param mainCourseId
+     * @return
+     */
+    int updateMainTeamByCourseId(BigInteger subCourseId,BigInteger mainCourseId);
+
+    int updateMainSemianrByCourseId(BigInteger SubCourseId,BigInteger mainCourseId);
 }

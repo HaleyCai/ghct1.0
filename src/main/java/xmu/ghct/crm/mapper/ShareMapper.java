@@ -29,17 +29,17 @@ public interface ShareMapper {
 
     /**
      * 获取待办的共享组队请求
-     * @param teacherId
+     * @param subCourseId
      * @return
      */
-    List<Share> getTeamShareRequest(BigInteger teacherId);
+    List<Share> getTeamShareRequest(BigInteger subCourseId);
 
     /**
      * 获取待办的共享讨论课
-     * @param teacherId
+     * @param subCourseId
      * @return
      */
-    List<Share> getSeminarShareRequest(BigInteger teacherId);
+    List<Share> getSeminarShareRequest(BigInteger subCourseId);
 
     /**
      * 获取一个共享的信息
@@ -71,23 +71,52 @@ public interface ShareMapper {
     List<TeamApplicationVO> getUntreatedTeamApplication(BigInteger teacherId);
 
     /**
-     * 发布共享讨论课请求
+     * 获取一个非法组队申请的信息
+     * @param teamValidId
+     * @return
+     */
+    TeamApplicationVO getOneTeamApplication(BigInteger teamValidId);
+
+    /**
+     * 修改非法组队申请的状态
+     * @param teamValidId
+     * @param status
+     * @return
+     */
+    int dealTeamValidRequest(BigInteger teamValidId,int status);
+
+    /**
+     * 发送共享组队请求
+     * @param share
+     * @return
+     */
+    int launchTeamShareRequest(Share share);
+
+    /**
+     * 发送共享讨论课请求
      * @param share
      * @return
      */
     int launchSeminarShareRequest(Share share);
 
     /**
-     * 查找所有发给自己的、未处理的，非法组队申请
-     * @param teacherId
-     * @return
-     */
-    List<TeamApplicationVO> getTeamApplication(BigInteger teacherId);
-
-    /**
-     * 新增一条非法组队申请
+     * 发送非法组队申请
      * @param applicationVO
      * @return
      */
     int launchTeamRequest(TeamApplicationVO applicationVO);
+
+    /**
+     * 修改共享组队的状态
+     * @param shareId
+     * @return
+     */
+    int updateTeamShareStatusByShareId(BigInteger shareId,int status);
+
+    /**
+     * 修改共享讨论课的状态
+     * @param shareId
+     * @return
+     */
+    int updateSeminarShareStatusByShareId(BigInteger shareId,int status);
 }

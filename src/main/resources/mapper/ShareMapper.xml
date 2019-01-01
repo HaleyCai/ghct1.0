@@ -18,13 +18,13 @@
     <select id="getTeamShareRequest" resultMap="shareResultMap">
         select *
         from share_team_application
-        where sub_course_teacher_id=#{teacherId} and status is null
+        where sub_course_id=#{subCourseId} and status is null
     </select>
 
     <select id="getSeminarShareRequest" resultMap="shareResultMap">
         select *
         from share_seminar_application
-        where sub_course_teacher_id=#{teacherId} and status is null
+        where sub_course_id=#{subCourseId} and status is null
     </select>
 
     <select id="getTeamShareByShareId" resultMap="shareResultMap">
@@ -60,8 +60,34 @@
     </delete>
 
     <select id="getUntreatedTeamApplication" resultMap="teamApplicationMap">
-        select * from team_valid_application where teacher_id=#{teacherId}
+        select *
+        from team_valid_application
+        where teacher_id=#{teacherId} and status is null
     </select>
+
+    <select id="getOneTeamApplication" resultMap="teamApplicationMap">
+        select *
+        from team_valid_application
+        where id=#{teamValidId}
+    </select>
+
+    <update id="dealTeamValidRequest">
+        update team_valid_application
+        set status=#{status}
+        where id=#{teamValidId}
+    </update>
+
+    <update id="updateTeamShareStatusByShareId">
+        update share_team_application
+        set status=#{status}
+        where id=#{shareId}
+    </update>
+
+    <update id="updateSeminarShareStatusByShareId">
+        update share_seminar_application
+        set status=#{status}
+        where id=#{shareId}
+    </update>
 
     <resultMap id="shareResultMap" type="xmu.ghct.crm.entity.Share">
         <id property="shareId" column="id"/>
@@ -96,14 +122,12 @@
         insert into share_team_application(
                                            main_course_id,
                                            sub_course_id,
-                                           sub_course_teacher_id,
-                                           status
+                                           sub_course_teacher_id
         )
         values(
                #{mainCourseId},
                #{subCourseId},
-               #{subCourseTeacherId},
-               #{status}
+               #{subCourseTeacherId}
               )
     </insert>
 
@@ -111,16 +135,12 @@
         insert into share_seminar_application(
             main_course_id,
             sub_course_id,
-            sub_course_teacher_id,
-            status
+            sub_course_teacher_id
         )
         values(
                   #{mainCourseId},
                   #{subCourseId},
-                  #{subCourseTeacherId},
-                  #{status}
+                  #{subCourseTeacherId}
               )
     </insert>
-
-
 </mapper>
