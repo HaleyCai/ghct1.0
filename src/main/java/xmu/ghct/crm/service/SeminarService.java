@@ -335,12 +335,21 @@ public class SeminarService {
         Klass klass=klassDao.getKlassByKlassId(klassId);
         int klassSerial=klass.getKlassSerial();
         List<Map> map=new ArrayList<>();
-        int account=1;
+        int account=0;
         for(Attendance item:attendanceList){
-   //         if(item.)
+            System.out.println(item);
+            Map<String,Object> oneMap=new HashMap<>();
+            account++;
+            System.out.println(account);
+            if(item.getTeamOrder()!=account){
+                oneMap.put("attendanceStatus",false);
+                map.add(oneMap);
+                continue;
+            }
+            else oneMap.put("attendanceStatus",true);
             BigInteger teamId=item.getTeamId();
             Team team=teamDao.getTeamInfoByTeamId(teamId);
-            Map<String,Object> oneMap=new HashMap<>();
+
             oneMap.put("attendanceId",item.getAttendanceId());
             oneMap.put("klassSerial",klassSerial);
             oneMap.put("teamSerial",team.getTeamSerial());
@@ -354,11 +363,13 @@ public class SeminarService {
                 oneMap.put("pptUrl",item.getPptUrl());
             }
             map.add(oneMap);
-            account+=1;
         }
-        Map<String,Object> oneMap=new HashMap<>();
-        oneMap.put("maxTeam",seminar.getMaxTeam());
-        map.add(oneMap);
+        while(account<seminar.getMaxTeam()){
+            Map<String,Object> oneMap=new HashMap<>();
+            oneMap.put("attendanceStatus",false);
+            map.add(oneMap);
+            account++;
+        }
         return map;
     }
 

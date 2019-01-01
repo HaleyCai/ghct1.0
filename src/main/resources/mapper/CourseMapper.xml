@@ -57,8 +57,8 @@
     <!--表格改了！！！-->
     <select id="getCourseIdByTeamId" resultType="java.math.BigInteger">
         select course_id
-        from klass_student
-        where team_id=#{teamId}
+        from team
+        where id=#{teamId}
     </select>
 
     <select id="getCourseIdByKlassId" resultType="java.math.BigInteger">
