@@ -20,6 +20,7 @@ import java.io.*;
 import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -69,7 +70,7 @@ public class PresentationController {
      * @return
      */
     @PutMapping("attendance/{attendanceId}")
-    public boolean updateAttendanceOrderByAttendanceId(@PathVariable("attendanceId") String attendanceId, @RequestBody Map<String,Object> orderMap){
+    public boolean updateAttendanceOrderByAttendanceId(@PathVariable("attendanceId") String attendanceId, @RequestBody Map<String,Object> orderMap) throws org.apache.ibatis.javassist.NotFoundException {
         int flag=presentationService.updateAttendanceOrderByAttendanceId(new BigInteger(attendanceId),orderMap);
         if(flag>0) return true;
         else return false;
@@ -82,7 +83,7 @@ public class PresentationController {
      * @return
      */
     @DeleteMapping("attendance/{attendanceId}")
-    public boolean deleteAttendanceByAttendance(@PathVariable("attendanceId") String attendanceId){
+    public boolean deleteAttendanceByAttendance(@PathVariable("attendanceId") String attendanceId) throws org.apache.ibatis.javassist.NotFoundException {
         int flag= presentationService.deleteAttendanceByAttendance(new BigInteger(attendanceId));
         if(flag>0) return true;
         else return false;
@@ -97,7 +98,7 @@ public class PresentationController {
      * @throws IOException
      */
     @RequestMapping(value = "/attendance/{attendanceId}/report",method = RequestMethod.POST)
-    public boolean reportUpload(@PathVariable("attendanceId")String attendanceId,@RequestParam("file") MultipartFile file) throws IOException {
+    public boolean reportUpload(@PathVariable("attendanceId")String attendanceId,@RequestParam("file") MultipartFile file) throws IOException, org.apache.ibatis.javassist.NotFoundException {
         Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         BigInteger klassSeminarId=attendance.getKlassSeminarId();
         SeminarVO seminarVO =seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId);
@@ -131,7 +132,7 @@ public class PresentationController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/attendance/{attendanceId}/report")
-    public void reportDownload (HttpServletResponse  response, HttpServletRequest request, @PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException {
+    public void reportDownload (HttpServletResponse  response, HttpServletRequest request, @PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException {
         System.out.println("下载报告");
         Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         String filePath=attendance.getReportUrl();
@@ -149,7 +150,7 @@ public class PresentationController {
      * @throws IOException
      */
     @RequestMapping(value = "/attendance/{attendanceId}/powerPoint",method = RequestMethod.POST)
-    public boolean pptUpload(@PathVariable("attendanceId")String attendanceId,@RequestParam("file") MultipartFile file) throws IOException {
+    public boolean pptUpload(@PathVariable("attendanceId")String attendanceId,@RequestParam("file") MultipartFile file) throws IOException, org.apache.ibatis.javassist.NotFoundException {
             Map<String, String> pptMap = uploadFileService.uploadFile(file);
             String pptName = pptMap.get("name");
             String pptUrl = pptMap.get("path");
@@ -168,7 +169,7 @@ public class PresentationController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/attendance/{attendanceId}/powerPoint")
-    public void pptDownload (HttpServletResponse  response,HttpServletRequest request,@PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException {
+    public void pptDownload (HttpServletResponse  response,HttpServletRequest request,@PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException {
         Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         String filePath=attendance.getPptUrl();
         downloadFileDao.downloadFile(response,request,filePath);
@@ -183,7 +184,7 @@ public class PresentationController {
      * @param response
      */
     @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/report", method = RequestMethod.GET)
-    public void multiReportDownload(HttpServletResponse response,HttpServletRequest request,@PathVariable("seminarId") String seminarId,@PathVariable("klassId")String klassId) throws UnsupportedEncodingException {
+    public void multiReportDownload(HttpServletResponse response,HttpServletRequest request,@PathVariable("seminarId") String seminarId,@PathVariable("klassId")String klassId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException {
         BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(new BigInteger(seminarId), new BigInteger(klassId));
         List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
         List<String> names = new ArrayList<String>();
@@ -210,7 +211,7 @@ public class PresentationController {
      * @param response
      */
     @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/ppt", method = RequestMethod.GET)
-    public void multiPPTDownload(HttpServletResponse response,HttpServletRequest request,@PathVariable("seminarId") String seminarId,@PathVariable("klassId") String klassId) throws UnsupportedEncodingException {
+    public void multiPPTDownload(HttpServletResponse response,HttpServletRequest request,@PathVariable("seminarId") String seminarId,@PathVariable("klassId") String klassId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException {
         BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(new BigInteger(seminarId), new BigInteger(klassId));
         List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
         ArrayList<String> names = new ArrayList<>();
@@ -228,7 +229,7 @@ public class PresentationController {
      * @param teamOrder
      */
     @GetMapping("/presentation/{klassSeminarId}/updateStatus")
-    public void updatePresentTeam(@PathVariable("klassSeminarId")String klassSeminarId,int teamOrder){
+    public void updatePresentTeam(@PathVariable("klassSeminarId")String klassSeminarId,int teamOrder) throws org.apache.ibatis.javassist.NotFoundException {
         BigInteger attendanceId=presentationService.getPresentTeam(1);
         int maxTeamOrder=presentationService.selectMaxTeamOrderByKlassSeminarId(new BigInteger(klassSeminarId));
         presentationService.updatePresentByAttendanceId(attendanceId,0);
@@ -253,7 +254,7 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/presentation/{klassSeminarId}")
-    public Map<String,List> beingPresentation(@PathVariable("klassSeminarId") String klassSeminarId){
+    public Map<String,List> beingPresentation(@PathVariable("klassSeminarId") String klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException {
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
         boolean flag=false;
         BigInteger id=new BigInteger("0");
@@ -334,7 +335,7 @@ public class PresentationController {
      */
     //需要teamId，但是应该是根据jwt获得，所以这里teamId用于测试用
     @RequestMapping(value="/seminar/{klassSeminarId}/attendance" ,method = RequestMethod.POST)
-    public boolean attendanceSeminar(@PathVariable("klassSeminarId")String klassSeminarId,@RequestParam("teamId") String teamId,@RequestBody Map<String,Object> attendanceMap){
+    public boolean attendanceSeminar(@PathVariable("klassSeminarId")String klassSeminarId,@RequestParam("teamId") String teamId,@RequestBody Map<String,Object> attendanceMap) throws org.apache.ibatis.javassist.NotFoundException, SQLException {
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
@@ -368,7 +369,7 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/seminar/{klassSeminarId}/{teamId}/seminarInfo")
-    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(@PathVariable("klassSeminarId")String klassSeminarId,@PathVariable("teamId")String teamId) throws NotFoundException {
+    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(@PathVariable("klassSeminarId")String klassSeminarId,@PathVariable("teamId")String teamId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
              return presentationService.getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));
     }
 
@@ -380,7 +381,7 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/klassSeminar/attendance/{attendanceId}/modifyAttendance")
-    public List<Map> modifyAttendanceByAttendanceId(@PathVariable("attendanceId")String attendanceId,@RequestBody Map<String,String> orderMap) throws NotFoundException {
+    public List<Map> modifyAttendanceByAttendanceId(@PathVariable("attendanceId")String attendanceId,@RequestBody Map<String,String> orderMap) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         return presentationService.modifyAttendanceByAttendanceId(new BigInteger(attendanceId),orderMap);
     }
 

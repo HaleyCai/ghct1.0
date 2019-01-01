@@ -10,6 +10,7 @@ import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.exception.NotFoundException;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,37 +37,37 @@ public class PresentationService {
     @Autowired
     SeminarService seminarService;
 
-    public int updateAttendanceOrderByAttendanceId(BigInteger attendanceId, Map<String,Object> orderMap){
+    public int updateAttendanceOrderByAttendanceId(BigInteger attendanceId, Map<String,Object> orderMap) throws org.apache.ibatis.javassist.NotFoundException {
         int teamOrder=new Integer(orderMap.get("teamOrder").toString());
         return presentationDao.updateAttendanceOrderByAttendanceId(attendanceId,teamOrder);
     }
 
-    public int deleteAttendanceByAttendance(BigInteger attendanceId) {
+    public int deleteAttendanceByAttendance(BigInteger attendanceId) throws org.apache.ibatis.javassist.NotFoundException {
         return presentationDao.deleteAttendanceByAttendance(attendanceId);
     }
 
-    public int updateReportByAttendanceId(BigInteger attendanceId,String reportUrl,String reportName){
+    public int updateReportByAttendanceId(BigInteger attendanceId,String reportUrl,String reportName) throws org.apache.ibatis.javassist.NotFoundException {
         return presentationDao.updateReportByAttendanceId(attendanceId,reportUrl,reportName);
     }
 
-    public Attendance getAttendanceByAttendanceId(BigInteger attendanceId){
+    public Attendance getAttendanceByAttendanceId(BigInteger attendanceId) throws org.apache.ibatis.javassist.NotFoundException {
         return presentationDao.getAttendanceByAttendanceId(attendanceId);
     }
 
-    public  int updatePPTByAttendanceId(BigInteger attendanceId,String pptUrl,String pptName){
+    public  int updatePPTByAttendanceId(BigInteger attendanceId,String pptUrl,String pptName) throws org.apache.ibatis.javassist.NotFoundException {
         return presentationDao.updatePPTByAttendanceId(attendanceId,pptUrl,pptName);
     }
 
-    public List<Attendance> listAttendanceByKlassSeminarId(BigInteger klassSeminarId){
+    public List<Attendance> listAttendanceByKlassSeminarId(BigInteger klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException {
         return presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
     }
 
-    public int updatePresentByAttendanceId(BigInteger attendanceId,int present){
+    public int updatePresentByAttendanceId(BigInteger attendanceId,int present) throws org.apache.ibatis.javassist.NotFoundException {
         return presentationDao.updatePresentByAttendanceId(attendanceId,present);
     }
 
 
-    public int insertAttendance(BigInteger klassSeminarId,BigInteger teamId,Map<String,Object> attendanceMap){
+    public int insertAttendance(BigInteger klassSeminarId,BigInteger teamId,Map<String,Object> attendanceMap) throws SQLException {
         Attendance attendance=new Attendance();
         attendance.setTeamId(teamId);
         attendance.setPresent(0);
@@ -75,7 +76,7 @@ public class PresentationService {
         return presentationDao.insertAttendance(attendance);
     }
 
-    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId) throws NotFoundException {
+    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
         boolean isAttendance=false;
         for(Attendance item:attendanceList){
@@ -138,7 +139,7 @@ public class PresentationService {
         }
     }
 
-    public List<Map> modifyAttendanceByAttendanceId(BigInteger attendanceId,Map<String,String> orderMap) throws NotFoundException {
+    public List<Map> modifyAttendanceByAttendanceId(BigInteger attendanceId,Map<String,String> orderMap) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         int teamOrder=new Integer(orderMap.get("teamOrder"));
         int flag=presentationDao.updateAttendanceOrderByAttendanceId(attendanceId,teamOrder);
         Map<String,Object> flagMap=new HashMap<>();

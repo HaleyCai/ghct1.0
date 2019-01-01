@@ -189,7 +189,7 @@ public class CourseController {
      * @throws NotFoundException
      */
     @GetMapping("seminar/{seminarId}/{klassId}/klassSeminar/pc")
-    public List<Map> listAttendanceStatusByKlassIdAndSeminar(@PathVariable("seminarId")String seminarId,@PathVariable("klassId")String klassId) throws NotFoundException {
+    public List<Map> listAttendanceStatusByKlassIdAndSeminar(@PathVariable("seminarId")String seminarId,@PathVariable("klassId")String klassId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         SeminarVO klassSeminar=seminarService.getKlassSeminarByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
         List<Map> map=new ArrayList<>();
         Map<String,Object> aMap=new HashMap<>();

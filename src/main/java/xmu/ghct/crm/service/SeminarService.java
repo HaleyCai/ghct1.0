@@ -311,7 +311,7 @@ public class SeminarService {
     }
 
 
-    public List<Map> listFileUploadStatusByKlassSeminarId(BigInteger klassSeminarId){
+    public List<Map> listFileUploadStatusByKlassSeminarId(BigInteger klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException {
         List<Attendance>  attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
         System.out.println(attendanceList);
         List<Map> map=new ArrayList<>();
@@ -327,7 +327,7 @@ public class SeminarService {
     }
 
 
-    public List<Map> listStudentKlassSeminarByKlassSeminarId(BigInteger klassSeminarId) throws NotFoundException {
+    public List<Map> listStudentKlassSeminarByKlassSeminarId(BigInteger klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
