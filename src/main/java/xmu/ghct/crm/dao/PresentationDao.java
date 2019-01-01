@@ -50,4 +50,21 @@ public class PresentationDao {
     public Attendance getAttendanceByKlassSeminarIdByTeamId(BigInteger klassSeminarId,BigInteger teamId){
         return presentationMapper.getAttendanceByKlassSeminarIdByTeamId(klassSeminarId,teamId);
     }
+
+    /**
+     * 获取最大teamOrder
+     * @param klassSeminarId
+     * @return
+     */
+     public int selectMaxTeamOrderByKlassSeminarId(BigInteger klassSeminarId){
+        return presentationMapper.selectMaxTeamOrderByKlassSeminarId(klassSeminarId);
+    }
+
+    public BigInteger getPresentTeam(int present){
+         return presentationMapper.getPresentTeam(present);
+    }
+
+    public BigInteger getAttendanceIdByTeamOrder(Integer teamOrder){
+         return presentationMapper.getAttendanceIdByTeamOrder(teamOrder);
+    }
 }

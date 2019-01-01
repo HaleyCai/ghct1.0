@@ -148,4 +148,21 @@ public class PresentationService {
         map.add(flagMap);
         return map;
     }
+
+    /**
+     * 获取最大teamOrder
+     * @param klassSeminarId
+     * @return
+     */
+    public int selectMaxTeamOrderByKlassSeminarId(BigInteger klassSeminarId){
+        return presentationDao.selectMaxTeamOrderByKlassSeminarId(klassSeminarId);
+    }
+
+    public BigInteger getPresentTeam(int present){
+        return presentationDao.getPresentTeam(present);
+    }
+
+    public BigInteger getAttendanceIdByTeamOrder(Integer teamOrder){
+        return presentationDao.getAttendanceIdByTeamOrder(teamOrder);
+    }
 }

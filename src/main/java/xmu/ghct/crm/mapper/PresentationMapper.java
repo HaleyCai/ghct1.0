@@ -89,4 +89,26 @@ public interface PresentationMapper {
      * @return
      */
     Attendance getAttendanceByKlassSeminarIdByTeamId(BigInteger klassSeminarId,BigInteger teamId);
+
+    /**
+     * 获取最大teamOrder
+     * @param klassSeminarId
+     * @return
+     */
+    Integer selectMaxTeamOrderByKlassSeminarId(BigInteger klassSeminarId);
+
+
+    /**
+     * 获取正在展示小组ID
+     * @param present
+     * @return
+     */
+    BigInteger getPresentTeam(Integer present);
+
+    /**
+     * 根据报名序号获取队伍
+     * @param teamOrder
+     * @return
+     */
+    BigInteger getAttendanceIdByTeamOrder(Integer teamOrder);
 }

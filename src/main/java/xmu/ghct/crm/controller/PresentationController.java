@@ -222,6 +222,29 @@ public class PresentationController {
         downloadFileDao.multiFileDownload(new BigInteger(seminarId),response,request,paths);
     }
 
+    /**
+     * 修改队伍展示状态，并在讨论课结束时修改讨论课状态
+     * @param klassSeminarId
+     * @param teamOrder
+     */
+    @GetMapping("/presentation/{klassSeminarId}/updateStatus")
+    public void updatePresentTeam(@PathVariable("klassSeminarId")String klassSeminarId,int teamOrder){
+        BigInteger attendanceId=presentationService.getPresentTeam(1);
+        int maxTeamOrder=presentationService.selectMaxTeamOrderByKlassSeminarId(new BigInteger(klassSeminarId));
+        presentationService.updatePresentByAttendanceId(attendanceId,0);
+        while(teamOrder<maxTeamOrder){
+            BigInteger attendanceID=presentationService.getAttendanceIdByTeamOrder(teamOrder+1);
+            if(attendanceID!=null) {
+                presentationService.updatePresentByAttendanceId(attendanceID,1);
+                break;
+            }
+            teamOrder++;
+        }
+        if(teamOrder==maxTeamOrder){
+            seminarService.updateKlassSeminarStatus(new BigInteger(klassSeminarId),2);
+        }
+    }
+
 
 
     /**

@@ -74,6 +74,24 @@
         where klass_seminar_id=#{klassSeminarId} and team_Id=#{teamId}
     </select>
 
+    <select id="getPresentTeam" resultType="java.math.BigInteger">
+        select id
+        from attendance
+        where is_present=#{present}
+    </select>
+
+    <select id="selectMaxTeamOrderByKlassSeminarId">
+        select max(team_order)
+        from attendance
+        where klass_seminar_id=#{klassSeminarId}
+    </select>
+
+    <select id="getAttendanceIdByTeamOrder" resultType="java.math.BigInteger">
+        select id
+        from attendance
+        where team_order=#{teamOrder}
+    </select>
+
 
     <resultMap id="attendanceResultMap" type="xmu.ghct.crm.entity.Attendance">
         <id property="attendanceId" column="id"/>
