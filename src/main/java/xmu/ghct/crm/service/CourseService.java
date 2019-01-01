@@ -200,7 +200,7 @@ public class CourseService {
      * 创建课程时获得所有课程信息，以设置冲突课程
      * @return
      */
-     public List<Map> getAllCourse()
+     public List<Map> getAllCourse() throws NotFoundException
      {
          List<CourseVO> courseList=courseDao.getAllCourse();
          List<Map> map=new ArrayList<>();

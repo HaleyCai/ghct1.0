@@ -198,7 +198,7 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value = "/course/setConflictCourse",method = RequestMethod.GET)
-    public List<Map> getAllCourse()
+    public List<Map> getAllCourse() throws NotFoundException
     {
         return courseService.getAllCourse();
     }

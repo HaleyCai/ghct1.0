@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+import com.sun.tools.corba.se.idl.constExpr.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.StudentVO;
@@ -9,6 +10,7 @@ import xmu.ghct.crm.VO.TeamSimpleInfo;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.CourseService;
 import xmu.ghct.crm.service.TeamService;
@@ -56,7 +58,7 @@ public class TeamController {
      * 教师+学生：根据teamId获取队伍信息
      */
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.GET)
-    public TeamInfoVO getTeamInfo(@PathVariable("teamId") String teamId)
+    public TeamInfoVO getTeamInfo(@PathVariable("teamId") String teamId) throws NotFoundException
     {
         return teamService.getTeamByCourseId(new BigInteger(teamId));
     }

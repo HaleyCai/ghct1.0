@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,12 +9,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.LoginUserVO;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.StudentMapper;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +42,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/user/login",method = RequestMethod.POST)
-    public Map<String,Object> login(@RequestBody Map<String,Object> inMap)
+    public Map<String,Object> login(@RequestBody Map<String,Object> inMap) throws NotFoundException
     {
         String account = inMap.get("account").toString();
         String password = inMap.get("password").toString();
@@ -59,7 +62,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/user/index")
-    public Map<String,String> index(HttpServletRequest request)
+    public Map<String,String> index(HttpServletRequest request) throws NotFoundException
     {
         Map<String,String> map=new HashMap<>();
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
@@ -108,7 +111,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/user/information",method = RequestMethod.GET)
-    public User getInformation(HttpServletRequest request){
+    public User getInformation(HttpServletRequest request) throws NotFoundException{
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         String role=jwtTokenUtil.getRoleFromRequest(request);
         return userService.getInformation(
@@ -122,7 +125,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/user/password",method = RequestMethod.PUT)
-    public boolean modifyPassword(HttpServletRequest request,@RequestBody Map<String,Object> inMap){
+    public boolean modifyPassword(HttpServletRequest request,@RequestBody Map<String,Object> inMap) throws SQLException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         String role=jwtTokenUtil.getRoleFromRequest(request);
         return userService.modifyPassword(
@@ -135,7 +138,7 @@ public class UserController {
      * 忘记密码时，将密码发送到用户的邮箱中，前端传参account，type，account根据jwt获得
      */
     @RequestMapping(value="/user/forgetpassword",method = RequestMethod.GET)
-    public boolean sendPasswordToEmail(@RequestParam String account)
+    public boolean sendPasswordToEmail(@RequestParam String account) throws NotFoundException
     {
         return userService.sendPasswordToEmail(account);
     }
@@ -146,7 +149,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value="/user/email",method = RequestMethod.PUT)
-    public boolean modifyEmail(HttpServletRequest request,@RequestBody Map<String,Object> inMap){
+    public boolean modifyEmail(HttpServletRequest request,@RequestBody Map<String,Object> inMap) throws SQLException{
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         String role=jwtTokenUtil.getRoleFromRequest(request);
         return userService.modifyEmail(

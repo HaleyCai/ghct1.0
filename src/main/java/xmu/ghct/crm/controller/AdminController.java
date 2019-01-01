@@ -1,11 +1,14 @@
 package xmu.ghct.crm.controller;
 
+import com.sun.tools.corba.se.idl.constExpr.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.service.AdminService;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.List;
 
@@ -21,7 +24,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher",method = RequestMethod.POST)
-    public boolean creatTeacher(@RequestBody Map<String,Object> inMap){
+    public boolean creatTeacher(@RequestBody Map<String,Object> inMap) throws SQLException {
         int flag= adminService.createTeacher(inMap);
         if(flag>0)return true;
         else return false;
@@ -32,7 +35,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher",method = RequestMethod.GET)
-    public List<User> getAllTeacher(@RequestParam("type") int type){
+    public List<User> getAllTeacher(@RequestParam("type") int type) throws NotFoundException {
         return adminService.getAllUser(type);
     }
 
@@ -41,7 +44,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student",method = RequestMethod.GET)
-    public List<User> getAllStudent(@RequestParam("type") int type){
+    public List<User> getAllStudent(@RequestParam("type") int type) throws NotFoundException{
         return adminService.getAllUser(type);
     }
 
@@ -51,7 +54,7 @@ public class AdminController {
      */
     @RequestMapping(value="/teacher/searchteacher",method = RequestMethod.GET)
     public User getTeacher(@RequestParam("str") String str,
-                           @RequestParam("type") int type){
+                           @RequestParam("type") int type) throws NotFoundException{
         return adminService.getUser(
                 str,
                 type);
@@ -64,7 +67,7 @@ public class AdminController {
      */
     @RequestMapping(value="/student/searchstudent",method = RequestMethod.GET)
     public User getStudent(@RequestParam("str") String str,
-                           @RequestParam("type") int type){
+                           @RequestParam("type") int type) throws NotFoundException{
         return adminService.getUser(
                 str,
                 type);
@@ -77,7 +80,7 @@ public class AdminController {
      */
     @RequestMapping(value="/teacher/{teacherId}/information",method = RequestMethod.PUT)
     public boolean modifyTeacherByTeacherId(@PathVariable("teacherId")String teacherId,
-                                            @RequestBody Map<String,Object> inMap){
+                                            @RequestBody Map<String,Object> inMap) throws SQLException{
         return adminService.modifyUserByUserId(
                 new BigInteger(teacherId),
                 (String)inMap.get("newTeacherName"),
@@ -92,7 +95,7 @@ public class AdminController {
      */
     @RequestMapping(value="/student/{studentId}/information",method = RequestMethod.PUT)
     public boolean modifyStudentByStudentId(@PathVariable("studentId")String studentId,
-                                            @RequestBody Map<String,Object> inMap){
+                                            @RequestBody Map<String,Object> inMap) throws SQLException{
         return adminService.modifyUserByUserId(
                 new BigInteger(studentId),
                 (String)inMap.get("newStudentName"),
@@ -131,7 +134,7 @@ public class AdminController {
      */
     @RequestMapping(value="/teacher/{teacherId}",method = RequestMethod.DELETE)
     public boolean deleteTeacherByTeacherId(@PathVariable("teacherId")String teacherId,
-                                            @RequestBody Map<String,Object> inMap){
+                                            @RequestBody Map<String,Object> inMap) throws NotFoundException {
         return adminService.deleteUserByUserId(
                 new BigInteger(teacherId),
                 (int)inMap.get("type"));
@@ -143,7 +146,7 @@ public class AdminController {
      */
     @RequestMapping(value="/student/{studentId}",method = RequestMethod.DELETE)
     public boolean deleteStudentByStudentId(@PathVariable("studentId")String studentId,
-                                            @RequestBody Map<String,Object> inMap){
+                                            @RequestBody Map<String,Object> inMap) throws NotFoundException{
         return adminService.deleteUserByUserId(
                 new BigInteger(studentId),
                 (int)inMap.get("type"));

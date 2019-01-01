@@ -3,9 +3,11 @@ package xmu.ghct.crm.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.TeacherMapper;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -46,6 +48,7 @@ public class TeacherDao {
     public User getTeacherById(BigInteger id)
     {
         User resultUser=teacherMapper.getTeacherById(id);
+
         return resultUser;
     }
 
@@ -72,8 +75,12 @@ public class TeacherDao {
      * @param password
      * @return
      */
-    public boolean setPasswordById(BigInteger id,String password)
+    public boolean setPasswordById(BigInteger id,String password) throws SQLException
     {
+        if(teacherMapper.getTeacherById(id).getPassword()==password)
+        {
+            throw new SQLException("密码未改变");
+        }
         int v1=teacherMapper.setTeacherPasswordById(id,password);
         if(v1==1)
             return true;
@@ -87,8 +94,12 @@ public class TeacherDao {
      * @param email
      * @return
      */
-    public boolean setEmailById(BigInteger id,String email)
+    public boolean setEmailById(BigInteger id,String email) throws SQLException
     {
+        if(teacherMapper.getTeacherById(id).getEmail()==email)
+        {
+            throw new SQLException("邮箱未改变");
+        }
         int v1=teacherMapper.setTeacherEmailById(id,email);
         if(v1==1)
             return true;
@@ -101,7 +112,12 @@ public class TeacherDao {
      * @param teacher
      * @return
      */
-    public int createTeacher(User teacher) {
+    public int createTeacher(User teacher) throws SQLException
+    {
+        if(teacherMapper.getTeacherByAccount(teacher.getAccount())!=null)
+        {
+            throw new SQLException("该教师已存在");
+        }
         return teacherMapper.createTeacher(teacher);
     }
 
@@ -109,9 +125,13 @@ public class TeacherDao {
      *管理员获得所有教师信息
      * @return
      */
-    public List<User> getAllTeacher()
+    public List<User> getAllTeacher() throws NotFoundException
     {
         List<User> resultUser=teacherMapper.getAllTeacher();
+        if(resultUser==null||resultUser.isEmpty())
+        {
+            throw new NotFoundException("尚未有教师");
+        }
         return resultUser;
     }
 
@@ -120,9 +140,13 @@ public class TeacherDao {
      * @param teacherName
      * @return
      */
-    public User getTeacherByTeacherName(String teacherName)
+    public User getTeacherByTeacherName(String teacherName) throws NotFoundException
     {
         User resultUser=teacherMapper.getTeacherByTeacherName(teacherName);
+        if(resultUser==null)
+        {
+            throw new NotFoundException("未找到该教师");
+        }
         return resultUser;
     }
 
@@ -131,8 +155,14 @@ public class TeacherDao {
      * @return
      */
     public boolean modifyTeacherByTeacherId(BigInteger teacherId,String teacherName,
-                                            String teacherAccount,String teacherEmail)
+                                            String teacherAccount,String teacherEmail) throws SQLException
     {
+        if(   teacherMapper.getTeacherById(teacherId).getName()==teacherName
+            &&teacherMapper.getTeacherById(teacherId).getAccount()==teacherAccount
+            &&teacherMapper.getTeacherById(teacherId).getEmail()==teacherEmail)
+        {
+            throw new SQLException("教师信息未改动");
+        }
         int v1=teacherMapper.modifyTeacherByTeacherId(teacherId,teacherName,
                 teacherAccount,teacherEmail);
         if(v1<=0){
@@ -162,12 +192,11 @@ public class TeacherDao {
      * 管理员按ID删除某一教师
      * @return
      */
-    public boolean deleteTeacherByTeacherId(BigInteger teacherId)
+    public boolean deleteTeacherByTeacherId(BigInteger teacherId) throws NotFoundException
     {
         int v1=teacherMapper.deleteTeacherByTeacherId(teacherId);
         if(v1<=0){
-            //throw
-            return false;
+            throw new NotFoundException("该教师已被删除");
         }
         else
             return true;
@@ -176,8 +205,12 @@ public class TeacherDao {
     /**
      * 根据teacherId获取teacherName
      */
-    public String getTeacherNameByTeacherId(BigInteger teacherId)
+    public String getTeacherNameByTeacherId(BigInteger teacherId) throws NotFoundException
     {
-        return teacherMapper.getTeacherById(teacherId).getName();
+        String str= teacherMapper.getTeacherById(teacherId).getName();
+        if(str==null) {
+            throw new NotFoundException("未找到该教师");
+        }
+        return str;
     }
 }

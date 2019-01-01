@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import xmu.ghct.crm.dao.StudentDao;
 import xmu.ghct.crm.dao.TeacherDao;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.exception.NotFoundException;
 
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.List;
 import java.math.BigInteger;
@@ -25,7 +27,7 @@ public class AdminService {
      *
      * @return
      */
-    public int createTeacher(Map<String, Object> teacherMap) {
+    public int createTeacher(Map<String, Object> teacherMap) throws SQLException {
         User teacher = new User();
         teacher.setName(teacherMap.get("name").toString());
         teacher.setAccount(teacherMap.get("account").toString());
@@ -38,7 +40,7 @@ public class AdminService {
      *管理员获得所有教师/学生信息
      * @return
      */
-    public List<User> getAllUser(int type)
+    public List<User> getAllUser(int type) throws NotFoundException
     {
         if(type==1)
             return teacherDao.getAllTeacher();
@@ -50,7 +52,7 @@ public class AdminService {
      * 管理员根据用户姓名或账号获得用户信息
      * @return
      */
-    public User getUser(String str,int type)
+    public User getUser(String str,int type) throws NotFoundException
     {
         User user;
 
@@ -76,7 +78,7 @@ public class AdminService {
      * @return
      */
     public boolean modifyUserByUserId(BigInteger userId,String newUserName,
-                                      String newUserAccount,String newUserEmail,int type)
+                                      String newUserAccount,String newUserEmail,int type) throws SQLException
     {
         boolean success;
         if(type==1)
@@ -104,7 +106,7 @@ public class AdminService {
      * 管理员按ID删除某一用户
      * @return
      */
-    public boolean deleteUserByUserId(BigInteger userId,int type)
+    public boolean deleteUserByUserId(BigInteger userId,int type) throws NotFoundException
     {
         boolean success;
         if(type==1)

@@ -7,6 +7,7 @@ import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.exception.NotFoundException;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class TeamService {
      * @param teamId
      * @return
      */
-    public TeamInfoVO getTeamByCourseId(BigInteger teamId){
+    public TeamInfoVO getTeamByCourseId(BigInteger teamId) throws NotFoundException {
         TeamInfoVO teamInfoVO=new TeamInfoVO();
         Team team=teamDao.getTeamInfoByTeamId(teamId);
         teamInfoVO.setTeamId(team.getTeamId());

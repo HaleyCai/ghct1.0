@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.StudentVO;
 import xmu.ghct.crm.entity.User;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.StudentMapper;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -25,6 +27,7 @@ public class StudentDao {
     public User getStudentByAccount(String account)
     {
         User resultUser=studentMapper.getStudentByAccount(account);
+
         return resultUser;
     }
 
@@ -32,9 +35,13 @@ public class StudentDao {
      * 根据学生id查询个人信息
      * @return
      */
-    public User getStudentById(BigInteger studentId)
+    public User getStudentById(BigInteger studentId) throws NotFoundException
     {
         User resultUser=studentMapper.getStudentByStudentId(studentId);
+        if(resultUser==null)
+        {
+            throw new NotFoundException("未找到该学生");
+        }
         return resultUser;
     }
 
@@ -62,8 +69,12 @@ public class StudentDao {
      * @param password
      * @return
      */
-    public boolean setPasswordById(BigInteger id,String password)
+    public boolean setPasswordById(BigInteger id,String password) throws SQLException
     {
+        if(studentMapper.getStudentByStudentId(id).getPassword()==password)
+        {
+            throw new SQLException("密码未改变");
+        }
         int v1=studentMapper.setStudentPasswordById(id,password);
         if(v1==1)
             return true;
@@ -77,8 +88,12 @@ public class StudentDao {
      * @param email
      * @return
      */
-    public boolean setEmailById(BigInteger id,String email)
+    public boolean setEmailById(BigInteger id,String email) throws SQLException
     {
+        if(studentMapper.getStudentByStudentId(id).getEmail()==email)
+        {
+            throw new SQLException("邮箱未改变");
+        }
         int v1=studentMapper.setStudentEmailById(id,email);
         if(v1==1)
             return true;
@@ -90,9 +105,13 @@ public class StudentDao {
      *管理员获得所有学生信息
      * @return
      */
-    public List<User> getAllStudent()
+    public List<User> getAllStudent() throws NotFoundException
     {
         List<User> resultUser=studentMapper.getAllStudent();
+        if(resultUser==null)
+        {
+            throw new NotFoundException("未找到该学生");
+        }
         return resultUser;
     }
 
@@ -101,9 +120,13 @@ public class StudentDao {
      * @param studentName
      * @return
      */
-    public User getStudentByStudentName(String studentName)
+    public User getStudentByStudentName(String studentName) throws NotFoundException
     {
         User resultUser=studentMapper.getStudentByStudentName(studentName);
+        if(resultUser==null)
+        {
+            throw new NotFoundException("未找到该学生");
+        }
         return resultUser;
     }
 
@@ -112,8 +135,14 @@ public class StudentDao {
      * @return
      */
     public boolean modifyStudentByStudentId(BigInteger studentId,String studentName,
-                                            String studentAccount,String studentEmail)
+                                            String studentAccount,String studentEmail)  throws SQLException
     {
+        if(   studentMapper.getStudentByStudentId(studentId).getName()==studentName
+                &&studentMapper.getStudentByStudentId(studentId).getAccount()==studentAccount
+                &&studentMapper.getStudentByStudentId(studentId).getEmail()==studentAccount)
+        {
+            throw new SQLException("教师信息未改动");
+        }
         int v1=studentMapper.modifyStudentByStudentId(studentId,studentName,
                 studentAccount,studentEmail);
         if(v1<=0){
@@ -143,9 +172,12 @@ public class StudentDao {
      * 管理员按ID删除某一学生
      * @return
      */
-    public boolean deleteStudentByStudentId(BigInteger studentId)
+    public boolean deleteStudentByStudentId(BigInteger studentId) throws NotFoundException
     {
         int v1=studentMapper.deleteStudentByStudentId(studentId);
+        if(v1<=0){
+            throw new NotFoundException("该学生已被删除");
+        }
         if(v1<=0){
             //throw
             return false;

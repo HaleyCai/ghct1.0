@@ -10,8 +10,9 @@ import xmu.ghct.crm.VO.LoginUserVO;
 import xmu.ghct.crm.dao.StudentDao;
 import xmu.ghct.crm.dao.TeacherDao;
 import xmu.ghct.crm.entity.User;
-
+import xmu.ghct.crm.exception.NotFoundException;
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,13 +89,17 @@ public class UserService {
      * @param id
      * @param role
      */
-    public User getInformation(BigInteger id,String role)
+    public User getInformation(BigInteger id,String role) throws NotFoundException
     {
         User user;
         if(role.equals("teacher"))
             user=teacherDao.getTeacherById(id);
         else
             user=studentDao.getStudentById(id);
+        if(user==null)
+        {
+            throw new NotFoundException("未找到该用户");
+        }
         return user;
     }
 
@@ -107,7 +112,7 @@ public class UserService {
     @Value("${spring.mail.username}")  //发送人的邮箱
     private String from;
 
-    public boolean sendPasswordToEmail(String account)
+    public boolean sendPasswordToEmail(String account) throws NotFoundException
     {
         User user=teacherDao.getTeacherByAccount(account);
         if(user==null)
@@ -139,7 +144,7 @@ public class UserService {
      * @param role
      * @return
      */
-    public boolean modifyPassword(BigInteger id, String newPassword, String role)
+    public boolean modifyPassword(BigInteger id, String newPassword, String role) throws SQLException
     {
         boolean success=false;
         if(role.equals("teacher"))
@@ -156,7 +161,7 @@ public class UserService {
      * @param role
      * @return
      */
-    public boolean modifyEmail(BigInteger id, String newEmail,String role)
+    public boolean modifyEmail(BigInteger id, String newEmail,String role) throws SQLException
     {
         Map<String,Object> resultMap=new HashMap<>();
         boolean success=false;
