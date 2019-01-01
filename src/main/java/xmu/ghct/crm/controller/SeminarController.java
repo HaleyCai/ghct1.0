@@ -11,7 +11,6 @@ import xmu.ghct.crm.service.ScoreService;
 import xmu.ghct.crm.service.SeminarService;
 import java.math.BigInteger;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

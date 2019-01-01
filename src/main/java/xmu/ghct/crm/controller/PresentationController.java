@@ -281,6 +281,17 @@ public class PresentationController {
         return presentationMap;
     }
 
+    /**
+     * 修改展示成绩(需要展示现有成绩)
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+    @GetMapping("/presentation/{klassSeminarId}/{teamId}/modifyScore")
+    public Score modifyScore(@PathVariable("klassSeminarId") String klassSeminarId,@PathVariable("teamId")String teamId) throws NotFoundException {
+        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));
+        return score;
+    }
 
     /**
      * 修改展示成绩（展示给分）

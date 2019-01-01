@@ -6,6 +6,7 @@ import java.io.Serializable;
  * @author hzm
  * 未找到目标资源异常
  */
+
 public class ClassNotFoundException extends Exception implements Serializable {
 
     private static final long serialVersionUID = 1L;
