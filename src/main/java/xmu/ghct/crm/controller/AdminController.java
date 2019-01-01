@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.service.AdminService;
-import xmu.ghct.crm.security.JwtTokenUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.util.Map;
 import java.util.List;
@@ -16,8 +14,6 @@ public class AdminController {
 
     @Autowired
     AdminService adminService;
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
     /**
      * 管理员创建一个教师
@@ -36,9 +32,8 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher",method = RequestMethod.GET)
-    public List<User> getAllTeacher(HttpServletRequest request){
-        String role=jwtTokenUtil.getRoleFromRequest(request);
-        return adminService.getAllUser(role);
+    public List<User> getAllTeacher(@RequestParam("type") int type){
+        return adminService.getAllUser(type);
     }
 
     /**
@@ -46,9 +41,8 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student",method = RequestMethod.GET)
-    public List<User> getAllStudent(HttpServletRequest request){
-        String role=jwtTokenUtil.getRoleFromRequest(request);
-        return adminService.getAllUser(role);
+    public List<User> getAllStudent(@RequestParam("type") int type){
+        return adminService.getAllUser(type);
     }
 
     /**
@@ -56,12 +50,11 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher/searchteacher",method = RequestMethod.GET)
-    public User getTeacher(HttpServletRequest request,@RequestParam("str") String str)
-    {
-        String role=jwtTokenUtil.getRoleFromRequest(request);
+    public User getTeacher(@RequestParam("str") String str,
+                           @RequestParam("type") int type){
         return adminService.getUser(
                 str,
-                role);
+                type);
     }
 
 
@@ -70,12 +63,11 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student/searchstudent",method = RequestMethod.GET)
-    public User getStudent(HttpServletRequest request,@RequestParam("str") String str)
-    {
-        String role=jwtTokenUtil.getRoleFromRequest(request);
+    public User getStudent(@RequestParam("str") String str,
+                           @RequestParam("type") int type){
         return adminService.getUser(
                 str,
-                role);
+                type);
     }
 
 
@@ -84,16 +76,14 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher/{teacherId}/information",method = RequestMethod.PUT)
-    public boolean modifyTeacherByTeacherId(HttpServletRequest request,
+    public boolean modifyTeacherByTeacherId(@PathVariable("teacherId")Long teacherId,
                                             @RequestBody Map<String,Object> inMap){
-        BigInteger teacherId=jwtTokenUtil.getIDFromRequest(request);
-        String role=jwtTokenUtil.getRoleFromRequest(request);
         return adminService.modifyUserByUserId(
-                teacherId,
+                BigInteger.valueOf(teacherId),
                 (String)inMap.get("newTeacherName"),
                 (String)inMap.get("newTeacherAccount"),
                 (String)inMap.get("newTeacherEmail"),
-                role);
+                (int)inMap.get("type"));
     }
 
     /**
@@ -101,16 +91,14 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student/{studentId}/information",method = RequestMethod.PUT)
-    public boolean modifyStudentByStudentId(HttpServletRequest request,
+    public boolean modifyStudentByStudentId(@PathVariable("studentId")Long studentId,
                                             @RequestBody Map<String,Object> inMap){
-        BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
-        String role=jwtTokenUtil.getRoleFromRequest(request);
         return adminService.modifyUserByUserId(
-                studentId,
+                BigInteger.valueOf(studentId),
                 (String)inMap.get("newStudentName"),
                 (String)inMap.get("newStudentAccount"),
                 (String)inMap.get("newStudentEmail"),
-                role);
+                (int)inMap.get("type"));
     }
 
     /**
@@ -118,13 +106,11 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher/{teacherId}/password",method = RequestMethod.PUT)
-    public boolean resetTeacherPasswordByTeacherId(HttpServletRequest request)
-    {
-        BigInteger teacherId=jwtTokenUtil.getIDFromRequest(request);
-        String role=jwtTokenUtil.getRoleFromRequest(request);
+    public boolean resetTeacherPasswordByTeacherId(@PathVariable("teacherId") Long teacherId,
+                                                   @RequestBody Map<String,Object> inMap){
         return adminService.resetUserPasswordByUserId(
-                teacherId,
-                role);
+                BigInteger.valueOf(teacherId),
+                (int)inMap.get("type"));
     }
 
     /**
@@ -132,13 +118,11 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student/{studentId}/password",method = RequestMethod.PUT)
-    public boolean resetStudentPasswordByStudentId(HttpServletRequest request)
-    {
-        BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
-        String role=jwtTokenUtil.getRoleFromRequest(request);
+    public boolean resetStudentPasswordByStudentId(@PathVariable("studentId")Long studentId,
+                                                   @RequestBody Map<String,Object> inMap){
         return adminService.resetUserPasswordByUserId(
-                studentId,
-                role);
+                BigInteger.valueOf(studentId),
+                (int)inMap.get("type"));
     }
 
     /**
@@ -146,13 +130,11 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/teacher/{teacherId}",method = RequestMethod.DELETE)
-    public boolean deleteTeacherByTeacherId(HttpServletRequest request)
-    {
-        BigInteger teacherId=jwtTokenUtil.getIDFromRequest(request);
-        String role=jwtTokenUtil.getRoleFromRequest(request);
+    public boolean deleteTeacherByTeacherId(@PathVariable("teacherId")Long teacherId,
+                                            @RequestBody Map<String,Object> inMap){
         return adminService.deleteUserByUserId(
-                teacherId,
-                role);
+                BigInteger.valueOf(teacherId),
+                (int)inMap.get("type"));
     }
 
     /**
@@ -160,13 +142,11 @@ public class AdminController {
      * @return
      */
     @RequestMapping(value="/student/{studentId}",method = RequestMethod.DELETE)
-    public boolean deleteStudentByStudentId(HttpServletRequest request)
-    {
-        BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
-        String role=jwtTokenUtil.getRoleFromRequest(request);
+    public boolean deleteStudentByStudentId(@PathVariable("studentId")Long studentId,
+                                            @RequestBody Map<String,Object> inMap){
         return adminService.deleteUserByUserId(
-                studentId,
-                role);
+                BigInteger.valueOf(studentId),
+                (int)inMap.get("type"));
     }
 
 }
