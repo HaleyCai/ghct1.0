@@ -7,8 +7,10 @@ import xmu.ghct.crm.VO.ShareTeamVO;
 import xmu.ghct.crm.VO.ShareVO;
 import xmu.ghct.crm.VO.TeamApplicationVO;
 import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.ShareService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +22,8 @@ import java.util.Map;
 public class ShareController {
     @Autowired
     ShareService shareService;
-
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
     /**
      * 共享设置界面：根据teacherId获得，已同意的，共享组队请求+共享讨论课请求信息，包括本课程是主还是从
      * @param teacherId
@@ -49,8 +52,9 @@ public class ShareController {
      * @return
      */
     @GetMapping(value="/share/untreatedRequest")
-    public List<ShareRequestVO> getUntreatedShare(@RequestParam Long teacherId){
-        return shareService.getUntreatedShare(BigInteger.valueOf(teacherId));
+    public List<ShareRequestVO> getUntreatedShare(HttpServletRequest request){
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        return shareService.getUntreatedShare(id);
     }
 
     /**

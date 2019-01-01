@@ -125,9 +125,9 @@ public class UserService {
         //接收者，判断是什么邮箱，不同邮箱发送不同！！！实现163, qq, xmu三种
         mainMessage.setTo(user.getEmail());
         //发送的标题
-        mainMessage.setSubject("密码查询");
+        mainMessage.setSubject("课程管理系统——密码查询");
         //发送的内容
-        mainMessage.setText("账户"+user.getAccount()+"的密码为："+user.getPassword());
+        mainMessage.setText("您好，您的账户"+user.getAccount()+"的密码为："+user.getPassword());
         jms.send(mainMessage);
         return true;
     }

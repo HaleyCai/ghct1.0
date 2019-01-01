@@ -20,10 +20,6 @@ import java.util.*;
 @Component
 public class JwtTokenUtil implements Serializable {
 
-    public static String USER_STUDENT="student";
-    public static String USER_TEACHER="teacher";
-    public static String USER_ADMIN="admin";
-
     /**
      * 密钥
      */

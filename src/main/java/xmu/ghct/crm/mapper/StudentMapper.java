@@ -42,7 +42,7 @@ public interface StudentMapper {
      * @param id
      * @return
      */
-    int setStudentEmailById(@Param("int") BigInteger id, @Param("email") String email);
+    int setStudentEmailById(@Param("id") BigInteger id, @Param("email") String email);
 
     /**
      * 根据id激活student
