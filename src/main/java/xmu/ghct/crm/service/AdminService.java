@@ -55,14 +55,14 @@ public class AdminService {
     public User getUser(String str,int type) throws NotFoundException
     {
         User user;
-
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
         if(!isNum.matches()){
             if(type==1)
                 user=teacherDao.getTeacherByTeacherName(str);
-            else
-                user=studentDao.getStudentByStudentName(str);
+            else {
+                user = studentDao.getStudentByStudentName(str);
+            }
         }
         else {
             if(type==1)

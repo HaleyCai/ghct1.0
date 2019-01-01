@@ -141,7 +141,7 @@ public class StudentDao {
                 &&studentMapper.getStudentByStudentId(studentId).getAccount()==studentAccount
                 &&studentMapper.getStudentByStudentId(studentId).getEmail()==studentAccount)
         {
-            throw new SQLException("教师信息未改动");
+            throw new SQLException("学生信息未改动");
         }
         int v1=studentMapper.modifyStudentByStudentId(studentId,studentName,
                 studentAccount,studentEmail);

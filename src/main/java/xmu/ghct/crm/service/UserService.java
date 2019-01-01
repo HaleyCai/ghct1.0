@@ -112,7 +112,7 @@ public class UserService {
     @Value("${spring.mail.username}")  //发送人的邮箱
     private String from;
 
-    public boolean sendPasswordToEmail(String account) throws NotFoundException
+    public boolean sendPasswordToEmail(String account)
     {
         User user=teacherDao.getTeacherByAccount(account);
         if(user==null)

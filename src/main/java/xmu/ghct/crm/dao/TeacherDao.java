@@ -157,20 +157,16 @@ public class TeacherDao {
     public boolean modifyTeacherByTeacherId(BigInteger teacherId,String teacherName,
                                             String teacherAccount,String teacherEmail) throws SQLException
     {
-        if(   teacherMapper.getTeacherById(teacherId).getName()==teacherName
-            &&teacherMapper.getTeacherById(teacherId).getAccount()==teacherAccount
-            &&teacherMapper.getTeacherById(teacherId).getEmail()==teacherEmail)
+        User teacher=teacherMapper.getTeacherById(teacherId);
+        if(teacher.getName().equals(teacherName)&&
+            teacher.getAccount().equals(teacherAccount)&&
+            teacher.getEmail().equals(teacherEmail))
         {
             throw new SQLException("教师信息未改动");
         }
-        int v1=teacherMapper.modifyTeacherByTeacherId(teacherId,teacherName,
+        return teacherMapper.modifyTeacherByTeacherId(teacherId,teacherName,
                 teacherAccount,teacherEmail);
-        if(v1<=0){
-            //throw
-            return false;
-        }
-        else
-            return true;
+
     }
 
     /**
