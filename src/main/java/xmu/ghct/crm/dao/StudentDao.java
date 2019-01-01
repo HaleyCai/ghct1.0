@@ -71,7 +71,7 @@ public class StudentDao {
      */
     public boolean setPasswordById(BigInteger id,String password) throws SQLException
     {
-        if(studentMapper.getStudentByStudentId(id).getPassword()==password)
+        if(studentMapper.getStudentByStudentId(id).getPassword().equals(password))
         {
             throw new SQLException("密码未改变");
         }
@@ -90,7 +90,7 @@ public class StudentDao {
      */
     public boolean setEmailById(BigInteger id,String email) throws SQLException
     {
-        if(studentMapper.getStudentByStudentId(id).getEmail()==email)
+        if(studentMapper.getStudentByStudentId(id).getEmail().equals(email))
         {
             throw new SQLException("邮箱未改变");
         }
@@ -108,7 +108,7 @@ public class StudentDao {
     public List<User> getAllStudent() throws NotFoundException
     {
         List<User> resultUser=studentMapper.getAllStudent();
-        if(resultUser==null)
+        if(resultUser==null&&resultUser.isEmpty())
         {
             throw new NotFoundException("未找到该学生");
         }
@@ -137,9 +137,10 @@ public class StudentDao {
     public boolean modifyStudentByStudentId(BigInteger studentId,String studentName,
                                             String studentAccount,String studentEmail)  throws SQLException
     {
-        if(   studentMapper.getStudentByStudentId(studentId).getName()==studentName
-                &&studentMapper.getStudentByStudentId(studentId).getAccount()==studentAccount
-                &&studentMapper.getStudentByStudentId(studentId).getEmail()==studentAccount)
+        User student=studentMapper.getStudentByStudentId(studentId);
+        if(   student.getName().equals(studentName)&&
+                student.getAccount().equals(studentAccount)&&
+                student.getEmail().equals(studentEmail))
         {
             throw new SQLException("学生信息未改动");
         }

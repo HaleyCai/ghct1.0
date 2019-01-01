@@ -77,7 +77,7 @@ public class TeacherDao {
      */
     public boolean setPasswordById(BigInteger id,String password) throws SQLException
     {
-        if(teacherMapper.getTeacherById(id).getPassword()==password)
+        if(teacherMapper.getTeacherById(id).getPassword().equals(password))
         {
             throw new SQLException("密码未改变");
         }
@@ -96,7 +96,7 @@ public class TeacherDao {
      */
     public boolean setEmailById(BigInteger id,String email) throws SQLException
     {
-        if(teacherMapper.getTeacherById(id).getEmail()==email)
+        if(teacherMapper.getTeacherById(id).getEmail().equals(email))
         {
             throw new SQLException("邮箱未改变");
         }
