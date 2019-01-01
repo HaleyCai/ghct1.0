@@ -126,7 +126,8 @@ public class TeamController {
      * 创建小组，先创建组，初始加入成员为组长，判断是否合法后填写状态
      */
     @RequestMapping(value="/team/create", method = RequestMethod.POST)
-    public boolean createTeam(@RequestParam BigInteger studentId,@RequestBody List<List<Map>> creatTeamMap){
+    public boolean createTeam(HttpServletRequest request,@RequestBody List<List<Map>> creatTeamMap){
+        BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
         BigInteger teamId=teamService.insertTeam(studentId,creatTeamMap);
         if(teamId!=null){
             int status;
