@@ -34,6 +34,14 @@
         where team_serial="";
     </select>
 
+    <select id="getStudentIdByStudentIdAndKlassId" resultMap="java.math.BigInteger">
+        select student_id
+        from klass_student
+        where student_id=#{studentId} and klass_id=#{klassId}
+    </select>
+
+
+
     <resultMap id="StudentUserResult" type="xmu.ghct.crm.entity.User">
         <id property="id" column="id"/>
         <result property="account" column="account"/>

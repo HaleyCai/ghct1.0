@@ -1,6 +1,7 @@
 package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.object.SqlCall;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.StudentVO;
 import xmu.ghct.crm.entity.User;
@@ -193,11 +194,21 @@ public class StudentDao {
      * @param user
      * @return
      */
-    public int insertStudent(User user){
+    public int insertStudent(User user) throws SQLException
+    {
+        if(studentMapper.getStudentByAccount(user.getAccount())!=null)
+        {
+            throw new SQLException("该学生已存在");
+        }
         return studentMapper.insertStudent(user);
     }
 
-    public int insertKlassStudent(BigInteger studentId,BigInteger klassId,BigInteger courseId){
+    public int insertKlassStudent(BigInteger studentId,BigInteger klassId,BigInteger courseId) throws SQLException
+    {
+        if(studentMapper.getStudentIdByStudentIdAndKlassId(studentId,klassId).equals(studentId))
+        {
+            throw new SQLException("该学生已存在");
+        }
         return studentMapper.insertKlassStudent(studentId,klassId,courseId);
     }
 }

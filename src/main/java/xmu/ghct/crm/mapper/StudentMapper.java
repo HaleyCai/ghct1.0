@@ -106,4 +106,12 @@ public interface StudentMapper {
      * @return
      */
     int insertKlassStudent(BigInteger studentId,BigInteger klassId,BigInteger courseId);
+
+    /**
+     * 查看klass下是否有该学生
+     * @param studentId
+     * @param klassId
+     * @return
+     */
+    BigInteger getStudentIdByStudentIdAndKlassId(BigInteger studentId,BigInteger klassId);
 }
