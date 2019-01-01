@@ -87,14 +87,14 @@ public class ShareDao {
     public List<ShareRequestVO> getUntreatedShare(BigInteger courseId,String courseName,BigInteger teacherId) throws NotFoundException {
         List<ShareRequestVO> all=new ArrayList<>();
         List<Share> allTeams=shareMapper.getTeamShareRequest(courseId);
-        all.addAll(shareToShareRequestVO(allTeams,courseId,courseName,"共享分组申请",teacherId));
+        all.addAll(shareToShareRequestVO(allTeams,courseId,courseName,1,teacherId));
         List<Share> allSeminars=shareMapper.getSeminarShareRequest(courseId);
-        all.addAll(shareToShareRequestVO(allSeminars,courseId,courseName,"共享讨论课申请",teacherId));
+        all.addAll(shareToShareRequestVO(allSeminars,courseId,courseName,2,teacherId));
         return all;
     }
 
     public List<ShareRequestVO> shareToShareRequestVO(List<Share> shares,BigInteger courseId,String courseName,
-                                                      String shareType,BigInteger teacherId) throws NotFoundException {
+                                                      int shareType,BigInteger teacherId) throws NotFoundException {
         List<ShareRequestVO> shareRequestVOS=new ArrayList<>();
         for(Share item:shares)
         {

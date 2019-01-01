@@ -7,7 +7,7 @@ import java.math.BigInteger;
  */
 public class ShareRequestVO {
     private BigInteger shareId;
-    private String shareType;
+    private int shareType;
     private BigInteger mainCourseId;
     private String mainCourseName;
     private String mainTeacherName;
@@ -24,11 +24,11 @@ public class ShareRequestVO {
         this.shareId = shareId;
     }
 
-    public String getShareType() {
+    public int getShareType() {
         return shareType;
     }
 
-    public void setShareType(String shareType) {
+    public void setShareType(int shareType) {
         this.shareType = shareType;
     }
 
