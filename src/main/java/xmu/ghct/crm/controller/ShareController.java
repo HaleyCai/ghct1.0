@@ -7,6 +7,7 @@ import xmu.ghct.crm.VO.ShareTeamVO;
 import xmu.ghct.crm.VO.ShareVO;
 import xmu.ghct.crm.VO.TeamApplicationVO;
 import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.ShareService;
 
@@ -31,8 +32,7 @@ public class ShareController {
      * @return
      */
     @GetMapping(value="/share/{teacherId}/share")
-    public List<ShareVO> getSuccessShare(@PathVariable String teacherId)
-    {
+    public List<ShareVO> getSuccessShare(@PathVariable String teacherId) throws NotFoundException {
         return shareService.getAllSuccessShare(new BigInteger(teacherId));
     }
 
@@ -53,7 +53,7 @@ public class ShareController {
      * @return
      */
     @GetMapping(value="/share/untreatedRequest")
-    public List<ShareRequestVO> getUntreatedShare(HttpServletRequest request){
+    public List<ShareRequestVO> getUntreatedShare(HttpServletRequest request) throws NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         return shareService.getUntreatedShare(id);
     }

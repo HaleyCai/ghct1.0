@@ -6,6 +6,7 @@ import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.ClassNotFoundException;
+import xmu.ghct.crm.exception.NotFoundException;
 
 import java.lang.reflect.Array;
 import java.text.ParseException;
@@ -85,15 +86,14 @@ public class CourseService {
         return courseDao.insertCourse(courseVO);
     }
 
-    public List<CourseTeacherVO> teacherGetCourse(BigInteger teacherId) throws ClassNotFoundException {
+    public List<CourseTeacherVO> teacherGetCourse(BigInteger teacherId) throws NotFoundException {
         List<CourseTeacherVO> courseTeachers=new ArrayList<>();
         //根据teacherId查course
         List<CourseTeacherVO> courses=courseDao.listCourseByTeacherId(teacherId);
-        if(courses==null){
-            throw new ClassNotFoundException(String.format("not find teacher'courses whose id is %d",teacherId),"404");
-        }
+        System.out.println(courses);
         for(CourseTeacherVO item:courses)
         {
+            System.out.println("Find!");
             System.out.println(item);
             CourseTeacherVO courseTeacherVO=new CourseTeacherVO();
             courseTeacherVO.setCourseId(item.getCourseId());

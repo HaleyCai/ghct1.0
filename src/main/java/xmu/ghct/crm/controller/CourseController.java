@@ -2,14 +2,12 @@ package xmu.ghct.crm.controller;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.StrategyDao;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.ClassNotFoundException;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.*;
 
@@ -56,7 +54,7 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="/getCourse/teacher",method = RequestMethod.GET)
-    public List<CourseTeacherVO> teacherGetCourse(HttpServletRequest request) throws ClassNotFoundException {
+    public List<CourseTeacherVO> teacherGetCourse(HttpServletRequest request) throws NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         return courseService.teacherGetCourse(id);
     }
@@ -117,10 +115,10 @@ public class CourseController {
      */
     @RequestMapping(value="/course/{courseId}/round",method = RequestMethod.GET)
     @ResponseBody
-    public  List<Round> listRoundByCourseId(@PathVariable("courseId") String courseId) throws ClassNotFoundException {
+    public  List<Round> listRoundByCourseId(@PathVariable("courseId") String courseId) throws NotFoundException {
         List<Round> roundList=courseService.listRoundByCourseId(new BigInteger(courseId));
         if(roundList==null){
-         throw new ClassNotFoundException("未找到该课程下的讨论课轮次数据!");
+         throw new NotFoundException("未找到该课程下的讨论课轮次数据!");
         }
         else return roundList;
     }

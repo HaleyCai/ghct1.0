@@ -10,6 +10,7 @@ import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.dao.ShareDao;
 import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.exception.ClassNotFoundException;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.ShareMapper;
 
 import java.math.BigInteger;
@@ -28,7 +29,7 @@ public class ShareService {
      * @param teacherId
      * @return
      */
-    public List<ShareVO> getAllSuccessShare(BigInteger teacherId){
+    public List<ShareVO> getAllSuccessShare(BigInteger teacherId) throws NotFoundException {
         List<ShareVO> allShare=new ArrayList<>();
         List<CourseTeacherVO> courseTeacherVOS=courseDao.listCourseByTeacherId(teacherId);
         for(CourseTeacherVO oneCourse:courseTeacherVOS)
@@ -54,7 +55,7 @@ public class ShareService {
             return false;
     }
 
-    public List<ShareRequestVO> getUntreatedShare(BigInteger teacherId){
+    public List<ShareRequestVO> getUntreatedShare(BigInteger teacherId) throws NotFoundException {
         List<ShareRequestVO> shareRequestVOS=new ArrayList<>();
         List<CourseTeacherVO> courseTeacherVOS=courseDao.listCourseByTeacherId(teacherId);
         for(CourseTeacherVO item:courseTeacherVOS)

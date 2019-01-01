@@ -9,6 +9,7 @@ import xmu.ghct.crm.VO.CourseVO;
 import xmu.ghct.crm.VO.StudentCourseVO;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.ClassNotFoundException;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.*;
 
 import java.math.BigInteger;
@@ -74,10 +75,14 @@ public class CourseDao {
         return (flag_1&flag_2);
     }
 
-    public List<CourseTeacherVO> listCourseByTeacherId(BigInteger teacherId) {
+    public List<CourseTeacherVO> listCourseByTeacherId(BigInteger teacherId) throws NotFoundException {
         //根据teacherId查course
         List<CourseTeacherVO> courseTeachers = new ArrayList<>();
         List<Course> courses = courseMapper.listCourseByTeacherId(teacherId);
+        if(courses==null||courses.isEmpty()){
+            System.out.println("notFind!");
+            throw new NotFoundException("未找到该教师的课程信息！");
+        }
         for (Course item : courses) {
             CourseTeacherVO courseTeacherVO = new CourseTeacherVO();
             courseTeacherVO.setCourseId(item.getCourseId());
