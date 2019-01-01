@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+import com.alibaba.fastjson.support.odps.udf.CodecCheck;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,10 +10,7 @@ import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.NotFoundException;
-import xmu.ghct.crm.service.CourseService;
-import xmu.ghct.crm.service.PresentationService;
-import xmu.ghct.crm.service.SeminarService;
-import xmu.ghct.crm.service.UploadFileService;
+import xmu.ghct.crm.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,6 +58,15 @@ public class PresentationController {
 
     @Autowired
     ScoreCalculationDao scoreCalculationDao;
+
+    @Autowired
+    TeamDao teamDao;
+
+    @Autowired
+    TeamService teamService;
+
+    @Autowired
+    KlassService klassService;
 
 
     /**
@@ -253,7 +260,7 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/presentation/{klassSeminarId}")
-    public Map<String,List> beingPresentation(@PathVariable("klassSeminarId") String klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException {
+    public List<Map> beingPresentation(@PathVariable("klassSeminarId") String klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException, NotFoundException {
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
         boolean flag=false;
         BigInteger id=new BigInteger("0");
@@ -274,11 +281,23 @@ public class PresentationController {
                 System.out.println(id);
                 presentationService.updatePresentByAttendanceId(id,new Integer(1));
             }
-        List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(new BigInteger(klassSeminarId),id);
-        Map<String,List> presentationMap=new HashMap<>();
-        presentationMap.put("attendanceList",attendanceList);
-        presentationMap.put("questionList",questionList);
-        return presentationMap;
+       // List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(new BigInteger(klassSeminarId),id);
+        //presentationMap.put("questionList",questionList);
+        List<Map> maps=new ArrayList<>();
+        for(Attendance item:attendanceList){
+            Map<String,Object> presentationMap=new HashMap<>();
+            presentationMap.put("attendanceId",item.getAttendanceId());
+            presentationMap.put("teamId",item.getTeamId());
+            presentationMap.put("klassSeminarId",item.getKlassSeminarId());
+            presentationMap.put("teamOrder",item.getTeamOrder());
+            presentationMap.put("present",item.getPresent());
+            Team team=teamService.getTeamInfoByTeamId(item.getTeamId());
+            presentationMap.put("teamSerial",team.getKlassSerial());
+            Klass klass=klassService.getKlassByKlassId(team.getKlassId());
+            presentationMap.put("klassSerial",klass.getKlassSerial());
+            maps.add(presentationMap);
+        }
+        return maps;
     }
 
     /**

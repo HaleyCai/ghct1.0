@@ -197,8 +197,10 @@ public class CourseController {
         int account=0;
         for(Attendance attendance:attendanceList){
             account++;
+            System.out.println(account);
             Map<String,Object> oneMap=new HashMap<>();
-           if(account==attendance.getTeamOrder()){
+           if(account!=attendance.getTeamOrder()){
+               System.out.println(attendance.getTeamOrder());
                oneMap.put("attendanceStatus",false);
                map.add(oneMap);
                continue;
@@ -206,8 +208,12 @@ public class CourseController {
            else oneMap.put("attendanceStatus",true);
             BigInteger teamId=attendance.getTeamId();
             Team team=teamService.getTeamInfoByTeamId(teamId);
+            Klass klass=klassService.getKlassByKlassId(team.getKlassId());
             User user=userService.getInformation(team.getLeaderId(),"student");
-
+            oneMap.put("klassId",team.getKlassId());
+            oneMap.put("klassSerial",klass.getKlassSerial());
+            oneMap.put("status",klassSeminar.getStatus());
+            oneMap.put("reportDDL",klassSeminar.getReportDDL());
             oneMap.put("teamSerial",team.getTeamSerial());
             oneMap.put("teamOrder",attendance.getTeamOrder());
             oneMap.put("leaderName",user.getName());
