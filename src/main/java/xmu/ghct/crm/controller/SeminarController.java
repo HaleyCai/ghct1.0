@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.*;
@@ -59,8 +60,22 @@ public class SeminarController {
      * @return
      */
     @RequestMapping(value="/seminar/{seminarId}/klass",method = RequestMethod.GET)
-    public List<Klass> listKlassSeminarBySeminarId(@PathVariable("seminarId") String seminarId) throws NotFoundException {
-        return klassService.listKlassBySeminarId(new BigInteger(seminarId));
+    public List<SeminarKlassVO> listKlassSeminarBySeminarId(@PathVariable("seminarId") String seminarId) throws NotFoundException {
+        List<Klass> klasses=klassService.listKlassBySeminarId(new BigInteger(seminarId));
+        List<SeminarKlassVO> seminarKlassVOS=new ArrayList<>();
+        for(Klass item:klasses)
+        {
+            SeminarKlassVO seminarKlassVO=new SeminarKlassVO();
+            BeanUtils.copyProperties(item,seminarKlassVO);
+            System.out.println(seminarKlassVO);
+            seminarKlassVO.setKlassSeminarId(
+                    seminarService.getKlassSeminarByKlassIdAndSeminarId(
+                            item.getKlassId(),
+                            new BigInteger(seminarId)).getKlassSeminarId());
+            System.out.println("klassSeminarId "+seminarKlassVO.getKlassSeminarId());
+            seminarKlassVOS.add(seminarKlassVO);
+        }
+        return seminarKlassVOS;
     }
 
     /**

@@ -8,11 +8,11 @@ import xmu.ghct.crm.VO.CourseTeacherVO;
 import xmu.ghct.crm.VO.CourseVO;
 import xmu.ghct.crm.VO.StudentCourseVO;
 import xmu.ghct.crm.entity.*;
-import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.*;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +40,12 @@ public class CourseDao {
     StrategyMapper strategyMapper;
 
 
-    public int insertCourse(CourseVO courseVO) {
+    public int insertCourse(CourseVO courseVO) throws SQLException {
+        String name=courseMapper.getCourseByCourseId(courseVO.getCourseId()).getCourseName();
+        if(name.equals(courseVO.getCourseName()))
+        {
+            throw new SQLException("该课程已存在");
+        }
 
         int flag_1=courseMapper.insertCourse(courseVO);
         int flag_2=strategyMapper.insertMemberLimit(courseVO);
@@ -117,37 +122,78 @@ public class CourseDao {
         return course;
     }
 
-    public int deleteCourseByCourseId(BigInteger courseId) {
+    public int deleteCourseByCourseId(BigInteger courseId) throws NotFoundException
+    {
+        if(courseMapper.getCourseByCourseId(courseId)==null)
+        {
+            throw new NotFoundException("未查找该课程");
+        }
         return courseMapper.deleteCourseByCourseId(courseId);
     }
 
-    public BigInteger getCourseIdByTeamId(BigInteger teamId){
-        return courseMapper.getCourseIdByTeamId(teamId);
+    public BigInteger getCourseIdByTeamId(BigInteger teamId) throws NotFoundException
+    {
+        BigInteger id=courseMapper.getCourseIdByTeamId(teamId);
+        if(id==null)
+        {
+            throw new NotFoundException("未查找该课程");
+        }
+        return id;
     }
 
-    public BigInteger getCourseIdByKlassId(BigInteger klassId){return courseMapper.getCourseIdByKlassId(klassId);}
-
-    public List<BigInteger> listCourseIdByTeacherId(BigInteger teacherId){
-        return courseMapper.listCourseIdByTeacherId(teacherId);
+    public BigInteger getCourseIdByKlassId(BigInteger klassId) throws NotFoundException
+    {
+        BigInteger id=courseMapper.getCourseIdByKlassId(klassId);
+        if(id==null)
+        {
+            throw new NotFoundException("未查找该课程");
+        }
+        return id;
     }
 
-    public List<BigInteger> listKlassIdByCourseId(BigInteger courseId){
-        return courseMapper.listKlassIdByCourseId(courseId);
+    public List<BigInteger> listCourseIdByTeacherId(BigInteger teacherId) throws NotFoundException
+    {
+        List<BigInteger> list=courseMapper.listCourseIdByTeacherId(teacherId);
+        if(list==null&&list.isEmpty())
+        {
+            throw new NotFoundException("未找到该教师的课程列表");
+        }
+        return list;
     }
 
-    public List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId){
+    public List<BigInteger> listKlassIdByCourseId(BigInteger courseId) throws NotFoundException
+    {
+        List<BigInteger> list=courseMapper.listKlassIdByCourseId(courseId);
+        if(list==null&&list.isEmpty())
+        {
+            throw new NotFoundException("未找到该课程下的班级列表");
+        }
+        return list;
+    }
+
+    public List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId)
+    {
         return courseMapper.listKlassStudentByStudentId(studentId);
     }
 
-    public String getTeacherNameByCourseId(BigInteger courseId)
+    public String getTeacherNameByCourseId(BigInteger courseId) throws NotFoundException
     {
         BigInteger teacherId=courseMapper.getCourseByCourseId(courseId).getTeacherId();
+        if(teacherId==null)
+        {
+            throw new NotFoundException("未找到该教师");
+        }
         return teacherMapper.getTeacherById(teacherId).getName();
     }
 
-    public List<CourseVO> getAllCourse()
+    public List<CourseVO> getAllCourse() throws NotFoundException
     {
-        return courseMapper.getAllCourse();
+        List<CourseVO> courseVO=courseMapper.getAllCourse();
+        if(courseVO==null&&courseVO.isEmpty())
+        {
+            throw new NotFoundException("尚未有课程");
+        }
+        return courseVO;
     }
 
     public List<Course> getCourseByTeacherId(BigInteger teacherId)
