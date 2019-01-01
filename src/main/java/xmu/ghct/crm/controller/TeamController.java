@@ -36,8 +36,8 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
-    public Map<String,Object> listTeamByCourseId(HttpServletRequest request, @PathVariable("courseId") Long courseId){
-        List<TeamSimpleInfo> teamSimpleInfos=teamService.listTeamByCourseId(BigInteger.valueOf(courseId));
+    public Map<String,Object> listTeamByCourseId(HttpServletRequest request, @PathVariable("courseId") String courseId){
+        List<TeamSimpleInfo> teamSimpleInfos=teamService.listTeamByCourseId(new BigInteger(courseId));
         Map<String,Object> map=new HashMap<>();
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         map.put("teams",teamSimpleInfos);
@@ -45,7 +45,7 @@ public class TeamController {
         Map<String,Object> team=teamService.getUserTeamStatusById(id);
         map.put("isTeam",team.get("isTeam"));
         map.put("myTeamId",team.get("myTeamId"));
-        Course course=courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
+        Course course=courseService.getCourseByCourseId(new BigInteger(courseId));
         map.put("startTime",course.getTeamStartTime());
         map.put("endTime",course.getTeamEndTime());
         return map;
@@ -68,8 +68,8 @@ public class TeamController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}/noTeam",method = RequestMethod.GET)
-    public List<StudentVO> getNoTeamStudentByCourseId(@PathVariable("courseId")Long courseId){
-        return teamService.getNoTeamStudentByCourseId(BigInteger.valueOf(courseId));
+    public List<StudentVO> getNoTeamStudentByCourseId(@PathVariable("courseId") String courseId){
+        return teamService.getNoTeamStudentByCourseId(new BigInteger(courseId));
     }
 
     /**
@@ -77,10 +77,10 @@ public class TeamController {
      * @param teamId
      */
     @RequestMapping(value="team/{teamId}",method = RequestMethod.DELETE)
-    public Map<String,Object> deleteTeam(@PathVariable("teamId") Long teamId)
+    public Map<String,Object> deleteTeam(@PathVariable("teamId") String teamId)
     {
         Map<String,Object> map=new HashMap<>();
-        if(teamService.deleteTeam(BigInteger.valueOf(teamId)))
+        if(teamService.deleteTeam(new BigInteger(teamId)))
             map.put("message",true);
         else map.put("message",false);
         return map;
@@ -93,15 +93,15 @@ public class TeamController {
      * @param studentIdList
      */
     @RequestMapping(value="team/{teamId}/add",method = RequestMethod.PUT)
-    public boolean addTeamMember(@PathVariable("teamId") Long teamId,
+    public boolean addTeamMember(@PathVariable("teamId") String teamId,
                               @RequestBody List<BigInteger> studentIdList)
     {
-        Boolean flag=teamService.addTeamMember(teamId,studentIdList);
-        if(teamService.judgeIllegal(BigInteger.valueOf(teamId))){
-            teamService.updateStatusByTeamId(BigInteger.valueOf(teamId),1);
+        Boolean flag=teamService.addTeamMember(new BigInteger(teamId),studentIdList);
+        if(teamService.judgeIllegal(new BigInteger(teamId))){
+            teamService.updateStatusByTeamId(new BigInteger(teamId),1);
         }
         else {
-            teamService.updateStatusByTeamId(BigInteger.valueOf(teamId),0);
+            teamService.updateStatusByTeamId(new BigInteger(teamId),0);
         }
         return flag;
     }
@@ -113,11 +113,11 @@ public class TeamController {
      * @param inMap
      */
     @RequestMapping(value="team/{teamId}/remove",method = RequestMethod.PUT)
-    public Map<String,Object> removeTeamMember(@PathVariable("teamId") Long teamId,
+    public Map<String,Object> removeTeamMember(@PathVariable("teamId") String teamId,
                                  @RequestBody Map<String,Object> inMap)
     {
         Map<String,Object> map=new HashMap<>();
-        int flag=teamService.removeTeamMember(BigInteger.valueOf(teamId),new BigInteger(inMap.get("studentId").toString()));
+        int flag=teamService.removeTeamMember(new BigInteger(teamId),new BigInteger(inMap.get("studentId").toString()));
         if(flag==0){
             map.put("message",false);
         }
@@ -125,11 +125,11 @@ public class TeamController {
             map.put("message",true);
         }
         else if(flag==2){
-            teamService.updateStatusByTeamId(BigInteger.valueOf(teamId),1);
+            teamService.updateStatusByTeamId(new BigInteger(teamId),1);
             map.put("message",true);
         }
         else if(flag==3){
-                teamService.updateStatusByTeamId(BigInteger.valueOf(teamId),0);
+                teamService.updateStatusByTeamId(new BigInteger(teamId),0);
             map.put("message",true);
             }
 

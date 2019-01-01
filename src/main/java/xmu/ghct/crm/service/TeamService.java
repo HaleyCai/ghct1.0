@@ -167,10 +167,10 @@ public class TeamService {
      * @param studentIdList
      * @return
      */
-    public boolean addTeamMember(Long teamId,List<BigInteger> studentIdList)
+    public boolean addTeamMember(BigInteger teamId,List<BigInteger> studentIdList)
     {
         for(BigInteger item:studentIdList){
-            if(teamDao.insertTeamStudent(BigInteger.valueOf(teamId),item)<0) return false;
+            if(teamDao.insertTeamStudent(teamId,item)<0) return false;
         }
         return true;
     }

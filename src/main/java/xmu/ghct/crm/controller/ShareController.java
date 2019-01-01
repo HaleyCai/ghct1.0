@@ -31,9 +31,9 @@ public class ShareController {
      * @return
      */
     @GetMapping(value="/share/{teacherId}/share")
-    public List<ShareVO> getSuccessShare(@PathVariable Long teacherId)
+    public List<ShareVO> getSuccessShare(@PathVariable String teacherId)
     {
-        return shareService.getAllSuccessShare(BigInteger.valueOf(teacherId));
+        return shareService.getAllSuccessShare(new BigInteger(teacherId));
     }
 
     /**
@@ -42,8 +42,8 @@ public class ShareController {
      * @return
      */
     @DeleteMapping(value="/share/deleteShare/{shareId}")
-    public boolean deleteShare(@PathVariable Long shareId,@RequestParam String shareType){
-       return shareService.deleteShare(BigInteger.valueOf(shareId),shareType);
+    public boolean deleteShare(@PathVariable String shareId,@RequestParam String shareType){
+       return shareService.deleteShare(new BigInteger(shareId),shareType);
     }
 
 
@@ -98,11 +98,11 @@ public class ShareController {
      * @param inMap
      */
     @RequestMapping(value="/team/{teamId}/teamvalidrequest",method = RequestMethod.POST)
-    public void sentValidTeamRequest(@PathVariable("teamId") BigInteger teamId,
+    public void sentValidTeamRequest(@PathVariable("teamId") String teamId,
                                      @RequestBody Map<String,Object> inMap)
     {
         TeamApplicationVO teamApplicationVO=new TeamApplicationVO();
-        teamApplicationVO.setTeamId(teamId);
+        teamApplicationVO.setTeamId(new BigInteger(teamId));
         teamApplicationVO.setReason(inMap.get("reason").toString());
         teamApplicationVO.setStatus(0);//未处理
         //根据courseId获得teacherId

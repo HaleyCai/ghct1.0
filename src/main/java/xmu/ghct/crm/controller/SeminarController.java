@@ -161,8 +161,8 @@ public class SeminarController {
      * @return
      */
     @PutMapping("seminar/{seminarId}/status")
-    public boolean updateKlassSeminarStatus(@PathVariable("seminarId") BigInteger seminarId,@RequestBody Map<String,Object> klassMap){
-        int flag=seminarService.updateKlassSeminarStatus(seminarId,klassMap);
+    public boolean updateKlassSeminarStatus(@PathVariable("seminarId") String seminarId,@RequestBody Map<String,Object> klassMap){
+        int flag=seminarService.updateKlassSeminarStatus(new BigInteger(seminarId),klassMap);
         if(flag>0)return true;
         else return  false;
     }
@@ -175,8 +175,8 @@ public class SeminarController {
      * @return
      */
     @GetMapping("seminar/{seminarId}/team/{teamId}/seminarScore")
-    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(@PathVariable("teamId") BigInteger teamId,@PathVariable("seminarId") BigInteger seminarId){
-        return seminarService.getTeamSeminarScoreByTeamIdAndSeminarId(teamId,seminarId);
+    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(@PathVariable("teamId") String teamId,@PathVariable("seminarId") String seminarId){
+        return seminarService.getTeamSeminarScoreByTeamIdAndSeminarId(new BigInteger(teamId),new BigInteger(seminarId));
     }
 
     /**
@@ -187,9 +187,9 @@ public class SeminarController {
      * @return
      */
     @PutMapping("seminar/{seminarId}/team/{teamId}/seminarScore")
-    public boolean updateSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId") BigInteger seminarId,
-                                                          @PathVariable("teamId") BigInteger teamId,@RequestBody Map<String,Object> seminarScoreMap){
-        int flag=seminarService.updateSeminarScoreBySeminarIdAndTeamId(seminarId,teamId,seminarScoreMap);
+    public boolean updateSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId") String seminarId,
+                                                          @PathVariable("teamId") String teamId,@RequestBody Map<String,Object> seminarScoreMap){
+        int flag=seminarService.updateSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),new BigInteger(teamId),seminarScoreMap);
         if(flag>0) return true;
         else return false;
     }
@@ -202,8 +202,8 @@ public class SeminarController {
      * @return
      */
     @GetMapping("seminar/{seminarId}/klass/{klassId}/seminarScore")
-    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(@PathVariable("klassId") BigInteger klassId,@PathVariable("seminarId")BigInteger seminarId){
-        return  seminarService.listKlassSeminarScoreByKlassIdAndSeminarId(klassId,seminarId);
+    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(@PathVariable("klassId") String klassId,@PathVariable("seminarId") String seminarId){
+        return  seminarService.listKlassSeminarScoreByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
     }
 
 
@@ -214,8 +214,8 @@ public class SeminarController {
      * @return
      */
     @PostMapping("seminar/{klassSeminarId}/updateReportScore")
-    public boolean updateReportScoreByKlassSeminarId(@PathVariable("klassSeminarId") BigInteger klassSeminarId,@RequestBody List<Map> reportMapList) {
-        return seminarService.updateReportScoreByKlassSeminarId(klassSeminarId,reportMapList);
+    public boolean updateReportScoreByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,@RequestBody List<Map> reportMapList) {
+        return seminarService.updateReportScoreByKlassSeminarId(new BigInteger(klassSeminarId),reportMapList);
     }
 
 
@@ -226,8 +226,8 @@ public class SeminarController {
      * @return
      */
     @GetMapping("/seminar/{klassSeminarId}/updateReportScore")
-    public List<Map> listReportUploadByKlassSeminarId(@PathVariable("klassSeminarId")BigInteger klassSeminarId){
-        return seminarService.listFileUploadStatusByKlassSeminarId(klassSeminarId);
+    public List<Map> listReportUploadByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId){
+        return seminarService.listFileUploadStatusByKlassSeminarId(new BigInteger(klassSeminarId));
     }
 
 
@@ -238,8 +238,8 @@ public class SeminarController {
      * @return
      */
     @GetMapping("/seminar/{klassSeminarId}/pptUploadStatus")
-    public List<Map> listPPTUploadStatusByKlassSeminarId(@PathVariable("klassSeminarId")BigInteger klassSeminarId){
-        return seminarService.listFileUploadStatusByKlassSeminarId(klassSeminarId);
+    public List<Map> listPPTUploadStatusByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId){
+        return seminarService.listFileUploadStatusByKlassSeminarId(new BigInteger(klassSeminarId));
     }
 
 
@@ -250,8 +250,8 @@ public class SeminarController {
      * @return
      */
     @GetMapping("/round/seminar/{klassSeminarId}/attendance")
-    public List<Map> listStudentKlassSeminarByKlassSeminarId(@PathVariable("klassSeminarId") BigInteger klassSeminarId){
-             return seminarService.listStudentKlassSeminarByKlassSeminarId(klassSeminarId);
+    public List<Map> listStudentKlassSeminarByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId){
+             return seminarService.listStudentKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
     }
 
 }
