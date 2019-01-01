@@ -223,6 +223,7 @@ public class CourseController {
                 pptName="未提交";
                 pptUrl=null;
             }
+
             oneMap.put("pptName",pptName);
             oneMap.put("pptUrl",pptUrl);
             String reportName=attendance.getReportName();
