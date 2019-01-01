@@ -192,7 +192,7 @@ public class SeminarService {
         return seminarDao.updateKlassSeminarStatus(seminarVO);
     }
 
-    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(BigInteger teamId, BigInteger seminarId){
+    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(BigInteger teamId, BigInteger seminarId) throws NotFoundException {
         SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
         Team teamInfo=teamDao.getTeamInfoByTeamId(teamId);
         BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,teamInfo.getKlassId());
@@ -265,7 +265,7 @@ public class SeminarService {
      * @param seminarId
      * @return
      */
-    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(BigInteger klassId,BigInteger seminarId){
+    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(BigInteger klassId,BigInteger seminarId) throws NotFoundException {
         List<Team> teamList=teamDao.listTeamByKlassId(klassId);
         Klass klass=klassDao.getKlassByKlassId(klassId);
         BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
@@ -331,7 +331,7 @@ public class SeminarService {
     }
 
 
-    public List<Map> listStudentKlassSeminarByKlassSeminarId(BigInteger klassSeminarId){
+    public List<Map> listStudentKlassSeminarByKlassSeminarId(BigInteger klassSeminarId) throws NotFoundException {
         List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());

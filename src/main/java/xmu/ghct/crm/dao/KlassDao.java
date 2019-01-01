@@ -3,6 +3,7 @@ package xmu.ghct.crm.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.entity.Klass;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.KlassMapper;
 
 import java.math.BigInteger;
@@ -33,8 +34,15 @@ public class KlassDao {
         return klassMapper.deleteKlassByKlassId(klassId);
     }
 
-    public Klass getKlassByKlassId(BigInteger klassId){
-        return klassMapper.getKlassByKlassId(klassId);
+    public Klass getKlassByKlassId(BigInteger klassId) throws NotFoundException {
+        Klass klass=klassMapper.getKlassByKlassId(klassId);
+        System.out.println("klass=="+klass);
+        if(klass.toString().length()==0)
+        {
+            System.out.println("klass 是空的");
+            throw new NotFoundException("未找到该班级");
+        }
+        return klass;
     }
 
     public List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId){

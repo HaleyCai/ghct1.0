@@ -2,10 +2,7 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.CourseTeacherVO;
-import xmu.ghct.crm.VO.ShareRequestVO;
-import xmu.ghct.crm.VO.ShareTeamVO;
-import xmu.ghct.crm.VO.ShareVO;
+import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.dao.ShareDao;
 import xmu.ghct.crm.entity.Course;
@@ -71,10 +68,15 @@ public class ShareService {
         return false;
     }
 
+    /**
+     * 获得未处理的共享请求
+     * @param teacherId
+     * @return
+     * @throws NotFoundException
+     */
     public List<ShareRequestVO> getUntreatedShare(BigInteger teacherId) throws NotFoundException {
         List<ShareRequestVO> shareRequestVOS=new ArrayList<>();
         List<CourseTeacherVO> courseTeacherVOS=courseDao.listCourseByTeacherId(teacherId);
-        System.out.println("courseTeacherVOS=="+courseTeacherVOS);
         for(CourseTeacherVO item:courseTeacherVOS)
         {
             shareRequestVOS.addAll(shareDao.getUntreatedShare(item.getCourseId(),item.getCourseName(),teacherId));
@@ -82,4 +84,17 @@ public class ShareService {
         return shareRequestVOS;
     }
 
+    /**
+     * 教师获取自己受到的组队申请
+     * @param teacherId
+     * @return
+     */
+    public List<TeamApplicationVO> getUntreatedTeam(BigInteger teacherId) throws NotFoundException {
+        return shareDao.getUntreatedTeamApplication(teacherId);
+    }
+
+    public boolean sentValidTeamRequest(TeamApplicationVO applicationVO)
+    {
+        return shareDao.launchTeamRequest(applicationVO);
+    }
 }

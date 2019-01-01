@@ -18,13 +18,13 @@
     <select id="getTeamShareRequest" resultMap="shareResultMap">
         select *
         from share_team_application
-        where sub_course_teacher_id=#{teacherId} and status=null
+        where sub_course_teacher_id=#{teacherId} and status is null
     </select>
 
     <select id="getSeminarShareRequest" resultMap="shareResultMap">
         select *
         from share_seminar_application
-        where sub_course_teacher_id=#{teacherId} and status=null
+        where sub_course_teacher_id=#{teacherId} and status is null
     </select>
 
     <select id="getTeamShareByShareId" resultMap="shareResultMap">
@@ -59,6 +59,10 @@
         delete from share_seminar_application  where id=#{shareId}
     </delete>
 
+    <select id="getUntreatedTeamApplication" resultMap="teamApplicationMap">
+        select * from team_valid_application where teacher_id=#{teacherId}
+    </select>
+
     <resultMap id="shareResultMap" type="xmu.ghct.crm.entity.Share">
         <id property="shareId" column="id"/>
         <result property="mainCourseId" column="main_course_id"/>
@@ -66,6 +70,27 @@
         <result property="subCourseTeacherId" column="sub_course_teacher_id"/>
         <result property="status" column="status"/>
     </resultMap>
+
+    <resultMap id="teamApplicationMap" type="xmu.ghct.crm.VO.TeamApplicationVO">
+        <id property="teamValidId" column="id"/>
+        <result property="teamId" column="team_id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="reason" column="reason"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <insert id="launchTeamRequest" parameterType="xmu.ghct.crm.VO.TeamApplicationVO">
+        insert into team_valid_application(
+                                          team_id,
+                                          teacher_id,
+                                          reason
+        )
+        values (
+                #{teamId},
+                #{teacherId},
+                #{reason}
+        )
+    </insert>
 
     <insert id="launchTeamShareRequest" parameterType="xmu.ghct.crm.entity.Share">
         insert into share_team_application(
@@ -94,7 +119,6 @@
                   #{subCourseId},
                   #{subCourseTeacherId},
                   #{status}
-
               )
     </insert>
 

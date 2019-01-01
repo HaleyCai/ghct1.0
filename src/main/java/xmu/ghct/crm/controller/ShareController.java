@@ -9,10 +9,12 @@ import xmu.ghct.crm.VO.TeamApplicationVO;
 import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
+import xmu.ghct.crm.service.CourseService;
 import xmu.ghct.crm.service.ShareService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,8 @@ import java.util.Map;
  */
 @RestController
 public class ShareController {
+    @Autowired
+    CourseService courseService;
     @Autowired
     ShareService shareService;
     @Autowired
@@ -33,7 +37,6 @@ public class ShareController {
     @GetMapping(value="/share/successShare")
     public List<ShareVO> getSuccessShare(HttpServletRequest request) throws NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        System.out.println("teacherId===="+id);
         return shareService.getAllSuccessShare(id);
     }
 
@@ -48,24 +51,21 @@ public class ShareController {
 
 
     /**
-     * 代办界面：教师查找个人所有课程下，未处理状态的，共享组队、讨论课请求的信息
+     * 代办界面：教师查找个人所有课程下，未处理状态的，共享组队、讨论课请求的信息  he  发给自己的非法组队申请
      * teacherId：通过jwt获得
      * @return
      */
-    @GetMapping(value="/share/untreatedRequest")
-    public List<ShareRequestVO> getUntreatedShare(HttpServletRequest request) throws NotFoundException {
+    @GetMapping(value="/request/untreatedRequest")
+    public Map<String,Object> getUntreatedShare(HttpServletRequest request) throws NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        System.out.println("teacherId===="+id);
-        return shareService.getUntreatedShare(id);
+        List<ShareRequestVO> shareRequestVOS=shareService.getUntreatedShare(id);
+        List<TeamApplicationVO> teamApplicationVOS=shareService.getUntreatedTeam(id);
+        Map<String,Object> map=new HashMap<>();
+        map.put("share",shareRequestVOS);
+        map.put("team",teamApplicationVOS);
+        return map;
     }
 
-    /**
-     * 代办界面：教师查找所有，发给自己的非法组队申请
-     */
-    @GetMapping(value="/team/untreatedRequest")
-    public void getUntreatedTeam(){
-
-    }
 
     /**
      * 代办处理界面：教师同意/拒绝共享分组申请、共享讨论课申请，shareTeamId，type=1组队,0讨论课，status（1同意，0拒绝）
@@ -88,25 +88,23 @@ public class ShareController {
      * 新增共享界面：教师向教师发送一个共享组队/共享讨论课请求信息，发送者默认为主课程，type=1组队0讨论课，subCourseId, subCourseTeacherId
      * @return
      */
-    @RequestMapping(value="/course/{courseId}/createShare")
+    @PostMapping("/course/createShare")
     public void createShare(){
 
     }
 
     /**
      * 学生向老师发送非法组队申请
-     * @param teamId
      * @param inMap
      */
-    @RequestMapping(value="/team/{teamId}/teamvalidrequest",method = RequestMethod.POST)
-    public void sentValidTeamRequest(@PathVariable("teamId") String teamId,
-                                     @RequestBody Map<String,Object> inMap)
-    {
+    @PostMapping("/team/teamValidRequest")
+    public boolean sentValidTeamRequest(@RequestBody Map<String,Object> inMap) throws NotFoundException {
+        BigInteger courseId=new BigInteger(inMap.get("courseId").toString());
+        BigInteger teacherId=courseService.getCourseByCourseId(courseId).getTeacherId();
         TeamApplicationVO teamApplicationVO=new TeamApplicationVO();
-        teamApplicationVO.setTeamId(new BigInteger(teamId));
+        teamApplicationVO.setTeamId(new BigInteger(inMap.get("teamId").toString()));
+        teamApplicationVO.setTeacherId(teacherId);
         teamApplicationVO.setReason(inMap.get("reason").toString());
-        teamApplicationVO.setStatus(0);//未处理
-        //根据courseId获得teacherId
-
+        return shareService.sentValidTeamRequest(teamApplicationVO);
     }
 }

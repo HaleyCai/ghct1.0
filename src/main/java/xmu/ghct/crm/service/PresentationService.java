@@ -7,6 +7,7 @@ import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Attendance;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.exception.NotFoundException;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -74,7 +75,7 @@ public class PresentationService {
         return presentationDao.insertAttendance(attendance);
     }
 
-    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId){
+    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId) throws NotFoundException {
         List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
         boolean isAttendance=false;
         for(Attendance item:attendanceList){
@@ -137,7 +138,7 @@ public class PresentationService {
         }
     }
 
-    public List<Map> modifyAttendanceByAttendanceId(BigInteger attendanceId,Map<String,String> orderMap){
+    public List<Map> modifyAttendanceByAttendanceId(BigInteger attendanceId,Map<String,String> orderMap) throws NotFoundException {
         int teamOrder=new Integer(orderMap.get("teamOrder"));
         int flag=presentationDao.updateAttendanceOrderByAttendanceId(attendanceId,teamOrder);
         Map<String,Object> flagMap=new HashMap<>();

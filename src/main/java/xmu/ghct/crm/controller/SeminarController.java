@@ -59,7 +59,7 @@ public class SeminarController {
      * @return
      */
     @RequestMapping(value="/seminar/{seminarId}/klass",method = RequestMethod.GET)
-    public List<Klass> listKlassSeminarBySeminarId(@PathVariable("seminarId") String seminarId){
+    public List<Klass> listKlassSeminarBySeminarId(@PathVariable("seminarId") String seminarId) throws NotFoundException {
         return klassService.listKlassBySeminarId(new BigInteger(seminarId));
     }
 
@@ -175,7 +175,7 @@ public class SeminarController {
      * @return
      */
     @GetMapping("seminar/{seminarId}/team/{teamId}/seminarScore")
-    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(@PathVariable("teamId") String teamId,@PathVariable("seminarId") String seminarId){
+    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(@PathVariable("teamId") String teamId,@PathVariable("seminarId") String seminarId) throws NotFoundException {
         return seminarService.getTeamSeminarScoreByTeamIdAndSeminarId(new BigInteger(teamId),new BigInteger(seminarId));
     }
 
@@ -202,7 +202,7 @@ public class SeminarController {
      * @return
      */
     @GetMapping("seminar/{seminarId}/klass/{klassId}/seminarScore")
-    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(@PathVariable("klassId") String klassId,@PathVariable("seminarId") String seminarId){
+    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(@PathVariable("klassId") String klassId,@PathVariable("seminarId") String seminarId) throws NotFoundException {
         return  seminarService.listKlassSeminarScoreByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
     }
 
@@ -250,7 +250,7 @@ public class SeminarController {
      * @return
      */
     @GetMapping("/round/seminar/{klassSeminarId}/attendance")
-    public List<Map> listStudentKlassSeminarByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId){
+    public List<Map> listStudentKlassSeminarByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId) throws NotFoundException {
              return seminarService.listStudentKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
     }
 

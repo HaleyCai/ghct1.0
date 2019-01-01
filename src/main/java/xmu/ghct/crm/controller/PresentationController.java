@@ -8,6 +8,7 @@ import xmu.ghct.crm.VO.ScoreVO;
 import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
+import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.service.CourseService;
 import xmu.ghct.crm.service.PresentationService;
 import xmu.ghct.crm.service.SeminarService;
@@ -332,7 +333,7 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/seminar/{klassSeminarId}/{teamId}/seminarInfo")
-    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(@PathVariable("klassSeminarId")String klassSeminarId,@PathVariable("teamId")String teamId){
+    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(@PathVariable("klassSeminarId")String klassSeminarId,@PathVariable("teamId")String teamId) throws NotFoundException {
              return presentationService.getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));
     }
 
@@ -344,7 +345,7 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/klassSeminar/attendance/{attendanceId}/modifyAttendance")
-    public List<Map> modifyAttendanceByAttendanceId(@PathVariable("attendanceId")String attendanceId,@RequestBody Map<String,String> orderMap){
+    public List<Map> modifyAttendanceByAttendanceId(@PathVariable("attendanceId")String attendanceId,@RequestBody Map<String,String> orderMap) throws NotFoundException {
         return presentationService.modifyAttendanceByAttendanceId(new BigInteger(attendanceId),orderMap);
     }
 

@@ -38,7 +38,7 @@ public class TeamService {
      * @param courseId
      * @return
      */
-    public List<TeamSimpleInfo> listTeamByCourseId(BigInteger courseId) {
+    public List<TeamSimpleInfo> listTeamByCourseId(BigInteger courseId) throws NotFoundException {
         //查course下所有klass,再查klass下所有team
         List<Klass> klasses=klassDao.listKlassByCourseId(courseId);
         List<Team> teamList=new ArrayList<>();
@@ -53,8 +53,7 @@ public class TeamService {
      * @param teamList
      * @return
      */
-    public List<TeamSimpleInfo> teamTOTeamSimpleInfo(List<Team> teamList)
-    {
+    public List<TeamSimpleInfo> teamTOTeamSimpleInfo(List<Team> teamList) throws NotFoundException {
         List<TeamSimpleInfo> teamSimpleInfoList=new ArrayList<>();
         for(Team teamItem:teamList){
             TeamSimpleInfo teamSimpleInfo=new TeamSimpleInfo();

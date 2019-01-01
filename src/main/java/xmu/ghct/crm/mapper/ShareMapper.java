@@ -41,19 +41,35 @@ public interface ShareMapper {
      */
     List<Share> getSeminarShareRequest(BigInteger teacherId);
 
+    /**
+     * 获取一个共享的信息
+     * @param shareId
+     * @return
+     */
     Share getTeamShareByShareId(BigInteger shareId);
 
     Share getSeminarShareByShareId(BigInteger shareId);
 
+    /**
+     * 删除一个共享组队的信息
+     * @param shareId
+     * @return
+     */
     int deleteTeamShareByShareId(BigInteger shareId);
+
+    int deleteSeminarShareByShareId(BigInteger shareId);
 
     int deleteTeamShareInCourse(BigInteger subCourseId);
 
-
-
     int deleteSeminarShareInCourse(BigInteger subCourseId);
 
-    int deleteSeminarShareByShareId(BigInteger shareId);
+    /**
+     * 获取发送给某教师的非法组队申请
+     * @param teacherId
+     * @return
+     */
+    List<TeamApplicationVO> getUntreatedTeamApplication(BigInteger teacherId);
+
     /**
      * 发布共享讨论课请求
      * @param share
@@ -67,4 +83,11 @@ public interface ShareMapper {
      * @return
      */
     List<TeamApplicationVO> getTeamApplication(BigInteger teacherId);
+
+    /**
+     * 新增一条非法组队申请
+     * @param applicationVO
+     * @return
+     */
+    int launchTeamRequest(TeamApplicationVO applicationVO);
 }

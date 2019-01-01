@@ -6,8 +6,6 @@ import java.math.BigInteger;
 //发送的非法组队请求
 public class TeamApplicationVO implements Serializable {
     private BigInteger teamValidId;
-    private BigInteger courseId;
-    private String courseName;
     private int klassSerial;
     private BigInteger teamId;
     private int teamSerial;
@@ -21,22 +19,6 @@ public class TeamApplicationVO implements Serializable {
 
     public void setTeamValidId(BigInteger teamValidId) {
         this.teamValidId = teamValidId;
-    }
-
-    public BigInteger getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(BigInteger courseId) {
-        this.courseId = courseId;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
     }
 
     public int getKlassSerial() {
@@ -91,8 +73,6 @@ public class TeamApplicationVO implements Serializable {
     public String toString() {
         return "TeamApplicationVO{" +
                 "teamValidId=" + teamValidId +
-                ", courseId=" + courseId +
-                ", courseName='" + courseName + '\'' +
                 ", klassSerial=" + klassSerial +
                 ", teamId=" + teamId +
                 ", teamSerial=" + teamSerial +

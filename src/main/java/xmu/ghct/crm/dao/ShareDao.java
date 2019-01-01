@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.ShareRequestVO;
 import xmu.ghct.crm.VO.ShareVO;
+import xmu.ghct.crm.VO.TeamApplicationVO;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.mapper.*;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.CourseMapper;
 import xmu.ghct.crm.mapper.KlassMapper;
@@ -30,6 +32,9 @@ public class ShareDao {
     TeacherMapper teacherMapper;
     @Autowired
     KlassMapper klassMapper;
+    KlassDao klassDao;
+    @Autowired
+    TeamMapper teamMapper;
     /**
      * 获取已同意的，共享组队和共享讨论课信息
      * @param courseId
@@ -81,9 +86,9 @@ public class ShareDao {
      */
     public List<ShareRequestVO> getUntreatedShare(BigInteger courseId,String courseName,BigInteger teacherId) throws NotFoundException {
         List<ShareRequestVO> all=new ArrayList<>();
-        List<Share> allTeams=shareMapper.getTeamShareRequest(courseId);
+        List<Share> allTeams=shareMapper.getTeamShareRequest(teacherId);
         all.addAll(shareToShareRequestVO(allTeams,courseId,courseName,"共享分组申请",teacherId));
-        List<Share> allSeminars=shareMapper.getSeminarShareRequest(courseId);
+        List<Share> allSeminars=shareMapper.getSeminarShareRequest(teacherId);
         all.addAll(shareToShareRequestVO(allSeminars,courseId,courseName,"共享讨论课申请",teacherId));
         return all;
     }
@@ -166,6 +171,29 @@ public class ShareDao {
     public boolean deleteSeminarShareByShareId(BigInteger shareId)
     {
         if(shareMapper.deleteSeminarShareByShareId(shareId)>0)
+            return true;
+        else
+            return false;
+    }
+
+    public List<TeamApplicationVO> getUntreatedTeamApplication(BigInteger teacherId) throws NotFoundException {
+        List<TeamApplicationVO> teamApplicationVOS=shareMapper.getUntreatedTeamApplication(teacherId);
+        for(TeamApplicationVO oneTeam:teamApplicationVOS)
+        {
+            BigInteger teamId=oneTeam.getTeamId();
+            BigInteger klassId=teamMapper.getKlassIdByTeamId(teamId);
+            System.out.println("klassId "+klassId);
+            Klass klass=klassDao.getKlassByKlassId(klassId);
+            System.out.println("kkkkk");
+            oneTeam.setKlassSerial(klass.getKlassSerial());
+            oneTeam.setTeamSerial(teamMapper.getTeamInfoByTeamId(teamId).getTeamSerial());
+        }
+        return teamApplicationVOS;
+    }
+
+    public boolean launchTeamRequest(TeamApplicationVO applicationVO)
+    {
+        if(shareMapper.launchTeamRequest(applicationVO)>0)
             return true;
         else
             return false;

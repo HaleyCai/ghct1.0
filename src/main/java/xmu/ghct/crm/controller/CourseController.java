@@ -135,7 +135,6 @@ public class CourseController {
         RoundVO roundVO=courseService.getRoundByRoundId(
                 new BigInteger(courseId),
                 new BigInteger(roundId));
-        System.out.println("roundVO==="+roundVO);
         return roundVO;
     }
 

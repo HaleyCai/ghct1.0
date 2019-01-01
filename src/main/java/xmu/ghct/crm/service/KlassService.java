@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xmu.ghct.crm.dao.KlassDao;
 import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.Klass;
+import xmu.ghct.crm.exception.NotFoundException;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class KlassService {
      * @param seminarId
      * @return
      */
-    public List<Klass> listKlassBySeminarId(BigInteger seminarId){
+    public List<Klass> listKlassBySeminarId(BigInteger seminarId) throws NotFoundException {
         List<BigInteger> klassIdList=klassDao.listKlassIdBySeminarId(seminarId);
         System.out.println("klassIdList "+klassIdList);
         List<Klass> klassList=new ArrayList<>();
@@ -88,7 +89,7 @@ public class KlassService {
      * @param klassId
      * @return
      */
-    public Klass getKlassByKlassId(BigInteger klassId){
+    public Klass getKlassByKlassId(BigInteger klassId) throws NotFoundException {
         return klassDao.getKlassByKlassId(klassId);
     }
 
