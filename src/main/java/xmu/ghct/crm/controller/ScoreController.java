@@ -77,6 +77,7 @@ public class ScoreController {
                 }
             }
         }
+
         for(SeminarVO item:klassSeminarList){
             Score score=scoreService.getKlassSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),new BigInteger(teamId));
             Seminar seminar=seminarService.getSeminarBySeminarId(item.getSeminarId());
