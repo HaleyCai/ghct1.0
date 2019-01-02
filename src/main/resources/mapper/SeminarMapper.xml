@@ -63,9 +63,8 @@
 
     <update  id="updateKlassSeminarByKlassSeminarId">
         update klass_seminar
-        set report_ddl=#{reportDDL},
-        set status=2
-        where klassSeminarId=#{klassSeminarId}
+        set report_ddl=#{reportDDL},status=2
+        where id=#{klassSeminarId}
     </update>
     
     

@@ -16,6 +16,7 @@ import xmu.ghct.crm.service.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -321,28 +322,29 @@ public class PresentationController {
      * @param presentationScoreMap
      * @return
      */
-    @PutMapping("/presentation/{klassSeminarId}/attendance/team")
+    @PutMapping("/presentation/{klassSeminarId}/attendance/{teamId}")
     public boolean updatePresentationScore(HttpServletRequest request,
                                            @PathVariable("klassSeminarId") String klassSeminarId,
+                                           @PathVariable("teamId")String teamId,
                                            @RequestBody  Map<String,Object> presentationScoreMap) throws NotFoundException{
-        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        BigInteger teamId=teamDao.getTeamIdByStudentId(id);
-        double presentationScore=new Double(presentationScoreMap.get("presentationScore").toString());
-        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),teamId);
+        Double presentationScore=new Double(presentationScoreMap.get("presentationScore").toString());
+        //---------此處有報錯
+        System.out.println("presentationScore"+presentationScore);
+        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));
         score.setPresentationScore(presentationScore);
         SeminarVO seminarVO=seminarService.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
         BigInteger courseId=courseService.getCourseIdByKlassId(seminarVO.getKlassId());
         Score totalScore=totalScoreDao.totalScoreCalculation(score,courseId);
         int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(totalScore);
         BigInteger roundId=seminarService.getRoundIdBySeminarId(seminarVO.getSeminarId());
-        Score score1=scoreCalculationDao.roundScoreCalculation(totalScore,roundId,teamId,courseId);
+        Score score1=scoreCalculationDao.roundScoreCalculation(totalScore,roundId,new BigInteger(teamId),courseId);
         ScoreVO scoreVO=new ScoreVO();
         scoreVO.setTotalScore(score1.getTotalScore());
         scoreVO.setReportScore(score1.getReportScore());
         scoreVO.setQuestionScore(score1.getQuestionScore());
         scoreVO.setPresentationScore(score1.getPresentationScore());
         scoreVO.setRoundId(roundId);
-        scoreVO.setTeamId(teamId);
+        scoreVO.setTeamId(new BigInteger(teamId));
         scoreDao.updateRoundScoreByRoundIdAndTeamId(scoreVO);
         if(flag>0) return true;
         else return false;
