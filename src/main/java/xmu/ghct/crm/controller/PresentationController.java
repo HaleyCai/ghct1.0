@@ -194,7 +194,9 @@ public class PresentationController {
      * @param response
      */
     @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/report", method = RequestMethod.GET)
-    public void multiReportDownload(HttpServletResponse response,HttpServletRequest request,@PathVariable("seminarId") String seminarId,@PathVariable("klassId")String klassId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException, NotFoundException {
+    public void multiReportDownload(HttpServletResponse response,HttpServletRequest request,
+                                    @PathVariable("seminarId") String seminarId,
+                                    @PathVariable("klassId")String klassId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException, NotFoundException {
         BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(new BigInteger(seminarId), new BigInteger(klassId));
         List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
         List<String> names = new ArrayList<String>();
@@ -234,25 +236,18 @@ public class PresentationController {
     }
 
     /**
-     * 修改队伍展示状态，并在讨论课结束时修改讨论课状态
-     * @param klassSeminarId
-     * @param teamOrder
+     * *修改队伍展示状态，并在讨论课结束时修改讨论课状态
+     * @param thisAttendanceId
+     * @param nextAttendanceId
+     * @throws org.apache.ibatis.javassist.NotFoundException
+     * @throws NotFoundException
      */
-    @GetMapping("/presentation/{klassSeminarId}/updateStatus")
-    public void updatePresentTeam(@PathVariable("klassSeminarId")String klassSeminarId,int teamOrder) throws org.apache.ibatis.javassist.NotFoundException, NotFoundException {
-        BigInteger attendanceId=presentationService.getPresentTeam(1);
-        int maxTeamOrder=presentationService.selectMaxTeamOrderByKlassSeminarId(new BigInteger(klassSeminarId));
-        presentationService.updatePresentByAttendanceId(attendanceId,2); //2为已结束
-        while(teamOrder<maxTeamOrder){
-            BigInteger attendanceID=presentationService.getAttendanceIdByTeamOrder(teamOrder+1);
-            if(attendanceID!=null) {
-                presentationService.updatePresentByAttendanceId(attendanceID,1);
-                break;
-            }
-            teamOrder++;
-        }
-        if(teamOrder==maxTeamOrder){
-            seminarService.updateKlassSeminarStatus(new BigInteger(klassSeminarId),2);
+    @PutMapping("/presentation/klassSeminar/updatePresentStatus")
+    public void updatePresentTeam(@RequestParam("thisAttendanceId") Long thisAttendanceId,
+                                  @RequestParam("nextAttendanceId") Long nextAttendanceId) throws org.apache.ibatis.javassist.NotFoundException, NotFoundException {
+        presentationService.updatePresentByAttendanceId(BigInteger.valueOf(thisAttendanceId),2);
+        if(nextAttendanceId!=null) {
+            presentationService.updatePresentByAttendanceId(BigInteger.valueOf(nextAttendanceId), 1);
         }
     }
 
@@ -307,31 +302,47 @@ public class PresentationController {
     }
 
     /**
+     * 修改展示成绩(需要展示现有成绩)
+     * @param klassSeminarId
+     * @return
+     */
+    @GetMapping("/presentation/{klassSeminarId}/team/modifyScore")
+    public Score modifyScore(HttpServletRequest request,
+                             @PathVariable("klassSeminarId") String klassSeminarId) throws NotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        BigInteger teamId=teamDao.getTeamIdByStudentId(id);
+        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),teamId);
+        return score;
+    }
+
+    /**
      * 修改展示成绩（展示给分）
      * @param klassSeminarId
-     * @param teamId
      * @param presentationScoreMap
      * @return
      */
-    @PutMapping("/presentation/{klassSeminarId}/attendance/{teamId}")
-    public boolean updatePresentationScore(@PathVariable("klassSeminarId") String klassSeminarId,@PathVariable("teamId")String teamId,
+    @PutMapping("/presentation/{klassSeminarId}/attendance/team")
+    public boolean updatePresentationScore(HttpServletRequest request,
+                                           @PathVariable("klassSeminarId") String klassSeminarId,
                                            @RequestBody  Map<String,Object> presentationScoreMap) throws NotFoundException{
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        BigInteger teamId=teamDao.getTeamIdByStudentId(id);
         double presentationScore=new Double(presentationScoreMap.get("presentationScore").toString());
-        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));
+        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),teamId);
         score.setPresentationScore(presentationScore);
         SeminarVO seminarVO=seminarService.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
         BigInteger courseId=courseService.getCourseIdByKlassId(seminarVO.getKlassId());
         Score totalScore=totalScoreDao.totalScoreCalculation(score,courseId);
         int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(totalScore);
         BigInteger roundId=seminarService.getRoundIdBySeminarId(seminarVO.getSeminarId());
-        Score score1=scoreCalculationDao.roundScoreCalculation(totalScore,roundId,new BigInteger(teamId),courseId);
+        Score score1=scoreCalculationDao.roundScoreCalculation(totalScore,roundId,teamId,courseId);
         ScoreVO scoreVO=new ScoreVO();
         scoreVO.setTotalScore(score1.getTotalScore());
         scoreVO.setReportScore(score1.getReportScore());
         scoreVO.setQuestionScore(score1.getQuestionScore());
         scoreVO.setPresentationScore(score1.getPresentationScore());
         scoreVO.setRoundId(roundId);
-        scoreVO.setTeamId(new BigInteger(teamId));
+        scoreVO.setTeamId(teamId);
         scoreDao.updateRoundScoreByRoundIdAndTeamId(scoreVO);
         if(flag>0) return true;
         else return false;
@@ -381,12 +392,13 @@ public class PresentationController {
      * @author hzm
      * 获取讨论课小组的班级讨论课信息(包括报名、未报名等各种情况)
      * @param klassSeminarId
-     * @param teamId
      * @return
      */
-    @GetMapping("/seminar/{klassSeminarId}/{teamId}/seminarInfo")
-    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(@PathVariable("klassSeminarId")String klassSeminarId,@PathVariable("teamId")String teamId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
-             return presentationService.getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));
+    @GetMapping("/seminar/{klassSeminarId}/team/seminarInfo")
+    public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(HttpServletRequest request,@PathVariable("klassSeminarId")String klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        BigInteger teamId=teamDao.getTeamIdByStudentId(id);
+        return presentationService.getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),teamId);
     }
 
 
