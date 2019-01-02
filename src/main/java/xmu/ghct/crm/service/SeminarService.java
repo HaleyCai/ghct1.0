@@ -330,6 +330,7 @@ public class SeminarService {
 
     public List<Map> listStudentKlassSeminarByKlassSeminarId(BigInteger klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
+        System.out.println(attendanceList);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
         BigInteger klassId=seminarDao.getKlassIdByKlassSeminarId(klassSeminarId);
@@ -337,17 +338,19 @@ public class SeminarService {
         int klassSerial=klass.getKlassSerial();
         List<Map> map=new ArrayList<>();
         int account=0;
-        for(Attendance item:attendanceList){
+        for(int i=0;i<attendanceList.size();){
+            Attendance item=attendanceList.get(i);
             System.out.println(item);
             Map<String,Object> oneMap=new HashMap<>();
             account++;
             System.out.println(account);
-            if(item.getTeamOrder()!=account){
+            if(item.getTeamOrder()>account){
                 oneMap.put("attendanceStatus",false);
                 map.add(oneMap);
                 continue;
             }
             else oneMap.put("attendanceStatus",true);
+            i++;
             BigInteger teamId=item.getTeamId();
             Team team=teamDao.getTeamInfoByTeamId(teamId);
 

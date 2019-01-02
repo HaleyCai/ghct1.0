@@ -143,9 +143,8 @@ public class PresentationService {
 
     public List<Map> modifyAttendanceByAttendanceId(BigInteger attendanceId,Map<String,String> orderMap) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         int teamOrder=new Integer(orderMap.get("teamOrder"));
-        int flag=presentationDao.updateAttendanceOrderByAttendanceId(attendanceId,teamOrder);
+        presentationDao.updateAttendanceOrderByAttendanceId(attendanceId,teamOrder);
         Map<String,Object> flagMap=new HashMap<>();
-        flagMap.put("isSuccess",flag);
         Attendance attendance=presentationDao.getAttendanceByAttendanceId(attendanceId);
         List<Map> map=seminarService.listStudentKlassSeminarByKlassSeminarId(attendance.getKlassSeminarId());
         map.add(flagMap);

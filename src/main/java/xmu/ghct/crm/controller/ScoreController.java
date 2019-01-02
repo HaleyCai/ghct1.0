@@ -130,11 +130,6 @@ public class ScoreController {
                                                          @PathVariable("teamId")String teamId) throws NotFoundException
     {
         return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),new BigInteger(teamId));
-
     }
-
-
-
-
 
 }
