@@ -63,13 +63,16 @@ public class ScoreController {
     {
         List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(new BigInteger(roundId));
         List<BigInteger> klassIdS=teamService.listKlassIdByTeamId(new BigInteger(teamId));  //队伍所属班级ID
+        System.out.println("&&"+klassIdS);
         List<SeminarVO> klassSeminarList=new ArrayList<>();
         List<Score> scoreList=new ArrayList<>();
         for(BigInteger item:seminarIdList){
+            System.out.println(item);
             List<BigInteger> klassId=seminarService.listKlassIdBySeminarId(item);   //讨论课所属班级ID
+            System.out.println("%%"+klassId);
             for(BigInteger klass_1:klassIdS){
                 for(BigInteger klass_2:klassId){
-                    if(klass_1==klass_2) {
+                    if(klass_1.equals(klass_2)) {
                         System.out.println(klass_1+"***************"+klass_2);
                         SeminarVO seminarVO=seminarService.getKlassSeminarByKlassIdAndSeminarId(klass_1,item);
                         klassSeminarList.add(seminarVO);
