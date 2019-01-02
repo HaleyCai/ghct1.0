@@ -129,6 +129,7 @@ public class PresentationService {
             seminarVO.setKlassSerial(klass.getKlassSerial());
             map.put("grade",klass.getGrade());
             int teamSerial=teamDao.getTeamSerialByTeamId(teamId);
+            map.put("teamId",teamId);
             map.put("teamSerial",teamSerial);
             if(attendance.getPptName()!=null&&attendance.getPptName().length()>0){
                 map.put("pptStatus",true);

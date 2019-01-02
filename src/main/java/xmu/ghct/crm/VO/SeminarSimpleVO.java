@@ -8,8 +8,18 @@ import java.math.BigInteger;
  */
 public class SeminarSimpleVO implements Serializable {
     private BigInteger seminarId;
+    private BigInteger klassSeminarId;
     private String topic;
     private int order;//讨论课
+
+
+    public void setKlassSeminarId(BigInteger klassSeminarId) {
+        this.klassSeminarId = klassSeminarId;
+    }
+
+    public BigInteger getKlassSeminarId() {
+        return klassSeminarId;
+    }
 
     public BigInteger getId() {
         return seminarId;
