@@ -259,4 +259,8 @@ public class TeamDao {
          return flag;
      }
 
+     public  List<BigInteger> listKlassIdByTeamId(BigInteger teamId){
+         return teamMapper.listKlassIdByTeamId(teamId);
+     }
+
 }

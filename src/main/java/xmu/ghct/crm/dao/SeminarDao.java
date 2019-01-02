@@ -161,4 +161,8 @@ public class SeminarDao {
         return seminarMapper.insertKlassSeminarBySeminarIdAndKlassId(seminarId,klassId);
     }
 
+    public List<BigInteger>listKlassIdBySeminarId(BigInteger seminarId){
+        return seminarMapper.listKlassIdBySeminarId(seminarId);
+    }
+
 }

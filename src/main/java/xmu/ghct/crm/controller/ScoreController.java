@@ -62,12 +62,20 @@ public class ScoreController {
                                                                @PathVariable("teamId")String teamId) throws NotFoundException
     {
         List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(new BigInteger(roundId));
-        BigInteger klassId=teamService.getKlassIdByTeamId(new BigInteger(teamId));
+        List<BigInteger> klassIdS=teamService.listKlassIdByTeamId(new BigInteger(teamId));  //队伍所属班级ID
         List<SeminarVO> klassSeminarList=new ArrayList<>();
         List<Score> scoreList=new ArrayList<>();
         for(BigInteger item:seminarIdList){
-            SeminarVO seminarVO=seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId,item);
-            klassSeminarList.add(seminarVO);
+            List<BigInteger> klassId=seminarService.listKlassIdBySeminarId(item);   //讨论课所属班级ID
+            for(BigInteger klass_1:klassIdS){
+                for(BigInteger klass_2:klassId){
+                    if(klass_1==klass_2) {
+                        System.out.println(klass_1+"***************"+klass_2);
+                        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassIdAndSeminarId(klass_1,item);
+                        klassSeminarList.add(seminarVO);
+                    }
+                }
+            }
         }
         for(SeminarVO item:klassSeminarList){
             Score score=scoreService.getKlassSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),new BigInteger(teamId));

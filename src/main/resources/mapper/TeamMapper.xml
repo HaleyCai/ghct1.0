@@ -43,6 +43,12 @@
         where klass_id=#{klassId}
     </select>
 
+    <select id="listKlassIdByTeamId" resultType="java.math.BigInteger">
+        select klass_id
+        from klass_team
+        where team_id=#{teamId}
+    </select>
+
     <update id="updateStatusByTeamId" >
         update team
         set status=#{status}

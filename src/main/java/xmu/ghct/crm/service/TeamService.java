@@ -320,4 +320,9 @@ public class TeamService {
        return map;
    }
 
+
+    public  List<BigInteger> listKlassIdByTeamId(BigInteger teamId){
+        return teamDao.listKlassIdByTeamId(teamId);
+    }
+
 }

@@ -395,4 +395,8 @@ public class SeminarService {
     public List<BigInteger> listSeminarIdByRoundId(BigInteger roundId) throws NotFoundException {
         return seminarDao.listSeminarIdByRoundId(roundId);
     }
+
+    public List<BigInteger>listKlassIdBySeminarId(BigInteger seminarId){
+        return seminarDao.listKlassIdBySeminarId(seminarId);
+    }
 }

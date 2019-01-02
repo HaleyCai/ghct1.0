@@ -175,4 +175,11 @@ public interface SeminarMapper {
     int insertKlassSeminarBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId);
 
     Seminar getSeminarByCourseIdAndRoundId(BigInteger courseId,BigInteger roundId);
+
+    /**
+     * 获取讨论课所属班级ID
+     * @param seminarId
+     * @return
+     */
+    List<BigInteger>listKlassIdBySeminarId(BigInteger seminarId);
 }

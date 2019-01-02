@@ -138,6 +138,12 @@
         <result property="enrollEndTime" column="enroll_end_time"/>
     </resultMap>
 
+    <select id="listKlassIdBySeminarId" resultType="java.math.BigInteger">
+        select klass_id
+        from klass_seminar
+        where seminar_id=#{seminarId}
+    </select>
+
     <!-- cyq-->
     <select id="getAllKlassSeminarIdBySeminarId" resultType="java.math.BigInteger">
         select id

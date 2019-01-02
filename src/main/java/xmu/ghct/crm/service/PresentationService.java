@@ -103,8 +103,9 @@ public class PresentationService {
         else{                     //已报名讨论课
             Attendance attendance=presentationDao.getAttendanceByKlassSeminarIdByTeamId(klassSeminarId,teamId);
             if(seminarVO.getStatus()==2){
-                if(attendance.getReportName().length()>0){
+                if(attendance.getReportName()!=null&&attendance.getReportName().length()>0){
                     String reportStatus ="已提交";
+                    map.put("submitStatus",false);
                     map.put("reportStatus",reportStatus);
                 }else{
                     Date reportDDL=seminarVO.getReportDDL();
@@ -114,22 +115,22 @@ public class PresentationService {
                         long hours = diff / (1000 * 60 * 60);
                         long minutes = diff % (1000 * 60 * 60) / (1000 * 60);
                         String reportStatus ="未提交  距截止时间为"+hours+"时"+minutes+"分";
+                        map.put("submitStatus",true);
                         map.put("reportStatus",reportStatus);
                     }
                     else{
                         String reportStatus ="未提交";
+                        map.put("submitStatus",false);
                         map.put("reportStatus",reportStatus);
                     }
                 }
             }
-
             Klass klass=klassDao.getKlassByKlassId(seminarVO.getKlassId());
             seminarVO.setKlassSerial(klass.getKlassSerial());
             map.put("grade",klass.getGrade());
             int teamSerial=teamDao.getTeamSerialByTeamId(teamId);
             map.put("teamSerial",teamSerial);
-
-            if(attendance.getPptName().length()>0){
+            if(attendance.getPptName()!=null&&attendance.getPptName().length()>0){
                 map.put("pptStatus",true);
             }
             else map.put("pptStatus",false);

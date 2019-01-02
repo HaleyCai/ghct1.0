@@ -181,4 +181,11 @@ public interface TeamMapper {
      */
     BigInteger getTeamIdByStudentId(BigInteger studentId);
 
+    /**
+     * 获取队伍所在所有班级ID
+     * @param teamId
+     * @return
+     */
+    List<BigInteger> listKlassIdByTeamId(BigInteger teamId);
+
 }
