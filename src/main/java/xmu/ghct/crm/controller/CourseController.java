@@ -266,8 +266,7 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value = "/round/modifyRoundInfo",method = RequestMethod.PUT)
-    public boolean modifyRoundByRoundId(@RequestBody Map<String,Object> inMap) throws IllegalAccessException
-    {
+    public boolean modifyRoundByRoundId(@RequestBody Map<String,Object> inMap) throws NotFoundException {
         //修改轮次的评分方式
         RoundVO roundVO=new RoundVO();
         roundVO.setCourseId(new BigInteger(inMap.get("courseId").toString()));
@@ -276,17 +275,26 @@ public class CourseController {
         roundVO.setPresentationScoreMethod(inMap.get("presentationScoreMethod").toString());
         roundVO.setQuestionScoreMethod(inMap.get("reportScoreMethod").toString());
         roundVO.setReportScoreMethod(inMap.get("questionScoreMethod").toString());
-//        List<RoundEnrollVO> roundEnrollVOS=(List<RoundEnrollVO>)inMap.get("enrollNum");
-//        System.out.println("roundEnrollVOS "+roundEnrollVOS);
-//
-//        roundVO.setEnrollNum(roundEnrollVOS);
-        System.out.println("roundVO "+roundVO);
-        //enroll.put(inMap.get(6).toString(),inMap.get(6).toString());
-        //System.out.println("map:   "+enroll);
-        //roundVO.setEnrollNum(enroll);
-        //修改本轮各个班级允许的报名次数
-        return false;//courseService.modifyRoundByRoundId(roundVO);
+        return courseService.modifyRoundByRoundId(roundVO);
     }
+
+    @RequestMapping(value = "/round/{roundId}/modifyRoundEnroll",method = RequestMethod.PUT)
+    public boolean modifyRoundEnrollByRoundeId(@PathVariable BigInteger roundId,
+                                               @RequestBody List<Map<String,Object>> inList)
+    {
+        List<RoundEnrollVO> roundEnrollVOS=new ArrayList<>();
+        for(Map<String,Object> map:inList)
+        {
+            RoundEnrollVO enrollVO=new RoundEnrollVO();
+            enrollVO.setKlassId(new BigInteger(map.get("klassId").toString()));
+            enrollVO.setKlassSerial((int)map.get("klassSerial"));
+            enrollVO.setGrade((int)map.get("grade"));
+            enrollVO.setEnroll((int)map.get("enroll"));
+            roundEnrollVOS.add(enrollVO);
+        }
+        return courseService.modifyRoundEnrollByRoundId(roundId,roundEnrollVOS);
+    }
+
 
     /**
      * @author hzm

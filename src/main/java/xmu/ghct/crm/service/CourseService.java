@@ -141,6 +141,11 @@ public class CourseService {
         return roundDao.modifyRoundByRoundId(roundVO);
     }
 
+    public boolean modifyRoundEnrollByRoundId(BigInteger roundId,List<RoundEnrollVO> list)
+    {
+        return roundDao.modifyRoundEnrollByRoundId(roundId,list);
+    }
+
     /**
      * @author hzm
      * 根据klassId获取courseId

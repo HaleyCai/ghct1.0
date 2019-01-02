@@ -63,8 +63,8 @@ public class SeminarDao {
         return seminar;
     }
 
-    public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId, BigInteger seminarId, Date reportDDL) throws NotFoundException {
-        int count=seminarMapper.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,reportDDL);
+    public int updateKlassSeminarByKlassSeminarId(BigInteger klassSeminarId, Date reportDDL) throws NotFoundException {
+        int count=seminarMapper.updateKlassSeminarByKlassSeminarId(klassSeminarId,reportDDL);
         if(count<=0)
         {
             throw new NotFoundException("未找到klassSeminar");
@@ -82,7 +82,10 @@ public class SeminarDao {
     }
 
     public SeminarVO getKlassSeminarByKlassIdAndSeminarId(BigInteger klassId,BigInteger seminarId) throws NotFoundException {
+        System.out.println("klassId=="+klassId);
+        System.out.println("seminarId=="+seminarId);
         SeminarVO seminarVO=seminarMapper.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
+        System.out.println(("seminarVO=="+seminarVO));
         if(seminarVO==null)
         {
             throw new NotFoundException("未找到klassSeminar");

@@ -105,19 +105,16 @@ public class SeminarController {
 
     /**
      * 修改班级讨论课信息（修改报告截止时间）
-     * @param klassId
-     * @param seminarId
+     * @param klassSeminarId
      * @param klassMap
      * @return
      * @throws ParseException
      */
-    @PutMapping("/seminar/{seminarId}/klass/{klassId}/updateReportDDL")
-    public boolean updateKlassSeminarBySeminarIdAndKlassId(@PathVariable("seminarId") String seminarId,
-                                                           @PathVariable("klassId") String klassId,
-                                                           @RequestBody Map<String,Object> klassMap) throws ParseException, NotFoundException {
-        int flag=seminarService.updateKlassSeminarBySeminarIdAndKlassId(
-                new BigInteger(klassId),
-                new BigInteger(seminarId),
+    @PutMapping("/seminar/{klassSeminarId}/updateReportDDL")
+    public boolean updateKlassSeminarByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,
+                                                      @RequestBody Map<String,Object> klassMap) throws ParseException, NotFoundException {
+        int flag=seminarService.updateKlassSeminarByKlassSeminarId(
+                new BigInteger(klassSeminarId),
                 klassMap);
         if(flag>0) return true;
         else return  false;

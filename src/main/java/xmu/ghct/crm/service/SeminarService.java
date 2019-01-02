@@ -140,9 +140,9 @@ public class SeminarService {
         return seminarDao.getSeminarBySeminarId(seminarId);
     }
 
-    public int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId,BigInteger seminarId,Map<String,Object> seminarMap) throws ParseException, NotFoundException {
+    public int updateKlassSeminarByKlassSeminarId(BigInteger klassSeminarId,Map<String,Object> seminarMap) throws ParseException, NotFoundException {
         Date reportDDL = dateDao.transferToDateTime(seminarMap.get("reportDDL").toString());
-        return seminarDao.updateKlassSeminarBySeminarIdAndKlassId(klassId,seminarId,reportDDL);
+        return seminarDao.updateKlassSeminarByKlassSeminarId(klassSeminarId,reportDDL);
     }
 
 

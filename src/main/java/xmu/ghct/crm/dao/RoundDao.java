@@ -174,14 +174,28 @@ public class RoundDao {
         {
             throw new NotFoundException("未找到该轮次");
         }
+        return true;
+    }
+
+    /**
+     * 修改某轮次下
+     * @param roundId
+     * @param roundEnrollVOS
+     * @return
+     */
+    public boolean modifyRoundEnrollByRoundId(BigInteger roundId,List<RoundEnrollVO> roundEnrollVOS)
+    {
         //修改各班下的最大报名次数
-        System.out.println("roundVO.getEnrollNum().class==="+roundVO.getEnrollNum().getClass());
-        for(RoundEnrollVO roundEnrollVO:roundVO.getEnrollNum())
+        System.out.println("roundVO.getEnrollNum().class==="+roundEnrollVOS.getClass());
+        for(RoundEnrollVO roundEnrollVO:roundEnrollVOS)
         {
-            roundMapper.modifyEnrollNum(
+            int flag=roundMapper.modifyEnrollNum(
                     roundEnrollVO.getKlassId(),
-                    roundVO.getRoundId(),
+                    roundId,
                     roundEnrollVO.getEnroll());
+            if(flag<0) {
+                return false;
+            }
         }
         return true;
     }

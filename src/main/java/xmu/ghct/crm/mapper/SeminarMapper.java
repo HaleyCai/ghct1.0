@@ -59,11 +59,10 @@ public interface SeminarMapper {
     /**
      * @author hzm
      * 根据klassId和seminarId修改班级里讨论课报告提交ddl
-     * @param klassId
-     * @param seminarId
+     * @param klassSeminarId
      * @return
      */
-    int updateKlassSeminarBySeminarIdAndKlassId(BigInteger klassId, BigInteger seminarId, Date reportDDL);
+    int updateKlassSeminarByKlassSeminarId(BigInteger klassSeminarId, Date reportDDL);
 
 
     /**
