@@ -112,7 +112,7 @@ public class SeminarController {
      */
     @PutMapping("/seminar/{klassSeminarId}/updateReportDDL")
     public boolean updateKlassSeminarByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,
-                                                      @RequestBody Map<String,Object> klassMap) throws ParseException, NotFoundException {
+                                                      @RequestBody Map<String,Object> klassMap) throws ParseException, NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         int flag=seminarService.updateKlassSeminarByKlassSeminarId(
                 new BigInteger(klassSeminarId),
                 klassMap);

@@ -237,18 +237,15 @@ public class PresentationController {
     }
 
     /**
-     * *修改队伍展示状态，并在讨论课结束时修改讨论课状态
-     * @param thisAttendanceId
-     * @param nextAttendanceId
+     * 下一组展示：修改队伍展示状态，并在讨论课结束时修改讨论课状态
      * @throws org.apache.ibatis.javassist.NotFoundException
      * @throws NotFoundException
      */
     @PutMapping("/presentation/klassSeminar/updatePresentStatus")
-    public void updatePresentTeam(@RequestParam("thisAttendanceId") Long thisAttendanceId,
-                                  @RequestParam("nextAttendanceId") Long nextAttendanceId) throws org.apache.ibatis.javassist.NotFoundException, NotFoundException {
-        presentationService.updatePresentByAttendanceId(BigInteger.valueOf(thisAttendanceId),2);
-        if(nextAttendanceId!=null) {
-            presentationService.updatePresentByAttendanceId(BigInteger.valueOf(nextAttendanceId), 1);
+    public void updatePresentTeam(@RequestBody Map<String,Object> inMap) throws org.apache.ibatis.javassist.NotFoundException, NotFoundException {
+        presentationService.updatePresentByAttendanceId(new BigInteger(inMap.get("thisAttendanceId").toString()),2);
+        if((int)inMap.get("nextAttendanceId")!=0) {
+            presentationService.updatePresentByAttendanceId(new BigInteger(inMap.get("nextAttendanceId").toString()), 1);
         }
     }
 

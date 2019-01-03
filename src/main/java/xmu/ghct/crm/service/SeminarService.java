@@ -140,8 +140,10 @@ public class SeminarService {
         return seminarDao.getSeminarBySeminarId(seminarId);
     }
 
-    public int updateKlassSeminarByKlassSeminarId(BigInteger klassSeminarId,Map<String,Object> seminarMap) throws ParseException, NotFoundException {
+    public int updateKlassSeminarByKlassSeminarId(BigInteger klassSeminarId,Map<String,Object> seminarMap) throws ParseException, NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         Date reportDDL = dateDao.transferToDateTime(seminarMap.get("reportDDL").toString());
+        //修改最后一组展示的状态
+        presentationDao.updatePresentByAttendanceId(new BigInteger(seminarMap.get("lastAttendanceId").toString()),2);
         return seminarDao.updateKlassSeminarByKlassSeminarId(klassSeminarId,reportDDL);
     }
 
