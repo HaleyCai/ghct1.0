@@ -50,6 +50,7 @@
         select * from course
         where teacher_id=#{teacherId}
     </select>
+
     <delete id="deleteCourseByCourseId">
         delete from course where id=#{courseId}
     </delete>
@@ -61,10 +62,10 @@
         where id=#{teamId}
     </select>
 
-    <select id="getCourseIdByCourseName" resultType="java.math.BigInteger">
+    <select id="getCourseIdByCourseNameAndTeacherId" resultType="java.math.BigInteger">
         select id
         from course
-        where course_name=#{courseName}
+        where course_name=#{courseName} and teacher_id=#{teacherId}
     </select>
 
     <select id="getCourseIdByKlassId" resultType="java.math.BigInteger">

@@ -46,7 +46,7 @@ public class CourseDao {
 
     public int insertCourse(CourseVO courseVO) throws SQLException {
 
-        BigInteger isCourseId=courseMapper.getCourseIdByCourseName(courseVO.getCourseName());
+        BigInteger isCourseId=courseMapper.getCourseIdByCourseNameAndTeacherId(courseVO.getCourseName(),courseVO.getTeacherId());
         if(isCourseId!=null)
         {
             throw new SQLException("该课程已存在");

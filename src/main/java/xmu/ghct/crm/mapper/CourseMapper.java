@@ -27,7 +27,7 @@ public interface CourseMapper {
      * @param courseName
      * @return
      */
-    BigInteger getCourseIdByCourseName(String courseName);
+    BigInteger getCourseIdByCourseNameAndTeacherId(String courseName,BigInteger teacherId);
 
     /**
      * 根据teacherId获得课程信息
