@@ -15,8 +15,8 @@ public class NewCourseVO {
     private Double reportPercentage;
     private String teamStartTime;
     private String teamEndTime;
-    private int minMember;
-    private int maxMember;
+    private String minMember;
+    private String maxMember;
     private boolean flag;    //“与”或“或”规则
     private List<CourseLimitVO> courseLimitVOS;
     private List<String> conflictCourseIdS;
@@ -75,11 +75,11 @@ public class NewCourseVO {
         this.teamEndTime = teamEndTime;
     }
 
-    public void setMinMember(int minMember) {
+    public void setMinMember(String minMember) {
         this.minMember = minMember;
     }
 
-    public void setMaxMember(int maxMember) {
+    public void setMaxMember(String maxMember) {
         this.maxMember = maxMember;
     }
 
@@ -111,11 +111,11 @@ public class NewCourseVO {
         return teamEndTime;
     }
 
-    public int getMinMember() {
+    public String getMinMember() {
         return minMember;
     }
 
-    public int getMaxMember() {
+    public String getMaxMember() {
         return maxMember;
     }
 

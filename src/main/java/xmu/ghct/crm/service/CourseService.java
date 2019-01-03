@@ -108,8 +108,8 @@ public class CourseService {
         courseVO.setQuestionPercentage(newCourseVO.getQuestionPercentage());
         courseVO.setReportPercentage(newCourseVO.getReportPercentage());
         courseVO.setTeacherId(teacherId);
-        courseVO.setMinMember(newCourseVO.getMinMember());
-        courseVO.setMaxMember(newCourseVO.getMaxMember());
+        courseVO.setMinMember(new Integer(newCourseVO.getMinMember()));
+        courseVO.setMaxMember(new Integer(newCourseVO.getMaxMember()));
         courseVO.setFlag(newCourseVO.isFlag());
         courseVO.setCourseLimitVOS(newCourseVO.getCourseLimitVOS());
         List<BigInteger> courseIdList=new ArrayList<>();
