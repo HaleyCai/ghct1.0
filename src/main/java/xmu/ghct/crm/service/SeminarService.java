@@ -10,7 +10,9 @@ import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.ScoreMapper;
 import xmu.ghct.crm.mapper.SeminarMapper;
+import xmu.ghct.crm.security.JwtTokenUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -54,6 +56,9 @@ public class SeminarService {
 
     @Autowired
     TotalScoreDao totalScoreDao;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     public int creatSeminar(BigInteger courseId,Map<String,Object> seminarMap) throws ParseException, NotFoundException, SQLException {
         Seminar seminar=new Seminar();
@@ -258,17 +263,23 @@ public class SeminarService {
 
 
     /**
-     * @author hzm
      * 根据klassId 和seminarId获得班级讨论课所有队伍成绩
-     * @param klassId
-     * @param seminarId
+     * @param klassSeminarId
      * @return
+     * @throws NotFoundException
+     * @throws org.apache.ibatis.javassist.NotFoundException
      */
-    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(BigInteger klassId,BigInteger seminarId) throws NotFoundException {
-        List<Team> teamList=teamDao.listTeamByKlassId(klassId);
+    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(BigInteger klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+        List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
+        List<Team> teamList=new ArrayList<>();
+        for(Attendance attendance:attendanceList){
+            Team team=teamDao.getTeamInfoByTeamId(attendance.getTeamId());
+            teamList.add(team);
+        }
+        SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
+        BigInteger klassId=seminarVO.getKlassId();
         Klass klass=klassDao.getKlassByKlassId(klassId);
-        BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
-        Seminar seminar=seminarDao.getSeminarBySeminarId(seminarId);
+        Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
         List<SeminarScoreVO> seminarScoreVOList=new ArrayList<>();
         for(Team item:teamList){
             SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
@@ -330,7 +341,16 @@ public class SeminarService {
     }
 
 
-    public List<Map> listStudentKlassSeminarByKlassSeminarId(BigInteger klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+    public List<Map> listStudentKlassSeminarByKlassSeminarId(HttpServletRequest request,BigInteger klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        List<BigInteger> teamIdList=teamDao.listTeamIdByStudentId(id);
+        SeminarVO seminarVo=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
+        BigInteger courseId=courseDao.getCourseIdByKlassId(seminarVo.getKlassId());
+        BigInteger teamId=new BigInteger("0");
+        for(BigInteger teamIdItem:teamIdList){
+            BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamIdItem);
+            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+        }
         List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
         System.out.println(attendanceList);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
@@ -339,9 +359,13 @@ public class SeminarService {
         Klass klass=klassDao.getKlassByKlassId(klassId);
         int klassSerial=klass.getKlassSerial();
         List<Map> map=new ArrayList<>();
+        boolean myTeamAttendance=false;
         int account=0;
         for(int i=0;i<attendanceList.size();){
             Attendance item=attendanceList.get(i);
+            if(item.getTeamId().equals(teamId)){
+                myTeamAttendance=true;
+            }
             System.out.println(item);
             Map<String,Object> oneMap=new HashMap<>();
             account++;
@@ -353,8 +377,8 @@ public class SeminarService {
             }
             else oneMap.put("attendanceStatus",true);
             i++;
-            BigInteger teamId=item.getTeamId();
-            Team team=teamDao.getTeamInfoByTeamId(teamId);
+            BigInteger teamID=item.getTeamId();
+            Team team=teamDao.getTeamInfoByTeamId(teamID);
 
             oneMap.put("attendanceId",item.getAttendanceId());
             oneMap.put("klassSerial",klassSerial);
@@ -376,6 +400,9 @@ public class SeminarService {
             map.add(oneMap);
             account++;
         }
+        Map<String,Object> oneMap=new HashMap<>();
+        oneMap.put("myTeamAttendance",myTeamAttendance);
+        map.add(oneMap);
         return map;
     }
 

@@ -149,6 +149,7 @@ public class ScoreDao {
     public int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO) throws NotFoundException
     {
         int count=scoreMapper.updateRoundScoreByRoundIdAndTeamId(scoreVO);
+        System.out.println(scoreVO);
         if(count<=0)
         {
             throw new NotFoundException("该轮成绩不存在");

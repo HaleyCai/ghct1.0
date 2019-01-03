@@ -9,6 +9,8 @@ import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.service.KlassService;
 import xmu.ghct.crm.service.ScoreService;
 import xmu.ghct.crm.service.SeminarService;
+
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -194,14 +196,15 @@ public class SeminarController {
 
 
     /**
-     * 获取班级讨论课的所有队伍的成绩
-     * @param klassId
-     * @param seminarId
+     *  获取班级讨论课的所有队伍的成绩
+     * @param klassSeminarId
      * @return
+     * @throws NotFoundException
+     * @throws org.apache.ibatis.javassist.NotFoundException
      */
-    @GetMapping("seminar/{seminarId}/klass/{klassId}/seminarScore")
-    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(@PathVariable("klassId") String klassId,@PathVariable("seminarId") String seminarId) throws NotFoundException {
-        return  seminarService.listKlassSeminarScoreByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
+    @GetMapping("seminar/{klassSeminarId}/seminarScore")
+    public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(@PathVariable("klassSeminarId") BigInteger klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+        return  seminarService.listKlassSeminarScoreByKlassIdAndSeminarId(klassSeminarId);
     }
 
 
@@ -248,8 +251,8 @@ public class SeminarController {
      * @return
      */
     @GetMapping("/round/seminar/{klassSeminarId}/attendance")
-    public List<Map> listStudentKlassSeminarByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
-             return seminarService.listStudentKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
+    public List<Map> listStudentKlassSeminarByKlassSeminarId(HttpServletRequest request, @PathVariable("klassSeminarId") String klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+             return seminarService.listStudentKlassSeminarByKlassSeminarId(request,new BigInteger(klassSeminarId));
     }
 
 }

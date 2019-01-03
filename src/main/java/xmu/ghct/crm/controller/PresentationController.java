@@ -422,8 +422,8 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/klassSeminar/attendance/{attendanceId}/modifyAttendance")
-    public List<Map> modifyAttendanceByAttendanceId(@PathVariable("attendanceId")String attendanceId,@RequestBody Map<String,String> orderMap) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
-        return presentationService.modifyAttendanceByAttendanceId(new BigInteger(attendanceId),orderMap);
+    public List<Map> modifyAttendanceByAttendanceId(HttpServletRequest request,@PathVariable("attendanceId")String attendanceId,@RequestBody Map<String,String> orderMap) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+        return presentationService.modifyAttendanceByAttendanceId(request,new BigInteger(attendanceId),orderMap);
     }
 
 }
