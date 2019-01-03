@@ -43,10 +43,10 @@
 
     <update id="updateRoundScoreByRoundIdAndTeamId" parameterType="xmu.ghct.crm.VO.ScoreVO">
         update round_score
-        set presentation_score=#{presentationScore,jdbcType=DECIMAL},
-            question_score=#{questionScore,jdbcType=DECIMAL},
-            report_score=#{reportScore,jdbcType=DECIMAL},
-            total_score=#{totalScore,jdbcType=DECIMAL}
+        set presentation_score=${presentationScore},
+            question_score=${questionScore},
+            report_score=${reportScore},
+            total_score=${totalScore}
          where round_id=#{roundId} and team_id=#{teamId}
     </update>
 
