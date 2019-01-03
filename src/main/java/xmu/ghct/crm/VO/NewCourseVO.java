@@ -1,5 +1,7 @@
 package xmu.ghct.crm.VO;
 
+import xmu.ghct.crm.entity.Course;
+
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +19,7 @@ public class NewCourseVO {
     private int maxMember;
     private boolean flag;    //“与”或“或”规则
     private List<CourseLimitVO> courseLimitVOS;
-    private List<BigInteger> conflictCourseIdS;
+    private List<String> conflictCourseIdS;
 
 
     public void setFlag(boolean flag) {
@@ -32,7 +34,7 @@ public class NewCourseVO {
         this.courseLimitVOS = courseLimitVOS;
     }
 
-    public void setConflictCourseIdS(List<BigInteger> conflictCourseIdS) {
+    public void setConflictCourseIdS(List<String> conflictCourseIdS) {
         this.conflictCourseIdS = conflictCourseIdS;
     }
 
@@ -40,7 +42,7 @@ public class NewCourseVO {
         return courseLimitVOS;
     }
 
-    public List<BigInteger> getConflictCourseIdS() {
+    public List<String> getConflictCourseIdS() {
         return conflictCourseIdS;
     }
 

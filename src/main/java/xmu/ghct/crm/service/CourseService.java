@@ -112,7 +112,12 @@ public class CourseService {
         courseVO.setMaxMember(newCourseVO.getMaxMember());
         courseVO.setFlag(newCourseVO.isFlag());
         courseVO.setCourseLimitVOS(newCourseVO.getCourseLimitVOS());
-        courseVO.setConflictCourseIdS(newCourseVO.getConflictCourseIdS());
+        List<BigInteger> courseIdList=new ArrayList<>();
+        for(String item:newCourseVO.getConflictCourseIdS()){
+            BigInteger courseId=new BigInteger(item);
+            courseIdList.add(courseId);
+        }
+        courseVO.setConflictCourseIdS(courseIdList);
         return courseDao.insertCourse(courseVO);
     }
 
