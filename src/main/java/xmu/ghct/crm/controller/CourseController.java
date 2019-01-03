@@ -319,6 +319,7 @@ public class CourseController {
         System.out.println(bigIntegers);
     }
 
+
     /**
      * 创建课程时获得所有课程信息，以设置冲突课程
      * @return
