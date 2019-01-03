@@ -96,6 +96,8 @@ public class CourseService {
     public int creatCourse(HttpServletRequest request,NewCourseVO newCourseVO) throws SQLException, ParseException {
         BigInteger teacherId=jwtTokenUtil.getIDFromRequest(request);
         CourseVO courseVO=new CourseVO();
+        System.out.println("course=="+newCourseVO);
+        System.out.println("dateEndTime==="+newCourseVO.getTeamEndTime());
         Date end = dateDao.transferToDateTime(newCourseVO.getTeamEndTime());
         courseVO.setTeamEndTime(end);
         Date start = dateDao.transferToDateTime(newCourseVO.getTeamStartTime());

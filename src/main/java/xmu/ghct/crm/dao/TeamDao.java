@@ -36,15 +36,22 @@ public class TeamDao {
         List<BigInteger> allStudentId=studentMapper.getAllStudentIdByCourseId(courseId);
         //查course下所有klass
         List<Klass> allKlass=klassMapper.listKlassByCourseId(courseId);
+        System.out.println("course"+courseId+" allKlass: "+allKlass);
         //查klass下所有team
-        List<BigInteger> teamStudentId=new ArrayList<>();//course下所有klass下所有team，team下所有studentId
+        List<BigInteger> teamStudentId=new ArrayList<>();
+        //course下所有klass下所有team，team下所有studentId
         for(Klass klassItem:allKlass)
         {
-            List<Team> teams=listTeamByKlassId(klassItem.getKlassId());
-            for(Team teamItems: teams){
-                List<BigInteger> studentsId=teamMapper.getStudentIdByTeamId(teamItems.getTeamId());
-                for(BigInteger i:studentsId)
-                    teamStudentId.add(i);
+            List<BigInteger> teamIds=teamMapper.listTeamIdByKlassId(klassItem.getKlassId());
+            for(BigInteger teamId: teamIds){
+                List<BigInteger> studentsId=teamMapper.getStudentIdByTeamId(teamId);
+                //检查是否是该课程下的学生！！！！！
+                for(BigInteger i:studentsId){
+                    if(allStudentId.contains(studentsId)) {
+                        teamStudentId.add(i);
+                    }
+                }
+
             }
         }
         //取差集，找未组队学生id
@@ -104,16 +111,6 @@ public class TeamDao {
             throw new NotFoundException("未找到该班级");
         }
         return teams;
-    }
-
-    /**
-     * @cyq
-     * 根据courseId查找是否有共享分组请求
-     * @param courseId
-     * @return
-     */
-    public List<ShareTeamVO> getShareTeamInfoByCourseId(BigInteger courseId){
-        return teamMapper.getShareTeamInfoByCourseId(courseId);
     }
 
     /**

@@ -84,6 +84,7 @@ public class CourseController {
      */
     @RequestMapping(value="/course/creatCourse",method = RequestMethod.POST)
     public boolean creatCourse(HttpServletRequest request,@RequestBody NewCourseVO newCourseVO) throws ParseException, SQLException {
+        System.out.println("Controller course"+newCourseVO);
         int flag= courseService.creatCourse(request,newCourseVO);
         if(flag>0)return true;
         else return false;

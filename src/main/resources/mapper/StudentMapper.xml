@@ -28,12 +28,6 @@
         where id=#{studentId}
     </select>
 
-    <select id="getNoTeamStudentByCourseId" resultMap="StudentUserResult">
-        select id,account,password,student_name,email,is_active
-        from student
-        where team_serial="";
-    </select>
-
     <select id="getStudentIdByStudentIdAndKlassId" resultType="java.math.BigInteger">
         select student_id
         from klass_student
@@ -102,7 +96,7 @@
 
     <!--cyq-->
     <select id="getAllStudentIdByCourseId" resultType="java.math.BigInteger">
-        select student_id from klass_student where course_id=#{courseId }
+        select student_id from klass_student where course_id=#{courseId}
     </select>
 
     <insert id="insertKlassStudent" parameterType="java.math.BigInteger">
