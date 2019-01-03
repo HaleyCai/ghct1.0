@@ -283,7 +283,7 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/round/{roundId}/modifyRoundEnroll",method = RequestMethod.PUT)
-    public boolean modifyRoundEnrollByRoundeId(@PathVariable BigInteger roundId,
+    public boolean modifyRoundEnrollByRoundId(@PathVariable BigInteger roundId,
                                                @RequestBody List<Map<String,Object>> inList)
     {
         List<RoundEnrollVO> roundEnrollVOS=new ArrayList<>();

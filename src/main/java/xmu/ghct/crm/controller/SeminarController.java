@@ -226,7 +226,7 @@ public class SeminarController {
      * @param klassSeminarId
      * @return
      */
-    @GetMapping("/seminar/{klassSeminarId}/updateReportScore")
+    @GetMapping("/seminar/{klassSeminarId}/reportSubmitStatus")
     public List<Map> listReportUploadByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId) throws org.apache.ibatis.javassist.NotFoundException, NotFoundException {
         return seminarService.listFileUploadStatusByKlassSeminarId(new BigInteger(klassSeminarId));
     }
