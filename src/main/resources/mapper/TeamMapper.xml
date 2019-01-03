@@ -24,7 +24,7 @@
         select course_id from team where id=#{teamId}
     </select>
 
-    <select id="getTeamIdByStudentId" resultType="java.math.BigInteger">
+    <select id="listTeamIdByStudentId" resultType="java.math.BigInteger">
         select team_id
         from team_student
         where student_id=#{studentId}

@@ -15,6 +15,7 @@ import xmu.ghct.crm.mapper.*;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -37,18 +38,19 @@ public class CourseDao {
 
     @Autowired
     TeacherMapper teacherMapper;
+
     @Autowired
     StrategyMapper strategyMapper;
 
 
+
     public int insertCourse(CourseVO courseVO) throws SQLException {
 
-        String name=courseMapper.getCourseByCourseId(courseVO.getCourseId()).getCourseName();
-        if(name.equals(courseVO.getCourseName()))
+        BigInteger isCourseId=courseMapper.getCourseIdByCourseName(courseVO.getCourseName());
+        if(isCourseId!=null)
         {
             throw new SQLException("该课程已存在");
         }
-
         int flag_1=courseMapper.insertCourse(courseVO);
         int flag_2=strategyMapper.insertMemberLimit(courseVO);
         int strategySerial=1;

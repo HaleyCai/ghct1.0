@@ -8,6 +8,7 @@ import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.exception.NotFoundException;
+import xmu.ghct.crm.exception.ParamErrorException;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -207,34 +208,57 @@ public class TeamService {
      * 创建队伍
      * @return
      */
-    public BigInteger insertTeam(BigInteger studentId, List<List<Map>> creatTeamMap) throws NotFoundException {
-        BigInteger teamId=teamDao.getTeamIdByStudentId(studentId);
-        if(teamId!=null) {System.out.println("学生已组队！");return null;}
-        Team team=new Team();
-        Map<String,Object> teamMap=creatTeamMap.get(0).get(0);
-        BigInteger klassId=new BigInteger(teamMap.get("klassId").toString());
-        int teamSerial=teamDao.getMaxTeamSerialOfTeam(klassId)+1;
-        team.setKlassId(klassId);
-        BigInteger courseId=new BigInteger(teamMap.get("courseId").toString());
-        team.setCourseId(courseId);
+    public BigInteger insertTeam(BigInteger studentId, CreatTeamVO creatTeamVO) throws NotFoundException, ParamErrorException {
+        List<BigInteger> teamIdList = teamDao.listTeamIdByStudentId(studentId);
+        for(BigInteger teamId:teamIdList){
+            BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
+            if(courseId.equals(creatTeamVO.getCourseId())){
+                System.out.println("学生已组队！");
+                return null;
+            }
+        }
+        System.out.println(studentId);
+        List<BigInteger> studentIdList = creatTeamVO.getStudentIdList();
+        List<TeamStrategyVO> teamStrategyVOList = strategyDao.listTeamStrategyByCourseId(creatTeamVO.getCourseId());
+        TeamStrategyVO teamStrategyVO = new TeamStrategyVO();
+        for (TeamStrategyVO item : teamStrategyVOList) {
+            if (item.getStrategyName().equals("ConflictCourseStrategy")) {
+                teamStrategyVO = item;
+            }
+        }
+
+        if (teamStrategyVO.getStrategyName() != null) {
+            List<BigInteger> conflictCourseIdList = strategyDao.listConflictCourseId(teamStrategyVO.getStrategyId());
+            for (BigInteger courseIdItem : conflictCourseIdList) {
+                for (BigInteger studentIdItem : studentIdList) {
+                    if (strategyDao.getCourseStudentNumber(courseIdItem, studentIdItem) > 0) {
+                        throw new ParamErrorException("学生组队出现课程冲突！");
+                    }
+                }
+            }
+        }
+        Team team = new Team();
+        int teamSerial = teamDao.getMaxTeamSerialOfTeam(creatTeamVO.getKlassId())+1;
+        team.setKlassId(creatTeamVO.getKlassId());
+        team.setCourseId(creatTeamVO.getCourseId());
         team.setTeamSerial(teamSerial);
         team.setLeaderId(studentId);
-        team.setTeamName(teamMap.get("teamName").toString());
-        team.setKlassSerial(new Integer(teamMap.get("klassSerial").toString()));
-        int flag=teamDao.insertTeam(team);
-        int flag_1=teamDao.insertKlassTeam(klassId,team.getTeamId());
-        int flag_2=teamDao.insertTeamStudent(team.getTeamId(),studentId);
-        List<Map> listMap=creatTeamMap.get(1);
-        int size=listMap.size();
+        team.setTeamName(creatTeamVO.getTeamName());
+        team.setKlassSerial(creatTeamVO.getKlassSerial());
+        int flag = teamDao.insertTeam(team);
+        int flag_1 = teamDao.insertKlassTeam(creatTeamVO.getKlassId(), team.getTeamId());
+        int flag_2 = teamDao.insertTeamStudent(team.getTeamId(), studentId);
+        int size = studentIdList.size();
         System.out.println(size);
-        while(size>0){
-            BigInteger memberStudentId=new BigInteger(listMap.get(size-1).get("studentId").toString());
-            System.out.println(memberStudentId);
-            teamDao.insertTeamStudent(team.getTeamId(),memberStudentId);
+        while (size > 0) {
+            teamDao.insertTeamStudent(team.getTeamId(), studentIdList.get(size - 1));
             size--;
         }
-        if(flag>0&&flag_1>0&&flag_2>0){System.out.println(flag+"**"+flag_1+"**"+flag_2);return team.getTeamId();}
-        else return null;
+        if (flag > 0 && flag_1 > 0 && flag_2 > 0) {
+            System.out.println(flag + "**" + flag_1 + "**" + flag_2);
+            return team.getTeamId();
+        } else return null;
+
     }
 
     /**
@@ -304,19 +328,20 @@ public class TeamService {
         return true;
    }
 
-   public Map<String,Object> getUserTeamStatusById(BigInteger id) throws NotFoundException {
+   public Map<String,Object> getUserTeamStatusById(BigInteger courseId,BigInteger id) throws NotFoundException {
        Map<String,Object> map=new HashMap<>();
-       BigInteger teamId=teamDao.getTeamIdByStudentId(id);
-       if(teamId!=null)
-       {
-           map.put("isTeam",true);
-           map.put("myTeamId",teamId);
+       List<BigInteger> teamIdList=teamDao.listTeamIdByStudentId(id);
+       for(BigInteger teamId:teamIdList){
+           BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamId);
+           if(courseId.equals(courseIdItem))
+           {
+               map.put("isTeam",true);
+               map.put("myTeamId",teamId);
+               return map;
+           }
        }
-       else
-       {
-           map.put("isTeam",false);
-           map.put("myTeamId",null);
-       }
+       map.put("isTeam",false);
+       map.put("myTeamId",null);
        return map;
    }
 

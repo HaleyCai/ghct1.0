@@ -191,7 +191,11 @@ public class TeamDao {
      * @return
      */
     public int getMaxTeamSerialOfTeam(BigInteger klassId){
-        return teamMapper.getMaxTeamSerialOfTeam(klassId);
+        Integer maxTeamSerial=teamMapper.getMaxTeamSerialOfTeam(klassId);
+        if(maxTeamSerial==null){
+            return maxTeamSerial=1;
+        }
+        return  maxTeamSerial;
     }
 
     /**
@@ -250,13 +254,13 @@ public class TeamDao {
      * @param studentId
      * @return
      */
-     public BigInteger getTeamIdByStudentId(BigInteger studentId) throws NotFoundException {
-         BigInteger flag = teamMapper.getTeamIdByStudentId(studentId);
-         if(flag==null)
+     public List<BigInteger> listTeamIdByStudentId(BigInteger studentId) throws NotFoundException {
+         List<BigInteger> teamIdList = teamMapper.listTeamIdByStudentId(studentId);
+         if(teamIdList==null||teamIdList.size()<=0)
          {
              throw new NotFoundException("未找到该学生的队伍或未找到该学生");
          }
-         return flag;
+         return teamIdList;
      }
 
      public  List<BigInteger> listKlassIdByTeamId(BigInteger teamId){

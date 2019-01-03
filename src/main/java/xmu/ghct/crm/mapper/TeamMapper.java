@@ -130,7 +130,7 @@ public interface TeamMapper {
      * @param klassId
      * @return
      */
-    int getMaxTeamSerialOfTeam(BigInteger klassId);
+    Integer getMaxTeamSerialOfTeam(BigInteger klassId);
 
 
     /**
@@ -179,7 +179,7 @@ public interface TeamMapper {
      * @param studentId
      * @return
      */
-    BigInteger getTeamIdByStudentId(BigInteger studentId);
+    List<BigInteger> listTeamIdByStudentId(BigInteger studentId);
 
     /**
      * 获取队伍所在所有班级ID

@@ -14,8 +14,36 @@ public class Course implements Serializable {
     private Double reportPercentage;
     private Date teamStartTime;
     private Date teamEndTime;
+    private int minMember;
+    private int maxMember;
+    private BigInteger memberLimitId;
     private BigInteger teamMainCourseId;
     private BigInteger seminarMainCourseId;
+
+
+    public void setMinMember(int minMember) {
+        this.minMember = minMember;
+    }
+
+    public void setMaxMember(int maxMember) {
+        this.maxMember = maxMember;
+    }
+
+    public void setMemberLimitId(BigInteger memberLimitId) {
+        this.memberLimitId = memberLimitId;
+    }
+
+    public int getMinMember() {
+        return minMember;
+    }
+
+    public int getMaxMember() {
+        return maxMember;
+    }
+
+    public BigInteger getMemberLimitId() {
+        return memberLimitId;
+    }
 
     public BigInteger getCourseId() {
         return courseId;

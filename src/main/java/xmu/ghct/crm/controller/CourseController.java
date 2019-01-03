@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.dao.DateDao;
 import xmu.ghct.crm.dao.StrategyDao;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.ClassNotFoundException;
@@ -49,6 +50,9 @@ public class CourseController {
     TeamService teamService;
 
     @Autowired
+    DateDao dateDao;
+
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
     /**
      * @cyq
@@ -75,13 +79,12 @@ public class CourseController {
 
     /**
      * 创建课程
-     * @param courseMap
      * @return
      * @throws ParseException
      */
     @RequestMapping(value="/course/creatCourse",method = RequestMethod.POST)
-    public boolean creatCourse(@RequestBody List<List<Map>> courseMap) throws ParseException, SQLException {
-        int flag= courseService.creatCourse(courseMap);
+    public boolean creatCourse(HttpServletRequest request,@RequestBody NewCourseVO newCourseVO) throws ParseException, SQLException {
+        int flag= courseService.creatCourse(request,newCourseVO);
         if(flag>0)return true;
         else return false;
     }

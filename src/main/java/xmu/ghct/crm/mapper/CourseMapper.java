@@ -23,6 +23,13 @@ public interface CourseMapper {
     int insertCourse(CourseVO courseVO);
 
     /**
+     * 获取某课程名的课程ID
+     * @param courseName
+     * @return
+     */
+    BigInteger getCourseIdByCourseName(String courseName);
+
+    /**
      * 根据teacherId获得课程信息
      * @author hzm
      * @param teacherId

@@ -7,7 +7,9 @@ import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.exception.NotFoundException;
+import xmu.ghct.crm.security.JwtTokenUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -42,7 +44,10 @@ public class CourseService {
     @Autowired
     TeamService teamService;
 
-    public int creatCourse( List<List<Map>> courseMap) throws ParseException, SQLException {
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+  /*  public int creatCourse( courseVO) throws ParseException, SQLException {
         CourseVO courseVO =new CourseVO();
         Map<String,Object> infoMap=courseMap.get(0).get(0);
         courseVO.setCourseName(infoMap.get("courseName").toString());
@@ -84,6 +89,28 @@ public class CourseService {
        // courseMap.get("courseLimitVOS")
        // List<CourseLimitVO> courseLimitVOS=new ArrayList<>();
         //courseVO.setCourseLimitVOS(new List<CourseLimitVO>());
+        return courseDao.insertCourse(courseVO);
+    }
+    */
+
+    public int creatCourse(HttpServletRequest request,NewCourseVO newCourseVO) throws SQLException, ParseException {
+        BigInteger teacherId=jwtTokenUtil.getIDFromRequest(request);
+        CourseVO courseVO=new CourseVO();
+        Date end = dateDao.transferToDateTime(newCourseVO.getTeamEndTime());
+        courseVO.setTeamEndTime(end);
+        Date start = dateDao.transferToDateTime(newCourseVO.getTeamStartTime());
+        courseVO.setTeamStartTime(start);
+        courseVO.setCourseName(newCourseVO.getCourseName());
+        courseVO.setIntroduction(newCourseVO.getIntroduction());
+        courseVO.setPresentationPercentage(newCourseVO.getPresentationPercentage());
+        courseVO.setQuestionPercentage(newCourseVO.getQuestionPercentage());
+        courseVO.setReportPercentage(newCourseVO.getReportPercentage());
+        courseVO.setTeacherId(teacherId);
+        courseVO.setMinMember(newCourseVO.getMinMember());
+        courseVO.setMaxMember(newCourseVO.getMaxMember());
+        courseVO.setFlag(newCourseVO.isFlag());
+        courseVO.setCourseLimitVOS(newCourseVO.getCourseLimitVOS());
+        courseVO.setConflictCourseIdS(newCourseVO.getConflictCourseIdS());
         return courseDao.insertCourse(courseVO);
     }
 

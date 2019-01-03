@@ -2,14 +2,12 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.StudentVO;
-import xmu.ghct.crm.VO.TeamApplicationVO;
-import xmu.ghct.crm.VO.TeamInfoVO;
-import xmu.ghct.crm.VO.TeamSimpleInfo;
+import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.exception.NotFoundException;
+import xmu.ghct.crm.exception.ParamErrorException;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.CourseService;
 import xmu.ghct.crm.service.TeamService;
@@ -43,7 +41,7 @@ public class TeamController {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         map.put("teams",teamSimpleInfos);
         //开始时间，结束时间，是否组队，
-        Map<String,Object> team=teamService.getUserTeamStatusById(id);
+        Map<String,Object> team=teamService.getUserTeamStatusById(new BigInteger(courseId),id);
         map.put("isTeam",team.get("isTeam"));
         map.put("myTeamId",team.get("myTeamId"));
         Course course=courseService.getCourseByCourseId(new BigInteger(courseId));
@@ -139,9 +137,9 @@ public class TeamController {
      * 创建小组，先创建组，初始加入成员为组长，判断是否合法后填写状态
      */
     @RequestMapping(value="/team/create", method = RequestMethod.POST)
-    public boolean createTeam(HttpServletRequest request,@RequestBody List<List<Map>> creatTeamMap) throws NotFoundException {
+    public boolean createTeam(HttpServletRequest request, @RequestBody CreatTeamVO creatTeamVO) throws NotFoundException, ParamErrorException {
         BigInteger studentId=jwtTokenUtil.getIDFromRequest(request);
-        BigInteger teamId=teamService.insertTeam(studentId,creatTeamMap);
+        BigInteger teamId=teamService.insertTeam(studentId,creatTeamVO);
         if(teamId!=null){
             int status;
             if(teamService.judgeIllegal(teamId)){

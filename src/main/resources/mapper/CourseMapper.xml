@@ -61,6 +61,12 @@
         where id=#{teamId}
     </select>
 
+    <select id="getCourseIdByCourseName" resultType="java.math.BigInteger">
+        select id
+        from course
+        where course_name=#{courseName}
+    </select>
+
     <select id="getCourseIdByKlassId" resultType="java.math.BigInteger">
         select course_id
         from klass
