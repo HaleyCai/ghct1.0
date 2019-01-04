@@ -9,10 +9,12 @@ import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.entity.Seminar;
+import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.ScoreService;
 import xmu.ghct.crm.service.SeminarService;
 import xmu.ghct.crm.service.TeamService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +32,9 @@ public class ScoreController {
 
     @Autowired
     TeamService teamService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     //////////////////////需要重写
     /*
@@ -99,10 +104,12 @@ public class ScoreController {
      * @param teamId
      * @return
      */
-    @GetMapping("/course/{courseId}/{teamId}")
-    public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(@PathVariable("courseId")String courseId,
-                                                                         @PathVariable("teamId")String teamId) throws NotFoundException
+    @GetMapping("/course/{courseId}/team")
+    public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(HttpServletRequest request,
+                                                                         @PathVariable("courseId")String courseId) throws NotFoundException
     {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        List<BigInteger> teamIdList=teamService.
         return scoreService.listTeamRoundInfoByCourseIdAndTeamId(new BigInteger(courseId),new BigInteger(teamId));
     }
 

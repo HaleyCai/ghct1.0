@@ -113,9 +113,8 @@ public class CourseService {
         courseVO.setFlag(newCourseVO.isFlag());
         courseVO.setCourseLimitVOS(newCourseVO.getCourseLimitVOS());
         List<BigInteger> courseIdList=new ArrayList<>();
-        for(String item:newCourseVO.getConflictCourseIdS()){
-            BigInteger courseId=new BigInteger(item);
-            courseIdList.add(courseId);
+        for(Course item:newCourseVO.getConflictCourseIdS()){
+            courseIdList.add(item.getCourseId());
         }
         courseVO.setConflictCourseIdS(courseIdList);
         return courseDao.insertCourse(courseVO);
