@@ -36,6 +36,7 @@ public class SeminarController {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
     /**
      * 根据轮次id获取该轮次下所有的讨论课的简略信息
      * @param roundId
@@ -43,16 +44,8 @@ public class SeminarController {
      */
     @RequestMapping(value="/round/{roundId}/seminar",method = RequestMethod.GET)
     @ResponseBody
-    public List<SeminarSimpleVO> getSeminarByRoundId(HttpServletRequest request,@PathVariable("roundId") String roundId) throws NotFoundException {
-        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        BigInteger courseId=courseService.getCourseIdByRoundId(new BigInteger(roundId));
-        BigInteger klassId=klassService.getKlassIdByCourseIdAndStudentId(courseId,id);
-        List<SeminarSimpleVO> seminarSimpleVOS=seminarService.getSeminarByRoundId(new BigInteger(roundId));
-        for(SeminarSimpleVO item:seminarSimpleVOS){
-            BigInteger klassSeminarId=seminarService.getKlassSeminarIdBySeminarIdAndKlassId(item.getId(),klassId);
-            if(klassSeminarId!=null)item.setKlassSeminarId(klassSeminarId);
-        }
-        return  seminarSimpleVOS;
+    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") String roundId) throws NotFoundException {
+        return seminarService.getSeminarByRoundId(new BigInteger(roundId));
     }
 
     /**
