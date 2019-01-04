@@ -10,7 +10,7 @@ import xmu.ghct.crm.service.QuestionService;
 import java.math.BigInteger;
 import java.util.Map;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 public class QuestionController {
 

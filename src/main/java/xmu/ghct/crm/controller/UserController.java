@@ -23,6 +23,7 @@ import java.util.Map;
 /**
  * @author caiyq
  */
+@CrossOrigin
 @RestController
 public class UserController {
 

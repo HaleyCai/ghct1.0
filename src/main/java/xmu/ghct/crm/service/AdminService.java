@@ -32,7 +32,6 @@ public class AdminService {
         teacher.setName(teacherMap.get("name").toString());
         teacher.setAccount(teacherMap.get("account").toString());
         teacher.setEmail(teacherMap.get("email").toString());
-        teacher.setPassword(teacherMap.get("password").toString());
         return teacherDao.createTeacher(teacher);
     }
 

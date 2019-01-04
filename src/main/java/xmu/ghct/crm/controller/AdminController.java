@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class AdminController {
 

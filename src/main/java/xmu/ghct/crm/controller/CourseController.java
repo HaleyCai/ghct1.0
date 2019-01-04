@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
 
+@CrossOrigin
 @RestController
 public class CourseController {
 

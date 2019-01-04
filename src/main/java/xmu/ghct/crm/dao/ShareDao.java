@@ -140,8 +140,10 @@ public class ShareDao {
 
 
     public boolean deleteTeamShareByShareId(BigInteger shareId) throws NotFoundException {
+        Share share=shareMapper.getTeamShareByShareId(shareId);
+        System.out.println("shareId "+shareId);
+        System.out.println("share "+share);
         if(shareMapper.deleteTeamShareByShareId(shareId)>0){
-            Share share=shareMapper.getTeamShareByShareId(shareId);
             shareMapper.deleteTeamShareInCourse(share.getSubCourseId());//course从课程中的team_main置为null
             deleteTeamWithKlass(share.getSubCourseId());//删除klass_team表的记录
             return true;

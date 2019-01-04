@@ -104,6 +104,7 @@ public class SeminarDao {
 
 
     public  BigInteger getKlassSeminarIdBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId) throws NotFoundException {
+        System.out.println("seminarId"+seminarId+" klassId"+klassId);
         if(seminarMapper.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId)==null)
         {
             throw new NotFoundException("未找到klassSeminar");

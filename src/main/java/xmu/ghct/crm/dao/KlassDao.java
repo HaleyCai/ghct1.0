@@ -24,7 +24,7 @@ public class KlassDao {
     }
 
     public int creatKlass(Klass klass) throws SQLException {
-        if(klassMapper.getKlassByCourseIdAndKlassSerial(klass.getCourseId(),klass.getKlassSerial())==null)
+        if(klassMapper.getKlassByCourseIdAndKlassSerial(klass.getCourseId(),klass.getKlassSerial())!=null)
         {
             throw new SQLException("该班级已存在");
         }

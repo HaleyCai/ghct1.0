@@ -47,12 +47,12 @@ public class ShareService {
      * @param type
      * @return
      */
-    public boolean deleteShare(BigInteger shareId,String type) throws NotFoundException {
-        if(type.equals("共享分组"))
+    public boolean deleteShare(BigInteger shareId,int type) throws NotFoundException {
+        if(type==1)//"共享分组"
         {
             return shareDao.deleteTeamShareByShareId(shareId);
         }
-        else if(type.equals("共享讨论课"))
+        else if(type==2)//"共享讨论课"
         {
             return shareDao.deleteSeminarShareByShareId(shareId);
         }

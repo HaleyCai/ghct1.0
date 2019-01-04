@@ -59,7 +59,7 @@
                #{name},
                #{account},
                #{email},
-               #{password},
+               123456,
                0
               )
     </insert>

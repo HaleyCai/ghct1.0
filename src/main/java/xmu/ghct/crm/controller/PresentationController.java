@@ -28,6 +28,7 @@ import java.util.zip.ZipOutputStream;
 
 import static xmu.ghct.crm.dao.DownloadFileDao.encodeURIComponent;
 
+@CrossOrigin
 @RestController
 public class PresentationController {
 
@@ -425,8 +426,8 @@ public class PresentationController {
     @GetMapping("/klassSeminar/attendance/{attendanceId}/modifyAttendance")
     public boolean modifyAttendanceByAttendanceId(HttpServletRequest request,
                                                     @PathVariable("attendanceId")String attendanceId,
-                                                    @RequestParam("teamOrder")Long teamOrder) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
-        return presentationService.modifyAttendanceByAttendanceId(request,new BigInteger(attendanceId),Integer.valueOf(teamOrder.toString()));
+                                                    @RequestParam("teamOrder")Integer teamOrder) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+        return presentationService.modifyAttendanceByAttendanceId(request,new BigInteger(attendanceId),teamOrder);
     }
 
 }
