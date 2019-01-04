@@ -94,5 +94,15 @@ public class KlassService {
         return klassDao.getKlassByKlassId(klassId);
     }
 
+    /**
+     * 查学生在某课程里的班级
+     * @param courseId
+     * @param studentId
+     * @return
+     */
+    public BigInteger getKlassIdByCourseIdAndStudentId(BigInteger courseId,BigInteger studentId){
+        return klassDao.getKlassIdByCourseIdAndStudentId(courseId,studentId);
+    }
+
 
 }

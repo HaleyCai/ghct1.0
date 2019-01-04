@@ -7,10 +7,7 @@ import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
-import xmu.ghct.crm.service.KlassService;
-import xmu.ghct.crm.service.ScoreService;
-import xmu.ghct.crm.service.SeminarService;
-import xmu.ghct.crm.service.TeamService;
+import xmu.ghct.crm.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
@@ -35,6 +32,9 @@ public class SeminarController {
     TeamService teamService;
 
     @Autowired
+    CourseService courseService;
+
+    @Autowired
     JwtTokenUtil jwtTokenUtil;
     /**
      * 根据轮次id获取该轮次下所有的讨论课的简略信息
@@ -43,8 +43,16 @@ public class SeminarController {
      */
     @RequestMapping(value="/round/{roundId}/seminar",method = RequestMethod.GET)
     @ResponseBody
-    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") String roundId) throws NotFoundException {
-        return seminarService.getSeminarByRoundId(new BigInteger(roundId));
+    public List<SeminarSimpleVO> getSeminarByRoundId(HttpServletRequest request,@PathVariable("roundId") String roundId) throws NotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        BigInteger courseId=courseService.getCourseIdByRoundId(new BigInteger(roundId));
+        BigInteger klassId=klassService.getKlassIdByCourseIdAndStudentId(courseId,id);
+        List<SeminarSimpleVO> seminarSimpleVOS=seminarService.getSeminarByRoundId(new BigInteger(roundId));
+        for(SeminarSimpleVO item:seminarSimpleVOS){
+            BigInteger klassSeminarId=seminarService.getKlassSeminarIdBySeminarIdAndKlassId(item.getId(),klassId);
+            if(klassSeminarId!=null)item.setKlassSeminarId(klassSeminarId);
+        }
+        return  seminarSimpleVOS;
     }
 
     /**

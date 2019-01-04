@@ -11,10 +11,7 @@ import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.exception.NotFoundException;
-import xmu.ghct.crm.mapper.KlassMapper;
-import xmu.ghct.crm.mapper.RoundMapper;
-import xmu.ghct.crm.mapper.ScoreMapper;
-import xmu.ghct.crm.mapper.TeamMapper;
+import xmu.ghct.crm.mapper.*;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
@@ -37,6 +34,9 @@ public class RoundDao {
 
     @Autowired
     ScoreMapper scoreMapper;
+
+    @Autowired
+    SeminarMapper seminarMapper;
     /**
      * @cyq
      * 根据roundId获取该轮次下所有seminar的简单信息

@@ -438,4 +438,8 @@ public class SeminarService {
     public List<BigInteger>listKlassIdBySeminarId(BigInteger seminarId){
         return seminarDao.listKlassIdBySeminarId(seminarId);
     }
+
+    public BigInteger getKlassSeminarIdBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId)throws NotFoundException{
+        return seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
+    }
 }
