@@ -39,12 +39,6 @@
         where id=#{questionId}
     </update>
 
-    <select id="getQuestionId" resultType="java.math.BigInteger">
-        select id
-        from question
-        where klass_seminar_id=#{klassSeminarId} and attendance_id=#{attendanceId} and student_id=#{studentId}
-    </select>
-
     <resultMap id="QuestionResult" type="xmu.ghct.crm.entity.Question">
         <id property="questionId" column="id"/>
         <result property="klassSeminarId" column="klass_seminar_id"/>
@@ -148,12 +142,6 @@
         <result property="reportScore" column="report_score"/>
         <result property="totalScore" column="total_score"/>
     </resultMap>
-
-    <select id="countQuestionNumber" resultType="java.lang.Integer">
-        select count(*)
-        from question
-        where klass_seminar_id=#{klassSeminarId} and attendance_id=#{attendanceId} and is_selected=1
-    </select>
 
     <select id="getTeamIdByStudentId" resultType="java.math.BigInteger">
         select team_id
