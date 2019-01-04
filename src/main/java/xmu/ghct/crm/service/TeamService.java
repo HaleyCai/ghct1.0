@@ -350,4 +350,15 @@ public class TeamService {
         return teamDao.listKlassIdByTeamId(teamId);
     }
 
+    public  List<BigInteger> listTeamIdByStudentId(BigInteger studentId) throws NotFoundException {
+        return teamDao.listTeamIdByStudentId(studentId);
+    }
+
+    public BigInteger getCourseIdByTeamId(BigInteger teamId) throws NotFoundException {
+        return teamDao.getCourseIdByTeamId(teamId);
+    }
+
+
+
+
 }

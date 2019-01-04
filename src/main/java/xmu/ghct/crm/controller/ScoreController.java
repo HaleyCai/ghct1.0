@@ -101,16 +101,20 @@ public class ScoreController {
     /**
      * 获得某小组所有轮次的简单信息（roundId，轮次序号，轮次总成绩）
      * @param courseId
-     * @param teamId
      * @return
      */
-    @GetMapping("/course/{courseId}/team")
+    @GetMapping("/course/{courseId}/team/roundInfo")
     public List<Map<String,Object>> listTeamRoundInfoByCourseIdAndTeamId(HttpServletRequest request,
                                                                          @PathVariable("courseId")String courseId) throws NotFoundException
     {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        List<BigInteger> teamIdList=teamService.
-        return scoreService.listTeamRoundInfoByCourseIdAndTeamId(new BigInteger(courseId),new BigInteger(teamId));
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        BigInteger teamId=new BigInteger("0");
+        for(BigInteger teamIdItem:teamIdList){
+            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamId);
+            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+        }
+        return scoreService.listTeamRoundInfoByCourseIdAndTeamId(new BigInteger(courseId),teamId);
     }
 
     /**
