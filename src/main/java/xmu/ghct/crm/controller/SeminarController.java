@@ -34,9 +34,9 @@ public class SeminarController {
     @Autowired
     CourseService courseService;
 
+
     @Autowired
     JwtTokenUtil jwtTokenUtil;
-
     /**
      * 根据轮次id获取该轮次下所有的讨论课的简略信息
      * @param roundId
@@ -155,7 +155,7 @@ public class SeminarController {
      * @param seminarId
      * @return
      */
-    @GetMapping("seminar/{seminarId}/klass/{klassId}")
+    @GetMapping("/seminar/{seminarId}/klass/{klassId}")
     public SeminarVO getKlassSeminarByKlassIdAndSeminarId(@PathVariable("seminarId") String seminarId,
                                                           @PathVariable("klassId") String klassId) throws NotFoundException {
         return seminarService.getKlassSeminarByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
@@ -169,7 +169,7 @@ public class SeminarController {
      * @param status
      * @return
      */
-    @PutMapping("presentation/{klassSeminarId}/status")
+    @PutMapping("/presentation/{klassSeminarId}/status")
     public boolean updateKlassSeminarStatus(@PathVariable("klassSeminarId") String klassSeminarId,
                                             @RequestParam int status) throws NotFoundException {
         int flag=seminarService.updateKlassSeminarStatus(new BigInteger(klassSeminarId),status);
@@ -183,7 +183,7 @@ public class SeminarController {
      * @param seminarId
      * @return
      */
-    @GetMapping("seminar/{seminarId}/team/seminarScore")
+    @GetMapping("/seminar/{seminarId}/team/seminarScore")
     public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(HttpServletRequest request,
                                                                   @PathVariable("seminarId") String seminarId) throws NotFoundException {
 
@@ -207,7 +207,7 @@ public class SeminarController {
      * @param seminarScoreMap
      * @return
      */
-    @PutMapping("seminar/{seminarId}/team/{teamId}/modifySeminarScore")
+    @PutMapping("/seminar/{seminarId}/team/{teamId}/modifySeminarScore")
     public boolean updateSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId") String seminarId,
                                                           @PathVariable("teamId") String teamId,@RequestBody Map<String,Object> seminarScoreMap) throws NotFoundException {
         int flag=seminarService.updateSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),new BigInteger(teamId),seminarScoreMap);
@@ -223,7 +223,7 @@ public class SeminarController {
      * @throws NotFoundException
      * @throws org.apache.ibatis.javassist.NotFoundException
      */
-    @GetMapping("seminar/{klassSeminarId}/seminarScore")
+    @GetMapping("/seminar/{klassSeminarId}/seminarScore")
     public List<SeminarScoreVO> listKlassSeminarScoreByKlassIdAndSeminarId(@PathVariable("klassSeminarId") BigInteger klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         return  seminarService.listKlassSeminarScoreByKlassIdAndSeminarId(klassSeminarId);
     }
@@ -235,7 +235,7 @@ public class SeminarController {
      * @param reportMapList
      * @return
      */
-    @PostMapping("seminar/{klassSeminarId}/updateReportScore")
+    @PostMapping("/seminar/{klassSeminarId}/updateReportScore")
     public boolean updateReportScoreByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,@RequestBody List<Map> reportMapList) throws NotFoundException{
         return seminarService.updateReportScoreByKlassSeminarId(new BigInteger(klassSeminarId),reportMapList);
     }

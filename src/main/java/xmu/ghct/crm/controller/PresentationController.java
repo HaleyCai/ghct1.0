@@ -81,7 +81,7 @@ public class PresentationController {
      * @param orderMap
      * @return
      */
-    @PutMapping("attendance/{attendanceId}")
+    @PutMapping("/attendance/{attendanceId}")
     public boolean updateAttendanceOrderByAttendanceId(@PathVariable("attendanceId") String attendanceId, @RequestBody Map<String,Object> orderMap) throws org.apache.ibatis.javassist.NotFoundException {
         int flag=presentationService.updateAttendanceOrderByAttendanceId(new BigInteger(attendanceId),orderMap);
         if(flag>0) return true;
@@ -94,7 +94,7 @@ public class PresentationController {
      * @param attendanceId
      * @return
      */
-    @DeleteMapping("attendance/{attendanceId}")
+    @DeleteMapping("/attendance/{attendanceId}")
     public boolean deleteAttendanceByAttendance(@PathVariable("attendanceId") String attendanceId) throws org.apache.ibatis.javassist.NotFoundException {
         int flag= presentationService.deleteAttendanceByAttendance(new BigInteger(attendanceId));
         if(flag>0) return true;

@@ -71,7 +71,7 @@ public class CourseController {
      * 学生通过jwt里的id，获得个人课程信息列表，包括courseId,courseName,klassId,klassName(Grade+KlassSerial)
      * @return
      */
-    @RequestMapping(value="getCourse/student",method = RequestMethod.GET)
+    @RequestMapping(value="/getCourse/student",method = RequestMethod.GET)
     public List<CourseStudentVO> studentGetCourse(HttpServletRequest request) throws NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         return courseService.studentGetCourse(id);
@@ -136,7 +136,7 @@ public class CourseController {
      * @param courseId
      * @return
      */
-    @GetMapping("course/{courseId}/pc")
+    @GetMapping("/course/{courseId}/pc")
     public List<List<Map>> listRoundAndSeminarByCourseId(@PathVariable("courseId") String courseId) throws NotFoundException {
         List<Round> roundList=courseService.listRoundByCourseId(new BigInteger(courseId));
         List<List<Map>> map=new ArrayList<>();
@@ -164,7 +164,7 @@ public class CourseController {
      * @param seminarId
      * @return
      */
-    @GetMapping("seminar/{seminarId}/attendance/pc")
+    @GetMapping("/seminar/{seminarId}/attendance/pc")
     public List<Map> listKlassInfoBySeminarId(@PathVariable("seminarId")String seminarId) throws NotFoundException{
         Seminar seminar=seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
         List<Klass> klassList=klassService.listKlassBySeminarId(new BigInteger(seminarId));
@@ -193,7 +193,7 @@ public class CourseController {
      * @return
      * @throws NotFoundException
      */
-    @GetMapping("seminar/{seminarId}/{klassId}/klassSeminar/pc")
+    @GetMapping("/seminar/{seminarId}/{klassId}/klassSeminar/pc")
     public List<Map> listAttendanceStatusByKlassIdAndSeminar(@PathVariable("seminarId")String seminarId,@PathVariable("klassId")String klassId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         SeminarVO klassSeminar=seminarService.getKlassSeminarByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
         List<Map> map=new ArrayList<>();

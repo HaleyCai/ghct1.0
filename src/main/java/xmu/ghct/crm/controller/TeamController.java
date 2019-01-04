@@ -75,7 +75,7 @@ public class TeamController {
      * 删除队伍、组长解散队伍，删除team表记录，级联删除学生与teamId的关系，删除课程、班级与team的关系，不删除成绩！！
      * @param teamId
      */
-    @RequestMapping(value="team/{teamId}",method = RequestMethod.DELETE)
+    @RequestMapping(value="/team/{teamId}",method = RequestMethod.DELETE)
     public Map<String,Object> deleteTeam(@PathVariable("teamId") String teamId) throws NotFoundException {
         Map<String,Object> map=new HashMap<>();
         if(teamService.deleteTeam(new BigInteger(teamId)))
@@ -90,7 +90,7 @@ public class TeamController {
      * @param teamId
      * @param studentIdList
      */
-    @RequestMapping(value="team/{teamId}/add",method = RequestMethod.PUT)
+    @RequestMapping(value="/team/{teamId}/add",method = RequestMethod.PUT)
     public boolean addTeamMember(@PathVariable("teamId") String teamId,
                               @RequestBody List<BigInteger> studentIdList) throws NotFoundException {
         Boolean flag=teamService.addTeamMember(new BigInteger(teamId),studentIdList);
@@ -109,7 +109,7 @@ public class TeamController {
      * @param teamId
      * @param inMap
      */
-    @RequestMapping(value="team/{teamId}/remove",method = RequestMethod.PUT)
+    @RequestMapping(value="/team/{teamId}/remove",method = RequestMethod.PUT)
     public Map<String,Object> removeTeamMember(@PathVariable("teamId") String teamId,
                                  @RequestBody Map<String,Object> inMap) throws NotFoundException {
         Map<String,Object> map=new HashMap<>();
