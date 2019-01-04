@@ -129,6 +129,7 @@ public class ShareService {
      */
     public boolean dealShare(BigInteger shareId,int type,int status)
     {
+        //共享组队请求
         if(type==1) {
             boolean success=shareDao.dealTeamShare(shareId,status);
             if(status==1)
@@ -137,7 +138,7 @@ public class ShareService {
                 success=shareDao.createSubCourseTeamList(shareId);
             }
             return success;
-        }
+        }//共享讨论课请求
         else if(type==2) {
             return shareDao.dealSeminarShare(shareId,status);
         }

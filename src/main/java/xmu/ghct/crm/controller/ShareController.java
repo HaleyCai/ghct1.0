@@ -113,12 +113,15 @@ public class ShareController {
         share.setSubCourseId(new BigInteger(inMap.get("subCourseId").toString()));
         share.setSubCourseTeacherId(new BigInteger(inMap.get("subCourseTeacherId").toString()));
         int type=(int)inMap.get("type");
+        //判断该从课程是否已成为其他课程的主课程
         if(type==1)
         {
+            //if()
             share.setShareType("共享组队");
         }
         else if(type==2)
         {
+            //if()
             share.setShareType("共享讨论课");
         }
         else{

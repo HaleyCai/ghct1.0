@@ -285,7 +285,7 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/round/{roundId}/modifyRoundEnroll",method = RequestMethod.PUT)
-    public boolean modifyRoundEnrollByRoundId(@PathVariable BigInteger roundId,
+    public boolean modifyRoundEnrollByRoundId(@PathVariable String roundId,
                                                @RequestBody List<Map<String,Object>> inList)
     {
         List<RoundEnrollVO> roundEnrollVOS=new ArrayList<>();
@@ -298,7 +298,7 @@ public class CourseController {
             enrollVO.setEnroll((int)map.get("enroll"));
             roundEnrollVOS.add(enrollVO);
         }
-        return courseService.modifyRoundEnrollByRoundId(roundId,roundEnrollVOS);
+        return courseService.modifyRoundEnrollByRoundId(new BigInteger(roundId),roundEnrollVOS);
     }
 
 
@@ -315,12 +315,12 @@ public class CourseController {
 
 
 
-    @PostMapping("/TEST")
-    public void test(@RequestBody ArrayList<Map> listMap){
-        Map<String,ArrayList<BigInteger>> map=listMap.get(1);
-        BigInteger bigIntegers=new BigInteger(map.get("studentId").get(0).toString());
-        System.out.println(bigIntegers);
-    }
+//    @PostMapping("/TEST")
+//    public void test(@RequestBody ArrayList<Map> listMap){
+//        Map<String,ArrayList<BigInteger>> map=listMap.get(1);
+//        BigInteger bigIntegers=new BigInteger(map.get("studentId").get(0).toString());
+//        System.out.println(bigIntegers);
+//    }
 
 
     /**
