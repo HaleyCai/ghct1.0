@@ -14,30 +14,12 @@ public class QuestionDao {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public List<Question> listQuestionByKlassSeminarIdAndAttendanceId(BigInteger klassSeminarId,BigInteger attendanceId)
-    {
-        return questionMapper.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
-    }
-
-    public BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId)
-    {
-        return questionMapper.getKlassIdByKlassSeminarId(klassSeminarId);
-    }
 
     public BigInteger getTeamIdByQuestionId(BigInteger questionId)
     {
         return questionMapper.getTeamIdByQuestionId(questionId);
     }
 
-    public int getKlassSerialByKlassId(BigInteger klassId)
-    {
-        return questionMapper.getKlassSerialByKlassId(klassId);
-    }
-
-    public int getTeamSerialByTeamId(BigInteger teamId)
-    {
-        return questionMapper.getTeamSerialByTeamId(teamId);
-    }
 
     public String getStudentNameByStudentId(BigInteger studentId)
     {
@@ -49,9 +31,9 @@ public class QuestionDao {
         return questionMapper.updateQuestionSelected(questionId);
     }
 
-    public Question getQuestionByQuestionId(BigInteger questionId)
+    public Question getOneQuestion(BigInteger attendanceId)
     {
-        return questionMapper.getQuestionByQuestionId(questionId);
+        return questionMapper.getOneQuestion(attendanceId);
     }
 
     public boolean postQuestion(Question question)
@@ -83,11 +65,6 @@ public class QuestionDao {
     public BigInteger getSeminarIdByKlassSeminarId(BigInteger klassSeminarId)
     {
         return questionMapper.getSeminarIdByKlassSeminarId(klassSeminarId);
-    }
-
-    public BigInteger getRoundIdBySeminarId(BigInteger seminarId)
-    {
-        return questionMapper.getRoundIdBySeminarId(seminarId);
     }
 
 

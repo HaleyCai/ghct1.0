@@ -17,21 +17,13 @@ import java.util.List;
 public interface QuestionMapper {
 
 
-    List<Question> listQuestionByKlassSeminarIdAndAttendanceId(BigInteger klassSeminarId,BigInteger attendanceId);
-
-    BigInteger getKlassIdByKlassSeminarId(BigInteger klassSeminarId);
-
     BigInteger getTeamIdByQuestionId(BigInteger questionId);
-
-    int getKlassSerialByKlassId(BigInteger klassId);
-
-    int getTeamSerialByTeamId(BigInteger teamId);
 
     String getStudentNameByStudentId(BigInteger studentId);
 
     boolean updateQuestionSelected(BigInteger questionId);
 
-    Question getQuestionByQuestionId(BigInteger questionId);
+    Question getOneQuestion(BigInteger attendanceId);
 
     int postQuestion(Question question);
 
@@ -42,8 +34,6 @@ public interface QuestionMapper {
     Boolean updateSeminarScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore);
 
     BigInteger getSeminarIdByKlassSeminarId(BigInteger klassSeminarId);
-
-    BigInteger getRoundIdBySeminarId(BigInteger seminarId);
 
     Boolean updateRoundScoreEnd(BigInteger roundId,BigInteger teamId,Double presentationScore1,Double questionScore1,Double reportScore1,Double totalScore1);
 

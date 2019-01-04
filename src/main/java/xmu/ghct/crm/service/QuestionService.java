@@ -28,7 +28,13 @@ public class QuestionService {
     @Autowired
     CourseDao courseDao;
     @Autowired
+    PresentationDao presentationDao;
+    @Autowired
+    KlassDao klassDao;
+    @Autowired
     ScoreCalculationDao scoreCalculationDao;
+    @Autowired
+    TeamDao teamDao;
     @Autowired
     TotalScoreDao totalScoreDao;
 
@@ -38,7 +44,7 @@ public class QuestionService {
      * @param attendanceId
      * @return
      */
-    public List<QuestionListVO> getAllQuestion(BigInteger klassSeminarId, BigInteger attendanceId)
+    /**public List<QuestionListVO> getAllQuestion(BigInteger klassSeminarId, BigInteger attendanceId)
     {
         List<QuestionListVO> questionListVOList=new ArrayList<>();
         List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
@@ -55,7 +61,7 @@ public class QuestionService {
             questionListVOList.add(questionListVO);
         }
         return questionListVOList;
-    }
+    }**/
 
     /**
      * 教师点击下个提问时，修改当前提问为已抽到
@@ -69,22 +75,28 @@ public class QuestionService {
 
     /**
      * 学生提问界面，被抽取到提问，展示提问人信息
-     * @param questionId
+     * @param attendanceId
      * @return
      */
-    public QuestionListVO getOneQuestion(BigInteger questionId)
-    {
+    public QuestionListVO getOneQuestion(BigInteger attendanceId) throws NotFoundException {
         QuestionListVO questionListVO=new QuestionListVO();
-        Question question=questionDao.getQuestionByQuestionId(questionId);
-        questionListVO.setQuestionId(questionId);
-        BigInteger teamId=questionDao.getTeamIdByQuestionId(questionId);
-        questionListVO.setTeamSerial(questionDao.getTeamSerialByTeamId(teamId));
+        Question question=questionDao.getOneQuestion(attendanceId);
 
-        BigInteger klassId=questionDao.getKlassIdByKlassSeminarId(question.getKlassSeminarId());
-        questionListVO.setKlassSerial(questionDao.getKlassSerialByKlassId(klassId));
+        questionListVO.setQuestionId(question.getQuestionId());
+
+        BigInteger klassId=seminarDao.getKlassIdByKlassSeminarId(question.getKlassSeminarId());
+        questionListVO.setKlassSerial(klassDao.getKlassSerialByKlassId(klassId));
+
+        questionListVO.setTeamSerial(teamDao.getTeamSerialByTeamId(question.getTeamId()));
+
+        questionListVO.setStudentId(question.getStudentId());
+
         questionListVO.setStudentName(questionDao.getStudentNameByStudentId(question.getStudentId()));
 
+        questionListVO.setAttendanceId(question.getAttendanceId());
+
         questionListVO.setSelected(question.getSelected());
+
         return questionListVO;
     }
 
@@ -95,8 +107,10 @@ public class QuestionService {
      * @param attendanceId
      * @return
      */
-    public boolean postQuestion(BigInteger studentId,BigInteger klassSeminarId,BigInteger attendanceId)
-    {
+    public boolean postQuestion(BigInteger studentId,BigInteger klassSeminarId,BigInteger attendanceId) throws org.apache.ibatis.javassist.NotFoundException {
+        if(questionDao.getTeamIdByStudentId(studentId)==presentationDao.getAttendanceByAttendanceId(attendanceId).getTeamId())
+            return false;
+
         Question question=new Question();
 
         question.setKlassSeminarId(klassSeminarId);
@@ -137,7 +151,7 @@ public class QuestionService {
 
         //更新round_score表
         BigInteger seminarId=questionDao.getSeminarIdByKlassSeminarId(klassSeminarId);
-        BigInteger roundId=questionDao.getRoundIdBySeminarId(seminarId);
+        BigInteger roundId=seminarDao.getRoundIdBySeminarId(seminarId);
 
         Score roundScore=scoreCalculationDao.roundScoreCalculation(seminarScore,roundId,teamId,courseId);
 

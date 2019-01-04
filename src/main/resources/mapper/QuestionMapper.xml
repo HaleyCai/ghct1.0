@@ -2,18 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.ghct.crm.mapper.QuestionMapper">
 
-    <select id="listQuestionByKlassSeminarIdAndAttendanceId" resultMap="QuestionResult">
-        select *
-        from question
-        where klass_seminar_id=#{klassSeminarId} and attendance_id=#{attendanceId}
-    </select>
-
-    <select id="getQuestionByQuestionId" resultMap="QuestionResult">
-        select *
-        from question
-        where id=#{questionId}
-    </select>
-
     <insert id="postQuestion"  parameterType="xmu.ghct.crm.entity.Question">
         insert into question (
                 klass_seminar_id,
@@ -39,6 +27,12 @@
         where id=#{questionId}
     </update>
 
+    <select id="getOneQuestion" resultMap="QuestionResult">
+        select *
+        from question
+        where attendance_id=#{attendanceId} and is_selected=0 ORDER BY RAND() LIMIT 1;
+    </select>
+
     <resultMap id="QuestionResult" type="xmu.ghct.crm.entity.Question">
         <id property="questionId" column="id"/>
         <result property="klassSeminarId" column="klass_seminar_id"/>
@@ -48,12 +42,6 @@
         <result property="selected" column="is_selected"/>
         <result property="questionScore" column="score"/>
     </resultMap>
-
-    <select id="getKlassIdByKlassSeminarId" resultType="java.math.BigInteger">
-        select klass_id
-        from klass_seminar
-        where id=#{klassSeminarId}
-    </select>
 
     <select id="getSeminarIdByKlassSeminarId" resultType="java.math.BigInteger">
         select seminar_id
@@ -67,18 +55,6 @@
         where id=#{questionId}
     </select>
 
-
-    <select id="getKlassSerialByKlassId" resultType="java.lang.Integer">
-        select klass_serial
-        from klass
-        where id=#{klassId}
-    </select>
-
-    <select id="getTeamSerialByTeamId" resultType="java.lang.Integer">
-        select team_serial
-        from team
-        where id=#{teamId}
-    </select>
 
     <select id="getStudentNameByStudentId" resultType="java.lang.String">
         select student_name
@@ -120,11 +96,6 @@
         <result property="totalScore" column="total_score"/>
     </resultMap>
 
-    <select id="getRoundIdBySeminarId" resultType="java.math.BigInteger">
-        select round_id
-        from seminar
-        where id=#{seminarId}
-    </select>
 
 
     <update id="updateRoundScoreEnd">
