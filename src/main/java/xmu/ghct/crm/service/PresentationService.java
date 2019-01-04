@@ -103,6 +103,7 @@ public class PresentationService {
         }
         else{                     //已报名讨论课
             Attendance attendance=presentationDao.getAttendanceByKlassSeminarIdByTeamId(klassSeminarId,teamId);
+            map.put("teamOrder",attendance.getTeamOrder());
             if(seminarVO.getStatus()==2){
                 if(attendance.getReportName()!=null&&attendance.getReportName().length()>0){
                     String reportStatus ="已提交";
