@@ -97,9 +97,10 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
-    public Course getCourseByCourseId(@PathVariable("courseId")String courseId) throws NotFoundException {
+    public CourseVO getCourseByCourseId(@PathVariable("courseId")String courseId) throws NotFoundException {
         return courseService.getCourseByCourseId(new BigInteger(courseId));
     }
+
 
     /**
      * 根据课程ID删除课程

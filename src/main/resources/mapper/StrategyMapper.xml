@@ -20,6 +20,12 @@
         order by id desc limit 1;
     </select>
 
+    <select id="listCourseMemberLimit" resultMap="CourseLimitMap">
+        select *
+        from course_member_limit_strategy
+        where id=#{strategyId}
+    </select>
+
     <insert id="insertAndStrategy">
         insert into team_and_strategy(
                                       id,
@@ -65,6 +71,12 @@
                  #{maxMember}
                         )
     </insert>
+
+    <select id="listStrategyIdByStrategyId" resultType="java.math.BigInteger">
+        select strategy_id
+        from team_and_strategy
+        where id=#{strategyId}
+    </select>
     
     <insert id="insertCourseMemberLimit" parameterType="xmu.ghct.crm.VO.CourseLimitVO" keyProperty="courseLimitId" useGeneratedKeys="true">
         insert into course_member_limit_strategy(

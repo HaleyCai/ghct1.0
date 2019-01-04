@@ -34,6 +34,7 @@ public class KlassController {
         else return false;
     }
 
+
     @RequestMapping(value="/course/{courseId}/klass",method = RequestMethod.GET)
     @ResponseBody
     public List<Klass> listKlassByCourseId(@PathVariable("courseId") Long courseId) throws NotFoundException {

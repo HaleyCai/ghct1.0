@@ -145,4 +145,18 @@ public interface StrategyMapper {
      * @return
      */
     List<BigInteger> listConflictCourseId(BigInteger strategyId);
+
+    /**
+     * 获取其他课程人数限制
+     * @param strategyId
+     * @return
+     */
+    List<CourseLimitVO> listCourseMemberLimit(BigInteger strategyId);
+
+    /**
+     * 获取其他课程人数限制策略ID
+     * @param strategyId
+     * @return
+     */
+    List<BigInteger> listStrategyIdByStrategyId(BigInteger strategyId);
 }

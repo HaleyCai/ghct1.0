@@ -1,19 +1,17 @@
 package xmu.ghct.crm.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
-import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -43,6 +41,9 @@ public class CourseService {
 
     @Autowired
     TeamService teamService;
+
+    @Autowired
+    StrategyDao strategyDao;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -141,8 +142,28 @@ public class CourseService {
         return courseDao.listCourseByStudentId(studentId);
     }
 
-    public Course getCourseByCourseId(BigInteger courseId) throws NotFoundException {
-        return courseDao.getCourseByCourseId(courseId);
+    public CourseVO getCourseByCourseId(BigInteger courseId) throws NotFoundException {
+        CourseVO courseVO=new CourseVO();
+        Course course= courseDao.getCourseByCourseId(courseId);
+        BeanUtils.copyProperties(course,courseVO);
+        List<TeamStrategyVO> teamStrategyVOList=strategyDao.listTeamStrategyByCourseId(courseId);
+        for(TeamStrategyVO teamStrategyVO:teamStrategyVOList){
+            if(teamStrategyVO.getStrategyName().equals("ConflictCourseStrategy")){
+                BigInteger strategyId=teamStrategyVO.getStrategyId();
+                List<BigInteger> conflictCourseId=strategyDao.listConflictCourseId(strategyId);
+                courseVO.setConflictCourseIdS(conflictCourseId);
+            }
+            else if(teamStrategyVO.getStrategyName().equals("TeamAndStrategy")){
+                List<BigInteger> strategyIdList=strategyDao.listStrategyIdByStrategyId(teamStrategyVO.getStrategyId());
+                List<CourseLimitVO> courseLimitVOS=new ArrayList<>();
+                for(BigInteger strategyId:strategyIdList){
+                    CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(strategyId);
+                    courseLimitVOS.add(courseLimitVO);
+                }
+                courseVO.setCourseLimitVOS(courseLimitVOS);
+            }
+        }
+      return courseVO;
     }
 
     public int deleteCourseByCourseId(BigInteger courseId) throws NotFoundException {

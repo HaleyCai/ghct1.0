@@ -44,9 +44,9 @@ public class TeamController {
         Map<String,Object> team=teamService.getUserTeamStatusById(new BigInteger(courseId),id);
         map.put("isTeam",team.get("isTeam"));
         map.put("myTeamId",team.get("myTeamId"));
-        Course course=courseService.getCourseByCourseId(new BigInteger(courseId));
-        map.put("startTime",course.getTeamStartTime());
-        map.put("endTime",course.getTeamEndTime());
+        CourseVO courseVO=courseService.getCourseByCourseId(new BigInteger(courseId));
+        map.put("startTime",courseVO.getTeamStartTime());
+        map.put("endTime",courseVO.getTeamEndTime());
         return map;
     }
 
@@ -153,4 +153,6 @@ public class TeamController {
         }
         else return false;
     }
+
+
 }

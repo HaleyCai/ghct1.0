@@ -109,4 +109,23 @@ public class StrategyDao {
     public  List<BigInteger> listConflictCourseId(BigInteger strategyId){
         return strategyMapper.listConflictCourseId(strategyId);
     }
+
+    /**
+     * 获取其他课程人数限制
+     * @param strategyId
+     * @return
+     */
+    public List<CourseLimitVO> listCourseMemberLimit(BigInteger strategyId){
+        return strategyMapper.listCourseMemberLimit(strategyId);
+    }
+
+    /**
+     * 获取其他课程人数限制策略ID
+     * @param strategyId
+     * @return
+     */
+    public List<BigInteger> listStrategyIdByStrategyId(BigInteger strategyId){
+        return strategyMapper.listStrategyIdByStrategyId(strategyId);
+    }
+
 }
