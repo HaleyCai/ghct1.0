@@ -51,7 +51,7 @@ public class ScoreController {
 
     /**
      * @author hzm
-     *根据roundId获得轮次下所有小组的轮次成绩
+     *根据roundId获得轮次下所有小组的轮次成绩   //教师端
      * @param roundId
      * @return
      */
