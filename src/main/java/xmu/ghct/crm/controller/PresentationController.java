@@ -180,7 +180,8 @@ public class PresentationController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/attendance/{attendanceId}/powerPoint")
-    public void pptDownload (HttpServletResponse  response,HttpServletRequest request,@PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException {
+    public void pptDownload (HttpServletResponse  response,HttpServletRequest request,
+                             @PathVariable("attendanceId")String attendanceId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException {
         Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         String filePath=attendance.getPptUrl();
         downloadFileDao.downloadFile(response,request,filePath);
@@ -422,7 +423,9 @@ public class PresentationController {
      * @return
      */
     @GetMapping("/klassSeminar/attendance/{attendanceId}/modifyAttendance")
-    public List<Map> modifyAttendanceByAttendanceId(HttpServletRequest request,@PathVariable("attendanceId")String attendanceId,@RequestParam("teamOrder")Long teamOrder) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+    public boolean modifyAttendanceByAttendanceId(HttpServletRequest request,
+                                                    @PathVariable("attendanceId")String attendanceId,
+                                                    @RequestParam("teamOrder")Long teamOrder) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         return presentationService.modifyAttendanceByAttendanceId(request,new BigInteger(attendanceId),Integer.valueOf(teamOrder.toString()));
     }
 

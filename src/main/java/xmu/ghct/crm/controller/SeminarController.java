@@ -177,7 +177,8 @@ public class SeminarController {
      * @return
      */
     @PutMapping("presentation/{klassSeminarId}/status")
-    public boolean updateKlassSeminarStatus(@PathVariable("klassSeminarId") String klassSeminarId,@RequestParam int status) throws NotFoundException {
+    public boolean updateKlassSeminarStatus(@PathVariable("klassSeminarId") String klassSeminarId,
+                                            @RequestParam int status) throws NotFoundException {
         int flag=seminarService.updateKlassSeminarStatus(new BigInteger(klassSeminarId),status);
         if(flag>0)return true;
         else return  false;

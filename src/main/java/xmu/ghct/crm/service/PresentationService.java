@@ -143,11 +143,10 @@ public class PresentationService {
         }
     }
 
-    public List<Map> modifyAttendanceByAttendanceId(HttpServletRequest request,BigInteger attendanceId, Integer teamOrder) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
-        presentationDao.updateAttendanceOrderByAttendanceId(attendanceId,teamOrder);
-        Attendance attendance=presentationDao.getAttendanceByAttendanceId(attendanceId);
-        List<Map> map=seminarService.listStudentKlassSeminarByKlassSeminarId(request,attendance.getKlassSeminarId());
-        return map;
+    public boolean modifyAttendanceByAttendanceId(HttpServletRequest request,BigInteger attendanceId, Integer teamOrder) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+        int flag=presentationDao.updateAttendanceOrderByAttendanceId(attendanceId,teamOrder);
+        if(flag>0) return true;
+        return false;
     }
 
     /**
