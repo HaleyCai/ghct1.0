@@ -251,12 +251,8 @@ public class TeamDao {
      * @param studentId
      * @return
      */
-     public List<BigInteger> listTeamIdByStudentId(BigInteger studentId) throws NotFoundException {
+     public List<BigInteger> listTeamIdByStudentId(BigInteger studentId){
          List<BigInteger> teamIdList = teamMapper.listTeamIdByStudentId(studentId);
-         if(teamIdList==null||teamIdList.size()<=0)
-         {
-             throw new NotFoundException("未找到该学生的队伍或未找到该学生");
-         }
          return teamIdList;
      }
 

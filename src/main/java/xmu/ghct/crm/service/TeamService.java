@@ -331,17 +331,21 @@ public class TeamService {
    public Map<String,Object> getUserTeamStatusById(BigInteger courseId,BigInteger id) throws NotFoundException {
        Map<String,Object> map=new HashMap<>();
        List<BigInteger> teamIdList=teamDao.listTeamIdByStudentId(id);
-       for(BigInteger teamId:teamIdList){
-           BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamId);
-           if(courseId.equals(courseIdItem))
-           {
-               map.put("isTeam",true);
-               map.put("myTeamId",teamId);
-               return map;
+       if(teamIdList!=null){
+           for(BigInteger teamId:teamIdList){
+               BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamId);
+               if(courseId.equals(courseIdItem))
+               {
+                   map.put("isTeam",true);
+                   map.put("myTeamId",teamId);
+                   return map;
+               }
            }
        }
-       map.put("isTeam",false);
-       map.put("myTeamId",null);
+       else{
+           map.put("isTeam",false);
+           map.put("myTeamId",null);
+       }
        return map;
    }
 
