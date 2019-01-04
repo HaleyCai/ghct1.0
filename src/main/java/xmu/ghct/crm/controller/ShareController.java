@@ -98,8 +98,8 @@ public class ShareController {
      * 进入新增共享界面调用的api，返回所有课程
      */
     @GetMapping("/share/showSendShare")
-    public List<CourseWithTeacherVO> showSendCourse(@RequestBody Map<String,Object> inMap) throws NotFoundException {
-        return shareService.showSendCourse(new BigInteger(inMap.get("courseId").toString()));
+    public List<CourseWithTeacherVO> showSendCourse(@RequestParam long courseId) throws NotFoundException {
+        return shareService.showSendCourse(BigInteger.valueOf(courseId));
     }
 
     /**

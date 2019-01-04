@@ -105,12 +105,15 @@ public class ShareService {
         List<CourseVO> courseVOS=courseDao.getAllCourse();
         for(CourseVO item:courseVOS)
         {
-            CourseWithTeacherVO one=new CourseWithTeacherVO();
-            one.setCourseId(item.getCourseId());
-            one.setCourseNaem(item.getCourseName());
-            one.setTeacherId(item.getTeacherId());
-            one.setTeacherName(teacherDao.getTeacherNameByTeacherId(one.getTeacherId()));
-            allCourses.add(one);
+            if(!item.getCourseId().equals(courseId))
+            {
+                CourseWithTeacherVO one=new CourseWithTeacherVO();
+                one.setCourseId(item.getCourseId());
+                one.setCourseNaem(item.getCourseName());
+                one.setTeacherId(item.getTeacherId());
+                one.setTeacherName(teacherDao.getTeacherNameByTeacherId(one.getTeacherId()));
+                allCourses.add(one);
+            }
         }
         return allCourses;
     }
