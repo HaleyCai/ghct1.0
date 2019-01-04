@@ -102,4 +102,11 @@ public interface RoundMapper {
     Integer getRoundSerialByRoundId(BigInteger roundId);
 
     Round getRoundByCourseIdAndRoundSerial(BigInteger courseId,int roundSerial);
+
+    /**
+     * 获取轮次所在课程ID
+     * @param roundId
+     * @return
+     */
+    BigInteger getCourseIdByRoundId(BigInteger roundId);
 }

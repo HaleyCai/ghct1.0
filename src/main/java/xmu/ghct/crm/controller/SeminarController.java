@@ -6,9 +6,11 @@ import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.exception.NotFoundException;
+import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.KlassService;
 import xmu.ghct.crm.service.ScoreService;
 import xmu.ghct.crm.service.SeminarService;
+import xmu.ghct.crm.service.TeamService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
@@ -28,6 +30,12 @@ public class SeminarController {
 
     @Autowired
     KlassService klassService;
+
+    @Autowired
+    TeamService teamService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
     /**
      * 根据轮次id获取该轮次下所有的讨论课的简略信息
      * @param roundId
@@ -169,14 +177,25 @@ public class SeminarController {
 
 
     /**
-     * 获得某一队伍的某次讨论课成绩
-     * @param teamId
+     * 获得某一队伍的某次讨论课成绩   //学生端查看某次讨论课成绩
      * @param seminarId
      * @return
      */
-    @GetMapping("seminar/{seminarId}/team/{teamId}/seminarScore")
-    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(@PathVariable("teamId") String teamId,@PathVariable("seminarId") String seminarId) throws NotFoundException {
-        return seminarService.getTeamSeminarScoreByTeamIdAndSeminarId(new BigInteger(teamId),new BigInteger(seminarId));
+    @GetMapping("seminar/{seminarId}/team/seminarScore")
+    public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(HttpServletRequest request,
+                                                                  @PathVariable("seminarId") String seminarId) throws NotFoundException {
+
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        Seminar seminar=seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
+        BigInteger courseId=seminar.getCourseId();
+        BigInteger teamId=new BigInteger("0");
+        for(BigInteger teamIdItem:teamIdList){
+            System.out.println(teamIdItem);
+            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
+            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+        }
+        return seminarService.getTeamSeminarScoreByTeamIdAndSeminarId(teamId,new BigInteger(seminarId));
     }
 
     /**
@@ -186,7 +205,7 @@ public class SeminarController {
      * @param seminarScoreMap
      * @return
      */
-    @PutMapping("seminar/{seminarId}/team/{teamId}/seminarScore")
+    @PutMapping("seminar/{seminarId}/team/{teamId}/modifySeminarScore")
     public boolean updateSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId") String seminarId,
                                                           @PathVariable("teamId") String teamId,@RequestBody Map<String,Object> seminarScoreMap) throws NotFoundException {
         int flag=seminarService.updateSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),new BigInteger(teamId),seminarScoreMap);

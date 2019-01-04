@@ -278,4 +278,9 @@ public class RoundDao {
     }
 
 
+    public BigInteger getCourseIdByRoundId(BigInteger roundId){
+        return roundMapper.getCourseIdByRoundId(roundId);
+    }
+
+
 }

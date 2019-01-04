@@ -331,10 +331,17 @@ public class SeminarService {
         List<Map> map=new ArrayList<>();
         for(Attendance item:attendanceList){
             Team team=teamDao.getTeamInfoByTeamId(item.getTeamId());
+            Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),team.getTeamId());
             System.out.println(team);
             Map<String,Object> oneMap=new HashMap<>();
-            oneMap.put("attendance",item);
-            oneMap.put("team",team);
+            oneMap.put("teamId",item.getTeamId());
+            oneMap.put("teamSerial",team.getTeamSerial());
+            oneMap.put("klassSerial",team.getKlassSerial());
+            oneMap.put("pptName",item.getPptName());
+            oneMap.put("pptUrl",item.getPptUrl());
+            oneMap.put("reportName",item.getReportName());
+            oneMap.put("reportUrl",item.getReportUrl());
+            oneMap.put("reportScore",score.getReportScore());
             map.add(oneMap);
         }
         return map;

@@ -253,4 +253,8 @@ public class CourseService {
 
      }
 
+    public BigInteger getCourseIdByRoundId(BigInteger roundId){
+        return roundDao.getCourseIdByRoundId(roundId);
+    }
+
 }

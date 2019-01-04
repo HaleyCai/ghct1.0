@@ -40,6 +40,12 @@
         where id=#{roundId}
     </select>
 
+    <select id="getCourseIdByRoundId" resultType="java.math.BigInteger">
+        select course_id
+        from  round
+        where id=#{roundId}
+    </select>
+
 
 
     <insert id="insertRound" parameterType="xmu.ghct.crm.entity.Round" keyProperty="roundId" useGeneratedKeys="true">

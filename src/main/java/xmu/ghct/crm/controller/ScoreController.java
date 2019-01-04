@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.security.JwtTokenUtil;
+import xmu.ghct.crm.service.CourseService;
 import xmu.ghct.crm.service.ScoreService;
 import xmu.ghct.crm.service.SeminarService;
 import xmu.ghct.crm.service.TeamService;
@@ -26,6 +28,9 @@ public class ScoreController {
 
     @Autowired
     ScoreService scoreService;
+
+    @Autowired
+    CourseService courseService;
 
     @Autowired
     SeminarService seminarService;
@@ -57,17 +62,24 @@ public class ScoreController {
 
 
     /**
-     * 获取小组某轮次下所有讨论课的成绩信息
+     * 获取小组某轮次下所有讨论课的成绩信息  //学生端
      * @param roundId
-     * @param teamId
      * @return
      */
-    @GetMapping("/course/round/{roundId}/{teamId}")
-    public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(@PathVariable("roundId")String roundId,
-                                                               @PathVariable("teamId")String teamId) throws NotFoundException
+    @GetMapping("/course/round/{roundId}/team")
+    public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(HttpServletRequest request,
+                                                               @PathVariable("roundId")String roundId) throws NotFoundException
     {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        BigInteger courseId=courseService.getCourseIdByRoundId(new BigInteger(roundId));
+        BigInteger teamId=new BigInteger("0");
+        for(BigInteger teamIdItem:teamIdList){
+            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamId);
+            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+        }
         List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(new BigInteger(roundId));
-        List<BigInteger> klassIdS=teamService.listKlassIdByTeamId(new BigInteger(teamId));  //队伍所属班级ID
+        List<BigInteger> klassIdS=teamService.listKlassIdByTeamId(teamId);  //队伍所属班级ID
         System.out.println("&&"+klassIdS);
         List<SeminarVO> klassSeminarList=new ArrayList<>();
         List<Score> scoreList=new ArrayList<>();
@@ -87,7 +99,7 @@ public class ScoreController {
         }
 
         for(SeminarVO item:klassSeminarList){
-            Score score=scoreService.getKlassSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),new BigInteger(teamId));
+            Score score=scoreService.getKlassSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),teamId);
             Seminar seminar=seminarService.getSeminarBySeminarId(item.getSeminarId());
             if(score!=null){
                 score.setSeminarName(seminar.getSeminarName());
@@ -111,7 +123,7 @@ public class ScoreController {
         List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
         BigInteger teamId=new BigInteger("0");
         for(BigInteger teamIdItem:teamIdList){
-            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamId);
+            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
             if(courseId.equals(courseIdItem)) teamId=teamIdItem;
         }
         return scoreService.listTeamRoundInfoByCourseIdAndTeamId(new BigInteger(courseId),teamId);
@@ -122,25 +134,39 @@ public class ScoreController {
      * @param roundId
      * @return
      */
-    @GetMapping("/course/round/{roundId}/{teamId}/roundSeminar")
-    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") String roundId,
-                                                     @PathVariable("teamId") String teamId) throws NotFoundException
+    @GetMapping("/course/round/{roundId}/team/roundSeminar")
+    public List<SeminarSimpleVO> getSeminarByRoundId(HttpServletRequest request,@PathVariable("roundId") String roundId) throws NotFoundException
     {
-        return scoreService.getSeminarByRoundId(new BigInteger(roundId),new BigInteger(teamId));
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        BigInteger courseId=courseService.getCourseIdByRoundId(new BigInteger(roundId));
+        BigInteger teamId=new BigInteger("0");
+        for(BigInteger teamIdItem:teamIdList){
+            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
+            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+        }
+        return scoreService.getSeminarByRoundId(new BigInteger(roundId),teamId);
     }
 
 
     /**
-     *获取某小组某次讨论课成绩
+     *获取某小组某次讨论课成绩  //(简单成绩信息)
      * @param seminarId
-     * @param teamId
      * @return
      */
-    @GetMapping("/course/round/{teamId}/{seminarId}/seminarScore")
-    public Score getTeamSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId")String seminarId,
-                                                         @PathVariable("teamId")String teamId) throws NotFoundException
+    @GetMapping("/course/round/team/{seminarId}/seminarScore")
+    public Score getTeamSeminarScoreBySeminarId(HttpServletRequest request,@PathVariable("seminarId")String seminarId) throws NotFoundException
     {
-        return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),new BigInteger(teamId));
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        Seminar seminar=seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
+        BigInteger courseId=seminar.getCourseId();
+        BigInteger teamId=new BigInteger("0");
+        for(BigInteger teamIdItem:teamIdList){
+            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
+            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+        }
+        return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),teamId);
     }
 
 }
