@@ -89,4 +89,9 @@ public class QuestionDao {
         return questionMapper.getTeamIdByStudentId(studentId);
     }
 
+
+    public List<Question>listQuestionByAttendanceId(BigInteger attendanceId)
+    {
+        return questionMapper.listQuestionByAttendanceId(attendanceId);
+    }
 }

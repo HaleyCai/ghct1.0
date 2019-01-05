@@ -48,4 +48,6 @@ public interface QuestionMapper {
 
     BigInteger getTeamIdByStudentId(BigInteger studentId);
 
+    List<Question> listQuestionByAttendanceId(BigInteger attendanceId);
+
 }

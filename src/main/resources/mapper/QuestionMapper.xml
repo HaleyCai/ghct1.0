@@ -33,6 +33,12 @@
         where attendance_id=#{attendanceId} and is_selected=0 ORDER BY RAND() LIMIT 1
     </select>
 
+    <select id="listQuestionByAttendanceId" resultMap="QuestionResult">
+        select *
+        from question
+        where attendance_id=#{attendanceId}
+    </select>
+
     <resultMap id="QuestionResult" type="xmu.ghct.crm.entity.Question">
         <id property="questionId" column="id"/>
         <result property="klassSeminarId" column="klass_seminar_id"/>

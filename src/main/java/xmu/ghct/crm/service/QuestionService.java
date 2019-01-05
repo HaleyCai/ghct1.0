@@ -40,28 +40,26 @@ public class QuestionService {
 
     /**
      * 教师提问界面右边显示所有提问学生
-     * @param klassSeminarId
      * @param attendanceId
      * @return
      */
-    /**public List<QuestionListVO> getAllQuestion(BigInteger klassSeminarId, BigInteger attendanceId)
-    {
+    public List<QuestionListVO> getAllQuestion(BigInteger attendanceId) throws NotFoundException {
         List<QuestionListVO> questionListVOList=new ArrayList<>();
-        List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
+        List<Question> questionList=questionDao.listQuestionByAttendanceId(attendanceId);
         for(Question item:questionList)
         {
             QuestionListVO questionListVO=new QuestionListVO();
             questionListVO.setQuestionId(item.getQuestionId());
-            BigInteger klassId=questionDao.getKlassIdByKlassSeminarId(item.getKlassSeminarId());
-            questionListVO.setKlassSerial(questionDao.getKlassSerialByKlassId(klassId));
+            BigInteger klassId=seminarDao.getKlassIdByKlassSeminarId(item.getKlassSeminarId());
+            questionListVO.setKlassSerial(klassDao.getKlassSerialByKlassId(klassId));
             BigInteger teamId=questionDao.getTeamIdByQuestionId(item.getQuestionId());
-            questionListVO.setTeamSerial(questionDao.getTeamSerialByTeamId(teamId));
+            questionListVO.setTeamSerial(teamDao.getTeamSerialByTeamId(teamId));
             questionListVO.setStudentName(questionDao.getStudentNameByStudentId(item.getStudentId()));
             questionListVO.setSelected(item.getSelected());
             questionListVOList.add(questionListVO);
         }
         return questionListVOList;
-    }**/
+    }
 
     /**
      * 教师点击下个提问时，修改当前提问为已抽到
