@@ -3,6 +3,7 @@ package xmu.ghct.crm.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import xmu.ghct.crm.entity.Klass;
 
 import java.math.BigInteger;

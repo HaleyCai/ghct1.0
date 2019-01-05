@@ -2,6 +2,7 @@ package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import xmu.ghct.crm.entity.*;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 
 @Mapper     //声明是一个Mapper
-@Repository
+@Component
 public interface StudentMapper {
 
     /**

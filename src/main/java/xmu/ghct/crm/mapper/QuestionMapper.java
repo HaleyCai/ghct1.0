@@ -3,6 +3,7 @@ package xmu.ghct.crm.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import xmu.ghct.crm.VO.QuestionListVO;
 import xmu.ghct.crm.VO.QuestionVO;
 import xmu.ghct.crm.entity.Question;
@@ -13,7 +14,6 @@ import java.util.List;
 
 @Mapper
 @Component
-
 public interface QuestionMapper {
 
 

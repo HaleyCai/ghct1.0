@@ -2,6 +2,7 @@ package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Seminar;
@@ -10,7 +11,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @Mapper
-@Repository
+@Component
 public interface RoundMapper {
 
     /**

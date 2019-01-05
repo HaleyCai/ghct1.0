@@ -15,6 +15,7 @@ import java.util.List;
  */
 @Component
 public class TeacherDao {
+
     @Autowired
     private TeacherMapper teacherMapper;
 

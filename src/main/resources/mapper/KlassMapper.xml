@@ -91,7 +91,7 @@
     </select>
     
     <select id="getStudentNumber" resultType="java.lang.Integer">
-        select sum(klass_id=#{klassId}) from klass_team
+        select sum(klass_id=#{klassId}) from klass_student
     </select>
 
     <resultMap id="klassResultMap" type="xmu.ghct.crm.entity.Klass">

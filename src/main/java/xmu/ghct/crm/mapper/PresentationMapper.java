@@ -2,6 +2,7 @@ package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import xmu.ghct.crm.entity.Attendance;
 
 import java.math.BigInteger;
