@@ -29,13 +29,20 @@ public interface QuestionMapper {
 
     Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId, BigInteger teamId);
 
-    Boolean updateSeminarScore(BigInteger klassSeminarId,BigInteger teamId,Double questionScore);
+    Boolean updateSeminarScore(@Param("klassSeminarId") BigInteger klassSeminarId,
+                               @Param("teamId") BigInteger teamId,
+                               @Param("questionScore") Double questionScore);
 
     Boolean updateSeminarScoreEnd(BigInteger klassSeminarId,BigInteger teamId,Double totalScore);
 
     BigInteger getSeminarIdByKlassSeminarId(BigInteger klassSeminarId);
 
-    Boolean updateRoundScoreEnd(BigInteger roundId,BigInteger teamId,Double presentationScore1,Double questionScore1,Double reportScore1,Double totalScore1);
+    Boolean updateRoundScoreEnd(@Param("roundId") BigInteger roundId,
+                                @Param("teamId") BigInteger teamId,
+                                @Param("presentationScore1") Double presentationScore1,
+                                @Param("questionScore1") Double questionScore1,
+                                @Param("reportScore1") Double reportScore1,
+                                @Param("totalScore1") Double totalScore1);
 
     int updateQuestionScoreByQuestionId(BigInteger questionId,Double questionScore);
 

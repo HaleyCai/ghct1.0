@@ -30,7 +30,7 @@
     <select id="getOneQuestion" resultMap="QuestionResult">
         select *
         from question
-        where attendance_id=#{attendanceId} and is_selected=0 ORDER BY RAND() LIMIT 1;
+        where attendance_id=#{attendanceId} and is_selected=0 ORDER BY RAND() LIMIT 1
     </select>
 
     <resultMap id="QuestionResult" type="xmu.ghct.crm.entity.Question">
