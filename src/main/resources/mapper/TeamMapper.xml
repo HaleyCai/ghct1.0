@@ -115,18 +115,6 @@
         where klass_id=#{klassId}
     </select>
 
-    <!--cyq-->
-    <select id="getTeamStudentIdByKlassId" resultType="java.math.BigInteger">
-        select
-    </select>
-
-    <!--cyq-->
-    <select id="getShareTeamInfoByCourseId" resultMap="shareTeamMap">
-        select main_course_id,sub_course_id,sub_course_teacher_id,status
-        from share_team_application
-        where (main_course_id=#{courseId} or sub_course_id=#{courseId}) and status=1
-    </select>
-
     <select id="listTeamIdByCourseId" resultType="java.math.BigInteger">
         select id
         from team

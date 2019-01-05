@@ -45,6 +45,12 @@ public interface CourseMapper {
     List<CourseStudentVO> listCourseByStudentId(BigInteger studentId);
 
     /**
+     * 查找某一门课程下所有学生的id
+     * @param courseId
+     * @return
+     */
+    List<BigInteger> getAllCourseStudentId(BigInteger courseId);
+    /**
      * 根据courseId查找课程
      * @author hzm
      * @param courseId

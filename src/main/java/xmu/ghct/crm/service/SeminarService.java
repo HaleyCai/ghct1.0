@@ -2,7 +2,6 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.*;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -225,25 +223,42 @@ public class SeminarService {
     /**
      * @author hzm
      * 更新讨论课成绩
-     * @param seminarId
+     * @param klassSeminarId
      * @param teamId
      * @param seminarScoreMap
      * @return
      */
-    public int updateSeminarScoreBySeminarIdAndTeamId(BigInteger seminarId, BigInteger teamId, Map<String,Object> seminarScoreMap) throws NotFoundException {
+    public int updateSeminarScoreBySeminarIdAndTeamId(BigInteger klassSeminarId, BigInteger teamId, Map<String,Object> seminarScoreMap) throws NotFoundException {
         Score score=new Score();
+        BigInteger seminarId=seminarMapper.getKlassSeminarByKlassSeminarId(klassSeminarId).getSeminarId();
         BigInteger roundId=seminarMapper.getRoundIdBySeminarId(seminarId);
         BigInteger courseId=courseDao.getCourseIdByTeamId(teamId);
-        BigInteger klassId=teamDao.getKlassIdByTeamId(teamId);
-        BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
         Course course=courseDao.getCourseByCourseId(courseId);
-        double presentationScore=new Double(seminarScoreMap.get("presentationScore").toString());
+
+        double presentationScore;
+        String presentation=seminarScoreMap.get("presentationScore").toString();
+        if(presentation==null) {
+            presentationScore=0;
+        }
+        presentationScore=new Double(presentation);
+
+        double questionScore;
+        String question=seminarScoreMap.get("questionScore").toString();
+        if(question==null) {
+            questionScore=0;
+        }
+        questionScore=new Double(question);
+
+        double reportScore;
+        String report=seminarScoreMap.get("reportScore").toString();
+        if(report==null) {
+            reportScore=0;
+        }
+        reportScore=new Double(report);
         score.setTeamId(teamId);
         score.setKlassSeminarId(klassSeminarId);
         score.setPresentationScore(presentationScore);
-        double questionScore=new Double(seminarScoreMap.get("questionScore").toString());
         score.setQuestionScore(questionScore);
-        double reportScore=new Double(seminarScoreMap.get("reportScore").toString());
         score.setReportScore(reportScore);
         double totalScore=questionScore*(course.getPresentationPercentage()*0.01)+questionScore*(course.getQuestionPercentage()*0.01)+
                           reportScore*(course.getReportPercentage()*0.01);

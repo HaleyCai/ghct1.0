@@ -3,6 +3,8 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.dao.ShareDao;
+import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
@@ -27,6 +29,8 @@ public class ShareController {
     ShareService shareService;
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    ShareDao shareDao;
 
     /**
      * 共享设置界面：根据teacherId获得，已同意的，共享组队请求+共享讨论课请求信息，包括本课程是主还是从
@@ -72,8 +76,7 @@ public class ShareController {
      * @return
      */
     @PutMapping("/share/dealShare")
-    public boolean dealShare(@RequestBody Map<String,Object> inMap)
-    {
+    public boolean dealShare(@RequestBody Map<String,Object> inMap) throws NotFoundException {
         BigInteger shareId=new BigInteger(inMap.get("shareId").toString());//共享申请信息的id
         int type=(int)inMap.get("type");//共享类型，1共享组队，2共享讨论课
         int status=(int)inMap.get("status");//处理：1同意，0不同意
@@ -112,17 +115,27 @@ public class ShareController {
         share.setMainCourseId(new BigInteger(inMap.get("mainCourseId").toString()));
         share.setSubCourseId(new BigInteger(inMap.get("subCourseId").toString()));
         share.setSubCourseTeacherId(new BigInteger(inMap.get("subCourseTeacherId").toString()));
+        //判断自己课程是否已成为其他课程的从课程，若是则不能发起
         int type=(int)inMap.get("type");
-        //判断该从课程是否已成为其他课程的主课程
         if(type==1)
         {
-            //if()
-            share.setShareType("共享组队");
+            BigInteger shareId=shareDao.getSubTeamShareId(share.getMainCourseId());
+            if(shareId!=null) {
+                return false;
+            }
+            else {
+                share.setShareType("共享组队");
+            }
         }
         else if(type==2)
         {
-            //if()
-            share.setShareType("共享讨论课");
+            BigInteger shareId=shareDao.getSubSeminarShareId(share.getMainCourseId());
+            if(shareId!=null) {
+                return false;
+            }
+            else{
+                share.setShareType("共享讨论课");
+            }
         }
         else{
             return false;

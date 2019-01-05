@@ -28,6 +28,15 @@ public interface ShareMapper {
     List<Share> getAllSeminarShare(BigInteger courseId);
 
     /**
+     * 检查该课程是否已经成为其他课的从课程
+     * @param courseId
+     * @return
+     */
+    BigInteger getSubTeamShareId(BigInteger courseId);
+
+    BigInteger getSubSeminarShareId(BigInteger courseId);
+
+    /**
      * 获取待办的共享组队请求
      * @param subCourseId
      * @return

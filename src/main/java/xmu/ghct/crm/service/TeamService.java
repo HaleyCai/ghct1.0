@@ -73,10 +73,11 @@ public class TeamService {
     /**
      * @cyq
      * 某一队伍的信息，包括简单信息和组长、成员信息
+     * @param courseId
      * @param teamId
      * @return
      */
-    public TeamInfoVO getTeamByCourseId(BigInteger teamId) throws NotFoundException {
+    public TeamInfoVO getTeamByCourseId(BigInteger courseId,BigInteger teamId) throws NotFoundException {
         TeamInfoVO teamInfoVO=new TeamInfoVO();
         Team team=teamDao.getTeamInfoByTeamId(teamId);
         teamInfoVO.setTeamId(team.getTeamId());
@@ -85,30 +86,43 @@ public class TeamService {
         teamInfoVO.setKlassId(team.getKlassId());
         teamInfoVO.setKlassSerial(team.getKlassSerial());
         teamInfoVO.setStatus(team.getStatus());
+
+        //查该课程下的全部学生，排除掉队伍中非本课程的学生
+        List<BigInteger> allStudent=courseDao.getAllCourseStudentId(courseId);
         //查询组长信息
         StudentVO studentVO=new StudentVO();
-        User leader=studentDao.getStudentById(team.getLeaderId());
-        studentVO.setAccount(leader.getAccount());
-        studentVO.setEmail(leader.getEmail());
-        studentVO.setName(leader.getName());
-        studentVO.setStudentId(leader.getId());
-        studentVO.setTeamId(leader.getTeamId());
-        teamInfoVO.setTeamLeader(studentVO);
-        teamInfoVO.setTeamLeader(studentVO);
+        if(allStudent.contains(team.getLeaderId()))
+        {
+            User leader=studentDao.getStudentById(team.getLeaderId());
+            studentVO.setAccount(leader.getAccount());
+            studentVO.setEmail(leader.getEmail());
+            studentVO.setName(leader.getName());
+            studentVO.setStudentId(leader.getId());
+            studentVO.setTeamId(leader.getTeamId());
+            teamInfoVO.setTeamLeader(studentVO);
+        }
+        else{
+            teamInfoVO.setTeamLeader(null);
+        }
+
         //查询组员信息
         List<BigInteger> studentIdList=teamDao.getStudentIdByTeamId(teamId);
         List<StudentVO> members=new ArrayList<>();
         for(BigInteger studentIdItem:studentIdList){
-            if(studentIdItem.equals(team.getLeaderId()))
+            if(studentIdItem.equals(team.getLeaderId())){
                 continue;
-            User student=studentDao.getStudentById(studentIdItem);
-            StudentVO member=new StudentVO();
-            member.setName(student.getName());
-            member.setStudentId(student.getId());
-            member.setEmail(student.getEmail());
-            member.setAccount(student.getAccount());
-            member.setTeamId(student.getTeamId());
-            members.add(member);
+            }
+            if(allStudent.contains(studentIdItem))
+            {
+                User student=studentDao.getStudentById(studentIdItem);
+                StudentVO member=new StudentVO();
+                member.setName(student.getName());
+                member.setStudentId(student.getId());
+                member.setEmail(student.getEmail());
+                member.setAccount(student.getAccount());
+                member.setTeamId(student.getTeamId());
+                members.add(member);
+            }
         }
         teamInfoVO.setMembers(members);
         return teamInfoVO;

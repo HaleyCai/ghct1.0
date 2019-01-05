@@ -15,6 +15,18 @@
         where (main_course_id=#{courseId} or sub_course_id=#{courseId}) and status=1
     </select>
 
+    <select id="getSubTeamShareId" resultType="java.math.BigInteger">
+        select id
+        from share_team_application
+        where sub_course_id=#{courseId} and status=1
+    </select>
+
+    <select id="getSubSeminarShareId" resultType="java.math.BigInteger">
+        select id
+        from share_seminar_application
+        where sub_course_id=#{courseId} and status=1
+    </select>
+
     <select id="getTeamShareRequest" resultMap="shareResultMap">
         select *
         from share_team_application

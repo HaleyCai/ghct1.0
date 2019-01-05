@@ -54,10 +54,11 @@ public class TeamController {
      * @cyq
      * 教师+学生：根据teamId获取队伍信息
      */
-    @RequestMapping(value="/team/{teamId}",method = RequestMethod.GET)
-    public TeamInfoVO getTeamInfo(@PathVariable("teamId") String teamId) throws NotFoundException
+    @RequestMapping(value="/course/{courseId}/team/{teamId}",method = RequestMethod.GET)
+    public TeamInfoVO getTeamInfo(@PathVariable("courseId") String courseId,
+                                  @PathVariable("teamId") String teamId) throws NotFoundException
     {
-        return teamService.getTeamByCourseId(new BigInteger(teamId));
+        return teamService.getTeamByCourseId(new BigInteger(courseId),new BigInteger(teamId));
     }
 
     /**

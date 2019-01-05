@@ -46,6 +46,12 @@
         where student_id=#{studentId}
     </select>
 
+    <select id="getAllCourseStudentId" resultType="java.math.BigInteger">
+        select student_id
+        from klass_student
+        where course_id=#{courseId}
+    </select>
+
     <select id="getCourseByTeacherId" resultMap="courseStudentMap">
         select * from course
         where teacher_id=#{teacherId}

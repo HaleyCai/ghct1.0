@@ -48,7 +48,7 @@ public interface TeacherMapper {
      * @param id
      * @return
      */
-    int setTeacherEmailById(@Param("it") BigInteger id, @Param("email") String email);
+    int setTeacherEmailById(@Param("id") BigInteger id, @Param("email") String email);
 
     /**
      * 根据id激活teacher

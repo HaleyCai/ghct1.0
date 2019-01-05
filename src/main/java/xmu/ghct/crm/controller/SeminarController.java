@@ -202,15 +202,15 @@ public class SeminarController {
 
     /**
      * 修改某一队伍某次讨论课的成绩
-     * @param seminarId
+     * @param klassSeminarId
      * @param teamId
      * @param seminarScoreMap
      * @return
      */
-    @PutMapping("/seminar/{seminarId}/team/{teamId}/modifySeminarScore")
-    public boolean updateSeminarScoreBySeminarIdAndTeamId(@PathVariable("seminarId") String seminarId,
+    @PutMapping("/seminar/{klassSeminarId}/team/{teamId}/modifySeminarScore")
+    public boolean updateSeminarScoreBySeminarIdAndTeamId(@PathVariable("klassSeminarId") String klassSeminarId,
                                                           @PathVariable("teamId") String teamId,@RequestBody Map<String,Object> seminarScoreMap) throws NotFoundException {
-        int flag=seminarService.updateSeminarScoreBySeminarIdAndTeamId(new BigInteger(seminarId),new BigInteger(teamId),seminarScoreMap);
+        int flag=seminarService.updateSeminarScoreBySeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId),seminarScoreMap);
         if(flag>0) return true;
         else return false;
     }

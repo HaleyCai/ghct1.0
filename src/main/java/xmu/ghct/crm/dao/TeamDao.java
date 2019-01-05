@@ -1,5 +1,6 @@
 package xmu.ghct.crm.dao;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIGlobalBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.ShareTeamVO;
@@ -127,6 +128,24 @@ public class TeamDao {
             return true;
         else
             throw new NotFoundException("该组不在表中");
+    }
+
+    /**
+     * 删除klass_team表中，某班级klass的所有队伍（级联删除）
+     * @param klassId
+     * @return
+     */
+    public boolean deleteKlassTeam(BigInteger klassId) throws NotFoundException {
+        List<BigInteger> teamIds=teamMapper.listTeamIdByKlassId(klassId);
+        if(teamIds!=null)
+        {
+            klassMapper.deleteTeamWithKlass(klassId);
+            for(BigInteger id:teamIds)
+            {
+                deleteTeam(id);
+            }
+        }
+        return true;
     }
 
     /**

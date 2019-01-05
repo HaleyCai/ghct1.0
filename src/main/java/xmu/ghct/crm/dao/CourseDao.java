@@ -122,6 +122,11 @@ public class CourseDao {
         return courseStudentVOList;
     }
 
+    public List<BigInteger> getAllCourseStudentId(BigInteger courseId)
+    {
+        return courseMapper.getAllCourseStudentId(courseId);
+    }
+
     public Course getCourseByCourseId(BigInteger courseId) throws NotFoundException {
         Course course = courseMapper.getCourseByCourseId(courseId);
         if (course == null) {

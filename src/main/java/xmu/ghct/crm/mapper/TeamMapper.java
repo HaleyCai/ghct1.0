@@ -46,14 +46,6 @@ public interface TeamMapper {
 
     /**
      * @cyq
-     * 查找该课程是否共享分组，主或从都可
-     * @param courseId
-     * @return
-     */
-    List<ShareTeamVO> getShareTeamInfoByCourseId(BigInteger courseId);
-
-    /**
-     * @cyq
      * 删除team表中的记录
      * @param teamId
      * @return

@@ -286,18 +286,18 @@ public class CourseController {
 
     @RequestMapping(value = "/round/{roundId}/modifyRoundEnroll",method = RequestMethod.PUT)
     public boolean modifyRoundEnrollByRoundId(@PathVariable String roundId,
-                                               @RequestBody List<Map<String,Object>> inList)
+                                               @RequestBody RoundEnrollListVO list)
     {
-        List<RoundEnrollVO> roundEnrollVOS=new ArrayList<>();
-        for(Map<String,Object> map:inList)
-        {
-            RoundEnrollVO enrollVO=new RoundEnrollVO();
-            enrollVO.setKlassId(new BigInteger(map.get("klassId").toString()));
-            enrollVO.setKlassSerial((int)map.get("klassSerial"));
-            enrollVO.setGrade((int)map.get("grade"));
-            enrollVO.setEnroll((int)map.get("enroll"));
-            roundEnrollVOS.add(enrollVO);
-        }
+        List<RoundEnrollVO> roundEnrollVOS=list.getRoundEnrollList();
+//        for(Map<String,Object> map:inList.getList())
+//        {
+//            RoundEnrollVO enrollVO=new RoundEnrollVO();
+//            enrollVO.setKlassId(new BigInteger(map.get("klassId").toString()));
+//            enrollVO.setKlassSerial((int)map.get("klassSerial"));
+//            enrollVO.setGrade((int)map.get("grade"));
+//            enrollVO.setEnroll((int)map.get("enroll"));
+//            roundEnrollVOS.add(enrollVO);
+//        }
         return courseService.modifyRoundEnrollByRoundId(new BigInteger(roundId),roundEnrollVOS);
     }
 

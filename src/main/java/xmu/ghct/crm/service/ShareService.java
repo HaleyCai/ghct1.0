@@ -6,6 +6,7 @@ import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.dao.ShareDao;
 import xmu.ghct.crm.dao.TeacherDao;
+import xmu.ghct.crm.dao.TeamDao;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Share;
@@ -22,10 +23,13 @@ import java.util.Map;
 public class ShareService {
     @Autowired
     ShareDao shareDao;
+
     @Autowired
     CourseDao courseDao;
+
     @Autowired
     TeacherDao teacherDao;
+
     /**
      * 获取所有已同意的共享申请，查teacher的所有课程，再查课程的所有相关的某状态共享，不管是主还是从
      * @param teacherId
@@ -48,12 +52,11 @@ public class ShareService {
      * @return
      */
     public boolean deleteShare(BigInteger shareId,int type) throws NotFoundException {
-        if(type==1)//"共享分组"
-        {
+        //"共享分组"
+        if(type==1) {
             return shareDao.deleteTeamShareByShareId(shareId);
-        }
-        else if(type==2)//"共享讨论课"
-        {
+        }//"共享讨论课"
+        else if(type==2) {
             return shareDao.deleteSeminarShareByShareId(shareId);
         }
         return false;
@@ -127,13 +130,15 @@ public class ShareService {
      * 处理共享（1组队+2讨论课）
      * @return
      */
-    public boolean dealShare(BigInteger shareId,int type,int status)
-    {
+    public boolean dealShare(BigInteger shareId,int type,int status) throws NotFoundException {
         //共享组队请求
         if(type==1) {
             boolean success=shareDao.dealTeamShare(shareId,status);
             if(status==1)
             {
+                //删除从课程在klass_team中的全部记录
+
+                //删除从课程下的所有team记录，删除从课程成员的team_student记录
                 //更新从课程名单，存klass_team的关系，根据小组成员选课情况，判断klassId
                 success=shareDao.createSubCourseTeamList(shareId);
             }
