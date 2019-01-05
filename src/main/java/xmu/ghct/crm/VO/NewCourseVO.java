@@ -19,7 +19,7 @@ public class NewCourseVO {
     private String maxMember;
     private boolean flag;    //“与”或“或”规则
     private List<CourseLimitVO> courseLimitVOS;
-    private List<List<Course>> conflictCourseIdS;
+    private List<Course> conflictCourseIdS;
 
 
     public void setFlag(boolean flag) {
@@ -34,7 +34,7 @@ public class NewCourseVO {
         this.courseLimitVOS = courseLimitVOS;
     }
 
-    public void setConflictCourseIdS(List<List<Course>> conflictCourseIdS) {
+    public void setConflictCourseIdS(List<Course> conflictCourseIdS) {
         this.conflictCourseIdS = conflictCourseIdS;
     }
 
@@ -42,7 +42,7 @@ public class NewCourseVO {
         return courseLimitVOS;
     }
 
-    public List<List<Course>> getConflictCourseIdS() {
+    public List<Course> getConflictCourseIdS() {
         return conflictCourseIdS;
     }
 

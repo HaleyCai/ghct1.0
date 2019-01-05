@@ -104,14 +104,5 @@ public class KlassService {
         return klassDao.getKlassIdByCourseIdAndStudentId(courseId,studentId);
     }
 
-    /**
-     * 获取班级学生人数
-     * @param klassId
-     * @return
-     */
-    public Integer getStudentNumber(BigInteger klassId){
-        return klassDao.getStudentNumber(klassId);
-    }
-
 
 }

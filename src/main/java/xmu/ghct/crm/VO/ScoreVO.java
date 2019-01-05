@@ -13,7 +13,7 @@ public class ScoreVO {
     private double questionScore;
     private double reportScore;
     private double totalScore;
-    private List<SeminarScoreVO> scoreList;
+ //   private List<SeminarScoreVO> scoreList;
 
     public BigInteger getRoundId() {
         return roundId;
@@ -79,13 +79,12 @@ public class ScoreVO {
         this.totalScore = totalScore;
     }
 
-    public List<SeminarScoreVO> getScoreList() {
-       return scoreList;
-   }
+  //  public List<SeminarScoreVO> getScoreList() {
+   //     return scoreList;
+ //   }
 
-   public void setScoreList(List<SeminarScoreVO> scoreList) {
-       this.scoreList = scoreList;
-   }
+  //  public void setScoreList(List<SeminarScoreVO> scoreList) {
+   //     this.scoreList = scoreList;
 
     public int getKlassSerial() {
         return klassSerial;

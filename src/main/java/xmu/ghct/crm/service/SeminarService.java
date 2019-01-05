@@ -55,7 +55,6 @@ public class SeminarService {
     @Autowired
     TotalScoreDao totalScoreDao;
 
-
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
@@ -182,7 +181,6 @@ public class SeminarService {
         seminarVO.setKlassSeminarId(klassSeminarId);
         return seminarVO;
     }
-
 
 
     /**

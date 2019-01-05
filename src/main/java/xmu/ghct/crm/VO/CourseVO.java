@@ -20,7 +20,7 @@ public class CourseVO {
     private BigInteger memberLimitId;
     private boolean flag;
     private List<CourseLimitVO> courseLimitVOS;
-    private List<List<BigInteger>> conflictCourseIdS;
+    private List<BigInteger> conflictCourseIdS;
 
     public void setMemberLimitId(BigInteger memberLimitId) {
         this.memberLimitId = memberLimitId;
@@ -42,7 +42,7 @@ public class CourseVO {
         this.courseLimitVOS = courseLimitVOS;
     }
 
-    public void setConflictCourseIdS(List<List<BigInteger>> conflictCourseIdS) {
+    public void setConflictCourseIdS(List<BigInteger> conflictCourseIdS) {
         this.conflictCourseIdS = conflictCourseIdS;
     }
 
@@ -50,7 +50,7 @@ public class CourseVO {
         return courseLimitVOS;
     }
 
-    public List<List<BigInteger>> getConflictCourseIdS() {
+    public List<BigInteger> getConflictCourseIdS() {
         return conflictCourseIdS;
     }
 

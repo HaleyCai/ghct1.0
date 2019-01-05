@@ -26,14 +26,14 @@ public class QuestionController {
      *前端传入klassSeminarId和attendanceId,教师提问界面右边显示所有提问学生
      * @return
      */
-    @RequestMapping(value="/seminar/{klassSeminarId}/question",
+    /**@RequestMapping(value="/seminar/{klassSeminarId}/question",
             method = RequestMethod.GET)
     public List<QuestionListVO> getAllQuestion(@PathVariable("klassSeminarId") String klassSeminarId,
                                                @RequestParam String attendanceId){
         return questionService.getAllQuestion(
                 new BigInteger(klassSeminarId),
                 new BigInteger(attendanceId));
-    }
+    }**/
 
     /**
      * 教师点击下个提问时，修改当前提问为已抽到,
