@@ -12,7 +12,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @Mapper
-@Component
+@Repository
 public interface TeamMapper {
 
     /**

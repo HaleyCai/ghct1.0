@@ -8,7 +8,9 @@ import java.util.List;
 
 public class NewCourseVO {
 
+    private BigInteger courseId;
     private String courseName;
+    private BigInteger teacherId;
     private String introduction;
     private Double presentationPercentage;
     private Double questionPercentage;
@@ -21,6 +23,22 @@ public class NewCourseVO {
     private List<CourseLimitVO> courseLimitVOS;
     private List<List<Course>> conflictCourseIdS;
 
+
+    public void setTeacherId(BigInteger teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public BigInteger getTeacherId() {
+        return teacherId;
+    }
+
+    public void setCourseId(BigInteger courseId) {
+        this.courseId = courseId;
+    }
+
+    public BigInteger getCourseId() {
+        return courseId;
+    }
 
     public void setFlag(boolean flag) {
         this.flag = flag;

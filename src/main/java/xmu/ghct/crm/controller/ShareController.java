@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.ShareDao;
-import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;

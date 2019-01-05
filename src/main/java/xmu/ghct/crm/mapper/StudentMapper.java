@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @Mapper     //声明是一个Mapper
-@Component
+@Repository
 public interface StudentMapper {
 
     /**

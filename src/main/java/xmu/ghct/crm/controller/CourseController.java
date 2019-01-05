@@ -8,7 +8,6 @@ import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.DateDao;
 import xmu.ghct.crm.dao.StrategyDao;
 import xmu.ghct.crm.entity.*;
-import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.*;
@@ -103,7 +102,7 @@ public class CourseController {
      * @return
      */
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.GET)
-    public CourseVO getCourseByCourseId(@PathVariable("courseId")String courseId) throws NotFoundException {
+    public NewCourseVO getCourseByCourseId(@PathVariable("courseId")String courseId) throws NotFoundException {
         return courseService.getCourseByCourseId(new BigInteger(courseId));
     }
 

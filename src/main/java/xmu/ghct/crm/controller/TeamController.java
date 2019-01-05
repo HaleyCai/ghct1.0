@@ -44,21 +44,43 @@ public class TeamController {
         Map<String,Object> team=teamService.getUserTeamStatusById(new BigInteger(courseId),id);
         map.put("isTeam",team.get("isTeam"));
         map.put("myTeamId",team.get("myTeamId"));
-        CourseVO courseVO=courseService.getCourseByCourseId(new BigInteger(courseId));
-        map.put("startTime",courseVO.getTeamStartTime());
-        map.put("endTime",courseVO.getTeamEndTime());
+        NewCourseVO newCourseVO=courseService.getCourseByCourseId(new BigInteger(courseId));
+        map.put("startTime",newCourseVO.getTeamStartTime());
+        map.put("endTime",newCourseVO.getTeamEndTime());
         return map;
     }
 
     /**
      * @cyq
-     * 教师+学生：根据teamId获取队伍信息
+     * 教师端：根据teamId获取队伍信息
      */
     @RequestMapping(value="/course/{courseId}/team/{teamId}",method = RequestMethod.GET)
     public TeamInfoVO getTeamInfo(@PathVariable("courseId") String courseId,
                                   @PathVariable("teamId") String teamId) throws NotFoundException
     {
         return teamService.getTeamByCourseId(new BigInteger(courseId),new BigInteger(teamId));
+    }
+
+
+    /**
+     * @cyq
+     *学生端：获取队伍信息
+     */
+    @RequestMapping(value="/course/{courseId}/team/teamInfo",method = RequestMethod.GET)
+    public TeamInfoVO getTeamInfo(HttpServletRequest request,
+                                  @PathVariable("courseId") String courseId) throws NotFoundException
+    {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        System.out.println(teamIdList);
+        BigInteger teamId=new BigInteger("0");
+        for(BigInteger teamIdItem:teamIdList){
+            System.out.println(teamIdItem);
+            Team team=teamService.getTeamInfoByTeamId(teamIdItem);
+            System.out.println(team);
+            if(new BigInteger(courseId).equals(team.getCourseId())) {teamId=teamIdItem;break;}
+        }
+        return teamService.getTeamByCourseId(new BigInteger(courseId),teamId);
     }
 
     /**

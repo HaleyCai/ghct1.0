@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Mapper
-@Component
+@Repository
 public interface SeminarMapper {
 
     /**

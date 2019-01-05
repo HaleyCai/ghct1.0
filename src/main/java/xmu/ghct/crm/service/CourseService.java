@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -168,47 +169,63 @@ public class CourseService {
         return courseDao.listCourseByStudentId(studentId);
     }
 
-    public CourseVO getCourseByCourseId(BigInteger courseId) throws NotFoundException {
-        CourseVO courseVO=new CourseVO();
+    public NewCourseVO getCourseByCourseId(BigInteger courseId) throws NotFoundException {
+        NewCourseVO newCourseVO=new NewCourseVO();
         Course course= courseDao.getCourseByCourseId(courseId);
-        BeanUtils.copyProperties(course,courseVO);
+        BeanUtils.copyProperties(course,newCourseVO);
+        newCourseVO.setTeamStartTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(course.getTeamStartTime()));
+        newCourseVO.setTeamEndTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(course.getTeamEndTime()));
         List<TeamStrategyVO> teamStrategyVOList=strategyDao.listTeamStrategyByCourseId(courseId);
-        List<List<BigInteger>> conflictCourseIdList=new ArrayList<>();
+        List<List<Course>> courseList=new ArrayList<>();
         for(TeamStrategyVO teamStrategyVO:teamStrategyVOList){
             if(teamStrategyVO.getStrategyName().equals("ConflictCourseStrategy")){
                 BigInteger strategyId=teamStrategyVO.getStrategyId();
                 List<BigInteger> conflictCourseId=strategyDao.listConflictCourseId(strategyId);
-                conflictCourseIdList.add(conflictCourseId);
+                List<Course> courses=new ArrayList<>();
+                for(BigInteger courseIdItem:conflictCourseId){
+                    Course newCourse=new Course();
+                    Course course1=courseDao.getCourseByCourseId(courseIdItem);
+                    newCourse.setCourseId(courseIdItem);
+                    newCourse.setCourseName(course1.getCourseName());
+                    courses.add(course1);
+                }
+                courseList.add(courses);
             }
-            else if(teamStrategyVO.getStrategyName().equals("TeamAndStrategy")){
-                List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectAndStrategy(teamStrategyVO.getStrategyId());
-                for(AndOrOrStrategyVO andOrOrStrategyVO:andOrOrStrategyVOS){
-                    if(andOrOrStrategyVO.getStrategyName().equals("MemberLimitStrategy")){
-                        CourseVO courseVO1=strategyDao.getTeamMemberLimit(andOrOrStrategyVO.getStrategyId());
-                        courseVO.setMinMember(courseVO1.getMinMember());
-                        courseVO.setMaxMember(courseVO1.getMaxMember());
-                        courseVO.setMemberLimitId(andOrOrStrategyVO.getStrategyId());
-                    } else if(andOrOrStrategyVO.getStrategyName().equals("TeamOrStrategy")){
-                        List<AndOrOrStrategyVO> andOrOrStrategyVOList=strategyDao.selectOrStrategy(andOrOrStrategyVO.getStrategyId());
-                        List<CourseLimitVO> courseLimitVOS=new ArrayList<>();
-                        for(AndOrOrStrategyVO orStrategy:andOrOrStrategyVOList){
-                            CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(orStrategy.getStrategyId());
+            else if(teamStrategyVO.getStrategyName().equals("TeamAndStrategy")) {
+                List<AndOrOrStrategyVO> andOrOrStrategyVOS = strategyDao.selectAndStrategy(teamStrategyVO.getStrategyId());
+                for (AndOrOrStrategyVO andOrOrStrategyVO : andOrOrStrategyVOS) {
+                    if (andOrOrStrategyVO.getStrategyName().equals("MemberLimitStrategy")) {
+                        CourseVO courseVO1 = strategyDao.getTeamMemberLimit(andOrOrStrategyVO.getStrategyId());
+                        newCourseVO.setMinMember(String.valueOf(courseVO1.getMinMember()));
+                        newCourseVO.setMaxMember(String.valueOf(courseVO1.getMaxMember()));
+                    } else if (andOrOrStrategyVO.getStrategyName().equals("TeamOrStrategy")) {
+                        List<AndOrOrStrategyVO> andOrOrStrategyVOList = strategyDao.selectOrStrategy(andOrOrStrategyVO.getStrategyId());
+                        List<CourseLimitVO> courseLimitVOS = new ArrayList<>();
+                        for (AndOrOrStrategyVO orStrategy : andOrOrStrategyVOList) {
+                            CourseLimitVO courseLimitVO = strategyDao.getCourseLimitByStrategyId(orStrategy.getStrategyId());
+                            Course course1 = courseDao.getCourseByCourseId(courseLimitVO.getCourseId());
+                            courseLimitVO.setCourseName(course1.getCourseName());
                             courseLimitVOS.add(courseLimitVO);
                         }
-                        courseVO.setCourseLimitVOS(courseLimitVOS);
+                        newCourseVO.setCourseLimitVOS(courseLimitVOS);
+                    }else if(andOrOrStrategyVO.getStrategyName().equals("CourseMemberStrategy")){
+                        List<BigInteger> strategyIdList = strategyDao.listStrategyIdByStrategyId(teamStrategyVO.getStrategyId());
+                        List<CourseLimitVO> courseLimitVOS = new ArrayList<>();
+                        for (BigInteger strategyId : strategyIdList) {
+                            CourseLimitVO courseLimitVO = strategyDao.getCourseLimitByStrategyId(strategyId);
+                            Course course1=courseDao.getCourseByCourseId(courseLimitVO.getCourseId());
+                            courseLimitVO.setCourseName(course1.getCourseName());
+                            courseLimitVOS.add(courseLimitVO);
+                        }
+                        newCourseVO.setCourseLimitVOS(courseLimitVOS);
                     }
+
                 }
-                List<BigInteger> strategyIdList=strategyDao.listStrategyIdByStrategyId(teamStrategyVO.getStrategyId());
-                List<CourseLimitVO> courseLimitVOS=new ArrayList<>();
-                for(BigInteger strategyId:strategyIdList){
-                    CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(strategyId);
-                    courseLimitVOS.add(courseLimitVO);
-                }
-                courseVO.setCourseLimitVOS(courseLimitVOS);
             }
+
         }
-        courseVO.setConflictCourseIdS(conflictCourseIdList);
-      return courseVO;
+        newCourseVO.setConflictCourseIdS(courseList);
+      return newCourseVO;
     }
 
     public int deleteCourseByCourseId(BigInteger courseId) throws NotFoundException {
