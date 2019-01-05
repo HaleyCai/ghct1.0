@@ -1,5 +1,6 @@
 package xmu.ghct.crm.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.ScoreVO;
@@ -179,15 +180,19 @@ public class ScoreService {
 
     /**
      * 获取某队伍的某次讨论课成绩
-     * @param seminarId
+     * @param klassSeminarId
      * @param teamId
      * @return
      */
-    public Score getTeamSeminarScoreBySeminarIdAndTeamId(BigInteger seminarId,BigInteger teamId) throws NotFoundException
+    public ScoreVO getTeamSeminarScoreBySeminarIdAndTeamId(BigInteger roundId,BigInteger klassSeminarId,BigInteger teamId) throws NotFoundException
     {
-        BigInteger klassId=teamDao.getKlassIdByTeamId(teamId);
-        BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
+        ScoreVO scoreVO=scoreDao.getTeamRoundScoreByRoundIdAndTeamId(roundId,teamId);;;
         Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
-        return score;
+        List<SeminarScoreVO> seminarScoreVOS=new ArrayList<>();
+        SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
+        BeanUtils.copyProperties(score,seminarScoreVO);
+        seminarScoreVOS.add(seminarScoreVO);
+        scoreVO.setScoreList(seminarScoreVOS);
+        return scoreVO;
     }
 }
