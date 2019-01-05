@@ -37,10 +37,10 @@ public class QuestionController {
      * @return
      */
     /**@RequestMapping(value="/seminar/klass/question",
-            method = RequestMethod.PUT)
+    method = RequestMethod.PUT)
     public boolean updateQuestionSelected(@RequestParam String questionId){
-        return questionService.updateQuestionSelected(
-                new BigInteger(questionId));
+    return questionService.updateQuestionSelected(
+    new BigInteger(questionId));
     }**/
 
     /**
@@ -82,7 +82,7 @@ public class QuestionController {
      */
     @RequestMapping(value="/question/{questionId}",method = RequestMethod.PUT)
     public boolean updateQuestionScore(@PathVariable("questionId")String questionId,
-                                           @RequestBody Map<String,Object> inMap) throws NotFoundException {
+                                       @RequestBody Map<String,Object> inMap) throws NotFoundException {
         return questionService.updateQuestionScore(
                 new BigInteger(questionId),
                 new BigInteger(inMap.get("klassSeminarId").toString()),
