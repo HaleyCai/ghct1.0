@@ -165,8 +165,10 @@ public class TeacherDao {
         {
             throw new SQLException("教师信息未改动");
         }
-        return teacherMapper.modifyTeacherByTeacherId(teacherId,teacherName,
-                teacherAccount,teacherEmail);
+        if(teacherMapper.modifyTeacherByTeacherId(teacherId,teacherName, teacherAccount,teacherEmail)>0)
+            return true;
+        else
+            return false;
 
     }
 

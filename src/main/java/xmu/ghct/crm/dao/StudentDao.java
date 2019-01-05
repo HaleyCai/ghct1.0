@@ -136,15 +136,8 @@ public class StudentDao {
      * @return
      */
     public boolean modifyStudentByStudentId(BigInteger studentId,String studentName,
-                                            String studentAccount,String studentEmail)  throws SQLException
+                                            String studentAccount,String studentEmail)
     {
-        User student=studentMapper.getStudentByStudentId(studentId);
-        if(   student.getName().equals(studentName)&&
-                student.getAccount().equals(studentAccount)&&
-                student.getEmail().equals(studentEmail))
-        {
-            throw new SQLException("学生信息未改动");
-        }
         int v1=studentMapper.modifyStudentByStudentId(studentId,studentName,
                 studentAccount,studentEmail);
         if(v1<=0){

@@ -23,7 +23,7 @@
     </select>
 
     <select id="getStudentByStudentId" resultMap="StudentUserResult">
-        select id,account,password,student_name,email,is_active
+        select *
         from student
         where id=#{studentId}
     </select>

@@ -79,7 +79,7 @@ public interface TeacherMapper {
      * 管理员修改某一教师的信息（姓名，账号，邮箱）
      * @return
      */
-    Boolean modifyTeacherByTeacherId(@Param("id") BigInteger teacherId,@Param("name") String teacherName,
+    int modifyTeacherByTeacherId(@Param("id") BigInteger teacherId,@Param("name") String teacherName,
                                  @Param("account") String teacherAccount, @Param("email") String teacherEmail);
 
     /**

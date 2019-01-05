@@ -81,6 +81,7 @@ public class AdminController {
     @RequestMapping(value="/teacher/{teacherId}/information",method = RequestMethod.PUT)
     public boolean modifyTeacherByTeacherId(@PathVariable("teacherId")String teacherId,
                                             @RequestBody Map<String,Object> inMap) throws SQLException{
+        System.out.println("map "+inMap);
         return adminService.modifyUserByUserId(
                 new BigInteger(teacherId),
                 (String)inMap.get("newTeacherName"),
@@ -96,6 +97,7 @@ public class AdminController {
     @RequestMapping(value="/student/{studentId}/information",method = RequestMethod.PUT)
     public boolean modifyStudentByStudentId(@PathVariable("studentId")String studentId,
                                             @RequestBody Map<String,Object> inMap) throws SQLException{
+        System.out.println("student "+inMap);
         return adminService.modifyUserByUserId(
                 new BigInteger(studentId),
                 (String)inMap.get("newStudentName"),
