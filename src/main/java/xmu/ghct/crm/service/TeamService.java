@@ -240,11 +240,12 @@ public class TeamService {
         Team team = new Team();
         int teamSerial = teamDao.getMaxTeamSerialOfTeam(creatTeamVO.getKlassId())+1;
         team.setKlassId(creatTeamVO.getKlassId());
+        Klass klass=klassDao.getKlassByKlassId(creatTeamVO.getKlassId());
         team.setCourseId(creatTeamVO.getCourseId());
         team.setTeamSerial(teamSerial);
         team.setLeaderId(studentId);
         team.setTeamName(creatTeamVO.getTeamName());
-        team.setKlassSerial(creatTeamVO.getKlassSerial());
+        team.setKlassSerial(klass.getKlassSerial());
         int flag = teamDao.insertTeam(team);
         int flag_1 = teamDao.insertKlassTeam(creatTeamVO.getKlassId(), team.getTeamId());
         int flag_2 = teamDao.insertTeamStudent(team.getTeamId(), studentId);
