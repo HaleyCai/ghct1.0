@@ -54,6 +54,12 @@ public class CourseController {
     DateDao dateDao;
 
     @Autowired
+    ScoreService scoreService;
+
+    @Autowired
+    ScoreController scoreController;
+
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
     /**
      * @cyq
@@ -314,7 +320,6 @@ public class CourseController {
     @DeleteMapping("/klass/{klassId}/resetStudent/pc")
     public boolean resetStudentList(@PathVariable("klassId") String klassId)throws NotFoundException{
         return courseService.resetStudentList(new BigInteger(klassId));
-
     }
 
 

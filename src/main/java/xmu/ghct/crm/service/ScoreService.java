@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.ScoreVO;
 import xmu.ghct.crm.VO.SeminarScoreVO;
 import xmu.ghct.crm.VO.SeminarSimpleVO;
+import xmu.ghct.crm.VO.SeminarVO;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Score;
+import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.exception.NotFoundException;
 
@@ -36,6 +38,13 @@ public class ScoreService {
 
     @Autowired
     SeminarDao seminarDao;
+
+    @Autowired
+    SeminarService seminarService;
+
+    @Autowired
+    ScoreService scoreService;
+
     /**
      * @cyq
      * 教师查所有小组成绩：根据课程id查询所有小组的所有成绩
@@ -104,6 +113,39 @@ public class ScoreService {
         }
         return map;
 
+    }
+
+
+    public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId)throws NotFoundException{
+        List<BigInteger> seminarIdList=seminarDao.listSeminarIdByRoundId(roundId);
+        List<BigInteger> klassIdS=teamDao.listKlassIdByTeamId(teamId);  //队伍所属班级ID
+        System.out.println("&&"+klassIdS);
+        List<SeminarVO> klassSeminarList=new ArrayList<>();
+        List<Score> scoreList=new ArrayList<>();
+        for(BigInteger item:seminarIdList){
+            System.out.println(item);
+            List<BigInteger> klassId=seminarDao.listKlassIdBySeminarId(item);   //讨论课所属班级ID
+            System.out.println("%%"+klassId);
+            for(BigInteger klass_1:klassIdS){
+                for(BigInteger klass_2:klassId){
+                    if(klass_1.equals(klass_2)) {
+                        System.out.println(klass_1+"***************"+klass_2);
+                        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassIdAndSeminarId(klass_1,item);
+                        klassSeminarList.add(seminarVO);
+                    }
+                }
+            }
+        }
+
+        for(SeminarVO item:klassSeminarList){
+            Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),teamId);
+            Seminar seminar=seminarService.getSeminarBySeminarId(item.getSeminarId());
+            if(score!=null){
+                score.setSeminarName(seminar.getSeminarName());
+                scoreList.add(score);
+            }
+        }
+        return scoreList;
     }
 
     /**

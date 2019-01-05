@@ -54,7 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/websocket/**").permitAll()
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/forgetpassword").permitAll()

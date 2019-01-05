@@ -54,36 +54,39 @@ public class CourseDao {
         int flag_1=courseMapper.insertCourse(courseVO);
         int flag_2=strategyMapper.insertMemberLimit(courseVO);
         int strategySerial=1;
-        strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,courseVO.getMemberLimitId(),"MemberLimitStrategy");
-        strategySerial++;
+        BigInteger id=strategyMapper.selectMaxIdFromTeamAndStrategy().add(new BigInteger("1"));
+        strategyMapper.insertAndStrategy(id,"MemberLimitStrategy",courseVO.getMemberLimitId());
         List<CourseLimitVO> courseLimitVOS=courseVO.getCourseLimitVOS();
         if(courseLimitVOS!=null&&courseLimitVOS.size()>0){
             if(courseVO.isFlag()==true){
-                BigInteger id=strategyMapper.selectMaxIdFromTeamAndStrategy().add(new BigInteger("1"));
                 System.out.println("strategy_id:"+id);
                 for(CourseLimitVO item:courseLimitVOS){
                     strategyMapper.insertCourseMemberLimit(item);
                     strategyMapper.insertAndStrategy(id,"CourseMemberLimitStrategy",item.getCourseLimitId());
                 }
-                strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,id,"TeamAndStrategy");
-                strategySerial++;
             }
             else{
-                BigInteger id=strategyMapper.selectMaxIdFromTeamOrStrategy().add(new BigInteger("1"));
+                BigInteger orId=strategyMapper.selectMaxIdFromTeamOrStrategy().add(new BigInteger("1"));
                 for(CourseLimitVO item:courseLimitVOS){
                     strategyMapper.insertCourseMemberLimit(item);
-                    strategyMapper.insertOrStrategy(id,"CourseMemberLimitStrategy",item.getCourseLimitId());
+                    strategyMapper.insertOrStrategy(orId,"CourseMemberLimitStrategy",item.getCourseLimitId());
                 }
-                strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,id,"TeamOrStrategy");
-                strategySerial++;
+                strategyMapper.insertAndStrategy(id,"TeamOrStrategy",orId);
             }
         }
+        strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,id,"TeamAndStrategy");
+        strategySerial++;
         if(courseVO.getConflictCourseIdS()!=null&&courseVO.getConflictCourseIdS().size()>0){
-            BigInteger conflictCourseId=strategyMapper.selectMaxIdFromConflictCourseStrategy().add(new BigInteger("1"));
-            for(BigInteger item:courseVO.getConflictCourseIdS()){
-                strategyMapper.insertIntoConflictCourseStrategy(conflictCourseId,item);
+            for(List<BigInteger> courseIdList:courseVO.getConflictCourseIdS()){
+                if(courseIdList!=null&&courseIdList.size()>0){
+                    BigInteger conflictCourseId=strategyMapper.selectMaxIdFromConflictCourseStrategy().add(new BigInteger("1"));
+                    for(BigInteger courseIdItem:courseIdList){
+                        strategyMapper.insertIntoConflictCourseStrategy(conflictCourseId,courseIdItem);
+                    }
+                    strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,conflictCourseId,"ConflictCourseStrategy");
+                    strategySerial++;
+                }
             }
-            strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,conflictCourseId,"ConflictCourseStrategy");
         }
         return (flag_1&flag_2);
     }

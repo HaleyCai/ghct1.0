@@ -118,6 +118,6 @@
                  #{klassId},
                  #{studentId},
                  #{courseId}
-                )
+                        )
     </insert>
 </mapper>

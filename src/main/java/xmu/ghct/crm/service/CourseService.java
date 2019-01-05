@@ -131,9 +131,17 @@ public class CourseService {
         courseVO.setMaxMember(new Integer(newCourseVO.getMaxMember()));
         courseVO.setFlag(newCourseVO.isFlag());
         courseVO.setCourseLimitVOS(newCourseVO.getCourseLimitVOS());
-        List<BigInteger> courseIdList=new ArrayList<>();
-        for(Course item:newCourseVO.getConflictCourseIdS()){
-            courseIdList.add(item.getCourseId());
+        List<List<BigInteger>> courseIdList=new ArrayList<>();
+        if(newCourseVO.getConflictCourseIdS()!=null&&newCourseVO.getConflictCourseIdS().size()>0){
+            for(List<Course> courseS:newCourseVO.getConflictCourseIdS()){
+                if(courseS!=null&&courseS.size()>0){
+                    List<BigInteger> courseIdS=new ArrayList<>();
+                    for(Course course:courseS){
+                        courseIdS.add(course.getCourseId());
+                    }
+                    courseIdList.add(courseIdS);
+                }
+            }
         }
         courseVO.setConflictCourseIdS(courseIdList);
         return courseDao.insertCourse(courseVO);
@@ -165,13 +173,31 @@ public class CourseService {
         Course course= courseDao.getCourseByCourseId(courseId);
         BeanUtils.copyProperties(course,courseVO);
         List<TeamStrategyVO> teamStrategyVOList=strategyDao.listTeamStrategyByCourseId(courseId);
+        List<List<BigInteger>> conflictCourseIdList=new ArrayList<>();
         for(TeamStrategyVO teamStrategyVO:teamStrategyVOList){
             if(teamStrategyVO.getStrategyName().equals("ConflictCourseStrategy")){
                 BigInteger strategyId=teamStrategyVO.getStrategyId();
                 List<BigInteger> conflictCourseId=strategyDao.listConflictCourseId(strategyId);
-                courseVO.setConflictCourseIdS(conflictCourseId);
+                conflictCourseIdList.add(conflictCourseId);
             }
             else if(teamStrategyVO.getStrategyName().equals("TeamAndStrategy")){
+                List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectAndStrategy(teamStrategyVO.getStrategyId());
+                for(AndOrOrStrategyVO andOrOrStrategyVO:andOrOrStrategyVOS){
+                    if(andOrOrStrategyVO.getStrategyName().equals("MemberLimitStrategy")){
+                        CourseVO courseVO1=strategyDao.getTeamMemberLimit(andOrOrStrategyVO.getStrategyId());
+                        courseVO.setMinMember(courseVO1.getMinMember());
+                        courseVO.setMaxMember(courseVO1.getMaxMember());
+                        courseVO.setMemberLimitId(andOrOrStrategyVO.getStrategyId());
+                    } else if(andOrOrStrategyVO.getStrategyName().equals("TeamOrStrategy")){
+                        List<AndOrOrStrategyVO> andOrOrStrategyVOList=strategyDao.selectOrStrategy(andOrOrStrategyVO.getStrategyId());
+                        List<CourseLimitVO> courseLimitVOS=new ArrayList<>();
+                        for(AndOrOrStrategyVO orStrategy:andOrOrStrategyVOList){
+                            CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(orStrategy.getStrategyId());
+                            courseLimitVOS.add(courseLimitVO);
+                        }
+                        courseVO.setCourseLimitVOS(courseLimitVOS);
+                    }
+                }
                 List<BigInteger> strategyIdList=strategyDao.listStrategyIdByStrategyId(teamStrategyVO.getStrategyId());
                 List<CourseLimitVO> courseLimitVOS=new ArrayList<>();
                 for(BigInteger strategyId:strategyIdList){
@@ -181,6 +207,7 @@ public class CourseService {
                 courseVO.setCourseLimitVOS(courseLimitVOS);
             }
         }
+        courseVO.setConflictCourseIdS(conflictCourseIdList);
       return courseVO;
     }
 

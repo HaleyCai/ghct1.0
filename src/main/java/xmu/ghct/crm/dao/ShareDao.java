@@ -1,5 +1,6 @@
 package xmu.ghct.crm.dao;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIGlobalBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.ShareRequestVO;
@@ -8,6 +9,7 @@ import xmu.ghct.crm.VO.TeamApplicationVO;
 import xmu.ghct.crm.entity.Course;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.mapper.*;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.CourseMapper;

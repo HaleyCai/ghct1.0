@@ -148,4 +148,13 @@ public class KlassDao {
         return klassMapper.getKlassIdByCourseIdAndStudentId(courseId,studentId);
     }
 
+    /**
+     * 获取班级学生人数
+     * @param klassId
+     * @return
+     */
+    public Integer getStudentNumber(BigInteger klassId){
+        return klassMapper.getStudentNumber(klassId);
+    }
+
 }
