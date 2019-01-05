@@ -193,7 +193,7 @@ public class CourseController {
     }
 
     /**
-     * 获取班级讨论课报名信息
+     * 获取班级讨论课报名信息   //教师
      * @param seminarId
      * @param klassId
      * @return
@@ -255,6 +255,75 @@ public class CourseController {
         }
         return map;
     }
+
+
+    /**
+     * 获取班级讨论课报名信息   //学生
+     * @param seminarId
+     * @return
+     * @throws NotFoundException
+     */
+    @GetMapping("/seminar/{seminarId}/klass/klassSeminar/pc")
+    public List<Map> listAttendanceStatusBySeminarId(HttpServletRequest request,
+                                                             @PathVariable("seminarId")String seminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        Seminar seminar=seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
+        BigInteger klassId=klassService.getKlassIdByCourseIdAndStudentId(seminar.getCourseId(),id);
+        SeminarVO klassSeminar=seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId,new BigInteger(seminarId));
+        List<Map> map=new ArrayList<>();
+        List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminar.getKlassSeminarId());
+        int maxTeam=klassSeminar.getMaxTeam();
+        int account=0;
+        for(Attendance attendance:attendanceList){
+            account++;
+            System.out.println(account);
+            Map<String,Object> oneMap=new HashMap<>();
+            if(account!=attendance.getTeamOrder()){
+                System.out.println(attendance.getTeamOrder());
+                oneMap.put("attendanceStatus",false);
+                map.add(oneMap);
+                continue;
+            }
+            else oneMap.put("attendanceStatus",true);
+            BigInteger teamId=attendance.getTeamId();
+            Team team=teamService.getTeamInfoByTeamId(teamId);
+            Klass klass=klassService.getKlassByKlassId(team.getKlassId());
+            User user=userService.getInformation(team.getLeaderId(),"student");
+            oneMap.put("klassId",team.getKlassId());
+            oneMap.put("klassSerial",klass.getKlassSerial());
+            oneMap.put("status",klassSeminar.getStatus());
+            oneMap.put("reportDDL",klassSeminar.getReportDDL());
+            oneMap.put("teamSerial",team.getTeamSerial());
+            oneMap.put("teamOrder",attendance.getTeamOrder());
+            oneMap.put("leaderName",user.getName());
+            String pptName=attendance.getPptName();
+            String pptUrl=attendance.getPptUrl();
+            if(pptName==null||pptName.length()<=0){
+                pptName="未提交";
+                pptUrl=null;
+            }
+
+            oneMap.put("pptName",pptName);
+            oneMap.put("pptUrl",pptUrl);
+            String reportName=attendance.getReportName();
+            String reportUrl=attendance.getReportUrl();
+            if(reportName==null||reportName.length()<=0){
+                reportName="未提交";
+                reportUrl=null;
+            }
+            oneMap.put("reportName",pptName);
+            oneMap.put("reportUrl",reportUrl);
+            map.add(oneMap);
+        }
+        if(account<maxTeam){
+            account++;
+            Map<String,Object> oneMap=new HashMap<>();
+            oneMap.put("attendanceStatus",false);
+            map.add(oneMap);
+        }
+        return map;
+    }
+
 
     /**
      * pc端获取某课程下各个班级的学生名单提交情况
