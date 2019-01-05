@@ -284,6 +284,7 @@ public class CourseController {
             account++;
             Map<String,Object> oneMap=new HashMap<>();
             oneMap.put("attendanceStatus",false);
+            oneMap.put("status",klassSeminar.getStatus());
             oneMap.put("klassSeminarId",klassSeminar.getKlassSeminarId());
             map.add(oneMap);
         }
