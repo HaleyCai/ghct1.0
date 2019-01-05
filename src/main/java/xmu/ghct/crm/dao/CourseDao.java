@@ -74,6 +74,7 @@ public class CourseDao {
                 strategyMapper.insertAndStrategy(id,"TeamOrStrategy",orId);
             }
         }
+
         strategyMapper.insertTeamStrategy(courseVO.getCourseId(),strategySerial,id,"TeamAndStrategy");
         strategySerial++;
         if(courseVO.getConflictCourseIdS()!=null&&courseVO.getConflictCourseIdS().size()>0){
