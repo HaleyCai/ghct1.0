@@ -273,4 +273,13 @@ public class TeamDao {
          return teamMapper.listKlassIdByTeamId(teamId);
      }
 
+    /**
+     * @author cyq
+     * 根据klassId获得班级下的所有teamId
+     * @param klassId
+     * @return
+     */
+    public List<BigInteger> listTeamIdByKlassId(BigInteger klassId){
+        return teamMapper.listTeamIdByKlassId(klassId);
+    }
 }

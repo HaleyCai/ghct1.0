@@ -46,6 +46,9 @@ public class CourseService {
     StrategyDao strategyDao;
 
     @Autowired
+    StudentDao studentDao;
+
+    @Autowired
     JwtTokenUtil jwtTokenUtil;
 
   /*  public int creatCourse( courseVO) throws ParseException, SQLException {
@@ -93,6 +96,21 @@ public class CourseService {
         return courseDao.insertCourse(courseVO);
     }
     */
+
+
+    public boolean resetStudentList(BigInteger klassId)throws NotFoundException{
+        List<BigInteger> studentIdList=studentDao.listStudentByKlassId(klassId);
+        List<BigInteger> teamIdList=teamDao.listTeamIdByKlassId(klassId);
+        int flag=studentDao.deleteKlassStudentByKlassId(klassId);
+        for(BigInteger studentId:studentIdList){
+            studentDao.deleteStudentByStudentId(studentId);
+        }
+        for(BigInteger teamId:teamIdList){
+            teamDao.deleteTeam(teamId);
+        }
+        if(flag>0) return true;
+        else return false;
+    }
 
     public int creatCourse(HttpServletRequest request,NewCourseVO newCourseVO) throws SQLException, ParseException {
         BigInteger teacherId=jwtTokenUtil.getIDFromRequest(request);

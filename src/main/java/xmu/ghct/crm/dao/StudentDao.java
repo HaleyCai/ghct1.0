@@ -196,24 +196,35 @@ public class StudentDao {
      */
     public int insertStudent(User user) throws SQLException
     {
-        if(studentMapper.getStudentByAccount(user.getAccount())!=null)
-        {
-            throw new SQLException("该学生已存在");
-        }
         return studentMapper.insertStudent(user);
     }
 
     public int insertKlassStudent(BigInteger studentId,BigInteger klassId,BigInteger courseId) throws SQLException
     {
-        if(studentMapper.getStudentIdByStudentIdAndKlassId(studentId,klassId).equals(studentId))
-        {
-            throw new SQLException("该学生已存在");
-        }
         return studentMapper.insertKlassStudent(studentId,klassId,courseId);
     }
 
     public List<BigInteger> getAllStudentIdByCourseId(BigInteger courseId)
     {
         return studentMapper.getAllStudentIdByCourseId(courseId);
+    }
+
+    /**
+     * 获取班级下所有学生ID
+     * @param klassId
+     * @return
+     */
+    public List<BigInteger> listStudentByKlassId(BigInteger klassId){
+        return studentMapper.listStudentByKlassId(klassId);
+    }
+
+
+    /**
+     * 删除班级下所有学生关联
+     * @param klassId
+     * @return
+     */
+    public int deleteKlassStudentByKlassId(BigInteger klassId){
+        return studentMapper.deleteKlassStudentByKlassId(klassId);
     }
 }

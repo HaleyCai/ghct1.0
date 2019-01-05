@@ -222,7 +222,8 @@ public class TeamService {
      * 创建队伍
      * @return
      */
-    public BigInteger insertTeam(BigInteger studentId, CreatTeamVO creatTeamVO) throws NotFoundException, ParamErrorException {
+    public BigInteger insertTeam(BigInteger studentId, CreatTeamVO creatTeamVO) throws NotFoundException, ParamErrorException{
+        System.out.println(studentId);
         List<BigInteger> teamIdList = teamDao.listTeamIdByStudentId(studentId);
         for(BigInteger teamId:teamIdList){
             BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);

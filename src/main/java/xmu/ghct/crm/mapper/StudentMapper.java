@@ -114,4 +114,19 @@ public interface StudentMapper {
      * @return
      */
     BigInteger getStudentIdByStudentIdAndKlassId(BigInteger studentId,BigInteger klassId);
+
+
+    /**
+     * 获取班级下所有学生ID
+     * @param klassId
+     * @return
+     */
+    List<BigInteger> listStudentByKlassId(BigInteger klassId);
+
+    /**
+     * 删除班级下所有学生关联
+     * @param klassId
+     * @return
+     */
+    int deleteKlassStudentByKlassId(BigInteger klassId);
 }

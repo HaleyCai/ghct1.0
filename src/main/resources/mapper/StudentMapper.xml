@@ -94,6 +94,16 @@
         where id=#{id}
     </delete>
 
+    <select id="listStudentByKlassId" resultType="java.math.BigInteger">
+        select student_id
+        from klass_student
+        where klass_id=#{klassId}
+    </select>
+
+    <delete id="deleteKlassStudentByKlassId" >
+        delete from klass_student where klass_id=#{klassId}
+    </delete>
+
     <!--cyq-->
     <select id="getAllStudentIdByCourseId" resultType="java.math.BigInteger">
         select student_id from klass_student where course_id=#{courseId}
@@ -108,6 +118,6 @@
                  #{klassId},
                  #{studentId},
                  #{courseId}
-                        )
+                )
     </insert>
 </mapper>
