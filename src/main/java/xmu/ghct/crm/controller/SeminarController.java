@@ -3,7 +3,9 @@ package xmu.ghct.crm.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.Klass;
+import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
@@ -34,6 +36,8 @@ public class SeminarController {
     @Autowired
     CourseService courseService;
 
+    @Autowired
+    RoundDao roundDao;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -44,8 +48,12 @@ public class SeminarController {
      */
     @RequestMapping(value="/round/{roundId}/seminar",method = RequestMethod.GET)
     @ResponseBody
-    public List<SeminarSimpleVO> getSeminarByRoundId(@PathVariable("roundId") String roundId) throws NotFoundException {
-        return seminarService.getSeminarByRoundId(new BigInteger(roundId));
+    public List<SeminarSimpleVO> getSeminarByRoundId(HttpServletRequest request,
+                                                     @PathVariable("roundId") String roundId) throws NotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        BigInteger courseId=roundDao.getCourseIdByRoundId(new BigInteger(roundId));
+        BigInteger klassId=klassService.getKlassIdByCourseIdAndStudentId(courseId,id);
+        return seminarService.getSeminarByRoundId(klassId,new BigInteger(roundId));
     }
 
     /**

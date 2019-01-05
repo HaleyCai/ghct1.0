@@ -99,8 +99,12 @@ public class SeminarService {
      * @param roundId
      * @return
      */
-    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId) throws NotFoundException {
+    public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger klassId,BigInteger roundId) throws NotFoundException {
         List<SeminarSimpleVO> list = roundDao.getSeminarByRoundId(roundId);
+        for(SeminarSimpleVO item:list){
+            SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassIdAndSeminarId(klassId,item.getId());
+            item.setKlassSeminarId(seminarVO.getKlassSeminarId());
+        }
         if(list==null||list.isEmpty())
         {
             throw new NotFoundException("未查找到该轮次下的讨论课信息！");
