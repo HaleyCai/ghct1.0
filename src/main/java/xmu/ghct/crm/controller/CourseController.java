@@ -269,7 +269,18 @@ public class CourseController {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         Seminar seminar=seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
         BigInteger klassId=klassService.getKlassIdByCourseIdAndStudentId(seminar.getCourseId(),id);
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        BigInteger courseId=courseService.getCourseIdByKlassId(klassId);
+        BigInteger myTeamId=new BigInteger("0");
+        for(BigInteger teamIdItem:teamIdList){
+            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
+            if(courseId.equals(courseIdItem)) myTeamId=teamIdItem;
+        }
         SeminarVO klassSeminar=seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId,new BigInteger(seminarId));
+        Date now=new Date();
+        int compareTo = now.compareTo(klassSeminar.getReportDDL());
+        boolean flag=false;
+        if(compareTo<0) flag=true;
         List<Map> map=new ArrayList<>();
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminar.getKlassSeminarId());
         int maxTeam=klassSeminar.getMaxTeam();
@@ -285,6 +296,10 @@ public class CourseController {
                 continue;
             }
             else oneMap.put("attendanceStatus",true);
+            if(myTeamId.equals(attendance.getTeamId())){
+                oneMap.put("myAttendanceStatus",true);
+            }
+            else oneMap.put("myAttendanceStatus",false);
             BigInteger teamId=attendance.getTeamId();
             Team team=teamService.getTeamInfoByTeamId(teamId);
             Klass klass=klassService.getKlassByKlassId(team.getKlassId());
@@ -313,6 +328,7 @@ public class CourseController {
             }
             oneMap.put("reportName",pptName);
             oneMap.put("reportUrl",reportUrl);
+            oneMap.put("submitStatus",flag);
             map.add(oneMap);
         }
         if(account<maxTeam){
