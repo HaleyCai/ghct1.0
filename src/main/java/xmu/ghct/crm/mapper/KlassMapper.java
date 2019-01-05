@@ -127,4 +127,11 @@ public interface KlassMapper {
      * @return
      */
     BigInteger getKlassIdByCourseIdAndStudentId(BigInteger courseId,BigInteger studentId);
+
+    /**
+     * 获取班级学生人数
+     * @param klassId
+     * @return
+     */
+    Integer getStudentNumber(BigInteger klassId);
 }

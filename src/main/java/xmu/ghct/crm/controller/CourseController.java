@@ -54,6 +54,12 @@ public class CourseController {
     DateDao dateDao;
 
     @Autowired
+    ScoreService scoreService;
+
+    @Autowired
+    ScoreController scoreController;
+
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
     /**
      * @cyq
@@ -247,6 +253,54 @@ public class CourseController {
             Map<String,Object> oneMap=new HashMap<>();
             oneMap.put("attendanceStatus",false);
             map.add(oneMap);
+        }
+        return map;
+    }
+
+    /**
+     * pc端获取某课程下各个班级的学生名单提交情况
+     * @param courseId
+     * @return
+     * @throws NotFoundException
+     */
+    @GetMapping("/course/{courseId}/klass/pc")
+    public List<Map> listKlassAndStudentListByCourseId(@PathVariable("courseId")String courseId) throws NotFoundException{
+        List<Klass> klassList=klassService.listKlassByCourseId(new BigInteger(courseId));
+        List<Map> map=new ArrayList<>();
+        for(Klass klass:klassList){
+            Map<String,Object> oneMap=new HashMap<>();
+            int studentNumber=klassService.getStudentNumber(klass.getKlassId());
+            if(studentNumber>0) oneMap.put("submitStatus",true);
+            else oneMap.put("submitStatus",false);
+            oneMap.put("klassSerial",klass.getKlassSerial());
+            oneMap.put("klassId",klass.getKlassId());
+            oneMap.put("courseId",klass.getCourseId());
+            oneMap.put("grade",klass.getGrade());
+            map.add(oneMap);
+        }
+        return map;
+    }
+
+
+    @GetMapping("/round/{roundId}/seminarScore/pc")
+    public List<Map> listKlassSeminarScoreByRoundId(@PathVariable("roundId")String roundId) throws NotFoundException{
+        List<ScoreVO> scoreVOList=scoreService.listRoundScoreByRoundId(new BigInteger(roundId));
+        List<Map> map=new ArrayList<>();
+        for(ScoreVO scoreVO:scoreVOList){
+            List<Score> scoreList=scoreService.listKlassSeminarScoreByRoundIdAndTeamId(new BigInteger(roundId),scoreVO.getTeamId());
+            for(Score score:scoreList){
+                Map<String,Object> oneMap=new HashMap<>();
+                oneMap.put("roundTotalScore",scoreVO.getTotalScore());
+                oneMap.put("seminarName",score.getSeminarName());
+                oneMap.put("presentationScore",score.getPresentationScore());
+                oneMap.put("questionScore",score.getQuestionScore());
+                oneMap.put("reportScore",score.getReportScore());
+                oneMap.put("totalScore",score.getTotalScore());
+                oneMap.put("klassSerial",scoreVO.getKlassSerial());
+                oneMap.put("teamSerial",scoreVO.getTeamSerial());
+                oneMap.put("teamId",scoreVO.getTeamId());
+                map.add(oneMap);
+            }
         }
         return map;
     }

@@ -51,6 +51,7 @@ public class TeamDao {
                         teamStudentId.add(id);
                     }
                 }
+
             }
         }
         //取差集，找未组队学生id

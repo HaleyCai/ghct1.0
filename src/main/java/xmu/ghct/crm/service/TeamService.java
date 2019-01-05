@@ -224,9 +224,9 @@ public class TeamService {
      */
     public BigInteger insertTeam(BigInteger studentId, CreatTeamVO creatTeamVO) throws NotFoundException, ParamErrorException {
         List<BigInteger> teamIdList = teamDao.listTeamIdByStudentId(studentId);
-        for(BigInteger teamId:teamIdList){
-            BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
-            if(courseId.equals(creatTeamVO.getCourseId())){
+        for (BigInteger teamId : teamIdList) {
+            BigInteger courseId = teamDao.getCourseIdByTeamId(teamId);
+            if (courseId.equals(creatTeamVO.getCourseId())) {
                 System.out.println("学生已组队！");
                 return null;
             }
@@ -234,27 +234,31 @@ public class TeamService {
         System.out.println(studentId);
         List<BigInteger> studentIdList = creatTeamVO.getStudentIdList();
         List<TeamStrategyVO> teamStrategyVOList = strategyDao.listTeamStrategyByCourseId(creatTeamVO.getCourseId());
-        TeamStrategyVO teamStrategyVO = new TeamStrategyVO();
         for (TeamStrategyVO item : teamStrategyVOList) {
             if (item.getStrategyName().equals("ConflictCourseStrategy")) {
-                teamStrategyVO = item;
-            }
-        }
-
-        if (teamStrategyVO.getStrategyName() != null) {
-            List<BigInteger> conflictCourseIdList = strategyDao.listConflictCourseId(teamStrategyVO.getStrategyId());
-            for (BigInteger courseIdItem : conflictCourseIdList) {
-                for (BigInteger studentIdItem : studentIdList) {
-                    if (strategyDao.getCourseStudentNumber(courseIdItem, studentIdItem) > 0) {
-                        throw new ParamErrorException("学生组队出现课程冲突！");
+                List<BigInteger> conflictCourseIdList = strategyDao.listConflictCourseId(item.getStrategyId());
+                List<BigInteger> conflictStudentIdList = new ArrayList<>();
+                for (BigInteger courseIdItem : conflictCourseIdList) {
+                    for (BigInteger studentIdItem : studentIdList) {
+                        if (strategyDao.getCourseStudentNumber(courseIdItem, studentIdItem) > 0) {
+                            if (conflictStudentIdList.size() > 0) {
+                                for (BigInteger conflictStudentId : conflictStudentIdList) {
+                                    if (studentIdItem.equals(conflictStudentId)) {
+                                        System.out.println("存在学生选修组队冲突的课程！");
+                                        throw new ParamErrorException("存在学生选修组队冲突的课程！");
+                                    }
+                                }
+                            }
+                            conflictStudentIdList.add(studentIdItem);
+                        }
                     }
                 }
             }
         }
         Team team = new Team();
-        int teamSerial = teamDao.getMaxTeamSerialOfTeam(creatTeamVO.getKlassId())+1;
+        int teamSerial = teamDao.getMaxTeamSerialOfTeam(creatTeamVO.getKlassId()) + 1;
         team.setKlassId(creatTeamVO.getKlassId());
-        Klass klass=klassDao.getKlassByKlassId(creatTeamVO.getKlassId());
+        Klass klass = klassDao.getKlassByKlassId(creatTeamVO.getKlassId());
         team.setCourseId(creatTeamVO.getCourseId());
         team.setTeamSerial(teamSerial);
         team.setLeaderId(studentId);
@@ -273,7 +277,6 @@ public class TeamService {
             System.out.println(flag + "**" + flag_1 + "**" + flag_2);
             return team.getTeamId();
         } else return null;
-
     }
 
     /**
@@ -293,6 +296,7 @@ public class TeamService {
      * @param teamId
      * @return
      */
+    /*
     public boolean judgeIllegal(BigInteger teamId) throws NotFoundException {
         BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
         List<BigInteger> studentIdList=strategyDao.listStudentIdByTeamId(teamId);
@@ -342,6 +346,89 @@ public class TeamService {
         }
         return true;
    }
+   */
+
+    /**
+     * @author hzm
+     * 判断队伍有效性
+     * @param teamId
+     * @return
+     */
+    public boolean judgeIllegal(BigInteger teamId) throws NotFoundException {
+        BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
+        List<BigInteger> studentIdList=strategyDao.listStudentIdByTeamId(teamId);
+        List<TeamStrategyVO> teamStrategyVOList=strategyDao.listTeamStrategyByCourseId(courseId);
+        for(TeamStrategyVO item:teamStrategyVOList){
+            if(item.getStrategyName().equals("TeamAndStrategy")){
+                List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectAndStrategy(item.getStrategyId());
+                for(AndOrOrStrategyVO andOrOrStrategyVO:andOrOrStrategyVOS){
+                    if(andOrOrStrategyVO.getStrategyName().equals("MemberLimitStrategy")){
+                        int teamMemberNumber=strategyDao.getTeamMemberNumber(teamId);
+                        CourseVO courseVO=strategyDao.getTeamMemberLimit(item.getStrategyId());
+                        if(teamMemberNumber>courseVO.getMaxMember()||teamMemberNumber<courseVO.getMinMember())return false;
+                    }
+                    else if(andOrOrStrategyVO.getStrategyName().equals("TeamOrStrategy")){
+                        List<AndOrOrStrategyVO> orStrategyVOList=strategyDao.selectAndStrategy(andOrOrStrategyVO.getStrategyId());
+                        boolean flag=false;
+                        for(AndOrOrStrategyVO orStrategyVO:orStrategyVOList){
+                            CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(orStrategyVO.getStrategyId());
+                            int studentNumber=0;
+                            for(BigInteger studentId:studentIdList){
+                                studentNumber+=strategyDao.getCourseStudentNumber(courseLimitVO.getCourseId(),studentId);
+                            }
+                            if(studentNumber<courseLimitVO.getMaxMember()&&studentNumber>courseLimitVO.getMinMember()) {flag=true;break;}
+                        }
+                        if(flag==true) continue;
+                        else return false;
+
+                    }
+                    else if(andOrOrStrategyVO.getStrategyName().equals("CourseMemberLimitStrategy")){
+                        CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(andOrOrStrategyVO.getStrategyId());
+                        int studentNumber=0;
+                        for(BigInteger studentId:studentIdList){
+                            studentNumber+=strategyDao.getCourseStudentNumber(courseLimitVO.getCourseId(),studentId);
+                        }
+                        if(studentNumber>courseLimitVO.getMaxMember()||studentNumber<courseLimitVO.getMinMember()) return false;
+                    }
+
+                }
+            }else if(item.getStrategyName().equals("TeamOrStrategy")){
+                System.out.println("TeamOrStrategy");
+                boolean flag=false;
+                List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectOrStrategy(item.getStrategyId());
+                for(AndOrOrStrategyVO andOrOrStrategyVO:andOrOrStrategyVOS){
+                    CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(andOrOrStrategyVO.getStrategyId());
+                    int studentNumber=0;
+                    for(BigInteger studentId:studentIdList){
+                        studentNumber+=strategyDao.getCourseStudentNumber(courseLimitVO.getCourseId(),studentId);
+                    }
+                    if(studentNumber<courseLimitVO.getMaxMember()&&studentNumber>courseLimitVO.getMinMember()) {flag=true;break;}
+                }
+                if(flag=true) continue;
+                else return false;
+            }
+            else if(item.getStrategyName().equals("ConflictCourseStrategy")){
+                System.out.println("ConflictCourseStrategy");
+                List<BigInteger> conflictCourseIdList=strategyDao.listConflictCourseId(item.getStrategyId());
+                List<BigInteger> conflictStudentIdList=new ArrayList<>();
+                for(BigInteger courseIdItem:conflictCourseIdList){
+                    for(BigInteger studentId:studentIdList){
+                        if(strategyDao.getCourseStudentNumber(courseIdItem,studentId)>0){
+                            if(conflictStudentIdList.size()>0){
+                                for(BigInteger conflictStudentId:conflictStudentIdList){
+                                    if(studentId.equals(conflictStudentId)){
+                                        System.out.println("存在学生选修组队冲突的课程！");
+                                        return false;}
+                                }
+                            }
+                            conflictStudentIdList.add(studentId);
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
    public Map<String,Object> getUserTeamStatusById(BigInteger courseId,BigInteger id) throws NotFoundException {
        Map<String,Object> map=new HashMap<>();

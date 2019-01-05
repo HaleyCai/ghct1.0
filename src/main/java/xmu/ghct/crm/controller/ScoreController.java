@@ -67,39 +67,10 @@ public class ScoreController {
      * @return
      */
     @GetMapping("/course/round/{roundId}/{teamId}")
-    public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(HttpServletRequest request,
-                                                               @PathVariable("roundId")String roundId,
+    public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(@PathVariable("roundId")String roundId,
                                                                @PathVariable("teamId")String teamId) throws NotFoundException
     {
-        List<BigInteger> seminarIdList=seminarService.listSeminarIdByRoundId(new BigInteger(roundId));
-        List<BigInteger> klassIdS=teamService.listKlassIdByTeamId(new BigInteger(teamId));  //队伍所属班级ID
-        System.out.println("&&"+klassIdS);
-        List<SeminarVO> klassSeminarList=new ArrayList<>();
-        List<Score> scoreList=new ArrayList<>();
-        for(BigInteger item:seminarIdList){
-            System.out.println(item);
-            List<BigInteger> klassId=seminarService.listKlassIdBySeminarId(item);   //讨论课所属班级ID
-            System.out.println("%%"+klassId);
-            for(BigInteger klass_1:klassIdS){
-                for(BigInteger klass_2:klassId){
-                    if(klass_1.equals(klass_2)) {
-                        System.out.println(klass_1+"***************"+klass_2);
-                        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassIdAndSeminarId(klass_1,item);
-                        klassSeminarList.add(seminarVO);
-                    }
-                }
-            }
-        }
-
-        for(SeminarVO item:klassSeminarList){
-            Score score=scoreService.getKlassSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),new BigInteger(teamId));
-            Seminar seminar=seminarService.getSeminarBySeminarId(item.getSeminarId());
-            if(score!=null){
-                score.setSeminarName(seminar.getSeminarName());
-                scoreList.add(score);
-            }
-        }
-        return scoreList;
+        return scoreService.listKlassSeminarScoreByRoundIdAndTeamId(new BigInteger(roundId),new BigInteger(teamId));
     }
 
 
