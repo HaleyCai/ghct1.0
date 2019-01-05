@@ -33,9 +33,9 @@ public interface ShareMapper {
      * @param courseId
      * @return
      */
-    BigInteger getSubTeamShareId(BigInteger courseId);
+    Share getSubTeamShare(BigInteger courseId);
 
-    BigInteger getSubSeminarShareId(BigInteger courseId);
+    Share getSubSeminarShare(BigInteger courseId);
 
     /**
      * 获取待办的共享组队请求

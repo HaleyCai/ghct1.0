@@ -118,7 +118,7 @@ public class ShareController {
         int type=(int)inMap.get("type");
         if(type==1)
         {
-            BigInteger shareId=shareDao.getSubTeamShareId(share.getMainCourseId());
+            BigInteger shareId=shareDao.getSubTeamShare(share.getMainCourseId()).getShareId();
             if(shareId!=null) {
                 return false;
             }
@@ -128,7 +128,7 @@ public class ShareController {
         }
         else if(type==2)
         {
-            BigInteger shareId=shareDao.getSubSeminarShareId(share.getMainCourseId());
+            BigInteger shareId=shareDao.getSubSeminarShare(share.getMainCourseId()).getShareId();
             if(shareId!=null) {
                 return false;
             }

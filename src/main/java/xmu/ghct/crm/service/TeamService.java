@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xmu.ghct.crm.VO.*;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Klass;
+import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.exception.NotFoundException;
@@ -33,6 +34,9 @@ public class TeamService {
 
     @Autowired
     StrategyDao strategyDao;
+
+    @Autowired
+    ShareDao shareDao;
     /**
      * @cyq
      * 查课程下所有队伍的简单信息
@@ -40,35 +44,23 @@ public class TeamService {
      * @return
      */
     public List<TeamSimpleInfo> listTeamByCourseId(BigInteger courseId) throws NotFoundException {
-        //查course下所有klass,再查klass下所有team
         List<Klass> klasses=klassDao.listKlassByCourseId(courseId);
         List<Team> teamList=new ArrayList<>();
-        for(Klass item:klasses)
+        for(Klass item:klasses){
             teamList.addAll(teamDao.listTeamByKlassId(item.getKlassId()));
-        return teamTOTeamSimpleInfo(teamList);
-    }
-
-    /**
-     * @cyq
-     * Team对象的list转为TeamSimpleInfo的list
-     * @param teamList
-     * @return
-     */
-    public List<TeamSimpleInfo> teamTOTeamSimpleInfo(List<Team> teamList) throws NotFoundException {
+        }
         List<TeamSimpleInfo> teamSimpleInfoList=new ArrayList<>();
         for(Team teamItem:teamList){
             TeamSimpleInfo teamSimpleInfo=new TeamSimpleInfo();
             teamSimpleInfo.setTeamId(teamItem.getTeamId());
             teamSimpleInfo.setTeamName(teamItem.getTeamName());
-            //队伍的序号是班号-队伍号
-            //根据klassId查klassSerial
-            int klassSerial=klassDao.getKlassByKlassId(teamItem.getKlassId()).getKlassSerial();
-            teamSimpleInfo.setTeamSerial(klassSerial+"-"+teamItem.getTeamSerial());
+            teamSimpleInfo.setTeamSerial(teamItem.getKlassSerial()+"-"+teamItem.getTeamSerial());
             teamSimpleInfo.setStatus(teamItem.getStatus());
             teamSimpleInfoList.add(teamSimpleInfo);
         }
         return teamSimpleInfoList;
     }
+
 
     /**
      * @cyq
@@ -90,20 +82,21 @@ public class TeamService {
         //查该课程下的全部学生，排除掉队伍中非本课程的学生
         List<BigInteger> allStudent=studentDao.getAllStudentIdByCourseId(courseId);
         //查询组长信息
-        StudentVO studentVO=new StudentVO();
-        if(allStudent.contains(team.getLeaderId()))
-        {
+        //if(allStudent.contains(team.getLeaderId()))
+        //{
             User leader=studentDao.getStudentById(team.getLeaderId());
+            StudentVO studentVO=new StudentVO();
             studentVO.setAccount(leader.getAccount());
             studentVO.setEmail(leader.getEmail());
             studentVO.setName(leader.getName());
             studentVO.setStudentId(leader.getId());
             studentVO.setTeamId(leader.getTeamId());
             teamInfoVO.setTeamLeader(studentVO);
-        }
-        else{
-            teamInfoVO.setTeamLeader(null);
-        }
+            System.out.println("Leader=="+studentVO);
+        //}
+        //else{
+         //   teamInfoVO.setTeamLeader(null);
+        //}
 
         //查询组员信息
         List<BigInteger> studentIdList=teamDao.getStudentIdByTeamId(teamId);
@@ -112,8 +105,8 @@ public class TeamService {
             if(studentIdItem.equals(team.getLeaderId())){
                 continue;
             }
-            if(allStudent.contains(studentIdItem))
-            {
+            //if(allStudent.contains(studentIdItem))
+            //{
                 User student=studentDao.getStudentById(studentIdItem);
                 StudentVO member=new StudentVO();
                 member.setName(student.getName());
@@ -122,7 +115,7 @@ public class TeamService {
                 member.setAccount(student.getAccount());
                 member.setTeamId(student.getTeamId());
                 members.add(member);
-            }
+            //}
         }
         teamInfoVO.setMembers(members);
         return teamInfoVO;
@@ -155,16 +148,19 @@ public class TeamService {
      * @param studentId
      * @return
      */
-    public int removeTeamMember(BigInteger teamId,BigInteger studentId) throws NotFoundException {
-        //*******用jwt中的id判断操作人是否是该队伍组长，若是，继续删除，若不是返回删除失败
-        //删除操作，判断删除的student是否是组长，是则解散小组，否则删除成员
+    public int removeTeamMember(BigInteger teamId,BigInteger studentId,BigInteger userId) throws NotFoundException {
         Team team=teamDao.getTeamInfoByTeamId(teamId);
-        if(team.getLeaderId()==studentId){
-            if(teamDao.deleteTeam(teamId)) return 1;
-            else return 0;
+        if(team.getLeaderId().equals(studentId)){
+            if(userId.equals(team.getLeaderId())){
+                teamDao.deleteTeam(teamId);
+                return 1;
+            }
+            else {
+                return 0;
+            }
         }
         else{
-            boolean flag= teamDao.removeTeamMember(teamId,studentId);
+            boolean flag = teamDao.removeTeamMember(teamId,studentId);
             if(flag) {
                 if(judgeIllegal(teamId)) return 2;
                 else return 3;
@@ -275,7 +271,7 @@ public class TeamService {
             size--;
         }
         if (flag > 0 && flag_1 > 0 && flag_2 > 0) {
-            System.out.println(flag + "**" + flag_1 + "**" + flag_2);
+            //System.out.println(flag + "**" + flag_1 + "**" + flag_2);
             return team.getTeamId();
         } else return null;
     }

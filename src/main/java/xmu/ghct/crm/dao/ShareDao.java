@@ -123,14 +123,14 @@ public class ShareDao {
         return shareRequestVOS;
     }
 
-    public BigInteger getSubTeamShareId(BigInteger courseId)
+    public Share getSubTeamShare(BigInteger courseId)
     {
-        return shareMapper.getSubTeamShareId(courseId);
+        return shareMapper.getSubTeamShare(courseId);
     }
 
-    public BigInteger getSubSeminarShareId(BigInteger courseId)
+    public Share getSubSeminarShare(BigInteger courseId)
     {
-        return shareMapper.getSubSeminarShareId(courseId);
+        return shareMapper.getSubSeminarShare(courseId);
     }
 
     public boolean deleteTeamShareByShareId(BigInteger shareId) throws NotFoundException {

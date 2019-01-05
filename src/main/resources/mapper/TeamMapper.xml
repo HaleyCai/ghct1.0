@@ -5,7 +5,7 @@
     <select id="listTeamInfoByCourseId" resultMap="teamMap">
         select *
         from team
-        where course_id=#{courseId}
+        where course_id=#{courseId} order by klass_serial,team_serial
     </select>
 
     <select id="getStudentIdByTeamId" resultType="java.math.BigInteger">
@@ -112,13 +112,13 @@
     <select id="listTeamIdByKlassId" resultType="java.math.BigInteger">
         select team_id
         from klass_team
-        where klass_id=#{klassId}
+        where klass_id=#{klassId} order by team_id
     </select>
 
     <select id="listTeamIdByCourseId" resultType="java.math.BigInteger">
         select id
         from team
-        where course_id=#{courseId}
+        where course_id=#{courseId} order by team_id
     </select>
 
     <select id="getTeamSerialByTeamId" resultType="java.lang.Integer">

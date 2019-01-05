@@ -99,24 +99,22 @@ public class TeamController {
      * @param teamId
      */
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.DELETE)
-    public Map<String,Object> deleteTeam(@PathVariable("teamId") String teamId) throws NotFoundException {
-        Map<String,Object> map=new HashMap<>();
+    public boolean deleteTeam(@PathVariable("teamId") String teamId) throws NotFoundException {
         if(teamService.deleteTeam(new BigInteger(teamId)))
-            map.put("message",true);
-        else map.put("message",false);
-        return map;
+            return true;
+        return false;
     }
 
     /**
      * 将多名学生加入该队伍，传参teamId,studentId，从未组队的学生中选择，不需要判断是否是组长是否已组队！
      * ***判断队伍的状态并修改
      * @param teamId
-     * @param studentIdList
+     * @param creatTeamVO
      */
     @RequestMapping(value="/team/{teamId}/add",method = RequestMethod.PUT)
     public boolean addTeamMember(@PathVariable("teamId") String teamId,
-                              @RequestBody List<BigInteger> studentIdList) throws NotFoundException {
-        Boolean flag=teamService.addTeamMember(new BigInteger(teamId),studentIdList);
+                              @RequestBody CreatTeamVO creatTeamVO) throws NotFoundException {
+        Boolean flag=teamService.addTeamMember(new BigInteger(teamId),creatTeamVO.getStudentIdList());
         if(teamService.judgeIllegal(new BigInteger(teamId))){
             teamService.updateStatusByTeamId(new BigInteger(teamId),1);
         }
@@ -133,26 +131,26 @@ public class TeamController {
      * @param inMap
      */
     @RequestMapping(value="/team/{teamId}/remove",method = RequestMethod.PUT)
-    public Map<String,Object> removeTeamMember(@PathVariable("teamId") String teamId,
-                                 @RequestBody Map<String,Object> inMap) throws NotFoundException {
-        Map<String,Object> map=new HashMap<>();
-        int flag=teamService.removeTeamMember(new BigInteger(teamId),new BigInteger(inMap.get("studentId").toString()));
+    public boolean removeTeamMember(HttpServletRequest request,
+                                    @RequestBody Map<String,Object> inMap,
+                                    @PathVariable("teamId") String teamId) throws NotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        int flag=teamService.removeTeamMember(new BigInteger(teamId),new BigInteger(inMap.get("studentId").toString()),id);
         if(flag==0){
-            map.put("message",false);
+            return false;
         }
         else if(flag==1){
-            map.put("message",true);
+            return true;
         }
         else if(flag==2){
             teamService.updateStatusByTeamId(new BigInteger(teamId),1);
-            map.put("message",true);
+            return true;
         }
         else if(flag==3){
                 teamService.updateStatusByTeamId(new BigInteger(teamId),0);
-            map.put("message",true);
+                return true;
             }
-
-        return map;
+        return false;
     }
 
     //在service层写判断小组是否合法的函数！！！
