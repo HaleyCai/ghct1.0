@@ -88,7 +88,7 @@ public class TeamService {
         teamInfoVO.setStatus(team.getStatus());
 
         //查该课程下的全部学生，排除掉队伍中非本课程的学生
-        List<BigInteger> allStudent=courseDao.getAllCourseStudentId(courseId);
+        List<BigInteger> allStudent=studentDao.getAllStudentIdByCourseId(courseId);
         //查询组长信息
         StudentVO studentVO=new StudentVO();
         if(allStudent.contains(team.getLeaderId()))

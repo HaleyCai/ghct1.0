@@ -37,7 +37,6 @@ public class TeamDao {
         List<BigInteger> allStudentId=studentMapper.getAllStudentIdByCourseId(courseId);
         //查course下所有klass
         List<Klass> allKlass=klassMapper.listKlassByCourseId(courseId);
-        System.out.println("course"+courseId+" allKlass: "+allKlass);
         //查klass下所有team
         List<BigInteger> teamStudentId=new ArrayList<>();
         //course下所有klass下所有team，team下所有studentId
@@ -47,12 +46,11 @@ public class TeamDao {
             for(BigInteger teamId: teamIds){
                 List<BigInteger> studentsId=teamMapper.getStudentIdByTeamId(teamId);
                 //检查是否是该课程下的学生！！！！！
-                for(BigInteger i:studentsId){
-                    if(allStudentId.contains(studentsId)) {
-                        teamStudentId.add(i);
+                for(BigInteger id:studentsId){
+                    if(allStudentId.contains(id)) {
+                        teamStudentId.add(id);
                     }
                 }
-
             }
         }
         //取差集，找未组队学生id
@@ -60,18 +58,17 @@ public class TeamDao {
         List<BigInteger> noTeamStudentId=allStudentId;
         //查未组队学生的信息
         List<StudentVO> noTeamStudent=new ArrayList<>();
-        for(BigInteger id:noTeamStudentId)
+        if(noTeamStudentId!=null)
         {
-            User user=studentMapper.getStudentByStudentId(id);
-            StudentVO studentVO=new StudentVO();
-            studentVO.setStudentId(id);
-            studentVO.setAccount(user.getAccount());
-            studentVO.setName(user.getName());
-            noTeamStudent.add(studentVO);
-        }
-        if(noTeamStudent==null&&noTeamStudent.isEmpty())
-        {
-            throw new NotFoundException("未找到未组队学生");
+            for(BigInteger id:noTeamStudentId)
+            {
+                User user=studentMapper.getStudentByStudentId(id);
+                StudentVO studentVO=new StudentVO();
+                studentVO.setStudentId(id);
+                studentVO.setAccount(user.getAccount());
+                studentVO.setName(user.getName());
+                noTeamStudent.add(studentVO);
+            }
         }
         return noTeamStudent;
     }

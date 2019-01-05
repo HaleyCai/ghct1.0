@@ -211,4 +211,9 @@ public class StudentDao {
         }
         return studentMapper.insertKlassStudent(studentId,klassId,courseId);
     }
+
+    public List<BigInteger> getAllStudentIdByCourseId(BigInteger courseId)
+    {
+        return studentMapper.getAllStudentIdByCourseId(courseId);
+    }
 }
