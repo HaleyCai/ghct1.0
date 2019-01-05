@@ -44,24 +44,25 @@ public class QuestionService {
      * @param attendanceId
      * @return
      */
-    /**public List<QuestionListVO> getAllQuestion(BigInteger klassSeminarId, BigInteger attendanceId)
-    {
-        List<QuestionListVO> questionListVOList=new ArrayList<>();
-        List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
-        for(Question item:questionList)
-        {
-            QuestionListVO questionListVO=new QuestionListVO();
-            questionListVO.setQuestionId(item.getQuestionId());
-            BigInteger klassId=questionDao.getKlassIdByKlassSeminarId(item.getKlassSeminarId());
-            questionListVO.setKlassSerial(questionDao.getKlassSerialByKlassId(klassId));
-            BigInteger teamId=questionDao.getTeamIdByQuestionId(item.getQuestionId());
-            questionListVO.setTeamSerial(questionDao.getTeamSerialByTeamId(teamId));
-            questionListVO.setStudentName(questionDao.getStudentNameByStudentId(item.getStudentId()));
-            questionListVO.setSelected(item.getSelected());
-            questionListVOList.add(questionListVO);
-        }
-        return questionListVOList;
-    }**/
+//    public List<QuestionListVO> getAllQuestion(BigInteger klassSeminarId, BigInteger attendanceId)
+//    {
+//        //获得缓存中的队列，返回给前端
+//        List<QuestionListVO> questionListVOList=new ArrayList<>();
+//        List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(klassSeminarId,attendanceId);
+//        for(Question item:questionList)
+//        {
+//            QuestionListVO questionListVO=new QuestionListVO();
+//            questionListVO.setQuestionId(item.getQuestionId());
+//            BigInteger klassId=questionDao.getKlassIdByKlassSeminarId(item.getKlassSeminarId());
+//            questionListVO.setKlassSerial(questionDao.getKlassSerialByKlassId(klassId));
+//            BigInteger teamId=questionDao.getTeamIdByQuestionId(item.getQuestionId());
+//            questionListVO.setTeamSerial(questionDao.getTeamSerialByTeamId(teamId));
+//            questionListVO.setStudentName(questionDao.getStudentNameByStudentId(item.getStudentId()));
+//            questionListVO.setSelected(item.getSelected());
+//            questionListVOList.add(questionListVO);
+//        }
+//        return questionListVOList;
+//    }
 
     /**
      * 教师点击下个提问时，修改当前提问为已抽到
@@ -70,6 +71,8 @@ public class QuestionService {
      */
     public boolean updateQuestionSelected(BigInteger questionId)
     {
+        //将当前提问，加入缓存
+        //*****
         return questionDao.updateQuestionSelected(questionId);
     }
 

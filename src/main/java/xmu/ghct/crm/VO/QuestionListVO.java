@@ -11,6 +11,8 @@ public class QuestionListVO implements Serializable{
     private String studentName;
     private BigInteger attendanceId;
     private int selected;
+    private int order;
+    private double questionScore;
 
     public BigInteger getQuestionId() { return questionId; }
 
@@ -40,17 +42,34 @@ public class QuestionListVO implements Serializable{
 
     public void setSelected(int selected) { this.selected= selected; }
 
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public double getQuestionScore() {
+        return questionScore;
+    }
+
+    public void setQuestionScore(double questionScore) {
+        this.questionScore = questionScore;
+    }
 
     @Override
     public String toString() {
         return "QuestionListVO{" +
                 "questionId=" + questionId +
-                ", klassSerial=" + klassSerial + '\'' +
-                ", teamSerial=" + teamSerial + '\'' +
-                ", studentId=" + studentId + '\'' +
-                ", studentName=" + studentName + '\'' +
-                ", attendanceId=" + attendanceId + '\'' +
+                ", klassSerial=" + klassSerial +
+                ", teamSerial=" + teamSerial +
+                ", studentId=" + studentId +
+                ", studentName='" + studentName + '\'' +
+                ", attendanceId=" + attendanceId +
                 ", selected=" + selected +
+                ", order=" + order +
+                ", questionScore=" + questionScore +
                 '}';
     }
 }

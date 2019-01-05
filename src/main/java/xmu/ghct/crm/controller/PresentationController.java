@@ -249,6 +249,7 @@ public class PresentationController {
         if((int)inMap.get("nextAttendanceId")!=0) {
             presentationService.updatePresentByAttendanceId(new BigInteger(inMap.get("nextAttendanceId").toString()), 1);
         }
+        //****清空当前缓存
     }
 
 
