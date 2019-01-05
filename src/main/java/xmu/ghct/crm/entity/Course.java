@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Course implements Serializable {
     private BigInteger courseId;
+    private String teacherName;
     private BigInteger teacherId;
     private String courseName;
     private String introduction;
@@ -21,6 +22,14 @@ public class Course implements Serializable {
     private BigInteger seminarMainCourseId;
 
 
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
     public void setMinMember(int minMember) {
         this.minMember = minMember;
     }

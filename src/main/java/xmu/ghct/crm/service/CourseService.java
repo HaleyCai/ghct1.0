@@ -251,6 +251,8 @@ public class CourseService {
                 for(BigInteger courseIdItem:conflictCourseId){
                     Course newCourse=new Course();
                     Course course1=courseDao.getCourseByCourseId(courseIdItem);
+                    User user=userService.getInformation(course1.getTeacherId(),"teacher");
+                    newCourse.setTeacherName(user.getName());
                     newCourse.setCourseId(courseIdItem);
                     newCourse.setCourseName(course1.getCourseName());
                     courses.add(course1);
