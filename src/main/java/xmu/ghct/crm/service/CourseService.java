@@ -233,7 +233,7 @@ public class CourseService {
                 reportName="未提交";
                 reportUrl=null;
             }
-            oneMap.put("reportName",pptName);
+            oneMap.put("reportName",reportName);
             oneMap.put("reportUrl",reportUrl);
             map.add(oneMap);
         }

@@ -82,6 +82,7 @@ public class CourseController {
 
     /**
      * 创建课程
+     * @author hzm
      * @return
      * @throws ParseException
      */
@@ -98,6 +99,7 @@ public class CourseController {
 
     /**
      * 根据课程ID查找课程
+     * @author hzm
      * @param courseId
      * @return
      */
@@ -109,6 +111,7 @@ public class CourseController {
 
     /**
      * 根据课程ID删除课程
+     *  @author hzm
      * @param courseId
      * @return
      */
@@ -124,6 +127,7 @@ public class CourseController {
 
     /**
      * 获得课程下的所有轮次  教师
+     * @author hzm
      * @param courseId
      * @return
      * @throws ClassNotFoundException
@@ -137,6 +141,7 @@ public class CourseController {
 
     /**
      * 获得课程下的所有轮次和该队伍轮次总成绩  学生
+     * @author hzm
      * @param courseId
      * @return
      * @throws ClassNotFoundException
@@ -191,6 +196,7 @@ public class CourseController {
 
     /**
      * 获取讨论课信息及讨论课所属全部班级
+     * @author hzm
      * @param seminarId
      * @return
      */
@@ -218,6 +224,7 @@ public class CourseController {
 
     /**
      * 获取班级讨论课报名信息   //教师
+     * @author hzm
      * @param seminarId
      * @param klassId
      * @return
@@ -231,6 +238,7 @@ public class CourseController {
 
     /**
      * 获取班级讨论课报名信息   //学生
+     * @author hzm
      * @param seminarId
      * @return
      * @throws NotFoundException
@@ -312,7 +320,7 @@ public class CourseController {
                 reportName="未提交";
                 reportUrl=null;
             }
-            oneMap.put("reportName",pptName);
+            oneMap.put("reportName",reportName);
             oneMap.put("reportUrl",reportUrl);
             oneMap.put("submitStatus",flag);
             map.add(oneMap);
@@ -331,6 +339,7 @@ public class CourseController {
 
     /**
      * pc端获取某课程下各个班级的学生名单提交情况
+     * @author hzm
      * @param courseId
      * @return
      * @throws NotFoundException
@@ -359,6 +368,7 @@ public class CourseController {
 
     /**
      * pc端获取轮次下讨论课成绩
+     * @author hzm
      * @param roundId
      * @return
      * @throws NotFoundException
@@ -388,6 +398,7 @@ public class CourseController {
 
     /**
      * pc端重置学生名单（删除全部班级学生）
+     * @author hzm
      * @param klassId
      * @return
      * @throws NotFoundException
@@ -402,6 +413,7 @@ public class CourseController {
     /**
      * @cyq
      * 根据roundId获取轮次信息
+     * @author hzm
      * @param roundId
      * @return
      */
