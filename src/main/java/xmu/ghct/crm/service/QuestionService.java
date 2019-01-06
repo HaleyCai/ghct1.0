@@ -1,5 +1,6 @@
 package xmu.ghct.crm.service;
 
+import org.codehaus.jackson.map.JsonSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -80,26 +81,27 @@ public class QuestionService {
     public QuestionListVO getOneQuestion(BigInteger attendanceId) throws NotFoundException {
         QuestionListVO questionListVO=new QuestionListVO();
         Question question=questionDao.getOneQuestion(attendanceId);
-        if(question==null)
-            return null;
-        questionListVO.setQuestionId(question.getQuestionId());
+        if(question!=null) {
+            questionListVO.setQuestionId(question.getQuestionId());
 
-        BigInteger klassId=seminarDao.getKlassIdByKlassSeminarId(question.getKlassSeminarId());
-        questionListVO.setKlassSerial(klassDao.getKlassSerialByKlassId(klassId));
+            BigInteger klassId = seminarDao.getKlassIdByKlassSeminarId(question.getKlassSeminarId());
+            questionListVO.setKlassSerial(klassDao.getKlassSerialByKlassId(klassId));
 
-        questionListVO.setTeamSerial(teamDao.getTeamSerialByTeamId(question.getTeamId()));
+            questionListVO.setTeamSerial(teamDao.getTeamSerialByTeamId(question.getTeamId()));
 
-        questionListVO.setStudentId(question.getStudentId());
+            questionListVO.setStudentId(question.getStudentId());
 
-        questionListVO.setStudentName(questionDao.getStudentNameByStudentId(question.getStudentId()));
+            questionListVO.setStudentName(questionDao.getStudentNameByStudentId(question.getStudentId()));
 
-        questionListVO.setAttendanceId(question.getAttendanceId());
+            questionListVO.setAttendanceId(question.getAttendanceId());
 
-        questionListVO.setSelected(question.getSelected());
+            questionListVO.setSelected(question.getSelected());
 
-        questionListVO.setQuestionScore(question.getQuestionScore());
-
+            questionListVO.setQuestionScore(question.getQuestionScore());
+        }
+        else questionListVO=null;
         return questionListVO;
+
     }
 
     /**
