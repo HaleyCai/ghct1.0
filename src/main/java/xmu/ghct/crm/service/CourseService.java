@@ -204,6 +204,7 @@ public class CourseService {
             }
             else {
                 oneMap.put("attendanceStatus",true);
+                oneMap.put("attendanceId",attendance.getAttendanceId());
                 i++;
             }
             BigInteger teamId=attendance.getTeamId();

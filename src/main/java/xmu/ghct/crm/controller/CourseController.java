@@ -276,11 +276,11 @@ public class CourseController {
             }
             else {
                 oneMap.put("attendanceStatus",true);
+                oneMap.put("attendanceId",attendance.getAttendanceId());
                 i++;
             }
             if(myTeamId.equals(attendance.getTeamId())){
                 oneMap.put("myAttendanceStatus",true);
-                oneMap.put("myAttendanceId",attendance.getAttendanceId());
             }
             else {
                 oneMap.put("myAttendanceStatus",false);
