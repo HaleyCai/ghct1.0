@@ -136,7 +136,9 @@ public class PresentationService {
             if(attendance.getPptName()!=null&&attendance.getPptName().length()>0){
                 map.put("pptStatus",true);
             }
-            else map.put("pptStatus",false);
+            else {
+                map.put("pptStatus",false);
+            }
             map.put("attendanceStatus",true);
             map.put("attendanceId",attendance.getAttendanceId());
             return map;
@@ -145,7 +147,9 @@ public class PresentationService {
 
     public boolean modifyAttendanceByAttendanceId(HttpServletRequest request,BigInteger attendanceId, Integer teamOrder) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         int flag=presentationDao.updateAttendanceOrderByAttendanceId(attendanceId,teamOrder);
-        if(flag>0) return true;
+        if(flag>0) {
+            return true;
+        }
         return false;
     }
 

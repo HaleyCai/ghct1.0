@@ -22,6 +22,7 @@ public class AdminService {
     @Autowired
     private StudentDao studentDao;
 
+    private static Pattern pattern = Pattern.compile("[0-9]+");
     /**
      * 管理员创建一个教师
      *
@@ -41,10 +42,11 @@ public class AdminService {
      */
     public List<User> getAllUser(int type) throws NotFoundException
     {
-        if(type==1)
+        if(type==1) {
             return teacherDao.getAllTeacher();
-        else
+        } else {
             return studentDao.getAllStudent();
+        }
     }
 
     /**
@@ -54,20 +56,20 @@ public class AdminService {
     public User getUser(String str,int type) throws NotFoundException
     {
         User user;
-        Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
         if(!isNum.matches()){
-            if(type==1)
+            if(type==1) {
                 user=teacherDao.getTeacherByTeacherName(str);
-            else {
+            } else {
                 user = studentDao.getStudentByStudentName(str);
             }
         }
         else {
-            if(type==1)
+            if(type==1) {
                 user=teacherDao.getTeacherByAccount(str);
-            else
+            } else {
                 user=studentDao.getStudentByAccount(str);
+            }
         }
         return user;
     }
@@ -80,10 +82,11 @@ public class AdminService {
                                       String newUserAccount,String newUserEmail,int type) throws SQLException
     {
         boolean success;
-        if(type==1)
+        if(type==1) {
             success=teacherDao.modifyTeacherByTeacherId(userId,newUserName,newUserAccount,newUserEmail);
-        else
+        } else {
             success=studentDao.modifyStudentByStudentId(userId,newUserName,newUserAccount,newUserEmail);
+        }
         return success;
     }
 
@@ -94,10 +97,11 @@ public class AdminService {
     public boolean resetUserPasswordByUserId(BigInteger userId,int type)
     {
         boolean success;
-        if(type==1)
+        if(type==1) {
             success=teacherDao.resetTeacherPasswordByTeacherId(userId);
-        else
+        } else {
             success=studentDao.resetStudentPasswordByStudentId(userId);
+        }
         return success;
     }
 
@@ -108,10 +112,11 @@ public class AdminService {
     public boolean deleteUserByUserId(BigInteger userId,int type) throws NotFoundException
     {
         boolean success;
-        if(type==1)
+        if(type==1) {
             success=teacherDao.deleteTeacherByTeacherId(userId);
-        else
+        } else {
             success=studentDao.deleteStudentByStudentId(userId);
+        }
         return success;
     }
 }

@@ -57,10 +57,11 @@ public class UserService {
                 }
             }
         }
-        if(userVO==null)
+        if(userVO==null) {
             return null;
-        else
+        } else {
             return userVO;
+        }
     }
 
     /**
@@ -92,10 +93,11 @@ public class UserService {
     public User getInformation(BigInteger id,String role) throws NotFoundException
     {
         User user;
-        if(role.equals("teacher"))
+        if(role.equals("teacher")) {
             user=teacherDao.getTeacherById(id);
-        else
+        } else {
             user=studentDao.getStudentById(id);
+        }
         if(user==null)
         {
             throw new NotFoundException("未找到该用户");
@@ -115,8 +117,9 @@ public class UserService {
     public boolean sendPasswordToEmail(String account)
     {
         User user=teacherDao.getTeacherByAccount(account);
-        if(user==null)
+        if(user==null) {
             user=studentDao.getStudentByAccount(account);
+        }
         //用户不存在
         if(user==null){
             return false;
@@ -147,10 +150,11 @@ public class UserService {
     public boolean modifyPassword(BigInteger id, String newPassword, String role) throws SQLException
     {
         boolean success=false;
-        if(role.equals("teacher"))
+        if(role.equals("teacher")) {
             success=teacherDao.setPasswordById(id,newPassword);
-        else
+        } else {
             success=studentDao.setPasswordById(id,newPassword);
+        }
         return success;
 }
 
@@ -165,13 +169,15 @@ public class UserService {
     {
         Map<String,Object> resultMap=new HashMap<>();
         boolean success=false;
-        if(role.equals("teacher"))
+        if(role.equals("teacher")) {
             success=teacherDao.setEmailById(id,newEmail);
-        else
+        } else {
             success=studentDao.setEmailById(id,newEmail);
-        if(success)
+        }
+        if(success) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }

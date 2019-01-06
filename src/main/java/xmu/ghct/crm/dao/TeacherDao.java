@@ -65,9 +65,11 @@ public class TeacherDao {
         v1=teacherMapper.setTeacherActiveById(id);
         v2=teacherMapper.setTeacherPasswordById(id,password);
         //教师激活时不用输入邮箱
-        if(v1==1 && v2==1)
+        if(v1==1 && v2==1) {
             return true;
-        else return false;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -83,10 +85,11 @@ public class TeacherDao {
             throw new SQLException("密码未改变");
         }
         int v1=teacherMapper.setTeacherPasswordById(id,password);
-        if(v1==1)
+        if(v1==1) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -102,10 +105,11 @@ public class TeacherDao {
             throw new SQLException("邮箱未改变");
         }
         int v1=teacherMapper.setTeacherEmailById(id,email);
-        if(v1==1)
+        if(v1==1) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -165,10 +169,11 @@ public class TeacherDao {
         {
             throw new SQLException("教师信息未改动");
         }
-        if(teacherMapper.modifyTeacherByTeacherId(teacherId,teacherName, teacherAccount,teacherEmail)>0)
+        if(teacherMapper.modifyTeacherByTeacherId(teacherId,teacherName, teacherAccount,teacherEmail)>0) {
             return true;
-        else
+        } else {
             return false;
+        }
 
     }
 
@@ -183,8 +188,9 @@ public class TeacherDao {
             //throw
             return false;
         }
-        else
+        else {
             return true;
+        }
     }
 
     /**
@@ -197,8 +203,9 @@ public class TeacherDao {
         if(v1<=0){
             throw new NotFoundException("该教师已被删除");
         }
-        else
+        else {
             return true;
+        }
     }
 
     /**

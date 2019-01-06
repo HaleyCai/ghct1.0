@@ -101,7 +101,9 @@ public class ScoreController {
         BigInteger teamId=new BigInteger("0");
         for(BigInteger teamIdItem:teamIdList){
             BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+            if(courseId.equals(courseIdItem)) {
+                teamId=teamIdItem;
+            }
         }
         return scoreService.getSeminarByRoundId(new BigInteger(roundId),teamId);
     }
@@ -126,7 +128,9 @@ public class ScoreController {
         BigInteger teamId=new BigInteger("0");
         for(BigInteger teamIdItem:teamIdList){
             BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+            if(courseId.equals(courseIdItem)) {
+                teamId=teamIdItem;
+            }
         }
         return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(new BigInteger(roundId),new BigInteger(klassSeminarId),teamId);
     }

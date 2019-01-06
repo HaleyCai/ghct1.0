@@ -118,8 +118,11 @@ public class CourseService {
         for(BigInteger teamId:teamIdList){
             teamDao.deleteTeam(teamId);
         }
-        if(flag>0) return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public int creatCourse(HttpServletRequest request,NewCourseVO newCourseVO) throws SQLException, ParseException {
@@ -195,7 +198,9 @@ public class CourseService {
                 map.add(oneMap);
                 continue;
             }
-            else oneMap.put("attendanceStatus",true);
+            else {
+                oneMap.put("attendanceStatus",true);
+            }
             BigInteger teamId=attendance.getTeamId();
             Team team=teamService.getTeamInfoByTeamId(teamId);
             Klass klass=klassDao.getKlassByKlassId(team.getKlassId());
@@ -357,7 +362,9 @@ public class CourseService {
                 List<SeminarVO> seminarVOList=seminarDao.listKlassSeminarIdByKlassId(klassId);
                 System.out.println(seminarVOList);
                 for(SeminarVO seminarVO:seminarVOList){
-                    if(seminarVO.getStatus()>0) return seminarVO.getKlassSeminarId();
+                    if(seminarVO.getStatus()>0) {
+                        return seminarVO.getKlassSeminarId();
+                    }
                 }
             }
         }

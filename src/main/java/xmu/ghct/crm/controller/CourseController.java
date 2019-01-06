@@ -89,8 +89,11 @@ public class CourseController {
     public boolean creatCourse(HttpServletRequest request,@RequestBody NewCourseVO newCourseVO) throws ParseException, SQLException {
         System.out.println("Controller course"+newCourseVO);
         int flag= courseService.creatCourse(request,newCourseVO);
-        if(flag>0)return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -112,8 +115,11 @@ public class CourseController {
     @RequestMapping(value="/course/{courseId}",method = RequestMethod.DELETE)
     public boolean deleteCourseByCourseId(@PathVariable("courseId")String courseId) throws NotFoundException {
         int flag=courseService.deleteCourseByCourseId(new BigInteger(courseId));
-        if(flag>0)return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -129,7 +135,9 @@ public class CourseController {
         if(roundList==null){
          throw new NotFoundException("未找到该课程下的讨论课轮次数据!");
         }
-        else return roundList;
+        else {
+            return roundList;
+        }
     }
 
 
@@ -219,13 +227,17 @@ public class CourseController {
         BigInteger myTeamId=new BigInteger("0");
         for(BigInteger teamIdItem:teamIdList){
             BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) myTeamId=teamIdItem;
+            if(courseId.equals(courseIdItem)) {
+                myTeamId=teamIdItem;
+            }
         }
         SeminarVO klassSeminar=seminarService.getKlassSeminarByKlassIdAndSeminarId(klassId,new BigInteger(seminarId));
         Date now=new Date();
         int compareTo = now.compareTo(klassSeminar.getReportDDL());
         boolean flag=false;
-        if(compareTo<0) flag=true;
+        if(compareTo<0) {
+            flag=true;
+        }
         List<Map> map=new ArrayList<>();
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminar.getKlassSeminarId());
         int maxTeam=klassSeminar.getMaxTeam();
@@ -240,11 +252,15 @@ public class CourseController {
                 map.add(oneMap);
                 continue;
             }
-            else oneMap.put("attendanceStatus",true);
+            else {
+                oneMap.put("attendanceStatus",true);
+            }
             if(myTeamId.equals(attendance.getTeamId())){
                 oneMap.put("myAttendanceStatus",true);
             }
-            else oneMap.put("myAttendanceStatus",false);
+            else {
+                oneMap.put("myAttendanceStatus",false);
+            }
             BigInteger teamId=attendance.getTeamId();
             Team team=teamService.getTeamInfoByTeamId(teamId);
             Klass klass=klassService.getKlassByKlassId(team.getKlassId());
@@ -302,8 +318,11 @@ public class CourseController {
         for(Klass klass:klassList){
             Map<String,Object> oneMap=new HashMap<>();
             int studentNumber=klassService.getStudentNumber(klass.getKlassId());
-            if(studentNumber>0) oneMap.put("submitStatus",true);
-            else oneMap.put("submitStatus",false);
+            if(studentNumber>0) {
+                oneMap.put("submitStatus",true);
+            } else {
+                oneMap.put("submitStatus",false);
+            }
             oneMap.put("klassSerial",klass.getKlassSerial());
             oneMap.put("klassId",klass.getKlassId());
             oneMap.put("courseId",klass.getCourseId());

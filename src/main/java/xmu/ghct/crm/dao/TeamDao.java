@@ -101,7 +101,9 @@ public class TeamDao {
         {
             Team team=teamMapper.getTeamInfoByTeamId(id);
             if(team.getKlassId()!=klassId)//如果是从课程，则改变klassId
+            {
                 team.setKlassId(klassId);
+            }
             teams.add(team);
         }
         if(teams==null&&teams.isEmpty())
@@ -122,10 +124,11 @@ public class TeamDao {
         int v2=teamMapper.deleteKlassTeam(teamId);
         int v3=teamMapper.deleteStudentTeam(teamId);
 
-        if(v1+v2+v3>0)
+        if(v1+v2+v3>0) {
             return true;
-        else
+        } else {
             throw new NotFoundException("该组不在表中");
+        }
     }
 
     /**
@@ -154,10 +157,11 @@ public class TeamDao {
      * @return
      */
     public boolean removeTeamMember(BigInteger teamId,BigInteger studentId) {
-        if (teamMapper.removeTeamMember(teamId, studentId) > 0)
+        if (teamMapper.removeTeamMember(teamId, studentId) > 0) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
 
@@ -183,10 +187,11 @@ public class TeamDao {
     public boolean addTeamMember(BigInteger teamId,BigInteger studentId)
     {
         int v=teamMapper.addTeamMember(teamId,studentId);
-        if(v>0)
+        if(v>0) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     public int getTeamSerialByTeamId(BigInteger teamId) throws NotFoundException {

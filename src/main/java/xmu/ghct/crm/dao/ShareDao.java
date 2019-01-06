@@ -178,8 +178,9 @@ public class ShareDao {
             shareMapper.deleteSeminarShareInCourse(share.getSubCourseId());
             return true;
         }
-        else
+        else {
             throw new NotFoundException("未找到该讨论课共享");
+        }
     }
 
     public List<TeamApplicationVO> getUntreatedTeamApplication(BigInteger teacherId) throws NotFoundException {
@@ -206,8 +207,9 @@ public class ShareDao {
         TeamApplicationVO teamApplicationVO=shareMapper.getOneTeamApplication(teamValidId);
         int v1=shareMapper.dealTeamValidRequest(teamValidId, status);
         int v2=teamMapper.updateStatusByTeamId(teamApplicationVO.getTeamId(),status);
-        if(v1>0 && v2>0)
+        if(v1>0 && v2>0) {
             return true;
+        }
         return false;
     }
 
@@ -225,10 +227,11 @@ public class ShareDao {
         else {
             v = shareMapper.launchSeminarShareRequest(share);
         }
-        if(v>0)
+        if(v>0) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -239,10 +242,11 @@ public class ShareDao {
      */
     public boolean launchTeamRequest(TeamApplicationVO applicationVO) throws NotFoundException
     {
-        if(shareMapper.launchTeamRequest(applicationVO)>0)
+        if(shareMapper.launchTeamRequest(applicationVO)>0) {
             return true;
-        else
+        } else {
             throw new NotFoundException("未找到request");
+        }
     }
 
     /**
@@ -260,8 +264,9 @@ public class ShareDao {
             }
             return true;
         }
-        else
+        else {
             return false;
+        }
     }
 
     /**
@@ -279,8 +284,9 @@ public class ShareDao {
             }
             return true;
         }
-        else
+        else {
             return false;
+        }
     }
 
     public boolean createSubCourseTeamList(BigInteger shareId) throws NotFoundException {

@@ -173,10 +173,15 @@ public class TeamService {
         else{
             boolean flag = teamDao.removeTeamMember(teamId,studentId);
             if(flag) {
-                if(judgeIllegal(teamId)) return 2;
-                else return 3;
+                if(judgeIllegal(teamId)) {
+                    return 2;
+                } else {
+                    return 3;
+                }
             }
-            else return 0;
+            else {
+                return 0;
+            }
         }
 
     }
@@ -190,7 +195,9 @@ public class TeamService {
     public boolean addTeamMember(BigInteger teamId,List<BigInteger> studentIdList)
     {
         for(BigInteger item:studentIdList){
-            if(teamDao.insertTeamStudent(teamId,item)<0) return false;
+            if(teamDao.insertTeamStudent(teamId,item)<0) {
+                return false;
+            }
         }
         return true;
     }
@@ -284,7 +291,9 @@ public class TeamService {
         if (flag > 0 && flag_1 > 0 && flag_2 > 0) {
             //System.out.println(flag + "**" + flag_1 + "**" + flag_2);
             return team.getTeamId();
-        } else return null;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -373,7 +382,9 @@ public class TeamService {
                     if(andOrOrStrategyVO.getStrategyName().equals("MemberLimitStrategy")){
                         int teamMemberNumber=strategyDao.getTeamMemberNumber(teamId);
                         CourseVO courseVO=strategyDao.getTeamMemberLimit(item.getStrategyId());
-                        if(teamMemberNumber>courseVO.getMaxMember()||teamMemberNumber<courseVO.getMinMember())return false;
+                        if(teamMemberNumber>courseVO.getMaxMember()||teamMemberNumber<courseVO.getMinMember()) {
+                            return false;
+                        }
                     }
                     else if(andOrOrStrategyVO.getStrategyName().equals("TeamOrStrategy")){
                         List<AndOrOrStrategyVO> orStrategyVOList=strategyDao.selectAndStrategy(andOrOrStrategyVO.getStrategyId());
@@ -386,8 +397,11 @@ public class TeamService {
                             }
                             if(studentNumber<courseLimitVO.getMaxMember()&&studentNumber>courseLimitVO.getMinMember()) {flag=true;break;}
                         }
-                        if(flag==true) continue;
-                        else return false;
+                        if(flag==true) {
+                            continue;
+                        } else {
+                            return false;
+                        }
 
                     }
                     else if(andOrOrStrategyVO.getStrategyName().equals("CourseMemberLimitStrategy")){
@@ -396,7 +410,9 @@ public class TeamService {
                         for(BigInteger studentId:studentIdList){
                             studentNumber+=strategyDao.getCourseStudentNumber(courseLimitVO.getCourseId(),studentId);
                         }
-                        if(studentNumber>courseLimitVO.getMaxMember()||studentNumber<courseLimitVO.getMinMember()) return false;
+                        if(studentNumber>courseLimitVO.getMaxMember()||studentNumber<courseLimitVO.getMinMember()) {
+                            return false;
+                        }
                     }
 
                 }
@@ -412,8 +428,11 @@ public class TeamService {
                     }
                     if(studentNumber<courseLimitVO.getMaxMember()&&studentNumber>courseLimitVO.getMinMember()) {flag=true;break;}
                 }
-                if(flag=true) continue;
-                else return false;
+                if(flag=true) {
+                    continue;
+                } else {
+                    return false;
+                }
             }
             else if(item.getStrategyName().equals("ConflictCourseStrategy")){
                 System.out.println("ConflictCourseStrategy");

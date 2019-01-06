@@ -157,12 +157,16 @@ public class DownloadFileDao {
         } finally {
             //关闭流
             try {
-                if(null != bufferStream) bufferStream.close();
+                if(null != bufferStream) {
+                    bufferStream.close();
+                }
                 if(null != zipStream){
                     zipStream.flush();
                     zipStream.close();
                 }
-                if(null != zipSource) zipSource.close();
+                if(null != zipSource) {
+                    zipSource.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -26,8 +26,10 @@ public class AdminController {
     @RequestMapping(value="/teacher",method = RequestMethod.POST)
     public boolean creatTeacher(@RequestBody Map<String,Object> inMap) throws SQLException {
         int flag= adminService.createTeacher(inMap);
-        if(flag>0)return true;
-        else return false;
+        if(flag>0){return true;}
+        else {
+            return false;
+        }
     }
 
     /**

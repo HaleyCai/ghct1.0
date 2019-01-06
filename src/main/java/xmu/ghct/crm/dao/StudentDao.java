@@ -59,9 +59,11 @@ public class StudentDao {
         v1=studentMapper.setStudentActiveById(id);
         v2=studentMapper.setStudentPasswordById(id,password);
         v3=studentMapper.setStudentEmailById(id,email);
-        if(v1==1 && v2==1 && v3==1)
+        if(v1==1 && v2==1 && v3==1) {
             return true;
-        else return false;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -77,10 +79,11 @@ public class StudentDao {
             throw new SQLException("密码未改变");
         }
         int v1=studentMapper.setStudentPasswordById(id,password);
-        if(v1==1)
+        if(v1==1) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -96,10 +99,11 @@ public class StudentDao {
             throw new SQLException("邮箱未改变");
         }
         int v1=studentMapper.setStudentEmailById(id,email);
-        if(v1==1)
+        if(v1==1) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -144,8 +148,9 @@ public class StudentDao {
             //throw
             return false;
         }
-        else
+        else {
             return true;
+        }
     }
 
     /**
@@ -159,8 +164,9 @@ public class StudentDao {
             //throw
             return false;
         }
-        else
+        else {
             return true;
+        }
     }
 
     /**
@@ -177,8 +183,9 @@ public class StudentDao {
             //throw
             return false;
         }
-        else
+        else {
             return true;
+        }
     }
 
     /**

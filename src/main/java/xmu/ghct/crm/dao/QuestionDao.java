@@ -43,8 +43,9 @@ public class QuestionDao {
             //throw
             return false;
         }
-        else
+        else {
             return true;
+        }
     }
 
     public Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId)
@@ -80,8 +81,9 @@ public class QuestionDao {
             //throw
             return false;
         }
-        else
+        else {
             return true;
+        }
     }
 
     public BigInteger getTeamIdByStudentId(BigInteger studentId)

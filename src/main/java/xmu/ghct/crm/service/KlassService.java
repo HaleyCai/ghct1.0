@@ -31,7 +31,9 @@ public class KlassService {
         int klassSerial=new Integer(klassMap.get("klassSerial").toString());
         List<Klass> klassList=klassDao.listKlassByCourseId(courseId);
         for(Klass item:klassList){
-            if(klassSerial==item.getKlassSerial()) return 0;
+            if(klassSerial==item.getKlassSerial()) {
+                return 0;
+            }
         }
         klass.setGrade(new Integer(klassMap.get("grade").toString()));
         klass.setKlassSerial(klassSerial);
@@ -62,8 +64,11 @@ public class KlassService {
         klassDao.deleteKlassSeminarByKlassId(klassId);
         klassDao.deleteKlassStudentByKlassId(klassId);
         klassDao.deleteTeamWithKlass(klassId);
-        if(flag>0)return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -77,8 +82,9 @@ public class KlassService {
         List<Klass> klassList=new ArrayList<>();
         for(BigInteger item:klassIdList){
             Klass klass =klassDao.getKlassByKlassId(item);
-            if(klass!=null)
+            if(klass!=null) {
                 klassList.add(klass);
+            }
         }
         System.out.println("klassList: "+klassList);
         return klassList;

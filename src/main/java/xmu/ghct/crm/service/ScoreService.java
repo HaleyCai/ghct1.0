@@ -163,8 +163,9 @@ public class ScoreService {
         BigInteger klassId=new BigInteger("0");
         for(BigInteger klass_1:klassIdList){
             for(BigInteger klass_2:klassIdS){
-                if(klass_1.equals(klass_2))
+                if(klass_1.equals(klass_2)) {
                     klassId=klass_1;
+                }
             }
         }
         for(SeminarSimpleVO item:seminarSimpleVOS){

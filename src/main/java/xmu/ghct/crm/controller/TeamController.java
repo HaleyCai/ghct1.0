@@ -100,8 +100,9 @@ public class TeamController {
      */
     @RequestMapping(value="/team/{teamId}",method = RequestMethod.DELETE)
     public boolean deleteTeam(@PathVariable("teamId") String teamId) throws NotFoundException {
-        if(teamService.deleteTeam(new BigInteger(teamId)))
+        if(teamService.deleteTeam(new BigInteger(teamId))) {
             return true;
+        }
         return false;
     }
 
@@ -172,7 +173,9 @@ public class TeamController {
             teamService.updateStatusByTeamId(teamId,status);
             return true;
         }
-        else return false;
+        else {
+            return false;
+        }
     }
 
 

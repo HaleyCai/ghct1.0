@@ -80,10 +80,11 @@ public class RoundDao {
      */
     private String intToString(int i)
     {
-        if(i==0)
+        if(i==0) {
             return "平均分";
-        else
+        } else {
             return "最高分";
+        }
     }
 
     /**
@@ -93,10 +94,11 @@ public class RoundDao {
      */
     private int stringToInt(String s)
     {
-        if(s.equals("平均分"))
+        if(s.equals("平均分")) {
             return 0;
-        else
+        } else {
             return 1;
+        }
     }
 
     /**
@@ -146,10 +148,11 @@ public class RoundDao {
             enrollVO.setGrade(item.getGrade());
             //最大允许报名次数
             Integer max=roundMapper.getEnrollNum(enrollVO.getKlassId(),roundId);
-            if(max==null)
+            if(max==null) {
                 enrollVO.setEnroll(0);
-            else
+            } else {
                 enrollVO.setEnroll(max);
+            }
             enrollNum.add(enrollVO);
         }
         return enrollNum;
@@ -255,8 +258,9 @@ public class RoundDao {
     {
         //查class有几个，每个class调一遍创建
         List<Klass> klassList=klassMapper.listKlassByCourseId(courseId);
-        for(Klass item:klassList)
+        for(Klass item:klassList) {
             roundMapper.createDefaultEnrollNumber(item.getKlassId(),roundId);
+        }
     }
 
     /**

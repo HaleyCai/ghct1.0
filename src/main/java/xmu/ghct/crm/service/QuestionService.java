@@ -109,8 +109,9 @@ public class QuestionService {
      * @return
      */
     public boolean postQuestion(BigInteger studentId,BigInteger klassSeminarId,BigInteger attendanceId) throws org.apache.ibatis.javassist.NotFoundException {
-        if(questionDao.getTeamIdByStudentId(studentId)==presentationDao.getAttendanceByAttendanceId(attendanceId).getTeamId())
+        if(questionDao.getTeamIdByStudentId(studentId)==presentationDao.getAttendanceByAttendanceId(attendanceId).getTeamId()) {
             return false;
+        }
 
         Question question=new Question();
 
@@ -162,9 +163,10 @@ public class QuestionService {
         Double reportScore1=roundScore.getReportScore();
         boolean success2=questionDao.updateRoundScoreEnd(roundId,teamId,presentationScore1,questionScore1,reportScore1,totalScore1);
 
-        if(success==true&&success1==true&&success2==true)
+        if(success==true&&success1==true&&success2==true) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }

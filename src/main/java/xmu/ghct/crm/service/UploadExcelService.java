@@ -62,17 +62,23 @@ public class UploadExcelService {
             row = sheet.getRow(i);
             User user=new User();
             String account= getCellFormatValue(row.getCell(0)).toString().replaceAll("\\u00A0", "");
-            if(account.length()<=0) continue;
+            if(account.length()<=0) {
+                continue;
+            }
             account=account.replaceAll(" ","");
             user.setAccount(account);
             String name=getCellFormatValue(row.getCell(1)).toString().replaceAll("\\u00A0","");
-            if(name.length()<=0) continue;
+            if(name.length()<=0) {
+                continue;
+            }
             name=name.replaceAll(" ","");
             user.setName(name);
             System.out.println(user);
             int flag_1=studentDao.insertStudent(user);
             int flag_2=studentDao.insertKlassStudent(user.getId(),klassId,courseId);
-            if(flag_1<0||flag_2<0) return false;
+            if(flag_1<0||flag_2<0) {
+                return false;
+            }
         }
         return true;
     }

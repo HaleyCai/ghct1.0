@@ -43,7 +43,9 @@ public class ScoreCalculationDao {
         List<BigInteger> klassSeminarIdList=new ArrayList<>();
         for(BigInteger item:seminarIdList){
             BigInteger klassSeminarId=seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(item,klassId);
-            if(klassSeminarId!=null) klassSeminarIdList.add(klassSeminarId);
+            if(klassSeminarId!=null) {
+                klassSeminarIdList.add(klassSeminarId);
+            }
         }
         List<Score> seminarScoreList=new ArrayList<>();
         int a=0;
@@ -68,8 +70,11 @@ public class ScoreCalculationDao {
             roundScore.setPresentationScore(presentation);
         }
         else {
-            if(roundScoreVO.getPresentationScore()>score.getPresentationScore()) roundScore.setPresentationScore(roundScoreVO.getPresentationScore());
-            else roundScore.setPresentationScore(score.getPresentationScore());
+            if(roundScoreVO.getPresentationScore()>score.getPresentationScore()) {
+                roundScore.setPresentationScore(roundScoreVO.getPresentationScore());
+            } else {
+                roundScore.setPresentationScore(score.getPresentationScore());
+            }
      //       System.out.println("presentation成绩为： "+roundScore.getPresentationScore());
         }
         if(round.getQuestionScoreMethod()==0){
@@ -87,8 +92,11 @@ public class ScoreCalculationDao {
             roundScore.setQuestionScore(question);
         }
         else {
-            if(roundScoreVO.getQuestionScore()>score.getQuestionScore()) roundScore.setQuestionScore(roundScoreVO.getQuestionScore());
-            else roundScore.setQuestionScore(score.getQuestionScore());
+            if(roundScoreVO.getQuestionScore()>score.getQuestionScore()) {
+                roundScore.setQuestionScore(roundScoreVO.getQuestionScore());
+            } else {
+                roundScore.setQuestionScore(score.getQuestionScore());
+            }
           //  System.out.println("question成绩为： "+roundScore.getQuestionScore());
         }
         if(round.getReportScoreMethod()==0){
@@ -106,8 +114,11 @@ public class ScoreCalculationDao {
             roundScore.setReportScore(report);
         }
         else {
-            if(roundScoreVO.getReportScore()>score.getReportScore()) roundScore.setReportScore(roundScoreVO.getReportScore());
-            else roundScore.setReportScore(score.getReportScore());
+            if(roundScoreVO.getReportScore()>score.getReportScore()) {
+                roundScore.setReportScore(roundScoreVO.getReportScore());
+            } else {
+                roundScore.setReportScore(score.getReportScore());
+            }
           //  System.out.println("report成绩为： "+roundScore.getReportScore());
         }
         roundScore=totalScoreDao.totalScoreCalculation(roundScore,courseId);

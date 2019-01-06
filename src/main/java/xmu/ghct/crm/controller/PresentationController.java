@@ -84,8 +84,11 @@ public class PresentationController {
     @PutMapping("/attendance/{attendanceId}")
     public boolean updateAttendanceOrderByAttendanceId(@PathVariable("attendanceId") String attendanceId, @RequestBody Map<String,Object> orderMap) throws org.apache.ibatis.javassist.NotFoundException {
         int flag=presentationService.updateAttendanceOrderByAttendanceId(new BigInteger(attendanceId),orderMap);
-        if(flag>0) return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -97,8 +100,11 @@ public class PresentationController {
     @DeleteMapping("/attendance/{attendanceId}")
     public boolean deleteAttendanceByAttendance(@PathVariable("attendanceId") String attendanceId) throws org.apache.ibatis.javassist.NotFoundException {
         int flag= presentationService.deleteAttendanceByAttendance(new BigInteger(attendanceId));
-        if(flag>0) return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -129,9 +135,11 @@ public class PresentationController {
             String reportName = reportMap.get("name");
             String reportUrl = reportMap.get("path");
             int flag = presentationService.updateReportByAttendanceId(new BigInteger(attendanceId), reportUrl, reportName);
-            if (flag > 0)
+            if (flag > 0) {
                 return true;
-            else return false;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -167,9 +175,11 @@ public class PresentationController {
             String pptName = pptMap.get("name");
             String pptUrl = pptMap.get("path");
             int flag = presentationService.updatePPTByAttendanceId(new BigInteger(attendanceId), pptUrl, pptName);
-            if (flag > 0)
+            if (flag > 0) {
                 return true;
-            else return false;
+            } else {
+                return false;
+            }
     }
 
 
@@ -275,7 +285,10 @@ public class PresentationController {
                     if(item_1.getTeamOrder()<minOrder){minOrder=item_1.getTeamOrder();id=item_1.getAttendanceId();}
                 }
                 for(Attendance item_1:attendanceList){
-                    if(item_1.getAttendanceId().equals(id)) item_1.setPresent(1);}
+                    if(item_1.getAttendanceId().equals(id)) {
+                        item_1.setPresent(1);
+                    }
+                }
                 System.out.println(id);
                 presentationService.updatePresentByAttendanceId(id,new Integer(1));
             }
@@ -347,8 +360,11 @@ public class PresentationController {
         scoreVO.setRoundId(roundId);
         scoreVO.setTeamId(new BigInteger(teamId));
         scoreDao.updateRoundScoreByRoundIdAndTeamId(scoreVO);
-        if(flag>0) return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -370,12 +386,16 @@ public class PresentationController {
         BigInteger teamId=new BigInteger("0");
         for(BigInteger teamIdItem:teamIdList){
             BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+            if(courseId.equals(courseIdItem)) {
+                teamId=teamIdItem;
+            }
         }
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
         for(Attendance attendance:attendanceList){
-            if(teamId.equals(attendance.getTeamId())) return false;//该队伍已报名讨论课
+            if(teamId.equals(attendance.getTeamId())) {
+                return false;//该队伍已报名讨论课
+            }
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//修改日期格式
         String enrollEndTime=dateFormat.format(seminar.getEnrollEndTime());
@@ -390,8 +410,11 @@ public class PresentationController {
         }
         else{
             int flag= presentationService.insertAttendance(new BigInteger(klassSeminarId),teamId,attendanceMap);
-            if(flag>0) return true;
-            else return false;
+            if(flag>0) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -411,7 +434,9 @@ public class PresentationController {
         BigInteger teamId=new BigInteger("0");
         for(BigInteger teamIdItem:teamIdList){
             BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+            if(courseId.equals(courseIdItem)) {
+                teamId=teamIdItem;
+            }
         }
         return presentationService.getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),teamId);
     }

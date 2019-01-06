@@ -354,7 +354,9 @@ public class SeminarService {
             roundScoreVO.setRoundId(roundId);
             roundScoreVO.setTeamId(teamId);
             scoreMapper.updateRoundScoreByRoundIdAndTeamId(roundScoreVO);
-            if(flag<0) return false;
+            if(flag<0) {
+                return false;
+            }
         }
         return true;
     }
@@ -391,7 +393,9 @@ public class SeminarService {
         BigInteger teamId=new BigInteger("0");
         for(BigInteger teamIdItem:teamIdList){
             BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+            if(courseId.equals(courseIdItem)) {
+                teamId=teamIdItem;
+            }
         }
         List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
         System.out.println(attendanceList);
@@ -420,7 +424,9 @@ public class SeminarService {
                 map.add(oneMap);
                 continue;
             }
-            else oneMap.put("attendanceStatus",true);
+            else {
+                oneMap.put("attendanceStatus",true);
+            }
             i++;
             BigInteger teamID=item.getTeamId();
             Team team=teamDao.getTeamInfoByTeamId(teamID);

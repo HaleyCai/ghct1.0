@@ -80,8 +80,11 @@ public class SeminarController {
     public Boolean creatSeminar(@PathVariable("courseId") String courseId,
                                 @RequestBody Map<String,Object> seminarMap) throws ParseException, NotFoundException, SQLException {
         int flag=seminarService.creatSeminar(new BigInteger(courseId),seminarMap);
-        if(flag>0) return true;
-        else  return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -105,8 +108,11 @@ public class SeminarController {
     public boolean updateSeminarBySeminarId(@PathVariable("seminarId")String seminarId,
                                             @RequestBody Map<String,Object> seminarMap) throws ParseException, NotFoundException {
         int flag=seminarService.updateSeminarBySeminarId(new BigInteger(seminarId),seminarMap);
-        if(flag>0) return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -120,8 +126,11 @@ public class SeminarController {
         int flag_1=seminarService.deleteSeminarBySeminarId(new BigInteger(seminarId));
         int flag_2=seminarService.deleteKlassSeminarBySeminarId(new BigInteger(seminarId));
         int flag_3=scoreService.deleteSeminarScoreBySeminarId(new BigInteger(seminarId));
-        if(flag_1>0&&flag_2>0&&flag_3>0) return true;
-        else return false;
+        if(flag_1>0&&flag_2>0&&flag_3>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -147,8 +156,11 @@ public class SeminarController {
         int flag=seminarService.updateKlassSeminarByKlassSeminarId(
                 new BigInteger(klassSeminarId),
                 klassMap);
-        if(flag>0) return true;
-        else return  false;
+        if(flag>0) {
+            return true;
+        } else {
+            return  false;
+        }
     }
 
 
@@ -164,8 +176,11 @@ public class SeminarController {
         int flag=seminarService.deleteKlassSeminarBySeminarIdAndKlassId(
                 new BigInteger(klassId),
                 new BigInteger(seminarId));
-        if(flag>0) return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -193,8 +208,11 @@ public class SeminarController {
     public boolean updateKlassSeminarStatus(@PathVariable("klassSeminarId") String klassSeminarId,
                                             @RequestParam int status) throws NotFoundException {
         int flag=seminarService.updateKlassSeminarStatus(new BigInteger(klassSeminarId),status);
-        if(flag>0)return true;
-        else return  false;
+        if(flag>0) {
+            return true;
+        } else {
+            return  false;
+        }
     }
 
 
@@ -215,7 +233,9 @@ public class SeminarController {
         for(BigInteger teamIdItem:teamIdList){
             System.out.println(teamIdItem);
             BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) teamId=teamIdItem;
+            if(courseId.equals(courseIdItem)) {
+                teamId=teamIdItem;
+            }
         }
         return seminarService.getTeamSeminarScoreByTeamIdAndSeminarId(teamId,new BigInteger(seminarId));
     }
@@ -231,8 +251,11 @@ public class SeminarController {
     public boolean updateSeminarScoreBySeminarIdAndTeamId(@PathVariable("klassSeminarId") String klassSeminarId,
                                                           @PathVariable("teamId") String teamId,@RequestBody Map<String,Object> seminarScoreMap) throws NotFoundException {
         int flag=seminarService.updateSeminarScoreBySeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId),seminarScoreMap);
-        if(flag>0) return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

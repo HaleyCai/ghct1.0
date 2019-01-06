@@ -85,9 +85,11 @@ public class UserController {
         Map<String,Object> map=new HashMap<>();
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         System.out.println("id"+id);
-        if(userService.teacherActive(id, inMap.get("password").toString()))
+        if(userService.teacherActive(id, inMap.get("password").toString())) {
             map.put("message",true);
-        else map.put("message",false);
+        } else {
+            map.put("message",false);
+        }
         return map;
     }
 
@@ -101,9 +103,11 @@ public class UserController {
                                             @RequestBody Map<String,Object> inMap){
         Map<String,Object> map=new HashMap<>();
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        if(userService.studentActive(id, inMap.get("password").toString(),inMap.get("email").toString()))
+        if(userService.studentActive(id, inMap.get("password").toString(),inMap.get("email").toString())) {
             map.put("message",true);
-        else map.put("message",false);
+        } else {
+            map.put("message",false);
+        }
         return map;
     }
 

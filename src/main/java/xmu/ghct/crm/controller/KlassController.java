@@ -30,8 +30,11 @@ public class KlassController {
     public boolean createKlass(@PathVariable("courseId")String courseId,@RequestBody Map<String,Object> klassMap) throws NotFoundException, SQLException {
         //创建之前先判断，是否有同一课程下的同样的班级次序，若有则失败
         int flag=klassService.creatKlass(new BigInteger(courseId),klassMap);
-        if(flag>0) return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -50,8 +53,11 @@ public class KlassController {
     @ResponseBody
     public boolean deleteKlassByCourseId(@PathVariable("courseId")String courseId) throws NotFoundException {
         int flag= klassService.deleteKlassByCourseId(new BigInteger(courseId));
-        if(flag>0) return true;
-        else return false;
+        if(flag>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
