@@ -1,10 +1,12 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * @author caiyq
+ */
 public class RoundVO implements Serializable {
     private BigInteger courseId;
     private BigInteger roundId;

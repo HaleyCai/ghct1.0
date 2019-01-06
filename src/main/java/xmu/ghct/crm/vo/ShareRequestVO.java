@@ -1,9 +1,9 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.math.BigInteger;
 
 /**
- * 发送的共享请求
+ * @author caiyq
  */
 public class ShareRequestVO {
     private BigInteger shareId;

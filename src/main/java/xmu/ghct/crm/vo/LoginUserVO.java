@@ -1,8 +1,10 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.math.BigInteger;
-import java.util.List;
 
+/**
+ * @author caiyq
+ */
 public class LoginUserVO {
     protected BigInteger id;
     protected String account;

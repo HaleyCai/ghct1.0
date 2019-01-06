@@ -1,9 +1,12 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author caiyq
+ */
 public class TeamInfoVO implements Serializable {
 
     private BigInteger teamId;

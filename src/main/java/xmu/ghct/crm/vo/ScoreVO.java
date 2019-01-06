@@ -1,7 +1,10 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author hzm
+ */
 public class ScoreVO {
 
     private BigInteger roundId;

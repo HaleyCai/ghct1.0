@@ -1,8 +1,11 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 
+/**
+ * @author gfj
+ */
 public class QuestionListVO implements Serializable{
     private BigInteger questionId;
     private int klassSerial;

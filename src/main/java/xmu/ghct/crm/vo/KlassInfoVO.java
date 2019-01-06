@@ -1,10 +1,10 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
- * 学生界面，课程显示的信息
+ * @author caiyq
  */
 public class KlassInfoVO implements Serializable {
     private BigInteger courseId;

@@ -1,7 +1,10 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.math.BigInteger;
 
+/**
+ * @author caiyq
+ */
 public class RoundEnrollVO {
     private BigInteger klassId;
     private int klassSerial;
@@ -38,5 +41,15 @@ public class RoundEnrollVO {
 
     public void setEnroll(int enroll) {
         this.enroll = enroll;
+    }
+
+    @Override
+    public String toString() {
+        return "RoundEnrollVO{" +
+                "klassId=" + klassId +
+                ", klassSerial=" + klassSerial +
+                ", grade=" + grade +
+                ", enroll=" + enroll +
+                '}';
     }
 }

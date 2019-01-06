@@ -1,11 +1,13 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import xmu.ghct.crm.entity.Course;
 
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * @author hzm
+ */
 public class NewCourseVO {
 
     private BigInteger courseId;

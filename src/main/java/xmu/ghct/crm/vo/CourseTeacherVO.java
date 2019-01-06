@@ -1,7 +1,10 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.math.BigInteger;
 
+/**
+ * @author gfj
+ */
 public class CourseTeacherVO {
     private BigInteger courseId;
     private String courseName;

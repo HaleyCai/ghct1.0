@@ -1,16 +1,17 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
- * 讨论课简单的信息
+ * @author caiyq
  */
 public class SeminarSimpleVO implements Serializable {
     private BigInteger seminarId;
     private BigInteger klassSeminarId;
     private String topic;
-    private int order;//讨论课
+    //讨论课
+    private int order;
 
 
     public void setKlassSeminarId(BigInteger klassSeminarId) {
