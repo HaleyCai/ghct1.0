@@ -209,6 +209,9 @@ public class CourseService {
             }
             BigInteger teamId=attendance.getTeamId();
             Team team=teamDao.getTeamInfoByTeamId(teamId);
+            if(team==null){
+                return null;
+            }
             Klass klass=klassDao.getKlassByKlassId(team.getKlassId());
             User user=userService.getInformation(team.getLeaderId(),"student");
             oneMap.put("klassId",team.getKlassId());

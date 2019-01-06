@@ -231,6 +231,9 @@ public class SeminarService {
     public SeminarScoreVO getTeamSeminarScoreByTeamIdAndSeminarId(BigInteger teamId, BigInteger seminarId) throws NotFoundException {
         SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
         Team teamInfo=teamDao.getTeamInfoByTeamId(teamId);
+        if(teamInfo==null) {
+            return null;
+        }
         BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,teamInfo.getKlassId());
         Seminar seminarInfo=seminarDao.getSeminarBySeminarId(seminarId);
         Klass klassInfo=klassDao.getKlassByKlassId(teamInfo.getKlassId());
@@ -323,7 +326,12 @@ public class SeminarService {
         List<Team> teamList=new ArrayList<>();
         for(Attendance attendance:attendanceList){
             Team team=teamDao.getTeamInfoByTeamId(attendance.getTeamId());
-            teamList.add(team);
+            if(team==null){
+                continue;
+            }
+            else{
+                teamList.add(team);
+            }
         }
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
         BigInteger klassId=seminarVO.getKlassId();
@@ -387,6 +395,10 @@ public class SeminarService {
         List<Map> map=new ArrayList<>();
         for(Attendance item:attendanceList){
             Team team=teamDao.getTeamInfoByTeamId(item.getTeamId());
+            if(team==null)
+            {
+                return null;
+            }
             Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),team.getTeamId());
             System.out.println(team);
             Map<String,Object> oneMap=new HashMap<>(16);
@@ -463,6 +475,13 @@ public class SeminarService {
             i++;
             BigInteger teamID=item.getTeamId();
             Team team=teamDao.getTeamInfoByTeamId(teamID);
+            if(team==null)
+            {
+                oneMap.put("attendanceId",0);
+                oneMap.put("klassSerial",0);
+                oneMap.put("teamSerial",0);
+                oneMap.put("teamOrder",0);
+            }
             oneMap.put("attendanceId",item.getAttendanceId());
             oneMap.put("klassSerial",klassSerial);
             oneMap.put("teamSerial",team.getTeamSerial());

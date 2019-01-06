@@ -84,6 +84,10 @@ public class TeamService {
         {
             //该课程下有该队伍，才查队伍信息
             Team team=teamDao.getTeamInfoByTeamId(teamId);
+            if(team==null)
+            {
+                return null;
+            }
             teamInfoVO.setTeamId(team.getTeamId());
             teamInfoVO.setTeamName(team.getTeamName());
             teamInfoVO.setTeamSerial(team.getTeamSerial());

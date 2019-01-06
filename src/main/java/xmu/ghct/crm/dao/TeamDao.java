@@ -78,7 +78,7 @@ public class TeamDao {
         List<BigInteger> list=teamMapper.getStudentIdByTeamId(teamId);
         if(list==null&&list.isEmpty())
         {
-            throw new NotFoundException("该组下没有学生");
+            return null;
         }
         return list;
     }
@@ -87,7 +87,7 @@ public class TeamDao {
         Team team=teamMapper.getTeamInfoByTeamId(teamId);
         if(team==null)
         {
-            throw new NotFoundException("未找到该组");
+            return null;
         }
         return team;
     }
@@ -106,10 +106,6 @@ public class TeamDao {
                 team.setKlassId(klassId);
             }
             teams.add(team);
-        }
-        if(teams==null&&teams.isEmpty())
-        {
-            throw new NotFoundException("未找到该班级");
         }
         return teams;
     }

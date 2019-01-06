@@ -89,7 +89,7 @@ public class SeminarDao {
         System.out.println(("seminarVO=="+seminarVO));
         if(seminarVO==null)
         {
-            throw new NotFoundException("未找到klassSeminar");
+            return null;
         }
         return seminarVO;
     }
@@ -108,7 +108,7 @@ public class SeminarDao {
         System.out.println("seminarId"+seminarId+" klassId"+klassId);
         if(seminarMapper.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId)==null)
         {
-            throw new NotFoundException("未找到klassSeminar");
+            return null;
         }
         return seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
     }
@@ -117,7 +117,7 @@ public class SeminarDao {
         SeminarVO seminarVO=seminarMapper.getKlassSeminarByKlassSeminarId(klassSeminarId);
         if(seminarVO==null)
         {
-            throw new NotFoundException("未找到klassSeminar");
+            return null;
         }
         return seminarVO;
     }
@@ -126,7 +126,7 @@ public class SeminarDao {
         BigInteger flag=seminarMapper.getKlassIdByKlassSeminarId(klassSeminarId);
         if(flag==null)
         {
-            throw new NotFoundException("未找到klassSeminar");
+            return null;
         }
         return flag;
     }
@@ -135,7 +135,7 @@ public class SeminarDao {
         BigInteger flag=seminarMapper.getRoundIdBySeminarId(seminarId);
         if(flag==null)
         {
-            throw new NotFoundException("未找到round");
+            return null;
         }
         return flag;
     }
@@ -144,7 +144,7 @@ public class SeminarDao {
         List<BigInteger> list=seminarMapper.getSeminarIdByRoundId(roundId);
         if(list==null&&list.isEmpty())
         {
-            throw new NotFoundException("未找到该轮下的讨论课");
+            return null;
         }
         return list;
     }
@@ -153,7 +153,7 @@ public class SeminarDao {
         List<SeminarVO> list=seminarMapper.listKlassSeminarIdByKlassId(klassId);
         if(list==null&&list.isEmpty())
         {
-            throw new NotFoundException("未找到该班级下的klassSeminar");
+            return null;
         }
         return list;
     }
