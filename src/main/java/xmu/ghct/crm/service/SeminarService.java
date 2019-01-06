@@ -401,12 +401,15 @@ public class SeminarService {
         Klass klass=klassDao.getKlassByKlassId(klassId);
         int klassSerial=klass.getKlassSerial();
         List<Map> map=new ArrayList<>();
+        BigInteger myAttendanceId=new BigInteger("0");
         boolean myTeamAttendance=false;
         int account=0;
         for(int i=0;i<attendanceList.size();){
             Attendance item=attendanceList.get(i);
             if(item.getTeamId().equals(teamId)){
                 myTeamAttendance=true;
+                myAttendanceId=item.getAttendanceId();
+
             }
             System.out.println(item);
             Map<String,Object> oneMap=new HashMap<>();
@@ -444,6 +447,7 @@ public class SeminarService {
         }
         Map<String,Object> oneMap=new HashMap<>();
         oneMap.put("myTeamAttendance",myTeamAttendance);
+        oneMap.put("myAttendanceId",myAttendanceId);
         map.add(oneMap);
         return map;
     }
