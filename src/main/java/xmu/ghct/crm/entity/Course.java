@@ -24,45 +24,20 @@ public class Course implements Serializable {
     private BigInteger teamMainCourseId;
     private BigInteger seminarMainCourseId;
 
-
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
-
-    public String getTeacherName() {
-        return teacherName;
-    }
-    public void setMinMember(int minMember) {
-        this.minMember = minMember;
-    }
-
-    public void setMaxMember(int maxMember) {
-        this.maxMember = maxMember;
-    }
-
-    public void setMemberLimitId(BigInteger memberLimitId) {
-        this.memberLimitId = memberLimitId;
-    }
-
-    public int getMinMember() {
-        return minMember;
-    }
-
-    public int getMaxMember() {
-        return maxMember;
-    }
-
-    public BigInteger getMemberLimitId() {
-        return memberLimitId;
-    }
-
     public BigInteger getCourseId() {
         return courseId;
     }
 
     public void setCourseId(BigInteger courseId) {
         this.courseId = courseId;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public BigInteger getTeacherId() {
@@ -127,6 +102,30 @@ public class Course implements Serializable {
 
     public void setTeamEndTime(Date teamEndTime) {
         this.teamEndTime = teamEndTime;
+    }
+
+    public int getMinMember() {
+        return minMember;
+    }
+
+    public void setMinMember(int minMember) {
+        this.minMember = minMember;
+    }
+
+    public int getMaxMember() {
+        return maxMember;
+    }
+
+    public void setMaxMember(int maxMember) {
+        this.maxMember = maxMember;
+    }
+
+    public BigInteger getMemberLimitId() {
+        return memberLimitId;
+    }
+
+    public void setMemberLimitId(BigInteger memberLimitId) {
+        this.memberLimitId = memberLimitId;
     }
 
     public BigInteger getTeamMainCourseId() {

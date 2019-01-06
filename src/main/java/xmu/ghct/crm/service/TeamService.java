@@ -91,6 +91,7 @@ public class TeamService {
         teamInfoVO.setKlassId(team.getKlassId());
         teamInfoVO.setKlassSerial(team.getKlassSerial());
         teamInfoVO.setStatus(team.getStatus());
+        System.out.println("status "+team.getStatus());
 
         //查该课程下的全部学生，排除掉队伍中非本课程的学生
         User leader=studentDao.getStudentById(team.getLeaderId());
@@ -391,14 +392,15 @@ public class TeamService {
    public Map<String,Object> getUserTeamStatusById(BigInteger courseId,BigInteger id) throws NotFoundException {
        Map<String,Object> map=new HashMap<>(16);
        List<BigInteger> teamIdList=teamDao.listTeamIdByStudentId(id);
-       if(teamIdList!=null){
+       System.out.println("teamIdList "+teamIdList);
+       if(teamIdList.isEmpty()){
+           map.put("isTeam",false);
+           map.put("myTeamId",null);
+       }
+       else{
            map.put("isTeam",true);
            map.put("myTeamId",teamIdList.get(0));
            return map;
-       }
-       else{
-           map.put("isTeam",false);
-           map.put("myTeamId",null);
        }
        return map;
    }

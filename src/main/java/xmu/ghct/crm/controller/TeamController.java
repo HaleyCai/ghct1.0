@@ -2,6 +2,8 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xmu.ghct.crm.entity.Share;
+import xmu.ghct.crm.mapper.ShareMapper;
 import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.exception.NotFoundException;
@@ -27,6 +29,8 @@ public class TeamController {
     TeamService teamService;
     @Autowired
     CourseService courseService;
+    @Autowired
+    ShareMapper shareMapper;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -75,13 +79,26 @@ public class TeamController {
         List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
         System.out.println(teamIdList);
         BigInteger teamId=new BigInteger("0");
+
+        BigInteger rightCourseId=new BigInteger("0");
+        Share share=shareMapper.getSubTeamShare(new BigInteger(courseId));
+        BigInteger mainCourseId=new BigInteger("0");
+        if(share!=null){
+            rightCourseId=mainCourseId;
+        }
+        else{
+            rightCourseId=new BigInteger(courseId);
+        }
+
         for(BigInteger teamIdItem:teamIdList){
             System.out.println(teamIdItem);
             Team team=teamService.getTeamInfoByTeamId(teamIdItem);
             System.out.println(team);
-            if(new BigInteger(courseId).equals(team.getCourseId())) {teamId=teamIdItem;break;}
+            if(rightCourseId.equals(team.getCourseId())) {teamId=teamIdItem;break;}
         }
-        return teamService.getTeamByCourseId(new BigInteger(courseId),teamId);
+        TeamInfoVO teamInfoVO=teamService.getTeamByCourseId(rightCourseId,teamId);
+        System.out.println("teamInfoVO "+teamInfoVO);
+        return teamInfoVO;
     }
 
     /**
