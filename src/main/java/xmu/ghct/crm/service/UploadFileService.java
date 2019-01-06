@@ -19,6 +19,9 @@ public class UploadFileService {
         if(fileName.contains("\\")){
             fileName=fileName.substring(fileName.lastIndexOf("\\")+1);
         }
+        else if(fileName.contains("/")){
+            fileName=fileName.substring(fileName.lastIndexOf("/")+1);
+        }
         File fileDir = new File("tmp");
         if(!fileDir.exists()){
             fileDir.mkdir();
@@ -26,7 +29,7 @@ public class UploadFileService {
         String path = fileDir.getAbsolutePath();
         System.out.println(path);
         file.transferTo(new File(fileDir.getAbsolutePath(),fileName));
-        String filePath=fileDir.getAbsolutePath()+"\\"+fileName;
+        String filePath=fileDir.getAbsolutePath()+File.separator+fileName;
         System.out.println(filePath);
         Map<String,String> uploadMap=new HashMap<>(16);
         uploadMap.put("name",fileName);

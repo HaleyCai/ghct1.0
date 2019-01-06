@@ -37,7 +37,14 @@ public class DownloadFileDao {
     }
 
     public void downloadFile(HttpServletResponse response, HttpServletRequest request,String filePath) throws UnsupportedEncodingException {
-        String fileName=filePath.substring(filePath.lastIndexOf("\\")+1);
+
+        String fileName;
+        if(filePath.contains("\\")){
+            fileName=filePath.substring(filePath.lastIndexOf("\\")+1);
+        }
+        else{
+            fileName=filePath.substring(filePath.lastIndexOf("/")+1);
+        }
         String type=fileName.substring(fileName.lastIndexOf("."));
         File file=new File(filePath);
 
