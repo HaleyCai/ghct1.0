@@ -59,7 +59,7 @@ public class CourseDao {
         strategyMapper.insertAndStrategy(id,"MemberLimitStrategy",courseVO.getMemberLimitId());
         List<CourseLimitVO> courseLimitVOS=courseVO.getCourseLimitVOS();
         if(courseLimitVOS!=null&&courseLimitVOS.size()>0){
-            if(courseVO.isFlag()==true){
+            if(courseVO.getFlag()==true){
                 System.out.println("strategy_id:"+id);
                 for(CourseLimitVO item:courseLimitVOS){
                     strategyMapper.insertCourseMemberLimit(item);

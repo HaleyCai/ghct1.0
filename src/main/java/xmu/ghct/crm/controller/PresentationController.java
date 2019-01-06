@@ -403,7 +403,7 @@ public class PresentationController {
      * @param klassSeminarId
      * @return
      */
-    @GetMapping("/seminar/{klassSeminarId}/team/seminarInfo")
+    @GetMapping("/seminar/{klassSeminarId}/seminarInfo")
     public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(HttpServletRequest request,@PathVariable("klassSeminarId")String klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         List<BigInteger> teamIdList=teamDao.listTeamIdByStudentId(id);

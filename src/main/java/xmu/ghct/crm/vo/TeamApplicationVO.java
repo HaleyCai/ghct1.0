@@ -23,11 +23,11 @@ public class TeamApplicationVO implements Serializable {
         this.teamValidId = teamValidId;
     }
 
-    public int getKlassSerial() {
+    public Integer getKlassSerial() {
         return klassSerial;
     }
 
-    public void setKlassSerial(int klassSerial) {
+    public void setKlassSerial(Integer klassSerial) {
         this.klassSerial = klassSerial;
     }
 
@@ -39,11 +39,11 @@ public class TeamApplicationVO implements Serializable {
         this.teamId = teamId;
     }
 
-    public int getTeamSerial() {
+    public Integer getTeamSerial() {
         return teamSerial;
     }
 
-    public void setTeamSerial(int teamSerial) {
+    public void setTeamSerial(Integer teamSerial) {
         this.teamSerial = teamSerial;
     }
 
@@ -63,11 +63,11 @@ public class TeamApplicationVO implements Serializable {
         this.reason = reason;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

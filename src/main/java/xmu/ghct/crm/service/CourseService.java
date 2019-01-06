@@ -145,7 +145,7 @@ public class CourseService {
         courseVO.setTeacherId(teacherId);
         courseVO.setMinMember(new Integer(newCourseVO.getMinMember()));
         courseVO.setMaxMember(new Integer(newCourseVO.getMaxMember()));
-        courseVO.setFlag(newCourseVO.isFlag());
+        courseVO.setFlag(newCourseVO.getFlag());
         courseVO.setCourseLimitVOS(newCourseVO.getCourseLimitVOS());
         List<List<BigInteger>> courseIdList=new ArrayList<>();
         if(newCourseVO.getConflictCourseIdS()!=null&&newCourseVO.getConflictCourseIdS().size()>0){

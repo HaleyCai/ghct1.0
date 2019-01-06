@@ -19,14 +19,6 @@ public class CourseTeacherVO {
                 '}';
     }
 
-    public void setKlassSeminarId(BigInteger klassSeminarId) {
-        this.klassSeminarId = klassSeminarId;
-    }
-
-    public BigInteger getKlassSeminarId() {
-        return klassSeminarId;
-    }
-
     public BigInteger getCourseId() {
         return courseId;
     }
@@ -43,4 +35,11 @@ public class CourseTeacherVO {
         this.courseName = courseName;
     }
 
+    public BigInteger getKlassSeminarId() {
+        return klassSeminarId;
+    }
+
+    public void setKlassSeminarId(BigInteger klassSeminarId) {
+        this.klassSeminarId = klassSeminarId;
+    }
 }

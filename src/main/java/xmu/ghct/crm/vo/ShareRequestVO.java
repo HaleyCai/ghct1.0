@@ -24,11 +24,11 @@ public class ShareRequestVO {
         this.shareId = shareId;
     }
 
-    public int getShareType() {
+    public Integer getShareType() {
         return shareType;
     }
 
-    public void setShareType(int shareType) {
+    public void setShareType(Integer shareType) {
         this.shareType = shareType;
     }
 
@@ -72,10 +72,6 @@ public class ShareRequestVO {
         this.subCourseName = subCourseName;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
     public BigInteger getSubTeacherId() {
         return subTeacherId;
     }
@@ -84,7 +80,11 @@ public class ShareRequestVO {
         this.subTeacherId = subTeacherId;
     }
 
-    public void setStatus(int status) {
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

@@ -285,6 +285,8 @@ public class SeminarController {
     @PostMapping("/seminar/{klassSeminarId}/updateReportScore")
     public boolean updateReportScoreByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,
                                                      @RequestBody ScoreVO scoreVO) throws NotFoundException{
+        System.out.println("klassSeminarId"+klassSeminarId);
+        System.out.println("scoreVO"+scoreVO);
         return seminarService.updateReportScoreByKlassSeminarId(new BigInteger(klassSeminarId),scoreVO);
     }
 

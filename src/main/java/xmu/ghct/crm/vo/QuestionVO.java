@@ -34,17 +34,25 @@ public class QuestionVO implements Serializable{
         this.klassSeminarId = klassSeminarId;
     }
 
-    public BigInteger getAttendanceId() { return attendanceId; }
+    public BigInteger getAttendanceId() {
+        return attendanceId;
+    }
 
-    public void setAttendanceId(BigInteger attendanceId) { this.attendanceId = attendanceId; }
+    public void setAttendanceId(BigInteger attendanceId) {
+        this.attendanceId = attendanceId;
+    }
 
-    public BigInteger getTeamId() { return teamId; }
+    public BigInteger getTeamId() {
+        return teamId;
+    }
 
     public void setTeamId(BigInteger teamId) {
         this.teamId = teamId;
     }
 
-    public String getTeamName() { return teamName; }
+    public String getTeamName() {
+        return teamName;
+    }
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
@@ -54,30 +62,41 @@ public class QuestionVO implements Serializable{
         return studentId;
     }
 
-    public void setStudentId(BigInteger studentId) { this.studentId = studentId; }
+    public void setStudentId(BigInteger studentId) {
+        this.studentId = studentId;
+    }
 
     public BigInteger getSeminarId() {
         return seminarId;
     }
 
-    public void setSeminarId(BigInteger seminarId) { this.seminarId = seminarId; }
+    public void setSeminarId(BigInteger seminarId) {
+        this.seminarId = seminarId;
+    }
 
     public BigInteger getKlassId() {
         return klassId;
     }
 
-    public void setKlassId(BigInteger klassId) { this.klassId = klassId; }
-
-    public int getSelected() { return selected; }
-
-    public void setSelected(int selected) {
-        this.selected= selected;
+    public void setKlassId(BigInteger klassId) {
+        this.klassId = klassId;
     }
 
-    public double getQuestionScore() { return questionScore; }
+    public Integer getSelected() {
+        return selected;
+    }
 
-    public void setQuestionScore(Double questionScore) { this.questionScore = questionScore; }
+    public void setSelected(Integer selected) {
+        this.selected = selected;
+    }
 
+    public Double getQuestionScore() {
+        return questionScore;
+    }
+
+    public void setQuestionScore(Double questionScore) {
+        this.questionScore = questionScore;
+    }
 
     @Override
     public String toString() {

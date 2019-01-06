@@ -42,27 +42,27 @@ public class TeamInfoVO implements Serializable {
         this.klassId = klassId;
     }
 
-    public int getKlassSerial() {
+    public Integer getKlassSerial() {
         return klassSerial;
     }
 
-    public void setKlassSerial(int klassSerial) {
+    public void setKlassSerial(Integer klassSerial) {
         this.klassSerial = klassSerial;
     }
 
-    public int getTeamSerial() {
+    public Integer getTeamSerial() {
         return teamSerial;
     }
 
-    public void setTeamSerial(int teamSerial) {
+    public void setTeamSerial(Integer teamSerial) {
         this.teamSerial = teamSerial;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

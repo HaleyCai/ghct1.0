@@ -17,42 +17,41 @@ public class StudentCourseVO {
         return courseId;
     }
 
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public BigInteger getKlassId() {
-        return klassId;
-    }
-
-    public int getKlassSerial() {
-        return klassSerial;
-    }
-
-    public int getGrade() {
-        return grade;
-    }
-
     public void setCourseId(BigInteger courseId) {
         this.courseId = courseId;
+    }
+
+    public String getCourseName() {
+        return courseName;
     }
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
 
+    public BigInteger getKlassId() {
+        return klassId;
+    }
+
     public void setKlassId(BigInteger klassId) {
         this.klassId = klassId;
     }
 
-    public void setKlassSerial(int klassSerial) {
+    public Integer getKlassSerial() {
+        return klassSerial;
+    }
+
+    public void setKlassSerial(Integer klassSerial) {
         this.klassSerial = klassSerial;
     }
 
-    public void setGrade(int grade) {
-        this.grade = grade;
+    public Integer getGrade() {
+        return grade;
     }
 
+    public void setGrade(Integer grade) {
+        this.grade = grade;
+    }
 
     @Override
     public String toString() {

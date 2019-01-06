@@ -1,5 +1,6 @@
 package xmu.ghct.crm.dao;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIGlobalBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.vo.SeminarVO;
@@ -29,6 +30,20 @@ public class SeminarDao {
         return seminarMapper.creatSeminar(seminar);
     }
 
+    public int createNewSeminarSeminarSerial(BigInteger courseId)
+    {
+        List<Integer> seminarSerials=seminarMapper.listSeminarSerial(courseId);
+        int max=0;
+        if(seminarSerials!=null) {
+            for(int serial:seminarSerials) {
+                if(serial>max) {
+                    max=serial;
+                }
+            }
+        }
+        return max+1;
+    }
+
     public int updateSeminarBySeminarId(Seminar seminar) throws NotFoundException {
         int count=seminarMapper.updateSeminarBySeminarId(seminar);
         if(count<=0)
@@ -47,12 +62,8 @@ public class SeminarDao {
         return count;
     }
 
-    public int deleteKlassSeminarBySeminarId(BigInteger seminarId) throws NotFoundException {
+    public int deleteKlassSeminarBySeminarId(BigInteger seminarId){
         int count=seminarMapper.deleteKlassSeminarBySeminarId(seminarId);
-        if(count<=0)
-        {
-            throw new NotFoundException("未找到klassSeminar");
-        }
         return count;
     }
 

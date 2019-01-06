@@ -67,7 +67,7 @@ public class ScoreService {
         return scoreDao.listTeamScoreByCourseId(courseId,teamId);
     }*/
 
-    public int deleteSeminarScoreBySeminarId(BigInteger seminarId) throws NotFoundException {
+    public int deleteSeminarScoreBySeminarId(BigInteger seminarId) {
         return scoreDao.deleteSeminarScoreBySeminarId(seminarId);
     }
 

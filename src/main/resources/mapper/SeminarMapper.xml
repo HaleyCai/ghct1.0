@@ -26,6 +26,12 @@
                                    )
     </insert>
 
+    <select id="listSeminarSerial" resultType="java.lang.Integer">
+        select seminar_serial
+        from seminar
+        where course_id=#{courseId}
+    </select>
+
     <select id="getSeminarIdByRoundId" resultType="java.math.BigInteger">
         select id
         from seminar

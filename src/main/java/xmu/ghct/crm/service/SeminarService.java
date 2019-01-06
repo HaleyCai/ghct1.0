@@ -86,7 +86,8 @@ public class SeminarService {
         seminar.setIntroduction(seminarMap.get("introduction").toString());
         seminar.setMaxTeam(new Integer(seminarMap.get("maxTeam").toString()));
         seminar.setVisible(new Integer(seminarMap.get("visible").toString()));
-        seminar.setSeminarSerial(new Integer(seminarMap.get("seminarSerial").toString()));
+        //系统自动生成序号
+        seminar.setSeminarSerial(seminarDao.createNewSeminarSeminarSerial(courseId));
         Date start = dateDao.transferToDateTime(seminarMap.get("enrollStartTime").toString());
         seminar.setEnrollStartTime(start);
         Date end = dateDao.transferToDateTime(seminarMap.get("enrollEndTime").toString());
@@ -160,7 +161,7 @@ public class SeminarService {
         return seminarDao.deleteSeminarBySeminarId(seminarId);
     }
 
-    public int deleteKlassSeminarBySeminarId(BigInteger seminarId) throws NotFoundException {
+    public int deleteKlassSeminarBySeminarId(BigInteger seminarId){
         return seminarDao.deleteKlassSeminarBySeminarId(seminarId);
     }
 
@@ -341,28 +342,32 @@ public class SeminarService {
 
     public boolean updateReportScoreByKlassSeminarId(BigInteger klassSeminarId,ScoreVO scoreVO) throws NotFoundException{
         List<SeminarScoreVO> scoreList=scoreVO.getScoreList();
-        for(SeminarScoreVO scoreItem:scoreList)
+        System.out.println("scoreList "+scoreList);
+        if(scoreList!=null)
         {
-            BigInteger teamId=scoreItem.getTeamId();
-            BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
-            BigInteger seminarId=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId).getSeminarId();
-            BigInteger roundId=seminarDao.getRoundIdBySeminarId(seminarId);
-            Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
-            Double reportScore=scoreItem.getReportScore();
-            score.setReportScore(reportScore);
-            Score seminarScore=totalScoreDao.totalScoreCalculation(score,courseId);
-            int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(seminarScore);
-            Score roundScore=scoreCalculationDao.roundScoreCalculation(seminarScore,roundId,teamId,courseId);
-            ScoreVO roundScoreVO=new ScoreVO();
-            roundScoreVO.setPresentationScore(roundScore.getPresentationScore());
-            roundScoreVO.setQuestionScore(roundScore.getQuestionScore());
-            roundScoreVO.setReportScore(roundScore.getReportScore());
-            roundScoreVO.setTotalScore(roundScore.getTotalScore());
-            roundScoreVO.setRoundId(roundId);
-            roundScoreVO.setTeamId(teamId);
-            scoreMapper.updateRoundScoreByRoundIdAndTeamId(roundScoreVO);
-            if(flag<0) {
-                return false;
+            for(SeminarScoreVO scoreItem:scoreList)
+            {
+                BigInteger teamId=scoreItem.getTeamId();
+                BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
+                BigInteger seminarId=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId).getSeminarId();
+                BigInteger roundId=seminarDao.getRoundIdBySeminarId(seminarId);
+                Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+                Double reportScore=scoreItem.getReportScore();
+                score.setReportScore(reportScore);
+                Score seminarScore=totalScoreDao.totalScoreCalculation(score,courseId);
+                int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(seminarScore);
+                Score roundScore=scoreCalculationDao.roundScoreCalculation(seminarScore,roundId,teamId,courseId);
+                ScoreVO roundScoreVO=new ScoreVO();
+                roundScoreVO.setPresentationScore(roundScore.getPresentationScore());
+                roundScoreVO.setQuestionScore(roundScore.getQuestionScore());
+                roundScoreVO.setReportScore(roundScore.getReportScore());
+                roundScoreVO.setTotalScore(roundScore.getTotalScore());
+                roundScoreVO.setRoundId(roundId);
+                roundScoreVO.setTeamId(teamId);
+                scoreMapper.updateRoundScoreByRoundIdAndTeamId(roundScoreVO);
+                if(flag<0) {
+                    return false;
+                }
             }
         }
         return true;

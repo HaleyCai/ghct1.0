@@ -11,36 +11,36 @@ public class TeamStrategyVO {
     private BigInteger strategyId;
     private String strategyName;
 
-    public void setCourseId(BigInteger courseId) {
-        this.courseId = courseId;
-    }
-
-    public void setStrategySerial(int strategySerial) {
-        this.strategySerial = strategySerial;
-    }
-
-    public void setStrategyId(BigInteger strategyId) {
-        this.strategyId = strategyId;
-    }
-
-    public void setStrategyName(String strategyName) {
-        this.strategyName = strategyName;
-    }
-
     public BigInteger getCourseId() {
         return courseId;
     }
 
-    public int getStrategySerial() {
+    public void setCourseId(BigInteger courseId) {
+        this.courseId = courseId;
+    }
+
+    public Integer getStrategySerial() {
         return strategySerial;
+    }
+
+    public void setStrategySerial(Integer strategySerial) {
+        this.strategySerial = strategySerial;
     }
 
     public BigInteger getStrategyId() {
         return strategyId;
     }
 
+    public void setStrategyId(BigInteger strategyId) {
+        this.strategyId = strategyId;
+    }
+
     public String getStrategyName() {
         return strategyName;
+    }
+
+    public void setStrategyName(String strategyName) {
+        this.strategyName = strategyName;
     }
 
     @Override

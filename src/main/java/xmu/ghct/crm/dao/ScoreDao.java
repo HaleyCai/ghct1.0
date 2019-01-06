@@ -126,12 +126,8 @@ public class ScoreDao {
     }
 */
 
-    public int deleteSeminarScoreBySeminarId(BigInteger seminarId) throws NotFoundException {
+    public int deleteSeminarScoreBySeminarId(BigInteger seminarId){
         int count=scoreMapper.deleteSeminarScoreBySeminarId(seminarId);
-        if(count<=0)
-        {
-            throw new NotFoundException("该讨论课成绩不存在");
-        }
         return count;
     }
 
@@ -180,10 +176,10 @@ public class ScoreDao {
             score=new ScoreVO();
             score.setTeamId(teamId);
             score.setRoundId(roundId);
-            score.setPresentationScore(0);
-            score.setReportScore(0);
-            score.setQuestionScore(0);
-            score.setTotalScore(0);
+            score.setPresentationScore(0.0);
+            score.setReportScore(0.0);
+            score.setQuestionScore(0.0);
+            score.setTotalScore(0.0);
         }
         return score;
     }

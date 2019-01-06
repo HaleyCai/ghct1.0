@@ -26,11 +26,11 @@ public class ScoreVO {
         this.roundId = roundId;
     }
 
-    public int getRoundSerial() {
+    public Integer getRoundSerial() {
         return roundSerial;
     }
 
-    public void setRoundSerial(int roundSerial) {
+    public void setRoundSerial(Integer roundSerial) {
         this.roundSerial = roundSerial;
     }
 
@@ -42,64 +42,61 @@ public class ScoreVO {
         this.teamId = teamId;
     }
 
-    public int getTeamSerial() {
+    public Integer getTeamSerial() {
         return teamSerial;
     }
 
-    public void setTeamSerial(int teamSerial) {
+    public void setTeamSerial(Integer teamSerial) {
         this.teamSerial = teamSerial;
     }
 
-    public double getPresentationScore() {
+    public Integer getKlassSerial() {
+        return klassSerial;
+    }
+
+    public void setKlassSerial(Integer klassSerial) {
+        this.klassSerial = klassSerial;
+    }
+
+    public Double getPresentationScore() {
         return presentationScore;
     }
 
-    public void setPresentationScore(double presentationScore) {
+    public void setPresentationScore(Double presentationScore) {
         this.presentationScore = presentationScore;
     }
 
-    public double getQuestionScore() {
+    public Double getQuestionScore() {
         return questionScore;
     }
 
-    public void setQuestionScore(double questionScore) {
+    public void setQuestionScore(Double questionScore) {
         this.questionScore = questionScore;
     }
 
-    public double getReportScore() {
+    public Double getReportScore() {
         return reportScore;
     }
 
-    public void setReportScore(double reportScore) {
+    public void setReportScore(Double reportScore) {
         this.reportScore = reportScore;
     }
 
-    public double getTotalScore() {
+    public Double getTotalScore() {
         return totalScore;
     }
 
-    public void setTotalScore(double totalScore) {
+    public void setTotalScore(Double totalScore) {
         this.totalScore = totalScore;
     }
 
     public List<SeminarScoreVO> getScoreList() {
-       return scoreList;
-   }
-
-   public void setScoreList(List<SeminarScoreVO> scoreList) {
-       this.scoreList = scoreList;
-   }
-
-    public int getKlassSerial() {
-        return klassSerial;
+        return scoreList;
     }
 
-    public void setKlassSerial(int klassSerial) {
-        this.klassSerial = klassSerial;
+    public void setScoreList(List<SeminarScoreVO> scoreList) {
+        this.scoreList = scoreList;
     }
-
-    // }
-
 
     @Override
     public String toString() {
@@ -113,6 +110,7 @@ public class ScoreVO {
                 ", questionScore=" + questionScore +
                 ", reportScore=" + reportScore +
                 ", totalScore=" + totalScore +
+                ", scoreList=" + scoreList +
                 '}';
     }
 

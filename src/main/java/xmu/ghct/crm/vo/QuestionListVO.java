@@ -16,38 +16,69 @@ public class QuestionListVO implements Serializable{
     private Integer selected;
     private Double questionScore;
 
-    public BigInteger getQuestionId() { return questionId; }
+    public BigInteger getQuestionId() {
+        return questionId;
+    }
 
-    public void setQuestionId(BigInteger questionId) { this.questionId = questionId; }
+    public void setQuestionId(BigInteger questionId) {
+        this.questionId = questionId;
+    }
 
-    public int getKlassSerial() { return klassSerial; }
+    public Integer getKlassSerial() {
+        return klassSerial;
+    }
 
-    public void setKlassSerial(int klassSerial) { this.klassSerial = klassSerial; }
+    public void setKlassSerial(Integer klassSerial) {
+        this.klassSerial = klassSerial;
+    }
 
-    public int getTeamSerial() { return teamSerial; }
+    public Integer getTeamSerial() {
+        return teamSerial;
+    }
 
-    public void setTeamSerial(int teamSerial) { this.teamSerial = teamSerial; }
+    public void setTeamSerial(Integer teamSerial) {
+        this.teamSerial = teamSerial;
+    }
 
-    public BigInteger getStudentId() { return studentId; }
+    public BigInteger getStudentId() {
+        return studentId;
+    }
 
-    public void setStudentId(BigInteger studentId) { this.studentId = studentId; }
+    public void setStudentId(BigInteger studentId) {
+        this.studentId = studentId;
+    }
 
-    public String getStudentName() { return studentName; }
+    public String getStudentName() {
+        return studentName;
+    }
 
-    public void setStudentName(String studentName) { this.studentName = studentName; }
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 
-    public BigInteger getAttendanceId() { return attendanceId; }
+    public BigInteger getAttendanceId() {
+        return attendanceId;
+    }
 
-    public void setAttendanceId(BigInteger attendanceId) { this.attendanceId = attendanceId; }
+    public void setAttendanceId(BigInteger attendanceId) {
+        this.attendanceId = attendanceId;
+    }
 
-    public int getSelected() { return selected; }
+    public Integer getSelected() {
+        return selected;
+    }
 
-    public void setSelected(int selected) { this.selected= selected; }
+    public void setSelected(Integer selected) {
+        this.selected = selected;
+    }
 
-    public double getQuestionScore(){return questionScore;}
+    public Double getQuestionScore() {
+        return questionScore;
+    }
 
-    public void setQuestionScore(double questionScore){this.questionScore=questionScore;}
-
+    public void setQuestionScore(Double questionScore) {
+        this.questionScore = questionScore;
+    }
 
     @Override
     public String toString() {

@@ -41,11 +41,11 @@ public class RoundVO implements Serializable {
         this.roundId = roundId;
     }
 
-    public int getRoundSerial() {
+    public Integer getRoundSerial() {
         return roundSerial;
     }
 
-    public void setRoundSerial(int roundSerial) {
+    public void setRoundSerial(Integer roundSerial) {
         this.roundSerial = roundSerial;
     }
 

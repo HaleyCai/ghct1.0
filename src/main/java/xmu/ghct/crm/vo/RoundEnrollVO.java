@@ -19,27 +19,27 @@ public class RoundEnrollVO {
         this.klassId = klassId;
     }
 
-    public int getKlassSerial() {
+    public Integer getKlassSerial() {
         return klassSerial;
     }
 
-    public void setKlassSerial(int klassSerial) {
+    public void setKlassSerial(Integer klassSerial) {
         this.klassSerial = klassSerial;
     }
 
-    public int getGrade() {
+    public Integer getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(Integer grade) {
         this.grade = grade;
     }
 
-    public int getEnroll() {
+    public Integer getEnroll() {
         return enroll;
     }
 
-    public void setEnroll(int enroll) {
+    public void setEnroll(Integer enroll) {
         this.enroll = enroll;
     }
 

@@ -28,120 +28,117 @@ public class NewCourseVO {
     private List<CourseLimitVO> courseLimitVOS;
     private List<List<Course>> conflictCourseIdS;
 
-
-    public void setTeacherId(BigInteger teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public BigInteger getTeacherId() {
-        return teacherId;
+    public BigInteger getCourseId() {
+        return courseId;
     }
 
     public void setCourseId(BigInteger courseId) {
         this.courseId = courseId;
     }
 
-    public BigInteger getCourseId() {
-        return courseId;
+    public String getCourseName() {
+        return courseName;
     }
-
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
-
-    public boolean isFlag() {
-        return flag;
-    }
-
-    public void setCourseLimitVOS(List<CourseLimitVO> courseLimitVOS) {
-        this.courseLimitVOS = courseLimitVOS;
-    }
-
-    public void setConflictCourseIdS(List<List<Course>> conflictCourseIdS) {
-        this.conflictCourseIdS = conflictCourseIdS;
-    }
-
-    public List<CourseLimitVO> getCourseLimitVOS() {
-        return courseLimitVOS;
-    }
-
-    public List<List<Course>> getConflictCourseIdS() {
-        return conflictCourseIdS;
-    }
-
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
 
-    public void setIntroduction(String introduction) {
-        this.introduction = introduction;
+    public BigInteger getTeacherId() {
+        return teacherId;
     }
 
-    public void setPresentationPercentage(Double presentationPercentage) {
-        this.presentationPercentage = presentationPercentage;
-    }
-
-    public void setQuestionPercentage(Double questionPercentage) {
-        this.questionPercentage = questionPercentage;
-    }
-
-    public void setReportPercentage(Double reportPercentage) {
-        this.reportPercentage = reportPercentage;
-    }
-
-    public void setTeamStartTime(String teamStartTime) {
-        this.teamStartTime = teamStartTime;
-    }
-
-    public void setTeamEndTime(String teamEndTime) {
-        this.teamEndTime = teamEndTime;
-    }
-
-    public void setMinMember(String minMember) {
-        this.minMember = minMember;
-    }
-
-    public void setMaxMember(String maxMember) {
-        this.maxMember = maxMember;
-    }
-
-    public String getCourseName() {
-        return courseName;
+    public void setTeacherId(BigInteger teacherId) {
+        this.teacherId = teacherId;
     }
 
     public String getIntroduction() {
         return introduction;
     }
 
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
     public Double getPresentationPercentage() {
         return presentationPercentage;
+    }
+
+    public void setPresentationPercentage(Double presentationPercentage) {
+        this.presentationPercentage = presentationPercentage;
     }
 
     public Double getQuestionPercentage() {
         return questionPercentage;
     }
 
+    public void setQuestionPercentage(Double questionPercentage) {
+        this.questionPercentage = questionPercentage;
+    }
+
     public Double getReportPercentage() {
         return reportPercentage;
+    }
+
+    public void setReportPercentage(Double reportPercentage) {
+        this.reportPercentage = reportPercentage;
     }
 
     public String getTeamStartTime() {
         return teamStartTime;
     }
 
+    public void setTeamStartTime(String teamStartTime) {
+        this.teamStartTime = teamStartTime;
+    }
+
     public String getTeamEndTime() {
         return teamEndTime;
+    }
+
+    public void setTeamEndTime(String teamEndTime) {
+        this.teamEndTime = teamEndTime;
     }
 
     public String getMinMember() {
         return minMember;
     }
 
+    public void setMinMember(String minMember) {
+        this.minMember = minMember;
+    }
+
     public String getMaxMember() {
         return maxMember;
     }
 
+    public void setMaxMember(String maxMember) {
+        this.maxMember = maxMember;
+    }
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
+    }
+
+    public List<CourseLimitVO> getCourseLimitVOS() {
+        return courseLimitVOS;
+    }
+
+    public void setCourseLimitVOS(List<CourseLimitVO> courseLimitVOS) {
+        this.courseLimitVOS = courseLimitVOS;
+    }
+
+    public List<List<Course>> getConflictCourseIdS() {
+        return conflictCourseIdS;
+    }
+
+    public void setConflictCourseIdS(List<List<Course>> conflictCourseIdS) {
+        this.conflictCourseIdS = conflictCourseIdS;
+    }
 
     @Override
     public String toString() {

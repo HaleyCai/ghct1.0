@@ -24,6 +24,13 @@ public interface SeminarMapper {
     int creatSeminar(Seminar seminar);
 
     /**
+     * 获取该课程下最大的序号
+     * @param courseId
+     * @return
+     */
+    List<Integer> listSeminarSerial(BigInteger courseId);
+
+    /**
      * 根据roundId获得讨论课ID
      * @param roundId
      * @return
