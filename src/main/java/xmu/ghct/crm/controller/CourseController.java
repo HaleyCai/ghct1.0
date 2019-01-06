@@ -241,6 +241,7 @@ public class CourseController {
         List<Map> map=new ArrayList<>();
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(klassSeminar.getKlassSeminarId());
         int maxTeam=klassSeminar.getMaxTeam();
+        System.out.println(maxTeam);
         int account=0;
         for(Attendance attendance:attendanceList){
             account++;
@@ -249,6 +250,8 @@ public class CourseController {
             if(account!=attendance.getTeamOrder()){
                 System.out.println(attendance.getTeamOrder());
                 oneMap.put("attendanceStatus",false);
+                oneMap.put("status",klassSeminar.getStatus());
+                oneMap.put("klassSeminarId",klassSeminar.getKlassSeminarId());
                 map.add(oneMap);
                 continue;
             }
@@ -294,7 +297,7 @@ public class CourseController {
             oneMap.put("submitStatus",flag);
             map.add(oneMap);
         }
-        if(account<maxTeam){
+        while(account<maxTeam){
             account++;
             Map<String,Object> oneMap=new HashMap<>();
             oneMap.put("attendanceStatus",false);
