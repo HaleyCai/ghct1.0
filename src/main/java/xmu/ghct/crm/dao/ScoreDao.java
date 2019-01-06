@@ -162,17 +162,29 @@ public class ScoreDao {
         Score score=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
         if(score==null)
         {
-            throw new NotFoundException("该讨论课成绩不存在");
+            score=new Score();
+            score.setKlassSeminarId(klassSeminarId);
+            score.setTeamId(teamId);
+            score.setPresentationScore(0);
+            score.setQuestionScore(0);
+            score.setReportScore(0);
+            score.setTotalScore(0);
         }
         return score;
     }
 
-    public ScoreVO getTeamRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId) throws NotFoundException
+    public ScoreVO getTeamRoundScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId)
     {
         ScoreVO score=scoreMapper.getTeamRoundScore(roundId,teamId);
         if(score==null)
         {
-            throw new NotFoundException("队伍该轮成绩不存在");
+            score=new ScoreVO();
+            score.setTeamId(teamId);
+            score.setRoundId(roundId);
+            score.setPresentationScore(0);
+            score.setReportScore(0);
+            score.setQuestionScore(0);
+            score.setTotalScore(0);
         }
         return score;
     }

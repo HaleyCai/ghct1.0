@@ -185,15 +185,10 @@ public class ScoreService {
      * @param teamId
      * @return
      */
-    public ScoreVO getTeamSeminarScoreBySeminarIdAndTeamId(BigInteger roundId,BigInteger klassSeminarId,BigInteger teamId) throws NotFoundException
+    public Score getTeamSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,
+                                                              BigInteger teamId) throws NotFoundException
     {
-        ScoreVO scoreVO=scoreDao.getTeamRoundScoreByRoundIdAndTeamId(roundId,teamId);;;
         Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
-        List<SeminarScoreVO> seminarScoreVOS=new ArrayList<>();
-        SeminarScoreVO seminarScoreVO=new SeminarScoreVO();
-        BeanUtils.copyProperties(score,seminarScoreVO);
-        seminarScoreVOS.add(seminarScoreVO);
-        scoreVO.setScoreList(seminarScoreVOS);
-        return scoreVO;
+        return score;
     }
 }

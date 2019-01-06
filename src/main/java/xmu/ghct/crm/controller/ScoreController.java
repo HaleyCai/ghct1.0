@@ -1,5 +1,6 @@
 package xmu.ghct.crm.controller;
 
+import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,7 @@ import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.security.JwtTokenUtil;
-import xmu.ghct.crm.service.CourseService;
-import xmu.ghct.crm.service.ScoreService;
-import xmu.ghct.crm.service.SeminarService;
-import xmu.ghct.crm.service.TeamService;
+import xmu.ghct.crm.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
@@ -37,6 +35,9 @@ public class ScoreController {
 
     @Autowired
     TeamService teamService;
+
+    @Autowired
+    KlassService klassService;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -108,31 +109,28 @@ public class ScoreController {
         return scoreService.getSeminarByRoundId(new BigInteger(roundId),teamId);
     }
 
-
     /**
      *获取某小组某次讨论课成绩  //(简单成绩信息)
-     * @param roundId
+     * 根据klassSeminarId查本次讨论课，学生用户所在队伍的成绩
      * @param klassSeminarId
-     * @param request
      * @return
      */
-    @GetMapping("/course/round/{roundId}/{klassSeminarId}/seminarScore")
-    public ScoreVO getTeamSeminarScoreBySeminarId(HttpServletRequest request,
-                                                  @PathVariable("roundId") String roundId,
-                                                  @PathVariable("klassSeminarId")String klassSeminarId) throws NotFoundException
+    @GetMapping("/course/round/team/{klassSeminarId}/seminarScore")
+    public Score getTeamSeminarScoreBySeminarId(HttpServletRequest request,
+                                                @PathVariable("klassSeminarId")String klassSeminarId) throws NotFoundException
     {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
-        Seminar seminar=seminarService.getSeminarBySeminarId(new BigInteger(klassSeminarId));
-        BigInteger courseId=seminar.getCourseId();
+        BigInteger klassId=seminarService.getKlassIdByKlassSeminarId(new BigInteger(klassSeminarId));
         BigInteger teamId=new BigInteger("0");
-        for(BigInteger teamIdItem:teamIdList){
-            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) {
+        for(BigInteger teamIdItem:teamIdList)
+        {
+            BigInteger tKlassId=teamService.getKlassIdByTeamId(teamIdItem);
+            if(klassId.equals(tKlassId))
+            {
                 teamId=teamIdItem;
             }
         }
-        return scoreService.getTeamSeminarScoreBySeminarIdAndTeamId(new BigInteger(roundId),new BigInteger(klassSeminarId),teamId);
+        return scoreService.getTeamSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),teamId);
     }
-
 }

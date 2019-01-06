@@ -10,6 +10,15 @@ public class Round implements Serializable {
     private int presentationScoreMethod;//本轮次成绩计算方法，0代表平均分，1代表最高分
     private int reportScoreMethod;
     private int questionScoreMethod;
+    private Double totalScore;
+
+    public Double getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Double totalScore) {
+        this.totalScore = totalScore;
+    }
 
     public BigInteger getRoundId() {
         return roundId;
@@ -68,6 +77,7 @@ public class Round implements Serializable {
                 ", presentationScoreMethod=" + presentationScoreMethod +
                 ", reportScoreMethod=" + reportScoreMethod +
                 ", questionScoreMethod=" + questionScoreMethod +
+                ", totalScore=" + totalScore +
                 '}';
     }
 }

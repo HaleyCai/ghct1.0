@@ -59,6 +59,9 @@ public class CourseService {
     UserService userService;
 
     @Autowired
+    ScoreDao scoreDao;
+
+    @Autowired
     JwtTokenUtil jwtTokenUtil;
 
   /*  public int creatCourse( courseVO) throws ParseException, SQLException {
@@ -305,8 +308,18 @@ public class CourseService {
         return courseDao.deleteCourseByCourseId(courseId);
     }
 
-    public List<Round> listRoundByCourseId(BigInteger courseId) throws NotFoundException {
+    public List<Round> listRoundByCourseId(BigInteger courseId){
         return roundDao.listRoundByCourseId(courseId);
+    }
+
+    public List<Round> listRoundAndScoreByCourseId(BigInteger courseId,BigInteger teamId){
+        List<Round> roundList=roundDao.listRoundByCourseId(courseId);
+        for(Round round:roundList)
+        {
+            Double roundTotal=scoreDao.getTeamRoundScoreByRoundIdAndTeamId(round.getRoundId(),teamId).getTotalScore();
+            round.setTotalScore(roundTotal);
+        }
+        return roundList;
     }
 
     /**

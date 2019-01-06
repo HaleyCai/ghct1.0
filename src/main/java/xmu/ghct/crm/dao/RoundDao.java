@@ -205,12 +205,8 @@ public class RoundDao {
      * @param courseId
      * @return
      */
-    public List<Round> listRoundByCourseId(BigInteger courseId) throws NotFoundException {
+    public List<Round> listRoundByCourseId(BigInteger courseId){
         List<Round> list=roundMapper.listRoundByCourseId(courseId);
-        if(list==null&&list.isEmpty())
-        {
-            throw new NotFoundException("课程下未找到轮次");
-        }
         return list;
     }
 

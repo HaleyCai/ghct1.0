@@ -123,7 +123,7 @@ public class CourseController {
     }
 
     /**
-     * 获得课程下的所有轮次
+     * 获得课程下的所有轮次  教师
      * @param courseId
      * @return
      * @throws ClassNotFoundException
@@ -132,14 +132,33 @@ public class CourseController {
     @ResponseBody
     public  List<Round> listRoundByCourseId(@PathVariable("courseId") String courseId) throws NotFoundException {
         List<Round> roundList=courseService.listRoundByCourseId(new BigInteger(courseId));
-        if(roundList==null){
-         throw new NotFoundException("未找到该课程下的讨论课轮次数据!");
-        }
-        else {
-            return roundList;
-        }
+        return roundList;
     }
 
+    /**
+     * 获得课程下的所有轮次和该队伍轮次总成绩  学生
+     * @param courseId
+     * @return
+     * @throws ClassNotFoundException
+     */
+    @RequestMapping(value="/course/{courseId}/round/student",method = RequestMethod.GET)
+    @ResponseBody
+    public  List<Round> listRoundAndScoreByCourseId(HttpServletRequest request,
+                                                    @PathVariable("courseId") String courseId) throws NotFoundException {
+        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        BigInteger teamId=new BigInteger("0");
+        for(BigInteger teamIdItem:teamIdList)
+        {
+            BigInteger tCourseId=teamService.getCourseIdByTeamId(teamIdItem);
+            if(tCourseId.equals(new BigInteger(courseId)))
+            {
+                teamId=teamIdItem;
+            }
+        }
+        List<Round> roundList=courseService.listRoundAndScoreByCourseId(new BigInteger(courseId),teamId);
+        return roundList;
+    }
 
     /**
      * @author hzm
