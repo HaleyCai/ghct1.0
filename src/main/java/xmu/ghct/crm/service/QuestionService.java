@@ -109,7 +109,7 @@ public class QuestionService {
      * @return
      */
     public boolean postQuestion(BigInteger studentId,BigInteger klassSeminarId,BigInteger attendanceId) throws org.apache.ibatis.javassist.NotFoundException {
-        if(questionDao.getTeamIdByStudentId(studentId)==presentationDao.getAttendanceByAttendanceId(attendanceId).getTeamId()) {
+        if(questionDao.getTeamIdByStudentId(studentId).equals(presentationDao.getAttendanceByAttendanceId(attendanceId).getTeamId())) {
             return false;
         }
 

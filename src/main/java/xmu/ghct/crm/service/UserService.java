@@ -91,7 +91,7 @@ public class UserService {
     public User getInformation(BigInteger id,String role) throws NotFoundException
     {
         User user;
-        if(role.equals("teacher")) {
+        if("teacher".equals(role)) {
             user=teacherDao.getTeacherById(id);
         } else {
             user=studentDao.getStudentById(id);
@@ -148,7 +148,7 @@ public class UserService {
     public boolean modifyPassword(BigInteger id, String newPassword, String role) throws SQLException
     {
         boolean success=false;
-        if(role.equals("teacher")) {
+        if("teacher".equals(role)) {
             success=teacherDao.setPasswordById(id,newPassword);
         } else {
             success=studentDao.setPasswordById(id,newPassword);
@@ -167,7 +167,7 @@ public class UserService {
     {
         Map<String,Object> resultMap=new HashMap<>();
         boolean success=false;
-        if(role.equals("teacher")) {
+        if("teacher".equals(role)) {
             success=teacherDao.setEmailById(id,newEmail);
         } else {
             success=studentDao.setEmailById(id,newEmail);

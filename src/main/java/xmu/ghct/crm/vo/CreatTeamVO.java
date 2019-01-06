@@ -10,7 +10,7 @@ public class CreatTeamVO {
 
         BigInteger klassId;
         BigInteger courseId;
-        String TeamName;
+        String teamName;
         int klassSerial;
         List<BigInteger> studentIdList;
 
@@ -19,7 +19,7 @@ public class CreatTeamVO {
         return "CreatTeamVO{" +
                 "klassId=" + klassId +
                 ", courseId=" + courseId +
-                ", TeamName='" + TeamName + '\'' +
+                ", teamName='" + teamName + '\'' +
                 ", klassSerial=" + klassSerial +
                 ", studentIdList=" + studentIdList +
                 '}';
@@ -34,7 +34,7 @@ public class CreatTeamVO {
     }
 
     public void setTeamName(String teamName) {
-        TeamName = teamName;
+        teamName = teamName;
     }
 
     public void setKlassSerial(int klassSerial) {
@@ -54,7 +54,7 @@ public class CreatTeamVO {
     }
 
     public String getTeamName() {
-        return TeamName;
+        return teamName;
     }
 
     public int getKlassSerial() {

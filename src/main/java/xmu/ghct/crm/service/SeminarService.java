@@ -65,7 +65,7 @@ public class SeminarService {
     public int creatSeminar(BigInteger courseId,Map<String,Object> seminarMap) throws ParseException, NotFoundException, SQLException {
         Seminar seminar=new Seminar();
         seminar.setCourseId(courseId);
-        if(seminarMap.get("roundId").toString().equals("0")){
+        if("0".equals(seminarMap.get("roundId").toString())){
             Round round=new Round();
             round.setCourseId(courseId);
             round.setPresentationScoreMethod(1);

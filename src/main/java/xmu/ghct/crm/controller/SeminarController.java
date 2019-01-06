@@ -126,10 +126,10 @@ public class SeminarController {
     @RequestMapping(value="/seminar/{seminarId}",method = RequestMethod.DELETE)
     public boolean deleteSeminarBySeminarId(@PathVariable("seminarId") String seminarId) throws NotFoundException
     {
-        int flag_1=seminarService.deleteSeminarBySeminarId(new BigInteger(seminarId));
-        int flag_2=seminarService.deleteKlassSeminarBySeminarId(new BigInteger(seminarId));
-        int flag_3=scoreService.deleteSeminarScoreBySeminarId(new BigInteger(seminarId));
-        if(flag_1>0&&flag_2>0&&flag_3>0) {
+        int flag1=seminarService.deleteSeminarBySeminarId(new BigInteger(seminarId));
+        int flag2=seminarService.deleteKlassSeminarBySeminarId(new BigInteger(seminarId));
+        int flag3=scoreService.deleteSeminarScoreBySeminarId(new BigInteger(seminarId));
+        if(flag1>0&&flag2>0&&flag3>0) {
             return true;
         } else {
             return false;

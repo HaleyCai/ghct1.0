@@ -223,7 +223,7 @@ public class ShareDao {
     public boolean launchShareRequest(Share share)
     {
         int v=0;
-        if(share.getShareType().equals("共享组队")) {
+        if("共享组队".equals(share.getShareType())) {
             v = shareMapper.launchTeamShareRequest(share);
         }
         else {

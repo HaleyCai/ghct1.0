@@ -80,19 +80,19 @@ public class WebSocketServer {
             System.out.println("in for");
             try{
                 System.out.println("in try");
-                if(message.equals("提问"))
+                if("提问".equals(message))
                 {
                     questionCount++;
                     message=String.valueOf(questionCount);
                     System.out.println("后端给前端 "+message);
                     webSocketServer.sendMessage(message);
                 }
-                else if(message.equals("下一组")){
+                else if("下一组".equals(message)){
                     questionCount=0;
                     System.out.println("后端给前端 "+message);
                     webSocketServer.sendMessage(message);
                 }
-                else if(message.equals("提问人数-1"))
+                else if("提问人数-1".equals(message))
                 {
                     if(questionCount!=0) {
                         questionCount--;
@@ -101,7 +101,7 @@ public class WebSocketServer {
                     System.out.println("后端给前端 "+message);
                     webSocketServer.sendMessage(message);
                 }
-                else if(message.equals("断开"))
+                else if("断开".equals(message))
                 {
                     questionCount=0;
                     onClose(session);
@@ -124,5 +124,13 @@ public class WebSocketServer {
         error.printStackTrace();
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }

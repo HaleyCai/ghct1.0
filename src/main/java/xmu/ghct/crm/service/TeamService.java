@@ -241,7 +241,7 @@ public class TeamService {
         List<BigInteger> studentIdList = creatTeamVO.getStudentIdList();
         List<TeamStrategyVO> teamStrategyVOList = strategyDao.listTeamStrategyByCourseId(creatTeamVO.getCourseId());
         for (TeamStrategyVO item : teamStrategyVOList) {
-            if (item.getStrategyName().equals("ConflictCourseStrategy")) {
+            if ("ConflictCourseStrategy".equals(item.getStrategyName())) {
                 List<BigInteger> conflictCourseIdList = strategyDao.listConflictCourseId(item.getStrategyId());
                 List<BigInteger> conflictStudentIdList = new ArrayList<>();
                 for (BigInteger courseIdItem : conflictCourseIdList) {
@@ -271,15 +271,15 @@ public class TeamService {
         team.setTeamName(creatTeamVO.getTeamName());
         team.setKlassSerial(klass.getKlassSerial());
         int flag = teamDao.insertTeam(team);
-        int flag_1 = teamDao.insertKlassTeam(creatTeamVO.getKlassId(), team.getTeamId());
-        int flag_2 = teamDao.insertTeamStudent(team.getTeamId(), studentId);
+        int flag1 = teamDao.insertKlassTeam(creatTeamVO.getKlassId(), team.getTeamId());
+        int flag2 = teamDao.insertTeamStudent(team.getTeamId(), studentId);
         int size = studentIdList.size();
         System.out.println(size);
         while (size > 0) {
             teamDao.insertTeamStudent(team.getTeamId(), studentIdList.get(size - 1));
             size--;
         }
-        if (flag > 0 && flag_1 > 0 && flag_2 > 0) {
+        if (flag > 0 && flag1 > 0 && flag2 > 0) {
             return team.getTeamId();
         } else {
             return null;
@@ -307,17 +307,17 @@ public class TeamService {
         List<BigInteger> studentIdList=strategyDao.listStudentIdByTeamId(teamId);
         List<TeamStrategyVO> teamStrategyVOList=strategyDao.listTeamStrategyByCourseId(courseId);
         for(TeamStrategyVO item:teamStrategyVOList){
-            if(item.getStrategyName().equals("TeamAndStrategy")){
+            if("TeamAndStrategy".equals(item.getStrategyName())){
                 List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectAndStrategy(item.getStrategyId());
                 for(AndOrOrStrategyVO andOrOrStrategyVO:andOrOrStrategyVOS){
-                    if(andOrOrStrategyVO.getStrategyName().equals("MemberLimitStrategy")){
+                    if("MemberLimitStrategy".equals(andOrOrStrategyVO.getStrategyName())){
                         int teamMemberNumber=strategyDao.getTeamMemberNumber(teamId);
                         CourseVO courseVO=strategyDao.getTeamMemberLimit(item.getStrategyId());
                         if(teamMemberNumber>courseVO.getMaxMember()||teamMemberNumber<courseVO.getMinMember()) {
                             return false;
                         }
                     }
-                    else if(andOrOrStrategyVO.getStrategyName().equals("TeamOrStrategy")){
+                    else if("TeamOrStrategy".equals(andOrOrStrategyVO.getStrategyName())){
                         List<AndOrOrStrategyVO> orStrategyVOList=strategyDao.selectAndStrategy(andOrOrStrategyVO.getStrategyId());
                         boolean flag=false;
                         for(AndOrOrStrategyVO orStrategyVO:orStrategyVOList){
@@ -335,7 +335,7 @@ public class TeamService {
                         }
 
                     }
-                    else if(andOrOrStrategyVO.getStrategyName().equals("CourseMemberLimitStrategy")){
+                    else if("CourseMemberLimitStrategy".equals(andOrOrStrategyVO.getStrategyName())){
                         CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(andOrOrStrategyVO.getStrategyId());
                         int studentNumber=0;
                         for(BigInteger studentId:studentIdList){
@@ -347,7 +347,7 @@ public class TeamService {
                     }
 
                 }
-            }else if(item.getStrategyName().equals("TeamOrStrategy")){
+            }else if("TeamOrStrategy".equals(item.getStrategyName())){
                 System.out.println("TeamOrStrategy");
                 boolean flag=false;
                 List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectOrStrategy(item.getStrategyId());
@@ -365,7 +365,7 @@ public class TeamService {
                     return false;
                 }
             }
-            else if(item.getStrategyName().equals("ConflictCourseStrategy")){
+            else if("ConflictCourseStrategy".equals(item.getStrategyName())){
                 System.out.println("ConflictCourseStrategy");
                 List<BigInteger> conflictCourseIdList=strategyDao.listConflictCourseId(item.getStrategyId());
                 List<BigInteger> conflictStudentIdList=new ArrayList<>();

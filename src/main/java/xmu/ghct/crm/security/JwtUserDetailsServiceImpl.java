@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @author SongLingbing
  */
 @Service
-public class JwtUserDetailsService implements UserDetailsService {
+public class JwtUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserService userService;
 

@@ -100,7 +100,7 @@ public class TeamDao {
         for(BigInteger id:teamIds)
         {
             Team team=teamMapper.getTeamInfoByTeamId(id);
-            if(team.getKlassId()!=klassId)
+            if(!team.getKlassId().equals(klassId))
             {
                 //如果是从课程，则改变klassId
                 team.setKlassId(klassId);

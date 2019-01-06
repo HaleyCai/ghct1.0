@@ -258,7 +258,7 @@ public class CourseService {
         List<TeamStrategyVO> teamStrategyVOList=strategyDao.listTeamStrategyByCourseId(courseId);
         List<List<Course>> courseList=new ArrayList<>();
         for(TeamStrategyVO teamStrategyVO:teamStrategyVOList){
-            if(teamStrategyVO.getStrategyName().equals("ConflictCourseStrategy")){
+            if("ConflictCourseStrategy".equals(teamStrategyVO.getStrategyName())){
                 BigInteger strategyId=teamStrategyVO.getStrategyId();
                 List<BigInteger> conflictCourseId=strategyDao.listConflictCourseId(strategyId);
                 List<Course> courses=new ArrayList<>();
@@ -273,14 +273,14 @@ public class CourseService {
                 }
                 courseList.add(courses);
             }
-            else if(teamStrategyVO.getStrategyName().equals("TeamAndStrategy")) {
+            else if("TeamAndStrategy".equals(teamStrategyVO.getStrategyName())) {
                 List<AndOrOrStrategyVO> andOrOrStrategyVOS = strategyDao.selectAndStrategy(teamStrategyVO.getStrategyId());
                 for (AndOrOrStrategyVO andOrOrStrategyVO : andOrOrStrategyVOS) {
-                    if (andOrOrStrategyVO.getStrategyName().equals("MemberLimitStrategy")) {
+                    if ("MemberLimitStrategy".equals(andOrOrStrategyVO.getStrategyName())) {
                         CourseVO courseVO1 = strategyDao.getTeamMemberLimit(andOrOrStrategyVO.getStrategyId());
                         newCourseVO.setMinMember(String.valueOf(courseVO1.getMinMember()));
                         newCourseVO.setMaxMember(String.valueOf(courseVO1.getMaxMember()));
-                    } else if (andOrOrStrategyVO.getStrategyName().equals("TeamOrStrategy")) {
+                    } else if ("TeamOrStrategy".equals(andOrOrStrategyVO.getStrategyName())) {
                         List<AndOrOrStrategyVO> andOrOrStrategyVOList = strategyDao.selectOrStrategy(andOrOrStrategyVO.getStrategyId());
                         List<CourseLimitVO> courseLimitVOS = new ArrayList<>();
                         for (AndOrOrStrategyVO orStrategy : andOrOrStrategyVOList) {
@@ -290,7 +290,7 @@ public class CourseService {
                             courseLimitVOS.add(courseLimitVO);
                         }
                         newCourseVO.setCourseLimitVOS(courseLimitVOS);
-                    }else if(andOrOrStrategyVO.getStrategyName().equals("CourseMemberStrategy")){
+                    }else if("CourseMemberStrategy".equals(andOrOrStrategyVO.getStrategyName())){
                         List<BigInteger> strategyIdList = strategyDao.listStrategyIdByStrategyId(teamStrategyVO.getStrategyId());
                         List<CourseLimitVO> courseLimitVOS = new ArrayList<>();
                         for (BigInteger strategyId : strategyIdList) {

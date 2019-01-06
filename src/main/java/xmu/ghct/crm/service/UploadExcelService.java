@@ -77,12 +77,12 @@ public class UploadExcelService {
             name=name.replaceAll(" ","");
             user.setName(name);
             System.out.println(user);
-            int flag_1=studentDao.insertStudent(user);
-            if(flag_1==0){
+            int flag1=studentDao.insertStudent(user);
+            if(flag1==0){
                 user=studentDao.getStudentByAccount(user.getAccount());
             }
-            int flag_2=studentDao.insertKlassStudent(user.getId(),klassId,courseId);
-            if(flag_1<0||flag_2<0) {
+            int flag2=studentDao.insertKlassStudent(user.getId(),klassId,courseId);
+            if(flag1<0||flag2<0) {
                 return false;
             }
         }

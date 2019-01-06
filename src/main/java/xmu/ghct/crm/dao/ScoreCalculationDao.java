@@ -54,9 +54,9 @@ public class ScoreCalculationDao {
         for(BigInteger item:klassSeminarIdList){
             System.out.println("seminarId"+item);
             System.out.println("teamId"+teamId);
-            Score score_1=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(item,teamId);
-            if(score_1 != null){
-            seminarScoreList.add(score_1);}}
+            Score score1=scoreMapper.getSeminarScoreByKlassSeminarIdAndTeamId(item,teamId);
+            if(score1 != null){
+            seminarScoreList.add(score1);}}
         if(round.getPresentationScoreMethod()==0){
             double presentation=0;
             int account=0;

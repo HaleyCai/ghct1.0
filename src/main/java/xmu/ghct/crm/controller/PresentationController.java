@@ -278,12 +278,12 @@ public class PresentationController {
         }
         if(flag==false) {
                 int minOrder=888;
-                for(Attendance item_1:attendanceList){
-                    if(item_1.getTeamOrder()<minOrder){minOrder=item_1.getTeamOrder();id=item_1.getAttendanceId();}
+                for(Attendance item1:attendanceList){
+                    if(item1.getTeamOrder()<minOrder){minOrder=item1.getTeamOrder();id=item1.getAttendanceId();}
                 }
-                for(Attendance item_1:attendanceList){
-                    if(item_1.getAttendanceId().equals(id)) {
-                        item_1.setPresent(1);
+                for(Attendance item1:attendanceList){
+                    if(item1.getAttendanceId().equals(id)) {
+                        item1.setPresent(1);
                     }
                 }
                 System.out.println(id);

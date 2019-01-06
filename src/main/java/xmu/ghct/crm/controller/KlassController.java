@@ -65,9 +65,10 @@ public class KlassController {
      * @param klassId
      * @return
      */
-    @RequestMapping(value="/course/class/{klassId}",method = RequestMethod.DELETE)
+    @RequestMapping(value="/course/klass/{klassId}",method = RequestMethod.DELETE)
     @ResponseBody
     public boolean deleteKlassByKlassId(@PathVariable("klassId") String klassId) throws NotFoundException {
+        System.out.println("klassId "+klassId);
         return klassService.deleteKlassByKlassId(new BigInteger(klassId));
     }
 

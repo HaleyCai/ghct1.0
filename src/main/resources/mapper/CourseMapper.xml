@@ -101,7 +101,7 @@
     <update id="updateMainSemianrByCourseId">
         update course
         set seminar_main_course_id=#{mainCourseId}
-        where id=#{SubCourseId}
+        where id=#{subCourseId}
     </update>
 
     <resultMap id="klassStudentMap" type="xmu.ghct.crm.vo.StudentCourseVO">

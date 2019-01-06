@@ -93,7 +93,7 @@ public class RoundDao {
      */
     private int stringToInt(String s)
     {
-        if(s.equals("平均分")) {
+        if("平均分".equals(s)) {
             return 0;
         } else {
             return 1;

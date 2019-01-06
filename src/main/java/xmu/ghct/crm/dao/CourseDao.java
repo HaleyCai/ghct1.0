@@ -52,8 +52,8 @@ public class CourseDao {
         {
             throw new SQLException("该课程已存在");
         }
-        int flag_1=courseMapper.insertCourse(courseVO);
-        int flag_2=strategyMapper.insertMemberLimit(courseVO);
+        int flag1=courseMapper.insertCourse(courseVO);
+        int flag2=strategyMapper.insertMemberLimit(courseVO);
         int strategySerial=1;
         BigInteger id=strategyMapper.selectMaxIdFromTeamAndStrategy().add(new BigInteger("1"));
         strategyMapper.insertAndStrategy(id,"MemberLimitStrategy",courseVO.getMemberLimitId());
@@ -90,7 +90,7 @@ public class CourseDao {
                 }
             }
         }
-        return (flag_1&flag_2);
+        return (flag1&flag2);
     }
 
     public List<CourseTeacherVO> listCourseByTeacherId(BigInteger teacherId) throws NotFoundException {

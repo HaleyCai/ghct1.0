@@ -128,11 +128,11 @@ public class ScoreService {
             //讨论课所属班级ID
             List<BigInteger> klassId=seminarDao.listKlassIdBySeminarId(item);
             System.out.println("%%"+klassId);
-            for(BigInteger klass_1:klassIdS){
-                for(BigInteger klass_2:klassId){
-                    if(klass_1.equals(klass_2)) {
-                        System.out.println(klass_1+"***************"+klass_2);
-                        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassIdAndSeminarId(klass_1,item);
+            for(BigInteger klass1:klassIdS){
+                for(BigInteger klass2:klassId){
+                    if(klass1.equals(klass2)) {
+                        System.out.println(klass1+"***************"+klass2);
+                        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassIdAndSeminarId(klass1,item);
                         klassSeminarList.add(seminarVO);
                     }
                 }
@@ -162,10 +162,10 @@ public class ScoreService {
         List<SeminarSimpleVO> seminarScoreVOList=new ArrayList<>();
         List<BigInteger> klassIdS=seminarDao.listKlassIdBySeminarId(seminarSimpleVOS.get(0).getId());
         BigInteger klassId=new BigInteger("0");
-        for(BigInteger klass_1:klassIdList){
-            for(BigInteger klass_2:klassIdS){
-                if(klass_1.equals(klass_2)) {
-                    klassId=klass_1;
+        for(BigInteger klass1:klassIdList){
+            for(BigInteger klass2:klassIdS){
+                if(klass1.equals(klass2)) {
+                    klassId=klass1;
                 }
             }
         }

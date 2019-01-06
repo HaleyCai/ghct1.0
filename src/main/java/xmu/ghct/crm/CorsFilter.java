@@ -13,9 +13,6 @@ import java.io.IOException;
 @Component
 public class CorsFilter implements Filter {
 
-    final static org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(CorsFilter.class);
-
-
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
