@@ -45,10 +45,15 @@ public class SeminarSimpleVO implements Serializable {
         this.order = order;
     }
 
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
     @Override
     public String toString() {
         return "SeminarSimpleVO{" +
                 "id=" + id +
+                ", klassSeminarId=" + klassSeminarId +
                 ", topic='" + topic + '\'' +
                 ", order=" + order +
                 '}';

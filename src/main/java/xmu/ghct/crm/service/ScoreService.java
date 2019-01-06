@@ -157,10 +157,21 @@ public class ScoreService {
      */
     public List<SeminarSimpleVO> getSeminarByRoundId(BigInteger roundId,BigInteger teamId) throws NotFoundException
     {
+        System.out.println("roundId "+roundId);
+        System.out.println("teamId "+teamId);
         List<SeminarSimpleVO> seminarSimpleVOS= roundDao.getSeminarByRoundId(roundId);
+
+        if(seminarSimpleVOS.isEmpty())
+        {
+            return null;
+        }
+        System.out.println("seminarSimpleVOS "+seminarSimpleVOS);
         List<BigInteger> klassIdList=teamDao.listKlassIdByTeamId(teamId);
+        System.out.println("klassIdList "+klassIdList);
         List<SeminarSimpleVO> seminarScoreVOList=new ArrayList<>();
         List<BigInteger> klassIdS=seminarDao.listKlassIdBySeminarId(seminarSimpleVOS.get(0).getId());
+        System.out.println("klassIds "+klassIdS);
+
         BigInteger klassId=new BigInteger("0");
         for(BigInteger klass1:klassIdList){
             for(BigInteger klass2:klassIdS){
@@ -169,6 +180,7 @@ public class ScoreService {
                 }
             }
         }
+        System.out.println("klassId "+klassId);
         for(SeminarSimpleVO item:seminarSimpleVOS){
             BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(item.getId(),klassId);
             Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);

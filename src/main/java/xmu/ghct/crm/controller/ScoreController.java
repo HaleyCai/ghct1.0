@@ -1,5 +1,7 @@
 package xmu.ghct.crm.controller;
 
+import xmu.ghct.crm.dao.ShareDao;
+import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,9 @@ public class ScoreController {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    ShareDao shareDao;
 
     //////////////////////需要重写
     /*
@@ -97,20 +102,36 @@ public class ScoreController {
     {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        System.out.println("teamIdList "+teamIdList);
         BigInteger courseId=courseService.getCourseIdByRoundId(new BigInteger(roundId));
         BigInteger teamId=new BigInteger("0");
+
+        Share share=shareDao.getSubTeamShare(courseId);
+        System.out.println("share "+share);
+        BigInteger mainCourseId=new BigInteger("0");
+        if(share!=null) {
+            mainCourseId=share.getMainCourseId();
+        }
+        else{
+            System.out.println("in else");
+            mainCourseId=courseId;
+        }
+        System.out.println("mainCourseId "+mainCourseId);
+
         for(BigInteger teamIdItem:teamIdList){
             BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) {
+            if(mainCourseId.equals(courseIdItem)) {
                 teamId=teamIdItem;break;
             }
         }
+        System.out.println("teamId "+teamId);
         return scoreService.getSeminarByRoundId(new BigInteger(roundId),teamId);
     }
 
     /**
      *获取某小组某次讨论课成绩  //(简单成绩信息)
      * 根据klassSeminarId查本次讨论课，学生用户所在队伍的成绩
+     * *************
      * @param klassSeminarId
      * @return
      */
@@ -130,6 +151,7 @@ public class ScoreController {
                 teamId=teamIdItem;
             }
         }
+        System.out.println("teamId "+teamId);
         return scoreService.getTeamSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),teamId);
     }
 }

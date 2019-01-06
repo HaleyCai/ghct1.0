@@ -116,9 +116,9 @@
     </select>
 
     <select id="listTeamIdByCourseId" resultType="java.math.BigInteger">
-        select id
-        from team
-        where course_id=#{courseId} order by id
+        select team_id
+        from klass_student
+        where course_id=#{courseId} order by team_id
     </select>
 
     <select id="getTeamSerialByTeamId" resultType="java.lang.Integer">

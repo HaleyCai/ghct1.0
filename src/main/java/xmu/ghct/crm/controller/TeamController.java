@@ -82,21 +82,20 @@ public class TeamController {
 
         BigInteger rightCourseId=new BigInteger("0");
         Share share=shareMapper.getSubTeamShare(new BigInteger(courseId));
-        BigInteger mainCourseId=new BigInteger("0");
-        if(share!=null){
+        if(share!=null)
+        {
+            BigInteger mainCourseId=share.getMainCourseId();
             rightCourseId=mainCourseId;
         }
         else{
             rightCourseId=new BigInteger(courseId);
         }
-
         for(BigInteger teamIdItem:teamIdList){
-            System.out.println(teamIdItem);
             Team team=teamService.getTeamInfoByTeamId(teamIdItem);
             System.out.println(team);
             if(rightCourseId.equals(team.getCourseId())) {teamId=teamIdItem;break;}
         }
-        TeamInfoVO teamInfoVO=teamService.getTeamByCourseId(rightCourseId,teamId);
+        TeamInfoVO teamInfoVO=teamService.getTeamByCourseId(new BigInteger(courseId),teamId);
         System.out.println("teamInfoVO "+teamInfoVO);
         return teamInfoVO;
     }

@@ -79,49 +79,50 @@ public class TeamService {
             teamIds.addAll(teamDao.listTeamIdByKlassId(klassId));
         }
         TeamInfoVO teamInfoVO=new TeamInfoVO();
-        if(!teamIds.contains(teamId)) {
-            //该课程下没有有该队伍
-            return null;
-        }
-        //该课程下有该队伍，才查队伍信息
-        Team team=teamDao.getTeamInfoByTeamId(teamId);
-        teamInfoVO.setTeamId(team.getTeamId());
-        teamInfoVO.setTeamName(team.getTeamName());
-        teamInfoVO.setTeamSerial(team.getTeamSerial());
-        teamInfoVO.setKlassId(team.getKlassId());
-        teamInfoVO.setKlassSerial(team.getKlassSerial());
-        teamInfoVO.setStatus(team.getStatus());
-        System.out.println("status "+team.getStatus());
 
-        //查该课程下的全部学生，排除掉队伍中非本课程的学生
-        User leader=studentDao.getStudentById(team.getLeaderId());
-        StudentVO studentVO=new StudentVO();
-        studentVO.setAccount(leader.getAccount());
-        studentVO.setEmail(leader.getEmail());
-        studentVO.setName(leader.getName());
-        studentVO.setStudentId(leader.getId());
-        studentVO.setTeamId(leader.getTeamId());
-        teamInfoVO.setTeamLeader(studentVO);
-        System.out.println("Leader=="+studentVO);
+        if(teamIds.contains(teamId))
+        {
+            //该课程下有该队伍，才查队伍信息
+            Team team=teamDao.getTeamInfoByTeamId(teamId);
+            teamInfoVO.setTeamId(team.getTeamId());
+            teamInfoVO.setTeamName(team.getTeamName());
+            teamInfoVO.setTeamSerial(team.getTeamSerial());
+            teamInfoVO.setKlassId(team.getKlassId());
+            teamInfoVO.setKlassSerial(team.getKlassSerial());
+            teamInfoVO.setStatus(team.getStatus());
+            System.out.println("status "+team.getStatus());
 
-        //查询组员信息
-        List<BigInteger> studentIdList=teamDao.getStudentIdByTeamId(teamId);
-        List<StudentVO> members=new ArrayList<>();
-        for(BigInteger studentIdItem:studentIdList){
-            if(studentIdItem.equals(team.getLeaderId())){
-                continue;
+            //查该课程下的全部学生，排除掉队伍中非本课程的学生
+            User leader=studentDao.getStudentById(team.getLeaderId());
+            StudentVO studentVO=new StudentVO();
+            studentVO.setAccount(leader.getAccount());
+            studentVO.setEmail(leader.getEmail());
+            studentVO.setName(leader.getName());
+            studentVO.setStudentId(leader.getId());
+            studentVO.setTeamId(leader.getTeamId());
+            teamInfoVO.setTeamLeader(studentVO);
+            System.out.println("Leader=="+studentVO);
+
+            //查询组员信息
+            List<BigInteger> studentIdList=teamDao.getStudentIdByTeamId(teamId);
+            List<StudentVO> members=new ArrayList<>();
+            for(BigInteger studentIdItem:studentIdList){
+                if(studentIdItem.equals(team.getLeaderId())){
+                    continue;
+                }
+                User student=studentDao.getStudentById(studentIdItem);
+                StudentVO member=new StudentVO();
+                member.setName(student.getName());
+                member.setStudentId(student.getId());
+                member.setEmail(student.getEmail());
+                member.setAccount(student.getAccount());
+                member.setTeamId(student.getTeamId());
+                members.add(member);
             }
-            User student=studentDao.getStudentById(studentIdItem);
-            StudentVO member=new StudentVO();
-            member.setName(student.getName());
-            member.setStudentId(student.getId());
-            member.setEmail(student.getEmail());
-            member.setAccount(student.getAccount());
-            member.setTeamId(student.getTeamId());
-            members.add(member);
+            teamInfoVO.setMembers(members);
+            return teamInfoVO;
         }
-        teamInfoVO.setMembers(members);
-        return teamInfoVO;
+        return null;
     }
 
     /**
