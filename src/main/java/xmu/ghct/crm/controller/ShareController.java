@@ -75,9 +75,12 @@ public class ShareController {
      */
     @PutMapping("/share/dealShare")
     public boolean dealShare(@RequestBody Map<String,Object> inMap) throws NotFoundException {
-        BigInteger shareId=new BigInteger(inMap.get("shareId").toString());//共享申请信息的id
-        int type=(int)inMap.get("type");//共享类型，1共享组队，2共享讨论课
-        int status=(int)inMap.get("status");//处理：1同意，0不同意
+        //共享申请信息的id
+        BigInteger shareId=new BigInteger(inMap.get("shareId").toString());
+        //共享类型，1共享组队，2共享讨论课
+        int type=(int)inMap.get("type");
+        //处理：1同意，0不同意
+        int status=(int)inMap.get("status");
         return shareService.dealShare(shareId,type,status);
     }
 

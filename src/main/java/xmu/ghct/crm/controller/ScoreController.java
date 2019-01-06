@@ -102,7 +102,7 @@ public class ScoreController {
         for(BigInteger teamIdItem:teamIdList){
             BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
             if(courseId.equals(courseIdItem)) {
-                teamId=teamIdItem;
+                teamId=teamIdItem;break;
             }
         }
         return scoreService.getSeminarByRoundId(new BigInteger(roundId),teamId);

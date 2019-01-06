@@ -150,7 +150,7 @@ public class ScoreService {
     }
 
     /**
-     * 返回轮次下的讨论课简单信息（id，名字，要求）
+     * 返回轮次下的讨论课成绩
      * @param roundId
      * @return
      */
