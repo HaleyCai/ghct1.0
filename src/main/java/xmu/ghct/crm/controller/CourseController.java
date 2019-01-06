@@ -56,9 +56,6 @@ public class CourseController {
     ScoreService scoreService;
 
     @Autowired
-    ScoreController scoreController;
-
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
     /**
      * @cyq

@@ -70,7 +70,18 @@ public class TeamService {
      * @return
      */
     public TeamInfoVO getTeamByCourseId(BigInteger courseId,BigInteger teamId) throws NotFoundException {
+        List<BigInteger> klassIds=courseDao.listKlassIdByCourseId(courseId);
+        List<BigInteger> teamIds=new ArrayList<>();
+        for(BigInteger klassId:klassIds)
+        {
+            teamIds.addAll(teamDao.listTeamIdByKlassId(klassId));
+        }
         TeamInfoVO teamInfoVO=new TeamInfoVO();
+        if(!teamIds.contains(teamId)) {
+            //该课程下没有有该队伍
+            return null;
+        }
+        //该课程下有该队伍，才查队伍信息
         Team team=teamDao.getTeamInfoByTeamId(teamId);
         teamInfoVO.setTeamId(team.getTeamId());
         teamInfoVO.setTeamName(team.getTeamName());

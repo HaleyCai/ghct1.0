@@ -1,5 +1,6 @@
 package xmu.ghct.crm.dao;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIGlobalBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.ghct.crm.VO.ShareRequestVO;
@@ -133,37 +134,44 @@ public class ShareDao {
         return shareMapper.getSubSeminarShare(courseId);
     }
 
-    public boolean deleteTeamShareByShareId(BigInteger shareId,BigInteger courseId) throws NotFoundException {
+    public boolean deleteTeamShareByShareId(BigInteger shareId) throws NotFoundException {
         Share share=shareMapper.getTeamShareByShareId(shareId);
         if(shareMapper.deleteTeamShareByShareId(shareId)>0){
             //course从课程中的team_main置为null
             shareMapper.deleteTeamShareInCourse(share.getSubCourseId());
             //删除klass_team表的记录，team_student表的记录和team表
-            deleteTeamWithCourse(share.getSubCourseId());
+            deleteTeamWithSubCourse(share.getSubCourseId());
             return true;
         }
-        else
+        else {
             throw new NotFoundException("未找到该组队共享");
+        }
     }
 
     /**
      * 删除共享后，从课程下共享的队伍被删除
-     * @param subCourseId
      * @return
      */
-    public void deleteTeamWithCourse(BigInteger subCourseId) throws NotFoundException {
-        List<Klass> klasses=klassMapper.listKlassByCourseId(subCourseId);
+    public void deleteTeamWithSubCourse(BigInteger courseId) throws NotFoundException {
+        List<Klass> klasses=klassMapper.listKlassByCourseId(courseId);
         if(klasses==null&&klasses.isEmpty())
         {
             throw new NotFoundException("未找到班级列表");
         }
         for(Klass oneKlass:klasses)
-        {
-            teamDao.deleteKlassTeam(oneKlass.getKlassId());
+        {   //删除team_klass关系
+            klassMapper.deleteTeamWithKlass(oneKlass.getKlassId());
+            //删除team_student关系
+            List<BigInteger> teamIds=teamMapper.listTeamIdByKlassId(oneKlass.getKlassId());
+            for(BigInteger teamId:teamIds)
+            {
+                teamMapper.deleteStudentTeam(teamId);
+                teamMapper.deleteTeamInfo(teamId);
+            }
         }
     }
 
-    public boolean deleteSeminarShareByShareId(BigInteger shareId,BigInteger myCourseId) throws NotFoundException {
+    public boolean deleteSeminarShareByShareId(BigInteger shareId) throws NotFoundException {
         Share share=shareMapper.getSeminarShareByShareId(shareId);
         if(shareMapper.deleteSeminarShareByShareId(shareId)>0){
             //course从课程中的seminar_main置为null
@@ -280,9 +288,12 @@ public class ShareDao {
         System.out.println("share "+share);
         BigInteger mainCourseId=share.getMainCourseId();
         BigInteger subCourseId=share.getSubCourseId();
-        //删除从课程下的所有队伍
-        deleteTeamWithCourse(subCourseId);
 
+        //删除从课程下的所有team记录，删除从课程成员的team_student记录
+        //删除从课程在klass_team中的全部记录
+        deleteTeamWithSubCourse(subCourseId);
+
+        //更新从课程名单，存klass_team的关系，根据小组成员选课情况，判断klassId
         //查主课程下，所有班级，所有班级下的所有队伍，
         List<BigInteger> teamIds=new ArrayList<>();
         List<Klass> mainCourseKlasses=klassMapper.listKlassByCourseId(mainCourseId);

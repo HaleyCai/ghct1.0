@@ -45,8 +45,8 @@ public class ShareController {
      * @return
      */
     @DeleteMapping(value="/share/deleteShare/{shareId}")
-    public boolean deleteShare(@PathVariable String shareId,@RequestParam String myCourseId,@RequestParam int shareType) throws NotFoundException {
-       return shareService.deleteShare(new BigInteger(shareId),new BigInteger(myCourseId),shareType);
+    public boolean deleteShare(@PathVariable String shareId,@RequestParam int shareType) throws NotFoundException {
+       return shareService.deleteShare(new BigInteger(shareId),shareType);
     }
 
 

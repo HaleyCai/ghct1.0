@@ -45,17 +45,16 @@ public class ShareService {
     /**
      * 删除共享，删除记录
      * @param shareId
-     * @param myCourseId
      * @param type
      * @return
      */
-    public boolean deleteShare(BigInteger shareId,BigInteger myCourseId,int type) throws NotFoundException {
+    public boolean deleteShare(BigInteger shareId,int type) throws NotFoundException {
         //"共享分组"
         if(type==1) {
-            return shareDao.deleteTeamShareByShareId(shareId,myCourseId);
+            return shareDao.deleteTeamShareByShareId(shareId);
         }//"共享讨论课"
         else if(type==2) {
-            return shareDao.deleteSeminarShareByShareId(shareId,myCourseId);
+            return shareDao.deleteSeminarShareByShareId(shareId);
         }
         return false;
     }
@@ -134,10 +133,6 @@ public class ShareService {
             boolean success=shareDao.dealTeamShare(shareId,status);
             if(status==1)
             {
-                //删除从课程在klass_team中的全部记录
-
-                //删除从课程下的所有team记录，删除从课程成员的team_student记录
-                //更新从课程名单，存klass_team的关系，根据小组成员选课情况，判断klassId
                 success=shareDao.createSubCourseTeamList(shareId);
             }
             return success;

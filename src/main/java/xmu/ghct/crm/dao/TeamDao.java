@@ -133,18 +133,18 @@ public class TeamDao {
      * @param klassId
      * @return
      */
-    public boolean deleteKlassTeam(BigInteger klassId) throws NotFoundException {
-        List<BigInteger> teamIds=teamMapper.listTeamIdByKlassId(klassId);
-        if(teamIds!=null)
-        {
-            klassMapper.deleteTeamWithKlass(klassId);
-            for(BigInteger id:teamIds)
-            {
-                deleteTeam(id);
-            }
-        }
-        return true;
-    }
+//    public boolean deleteKlassTeam(BigInteger klassId,boolean isMain) throws NotFoundException {
+//        List<BigInteger> teamIds=teamMapper.listTeamIdByKlassId(klassId);
+//        if(teamIds!=null)
+//        {
+//            klassMapper.deleteTeamWithKlass(klassId);
+//            for(BigInteger id:teamIds)
+//            {
+//                deleteTeam(id);
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * @cyq
