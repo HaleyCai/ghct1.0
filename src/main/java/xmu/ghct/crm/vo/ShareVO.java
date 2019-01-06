@@ -7,11 +7,14 @@ import java.math.BigInteger;
  */
 public class ShareVO {
     private BigInteger shareId;
-    private String shareType;//共享的类型是什么
+    //共享的类型是什么
+    private String shareType;
     private BigInteger otherCourseId;
     private String otherCourseName;
-    private String otherTeacherName;//共享的另一位教师名
-    private String myCourseType;//课程是主还是从
+    //共享的另一位教师名
+    private String otherTeacherName;
+    //课程是主还是从
+    private String myCourseType;
     private int status;
 
     public BigInteger getShareId() {

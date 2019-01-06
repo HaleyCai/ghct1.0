@@ -100,11 +100,13 @@ public class PresentationService {
         seminarVO.setSeminarSerial(seminar.getSeminarSerial());
         Map<String,Object> map=new HashMap<>();
         map.put("seminarVO",seminarVO);
-        if(isAttendance==false){   //未报名讨论课
+        if(isAttendance==false){
+            //未报名讨论课
             map.put("attendanceStatus",false);
             return map;
         }
-        else{                     //已报名讨论课
+        else{
+            //已报名讨论课
             Attendance attendance=presentationDao.getAttendanceByKlassSeminarIdByTeamId(klassSeminarId,teamId);
             map.put("teamOrder",attendance.getTeamOrder());
             if(seminarVO.getStatus()==2){

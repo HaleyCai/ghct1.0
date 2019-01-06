@@ -113,7 +113,8 @@ public class ShareDao {
             shareRequestVO.setMainCourseId(item.getMainCourseId());
             Course mainCourse=courseDao.getCourseByCourseId(item.getMainCourseId());
             shareRequestVO.setMainCourseName(mainCourse.getCourseName());
-            shareRequestVO.setMainTeacherName(teacherMapper.getTeacherById(mainCourse.getTeacherId()).getName());//获取主课程教师姓名
+            //获取主课程教师姓名
+            shareRequestVO.setMainTeacherName(teacherMapper.getTeacherById(mainCourse.getTeacherId()).getName());
             //申请的从课程是自己的课程
             shareRequestVO.setSubCourseId(courseId);
             shareRequestVO.setSubCourseName(courseName);
@@ -191,7 +192,8 @@ public class ShareDao {
             BigInteger klassId=teamMapper.getKlassIdByTeamId(teamId);
             oneTeam.setKlassSerial(klassMapper.getKlassByKlassId(klassId).getKlassSerial());
             oneTeam.setTeamSerial(teamMapper.getTeamInfoByTeamId(teamId).getTeamSerial());
-            oneTeam.setStatus(-1);//-1代表Null
+            //-1代表Null
+            oneTeam.setStatus(-1);
         }
         return teamApplicationVOS;
     }
@@ -258,7 +260,8 @@ public class ShareDao {
     public boolean dealTeamShare(BigInteger shareId,int status)
     {
         if(shareMapper.updateTeamShareStatusByShareId(shareId, status)>0){
-            if(status==1){//同意的话，还要修改从课程course的team_main
+            if(status==1){
+                //同意的话，还要修改从课程course的team_main
                 Share share=shareMapper.getTeamShareByShareId(shareId);
                 courseMapper.updateMainTeamByCourseId(share.getSubCourseId(),share.getMainCourseId());
             }
@@ -278,7 +281,8 @@ public class ShareDao {
     public boolean dealSeminarShare(BigInteger shareId,int status)
     {
         if(shareMapper.updateSeminarShareStatusByShareId(shareId,status)>0){
-            if(status==1) {//同意的话，还要修改从课程course中seminar_main_
+            if(status==1) {
+                //同意的话，还要修改从课程course中seminar_main_
                 Share share=shareMapper.getSeminarShareByShareId(shareId);
                 courseMapper.updateMainSemianrByCourseId(share.getSubCourseId(),share.getMainCourseId());
             }

@@ -10,7 +10,8 @@ public class ShareTeamVO implements Serializable {
     private BigInteger mainCourseId;
     private BigInteger subCourseId;
     private BigInteger subCourseTeacherId;
-    private int status;//1同意，0不同意
+    //1同意，0不同意
+    private int status;
 
     public BigInteger getMainCourseId() {
         return mainCourseId;

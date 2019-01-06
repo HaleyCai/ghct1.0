@@ -8,11 +8,13 @@ import java.math.BigInteger;
  */
 public class Share implements Serializable {
     private BigInteger shareId;
-    private String shareType;//1.team,2.seminar
+    //1.team,2.seminar
+    private String shareType;
     private BigInteger mainCourseId;
     private BigInteger subCourseId;
     private BigInteger subCourseTeacherId;
-    private int status;//1,同意，0不同意，null.未处理
+    //1,同意，0不同意，null.未处理
+    private int status;
 
     public BigInteger getShareId() { return shareId; }
 

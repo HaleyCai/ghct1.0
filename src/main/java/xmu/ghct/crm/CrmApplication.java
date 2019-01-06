@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+/**
+ * @author caiyq
+ */
 @SpringBootApplication
 @MapperScan(basePackages ="xmu.ghct.crm.mapper")
 public class CrmApplication {

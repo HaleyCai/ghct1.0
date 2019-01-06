@@ -13,8 +13,10 @@ public class User implements Serializable {
     private String name;
     private String email;
     private BigInteger teamId;
-    private int type;//0是学生，1是教师
-    private int active;//0是未激活，1是激活
+    //0是学生，1是教师
+    private int type;
+    //0是未激活，1是激活
+    private int active;
 
     public BigInteger getId() {
         return id;

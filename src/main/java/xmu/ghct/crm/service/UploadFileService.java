@@ -19,7 +19,6 @@ public class UploadFileService {
         if(fileName.contains("\\")){
             fileName=fileName.substring(fileName.lastIndexOf("\\")+1);
         }
-  //      String fileType = fileName.substring(fileName.lastIndexOf(".")+1);
         File fileDir = new File("tmp");
         if(!fileDir.exists()){
             fileDir.mkdir();

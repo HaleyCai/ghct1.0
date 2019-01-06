@@ -10,11 +10,14 @@ import java.util.List;
 public class RoundVO implements Serializable {
     private BigInteger courseId;
     private BigInteger roundId;
-    private int roundSerial;//轮次序号
-    private String presentationScoreMethod;//本轮次成绩计算方法，0转为“平均分”，1转为“最高分”
+    //轮次序号
+    private Integer roundSerial;
+    //本轮次成绩计算方法，0转为“平均分”，1转为“最高分”
+    private String presentationScoreMethod;
     private String reportScoreMethod;
     private String questionScoreMethod;
-    private List<RoundEnrollVO> enrollNum;//各班的最大报名次数
+    //各班的最大报名次数
+    private List<RoundEnrollVO> enrollNum;
 
     public BigInteger getCourseId() {
         return courseId;

@@ -71,7 +71,8 @@ public class SeminarService {
             round.setPresentationScoreMethod(1);
             round.setQuestionScoreMethod(0);
             round.setReportScoreMethod(1);
-            round.setRoundSerial(roundDao.getNewRoundNum(round.getCourseId()));//默认创建，序号为最大序号+1
+            //默认创建，序号为最大序号+1
+            round.setRoundSerial(roundDao.getNewRoundNum(round.getCourseId()));
             roundDao.insertRound(round,courseId);
             seminar.setRoundId(round.getRoundId());
             //默认创建每个班每轮允许报名次数为1

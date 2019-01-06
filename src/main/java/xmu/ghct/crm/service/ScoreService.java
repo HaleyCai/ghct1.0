@@ -118,13 +118,15 @@ public class ScoreService {
 
     public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(BigInteger roundId,BigInteger teamId)throws NotFoundException{
         List<BigInteger> seminarIdList=seminarDao.listSeminarIdByRoundId(roundId);
-        List<BigInteger> klassIdS=teamDao.listKlassIdByTeamId(teamId);  //队伍所属班级ID
+        //队伍所属班级ID
+        List<BigInteger> klassIdS=teamDao.listKlassIdByTeamId(teamId);
         System.out.println("&&"+klassIdS);
         List<SeminarVO> klassSeminarList=new ArrayList<>();
         List<Score> scoreList=new ArrayList<>();
         for(BigInteger item:seminarIdList){
             System.out.println(item);
-            List<BigInteger> klassId=seminarDao.listKlassIdBySeminarId(item);   //讨论课所属班级ID
+            //讨论课所属班级ID
+            List<BigInteger> klassId=seminarDao.listKlassIdBySeminarId(item);
             System.out.println("%%"+klassId);
             for(BigInteger klass_1:klassIdS){
                 for(BigInteger klass_2:klassId){

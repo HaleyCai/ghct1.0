@@ -115,7 +115,8 @@ public class PresentationController {
         Attendance attendance=presentationService.getAttendanceByAttendanceId(new BigInteger(attendanceId));
         BigInteger klassSeminarId=attendance.getKlassSeminarId();
         SeminarVO seminarVO =seminarService.getKlassSeminarByKlassSeminarId(klassSeminarId);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//修改日期格式
+        //修改日期格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         Date reportDDL=seminarVO.getReportDDL();
         String reportDdl=dateFormat.format(reportDDL);
         Date date=new Date();
@@ -371,10 +372,12 @@ public class PresentationController {
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
         for(Attendance attendance:attendanceList){
             if(teamId.equals(attendance.getTeamId())) {
-                return false;//该队伍已报名讨论课
+                //该队伍已报名讨论课
+                return false;
             }
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");//修改日期格式
+        //修改日期格式
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String enrollEndTime=dateFormat.format(seminar.getEnrollEndTime());
         String enrollStartTime=dateFormat.format(seminar.getEnrollStartTime());
         Date date=new Date();

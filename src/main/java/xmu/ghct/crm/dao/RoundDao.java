@@ -239,7 +239,8 @@ public class RoundDao {
      */
     public int getNewRoundNum(BigInteger courseId)
     {
-        return roundMapper.getRoundNumByCourseId(courseId)+1;//默认值为最大值加一
+        //默认值为最大值加一
+        return roundMapper.getRoundNumByCourseId(courseId)+1;
     }
 
     /**

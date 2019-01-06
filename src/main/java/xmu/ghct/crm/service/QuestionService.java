@@ -146,9 +146,10 @@ public class QuestionService {
         seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
         Double totalScore=totalScoreDao.totalScoreCalculation(seminarScore,courseId).getTotalScore();
         boolean success=questionDao.updateSeminarScoreEnd(seminarScore.getKlassSeminarId(),teamId,totalScore);
-        seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);//更新seminar_score表
-
-        boolean success1=questionDao.updateQuestionScoreByQuestionId(questionId,questionScore);//更新question表
+        //更新seminar_score表
+        seminarScore=questionDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
+        //更新question表
+        boolean success1=questionDao.updateQuestionScoreByQuestionId(questionId,questionScore);
 
 
         //更新round_score表

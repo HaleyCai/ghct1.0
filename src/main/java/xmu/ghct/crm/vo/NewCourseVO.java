@@ -21,7 +21,8 @@ public class NewCourseVO {
     private String teamEndTime;
     private String minMember;
     private String maxMember;
-    private boolean flag;    //“与”或“或”规则
+    //“与”或“或”规则
+    private Boolean flag;
     private List<CourseLimitVO> courseLimitVOS;
     private List<List<Course>> conflictCourseIdS;
 

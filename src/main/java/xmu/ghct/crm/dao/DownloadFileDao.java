@@ -43,8 +43,9 @@ public class DownloadFileDao {
 
         final String userAgent = request.getHeader("USER-AGENT").toLowerCase();
         System.out.println(userAgent);
-        if(file.exists()) {  //判断文件父目录是否存在
-             response.setHeader("content-type", "application/octet-stream");
+        if(file.exists()) {
+            //判断文件父目录是否存在
+            response.setHeader("content-type", "application/octet-stream");
             response.setContentType("application/octet-stream");
 
             //设置文件头
@@ -57,24 +58,31 @@ public class DownloadFileDao {
                 System.out.println("safari");
                 headerValue +=encodeURIComponent(fileName) +"\";";
                 headerValue += " filename*=utf-8''" + encodeURIComponent(fileName);
-                headerValue += encodeURIComponent(type);                             //添加文件后缀
+                headerValue += encodeURIComponent(type);
+                //添加文件后缀
             }  else if(userAgent.contains("mozilla")){
                 System.out.println("mozilla");
                 headerValue +=new String(fileName.getBytes(), "ISO8859-1")+new String(type.getBytes(), "ISO8859-1");
             } else {
                 System.out.println("other");
-                headerValue += URLEncoder.encode(fileName, "UTF8") + URLEncoder.encode(type, "UTF8");//其他浏览器
+                //其他浏览器
+                headerValue += URLEncoder.encode(fileName, "UTF8") + URLEncoder.encode(type, "UTF8");
             }
             response.setHeader("Content-Disposition", headerValue);
-            byte[] buff = new byte[1024];                                        //5.创建数据缓冲区
+            //5.创建数据缓冲区
+            byte[] buff = new byte[1024];
             BufferedInputStream bis = null;
             OutputStream os = null;
             try {
-                os = response.getOutputStream();                              //6.通过response对象获取OutputStream流
-                bis = new BufferedInputStream(new FileInputStream(file));     //4.根据文件路径获取要下载的文件输入流
-                int i = bis.read(buff);                                       //7.将FileInputStream流写入到buffer缓冲区
+                //6.通过response对象获取OutputStream流
+                os = response.getOutputStream();
+                //4.根据文件路径获取要下载的文件输入流
+                bis = new BufferedInputStream(new FileInputStream(file));
+                //7.将FileInputStream流写入到buffer缓冲区
+                int i = bis.read(buff);
                 while (i != -1) {
-                    os.write(buff, 0, buff.length); //8.使用将OutputStream缓冲区的数据输出到客户端浏览器
+                    //8.使用将OutputStream缓冲区的数据输出到客户端浏览器
+                    os.write(buff, 0, buff.length);
                     os.flush();
                     i = bis.read(buff);
                 }
@@ -130,14 +138,16 @@ public class DownloadFileDao {
                 //TODO:未对文件不存在时进行操作，后期优化。
                 if(file.exists())
                 {
-                    zipSource = new FileInputStream(file);//将需要压缩的文件格式化为输入流
+                    //将需要压缩的文件格式化为输入流
+                    zipSource = new FileInputStream(file);
                     /**
                      * 压缩条目不是具体独立的文件，而是压缩包文件列表中的列表项，称为条目，就像索引一样这里的name就是文件名,
                      * 文件名和之前的重复就会导致文件被覆盖
                      */
-
-                    ZipEntry zipEntry = new ZipEntry(realFileName);//在压缩目录中文件的名字
-                    zipStream.putNextEntry(zipEntry);//定位该压缩条目位置，开始写入文件到压缩包中
+                    //在压缩目录中文件的名字
+                    ZipEntry zipEntry = new ZipEntry(realFileName);
+                    //定位该压缩条目位置，开始写入文件到压缩包中
+                    zipStream.putNextEntry(zipEntry);
                     bufferStream = new BufferedInputStream(zipSource, 1024 * 10);
                     int read = 0;
                     byte[] buf = new byte[1024 * 10];
