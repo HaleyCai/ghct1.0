@@ -124,7 +124,7 @@ public class TeamDao {
         if(v1+v2+v3>0) {
             return true;
         } else {
-            throw new NotFoundException("该组不在表中");
+            return false;
         }
     }
 
@@ -166,7 +166,7 @@ public class TeamDao {
         BigInteger flag=teamMapper.getKlassIdByTeamId(teamId);
         if(flag==null)
         {
-            throw new NotFoundException("未找到该组所在的班级");
+            return null;
         }
         return flag;
     }
@@ -176,7 +176,7 @@ public class TeamDao {
         BigInteger flag=teamMapper.getCourseIdByTeamId(teamId);
         if(flag==null)
         {
-            throw new NotFoundException("未找到该组所在的课程");
+            return null;
         }
         return flag;
     }
@@ -196,7 +196,7 @@ public class TeamDao {
         int count=teamMapper.getTeamSerialByTeamId(teamId);
         if(count<=0)
         {
-            throw new NotFoundException("未找到该组");
+            return 0;
         }
         return count;
     }

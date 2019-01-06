@@ -219,13 +219,20 @@ public class RoundDao {
      * @return
      */
     public int insertRound(Round round,BigInteger courseId) throws SQLException {
+        System.out.println("round "+round);
+        System.out.println("courseId "+courseId);
         Round round1=roundMapper.getRoundByCourseIdAndRoundSerial(round.getCourseId(),round.getRoundSerial());
         if(round1!=null)
         {
             throw new SQLException("该轮次已存在");
         }
         int flag= roundMapper.insertRound(round);
-        List<BigInteger> teamIdList=teamMapper.listTeamIdByCourseId(courseId);
+        List<Klass> klasses=klassMapper.listKlassByCourseId(courseId);
+        List<BigInteger> teamIdList=new ArrayList<>();
+        for(Klass klassItem:klasses){
+            teamIdList.addAll(teamMapper.listTeamIdByKlassId(klassItem.getKlassId()));
+        }
+        System.out.println("teamList:"+teamIdList);
         for(BigInteger teamId:teamIdList){
             ScoreVO scoreVO=new ScoreVO();
             scoreVO.setTeamId(teamId);

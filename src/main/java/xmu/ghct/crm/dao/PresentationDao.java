@@ -77,7 +77,7 @@ public class PresentationDao {
         int count=presentationMapper.updatePresentByAttendanceId(attendanceId,present);
         if(count<=0)
         {
-            throw new NotFoundException("未找到该展示");
+            return 0;
         }
         return count;
     }

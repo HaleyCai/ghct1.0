@@ -122,7 +122,7 @@ public class SeminarService {
         }
         if(list==null||list.isEmpty())
         {
-            throw new NotFoundException("未查找到该轮次下的讨论课信息！");
+            return null;
         }
         return list;
     }

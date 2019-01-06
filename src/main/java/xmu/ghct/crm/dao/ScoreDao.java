@@ -135,7 +135,7 @@ public class ScoreDao {
         int count=scoreMapper.updateSeminarScoreBySeminarIdAndTeamId(score);
         if(count<=0)
         {
-            throw new NotFoundException("该讨论课成绩不存在");
+            return 0;
         }
         return count;
     }
@@ -147,7 +147,7 @@ public class ScoreDao {
         System.out.println(scoreVO);
         if(count<=0)
         {
-            throw new NotFoundException("该轮成绩不存在");
+           return 0;
         }
         return count;
     }

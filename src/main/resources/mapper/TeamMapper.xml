@@ -115,12 +115,6 @@
         where klass_id=#{klassId} order by team_id
     </select>
 
-    <select id="listTeamIdByCourseId" resultType="java.math.BigInteger">
-        select team_id
-        from klass_student
-        where course_id=#{courseId} order by team_id
-    </select>
-
     <select id="getTeamSerialByTeamId" resultType="java.lang.Integer">
         select team_serial
         from team
