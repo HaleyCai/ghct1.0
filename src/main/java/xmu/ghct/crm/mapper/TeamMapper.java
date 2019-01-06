@@ -1,16 +1,15 @@
 package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import xmu.ghct.crm.VO.CourseVO;
-import xmu.ghct.crm.VO.ShareTeamVO;
 import xmu.ghct.crm.entity.Team;
-import xmu.ghct.crm.entity.User;
 
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author caiyq
+ */
 @Mapper
 @Repository
 public interface TeamMapper {

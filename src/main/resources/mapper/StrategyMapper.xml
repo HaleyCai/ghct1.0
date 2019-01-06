@@ -50,7 +50,7 @@
         where id=#{strategyId}
     </select>
 
-    <insert id="insertOrStrategy" parameterType="xmu.ghct.crm.VO.CourseVO" keyProperty="courseLimitId" useGeneratedKeys="true">
+    <insert id="insertOrStrategy" parameterType="xmu.ghct.crm.vo.CourseVO" keyProperty="courseLimitId" useGeneratedKeys="true">
         insert into team_or_strategy(
             id,
             strategy_name,
@@ -62,7 +62,7 @@
                  )
     </insert>
 
-    <insert id="insertMemberLimit" parameterType="xmu.ghct.crm.VO.CourseVO" keyProperty="memberLimitId" useGeneratedKeys="true">
+    <insert id="insertMemberLimit" parameterType="xmu.ghct.crm.vo.CourseVO" keyProperty="memberLimitId" useGeneratedKeys="true">
         insert into member_limit_strategy(
                                           min_member,
                                           max_member
@@ -78,7 +78,7 @@
         where id=#{strategyId}
     </select>
     
-    <insert id="insertCourseMemberLimit" parameterType="xmu.ghct.crm.VO.CourseLimitVO" keyProperty="courseLimitId" useGeneratedKeys="true">
+    <insert id="insertCourseMemberLimit" parameterType="xmu.ghct.crm.vo.CourseLimitVO" keyProperty="courseLimitId" useGeneratedKeys="true">
         insert into course_member_limit_strategy(
                                                  course_id,
                                                  min_member,
@@ -152,26 +152,26 @@
         where id=#{strategyId}
     </select>
 
-    <resultMap id="CourseLimitMap" type="xmu.ghct.crm.VO.CourseLimitVO">
+    <resultMap id="CourseLimitMap" type="xmu.ghct.crm.vo.CourseLimitVO">
         <result property="courseLimitId" column="id"/>
         <result property="courseId" column="course_id"/>
         <result property="minMember" column="min_member"/>
         <result property="maxMember" column="max_member"/>
     </resultMap>
 
-    <resultMap id="AndOrOrMap" type="xmu.ghct.crm.VO.AndOrOrStrategyVO">
+    <resultMap id="AndOrOrMap" type="xmu.ghct.crm.vo.AndOrOrStrategyVO">
         <result property="id" column="id"/>
         <result property="strategyName" column="strategy_name"/>
         <result property="strategyId" column="strategy_id"/>
     </resultMap>
 
-    <resultMap id="limitMap" type="xmu.ghct.crm.VO.CourseVO">
+    <resultMap id="limitMap" type="xmu.ghct.crm.vo.CourseVO">
         <result property="memberLimitId" column="id"/>
         <result property="minMember" column="min_member"/>
         <result property="maxMember" column="max_member"/>
     </resultMap>
 
-    <resultMap id="teamStrategyMap" type="xmu.ghct.crm.VO.TeamStrategyVO">
+    <resultMap id="teamStrategyMap" type="xmu.ghct.crm.vo.TeamStrategyVO">
         <result property="courseId" column="course_id"/>
         <result property="strategySerial" column="strategy_serial"/>
         <result property="strategyId" column="strategy_id"/>

@@ -11,16 +11,15 @@ import java.io.*;
 import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import static jdk.nashorn.internal.runtime.GlobalFunctions.encodeURIComponent;
 
-
+/**
+ * @author hzm
+ */
 @Component
 public class DownloadFileDao {
 

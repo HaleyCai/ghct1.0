@@ -1,12 +1,11 @@
 package xmu.ghct.crm.security;
 
-import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import xmu.ghct.crm.VO.LoginUserVO;
+import xmu.ghct.crm.vo.LoginUserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -14,8 +13,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 /**
- * @author SongLingbing
- * @date 2018/12/24 8:32
+ * @author caiyq
  */
 @Component
 public class JwtTokenUtil implements Serializable {

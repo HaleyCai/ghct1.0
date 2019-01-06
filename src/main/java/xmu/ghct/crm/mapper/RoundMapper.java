@@ -10,6 +10,9 @@ import xmu.ghct.crm.entity.Seminar;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author caiyq
+ */
 @Mapper
 @Repository
 public interface RoundMapper {

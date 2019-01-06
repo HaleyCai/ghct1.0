@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
+/**
+ * @author hzm
+ */
 public class Seminar implements Serializable {
 
     private BigInteger seminarId;

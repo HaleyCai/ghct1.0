@@ -1,25 +1,22 @@
 package xmu.ghct.crm.controller;
 
-import xmu.ghct.crm.entity.Klass;
-import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.ScoreVO;
-import xmu.ghct.crm.VO.SeminarSimpleVO;
-import xmu.ghct.crm.VO.SeminarVO;
-import xmu.ghct.crm.dao.RoundDao;
+import xmu.ghct.crm.vo.ScoreVO;
+import xmu.ghct.crm.vo.SeminarSimpleVO;
 import xmu.ghct.crm.entity.Score;
-import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+/**
+ * @author hzm,caiyq
+ */
 @CrossOrigin
 @RestController
 public class ScoreController {

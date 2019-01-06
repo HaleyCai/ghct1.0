@@ -3,7 +3,7 @@
 <mapper namespace="xmu.ghct.crm.mapper.CourseMapper">
 
     <!--parameterType="BigInteger,xmu.ghct.crm.entity.Course"-->
-    <insert id="insertCourse"  parameterType="xmu.ghct.crm.VO.CourseVO" keyProperty="courseId" useGeneratedKeys="true">
+    <insert id="insertCourse" parameterType="xmu.ghct.crm.vo.CourseVO" keyProperty="courseId" useGeneratedKeys="true">
         insert into course (
             teacher_id,
             course_name,
@@ -104,7 +104,7 @@
         where id=#{SubCourseId}
     </update>
 
-    <resultMap id="klassStudentMap" type="xmu.ghct.crm.VO.StudentCourseVO">
+    <resultMap id="klassStudentMap" type="xmu.ghct.crm.vo.StudentCourseVO">
         <result property="courseId" column="course_id"/>
         <result property="klassId" column="klass_id"/>
     </resultMap>
@@ -123,7 +123,7 @@
         <result property="seminarMainCourseId" column="seminar_main_course_id"/>
     </resultMap>
 
-    <resultMap id="courseStudentMap" type="xmu.ghct.crm.VO.CourseStudentVO">
+    <resultMap id="courseStudentMap" type="xmu.ghct.crm.vo.CourseStudentVO">
         <result property="klassId" column="klass_id"/>
         <result property="studentId" column="student_id"/>
         <result property="courseId" column="course_id"/>
@@ -135,7 +135,7 @@
         order by course_name
     </select>
 
-    <resultMap id="courseVOMap" type="xmu.ghct.crm.VO.CourseVO">
+    <resultMap id="courseVOMap" type="xmu.ghct.crm.vo.CourseVO">
         <result property="courseId" column="id"/>
         <result property="teacherId" column="teacher_id"/>
         <result property="courseName" column="course_name"/>

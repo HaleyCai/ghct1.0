@@ -1,11 +1,9 @@
-package xmu.ghct.crm.vo;
+package xmu.ghct.crm.VO;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 
-/**
- * @author gfj
- */
+//发送的非法组队请求
 public class TeamApplicationVO implements Serializable {
     private BigInteger teamValidId;
     private int klassSerial;

@@ -2,22 +2,23 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xmu.ghct.crm.VO.CourseLimitVO;
-import xmu.ghct.crm.VO.CourseStudentVO;
-import xmu.ghct.crm.VO.CourseTeacherVO;
-import xmu.ghct.crm.VO.CourseVO;
-import xmu.ghct.crm.VO.StudentCourseVO;
+import xmu.ghct.crm.vo.CourseLimitVO;
+import xmu.ghct.crm.vo.CourseStudentVO;
+import xmu.ghct.crm.vo.CourseTeacherVO;
+import xmu.ghct.crm.vo.CourseVO;
+import xmu.ghct.crm.vo.StudentCourseVO;
 import xmu.ghct.crm.entity.*;
-import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.*;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * @author hzm
+ */
 @Component
 public class CourseDao {
 

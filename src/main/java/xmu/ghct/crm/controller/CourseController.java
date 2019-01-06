@@ -1,10 +1,8 @@
 package xmu.ghct.crm.controller;
 
-import javafx.beans.value.ObservableObjectValue;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.dao.DateDao;
 import xmu.ghct.crm.dao.StrategyDao;
 import xmu.ghct.crm.entity.*;
@@ -18,6 +16,9 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
 
+/**
+ * @author hzm, caiyq
+ */
 @CrossOrigin
 @RestController
 public class CourseController {
@@ -449,15 +450,6 @@ public class CourseController {
                                                @RequestBody RoundEnrollListVO list)
     {
         List<RoundEnrollVO> roundEnrollVOS=list.getRoundEnrollList();
-//        for(Map<String,Object> map:inList.getList())
-//        {
-//            RoundEnrollVO enrollVO=new RoundEnrollVO();
-//            enrollVO.setKlassId(new BigInteger(map.get("klassId").toString()));
-//            enrollVO.setKlassSerial((int)map.get("klassSerial"));
-//            enrollVO.setGrade((int)map.get("grade"));
-//            enrollVO.setEnroll((int)map.get("enroll"));
-//            roundEnrollVOS.add(enrollVO);
-//        }
         return courseService.modifyRoundEnrollByRoundId(new BigInteger(roundId),roundEnrollVOS);
     }
 

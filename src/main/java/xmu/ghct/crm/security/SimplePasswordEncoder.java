@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author SongLingbing
- * @date 2018/12/24 12:58
  */
 @Component
 public class SimplePasswordEncoder implements PasswordEncoder {

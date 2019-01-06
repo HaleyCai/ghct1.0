@@ -131,7 +131,7 @@
         delete from team where id=#{teamId}
     </delete>
 
-    <resultMap id="shareTeamMap" type="xmu.ghct.crm.VO.ShareTeamVO">
+    <resultMap id="shareTeamMap" type="xmu.ghct.crm.vo.ShareTeamVO">
         <result property="mainCourseId" column="main_course_id"/>
         <result property="subCourseId" column="sub_course_id"/>
         <result property="subCourseTeacherId" column="sub_course_teacher_id"/>

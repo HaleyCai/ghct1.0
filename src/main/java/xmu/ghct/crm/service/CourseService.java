@@ -3,7 +3,7 @@ package xmu.ghct.crm.service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.NotFoundException;
@@ -16,6 +16,9 @@ import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * @author gfj
+ */
 @Service
 public class CourseService {
 

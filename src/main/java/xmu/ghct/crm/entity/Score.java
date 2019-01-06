@@ -3,6 +3,9 @@ package xmu.ghct.crm.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+/**
+ * @author hzm
+ */
 public class Score implements Serializable {
 
     private BigInteger klassSeminarId;

@@ -9,6 +9,9 @@ import xmu.ghct.crm.entity.Klass;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author gfj
+ */
 @Mapper
 @Repository
 public interface KlassMapper {

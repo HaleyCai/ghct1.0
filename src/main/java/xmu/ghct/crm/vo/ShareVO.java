@@ -1,10 +1,7 @@
-package xmu.ghct.crm.vo;
+package xmu.ghct.crm.VO;
 
 import java.math.BigInteger;
 
-/**
- * @author caiyq
- */
 public class ShareVO {
     private BigInteger shareId;
     private String shareType;//共享的类型是什么

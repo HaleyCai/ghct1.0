@@ -2,10 +2,9 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Klass;
-import xmu.ghct.crm.entity.Share;
 import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.exception.NotFoundException;
@@ -91,23 +90,15 @@ public class TeamService {
         teamInfoVO.setStatus(team.getStatus());
 
         //查该课程下的全部学生，排除掉队伍中非本课程的学生
-        List<BigInteger> allStudent=studentDao.getAllStudentIdByCourseId(courseId);
-        //查询组长信息
-        //if(allStudent.contains(team.getLeaderId()))
-        //{
-            User leader=studentDao.getStudentById(team.getLeaderId());
-            StudentVO studentVO=new StudentVO();
-            studentVO.setAccount(leader.getAccount());
-            studentVO.setEmail(leader.getEmail());
-            studentVO.setName(leader.getName());
-            studentVO.setStudentId(leader.getId());
-            studentVO.setTeamId(leader.getTeamId());
-            teamInfoVO.setTeamLeader(studentVO);
-            System.out.println("Leader=="+studentVO);
-        //}
-        //else{
-         //   teamInfoVO.setTeamLeader(null);
-        //}
+        User leader=studentDao.getStudentById(team.getLeaderId());
+        StudentVO studentVO=new StudentVO();
+        studentVO.setAccount(leader.getAccount());
+        studentVO.setEmail(leader.getEmail());
+        studentVO.setName(leader.getName());
+        studentVO.setStudentId(leader.getId());
+        studentVO.setTeamId(leader.getTeamId());
+        teamInfoVO.setTeamLeader(studentVO);
+        System.out.println("Leader=="+studentVO);
 
         //查询组员信息
         List<BigInteger> studentIdList=teamDao.getStudentIdByTeamId(teamId);
@@ -116,17 +107,14 @@ public class TeamService {
             if(studentIdItem.equals(team.getLeaderId())){
                 continue;
             }
-            //if(allStudent.contains(studentIdItem))
-            //{
-                User student=studentDao.getStudentById(studentIdItem);
-                StudentVO member=new StudentVO();
-                member.setName(student.getName());
-                member.setStudentId(student.getId());
-                member.setEmail(student.getEmail());
-                member.setAccount(student.getAccount());
-                member.setTeamId(student.getTeamId());
-                members.add(member);
-            //}
+            User student=studentDao.getStudentById(studentIdItem);
+            StudentVO member=new StudentVO();
+            member.setName(student.getName());
+            member.setStudentId(student.getId());
+            member.setEmail(student.getEmail());
+            member.setAccount(student.getAccount());
+            member.setTeamId(student.getTeamId());
+            members.add(member);
         }
         teamInfoVO.setMembers(members);
         return teamInfoVO;
@@ -289,7 +277,6 @@ public class TeamService {
             size--;
         }
         if (flag > 0 && flag_1 > 0 && flag_2 > 0) {
-            //System.out.println(flag + "**" + flag_1 + "**" + flag_2);
             return team.getTeamId();
         } else {
             return null;
@@ -305,65 +292,6 @@ public class TeamService {
     public int updateStatusByTeamId(BigInteger teamId,int status){
         return teamDao.updateStatusByTeamId(teamId,status);
     }
-
-
-
-    /**
-     * 判断队伍有效性
-     * @param teamId
-     * @return
-     */
-    /*
-    public boolean judgeIllegal(BigInteger teamId) throws NotFoundException {
-        BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
-        List<BigInteger> studentIdList=strategyDao.listStudentIdByTeamId(teamId);
-        List<TeamStrategyVO> teamStrategyVOList=strategyDao.listTeamStrategyByCourseId(courseId);
-        for(TeamStrategyVO item:teamStrategyVOList){
-            if(item.getStrategyName().equals("MemberLimitStrategy")){
-                System.out.println("MemberLimitStrategy");
-                int teamMemberNumber=strategyDao.getTeamMemberNumber(teamId);
-                CourseVO courseVO=strategyDao.getTeamMemberLimit(item.getStrategyId());
-                if(teamMemberNumber>courseVO.getMaxMember()||teamMemberNumber<courseVO.getMinMember())return false;
-            }
-            else if(item.getStrategyName().equals("TeamAndStrategy")){
-                System.out.println("TeamAndStrategy");
-                List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectAndStrategy(item.getStrategyId());
-                for(AndOrOrStrategyVO andOrOrStrategyVO:andOrOrStrategyVOS){
-                   CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(andOrOrStrategyVO.getStrategyId());
-                   int studentNumber=0;
-                   for(BigInteger studentId:studentIdList){
-                       studentNumber+=strategyDao.getCourseStudentNumber(courseLimitVO.getCourseId(),studentId);
-                   }
-                   if(studentNumber>courseLimitVO.getMaxMember()||studentNumber<courseLimitVO.getMinMember()) return false;
-                }
-            }else if(item.getStrategyName().equals("TeamOrStrategy")){
-                System.out.println("TeamOrStrategy");
-                boolean flag=false;
-                List<AndOrOrStrategyVO> andOrOrStrategyVOS=strategyDao.selectOrStrategy(item.getStrategyId());
-                for(AndOrOrStrategyVO andOrOrStrategyVO:andOrOrStrategyVOS){
-                    CourseLimitVO courseLimitVO=strategyDao.getCourseLimitByStrategyId(andOrOrStrategyVO.getStrategyId());
-                    int studentNumber=0;
-                    for(BigInteger studentId:studentIdList){
-                        studentNumber+=strategyDao.getCourseStudentNumber(courseLimitVO.getCourseId(),studentId);
-                    }
-                    if(studentNumber<courseLimitVO.getMaxMember()&&studentNumber>courseLimitVO.getMinMember()) {flag=true;break;}
-                }
-                if(flag=true) continue;
-                else return false;
-            }
-            else if(item.getStrategyName().equals("ConflictCourseStrategy")){
-                System.out.println("ConflictCourseStrategy");
-                List<BigInteger> conflictCourseIdList=strategyDao.listConflictCourseId(item.getStrategyId());
-                for(BigInteger courseIdItem:conflictCourseIdList){
-                    for(BigInteger studentId:studentIdList){
-                        if(strategyDao.getCourseStudentNumber(courseIdItem,studentId)>0)return false;
-                    }
-                }
-            }
-        }
-        return true;
-   }
-   */
 
     /**
      * @author hzm

@@ -1,8 +1,11 @@
-package xmu.ghct.crm.VO;
+package xmu.ghct.crm.vo;
 
 import java.math.BigInteger;
 import java.util.Date;
 
+/**
+ * @author hzm
+ */
 public class SeminarVO {
 
     private BigInteger klassId;

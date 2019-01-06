@@ -3,11 +3,16 @@ package xmu.ghct.crm.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+/**
+ * @author caiyq
+ */
 public class Round implements Serializable {
     private BigInteger roundId;
     private BigInteger courseId;
-    private int roundSerial;//轮次序号
-    private int presentationScoreMethod;//本轮次成绩计算方法，0代表平均分，1代表最高分
+    //轮次序号
+    private int roundSerial;
+    //本轮次成绩计算方法，0代表平均分，1代表最高分
+    private int presentationScoreMethod;
     private int reportScoreMethod;
     private int questionScoreMethod;
     private Double totalScore;

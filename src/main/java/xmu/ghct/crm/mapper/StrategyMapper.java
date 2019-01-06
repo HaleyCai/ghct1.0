@@ -1,16 +1,18 @@
 package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import xmu.ghct.crm.VO.AndOrOrStrategyVO;
-import xmu.ghct.crm.VO.CourseLimitVO;
-import xmu.ghct.crm.VO.CourseVO;
-import xmu.ghct.crm.VO.TeamStrategyVO;
+import xmu.ghct.crm.vo.AndOrOrStrategyVO;
+import xmu.ghct.crm.vo.CourseLimitVO;
+import xmu.ghct.crm.vo.CourseVO;
+import xmu.ghct.crm.vo.TeamStrategyVO;
 
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author hzm
+ */
 @Mapper
 @Repository
 public interface StrategyMapper {

@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.LoginUserVO;
+import xmu.ghct.crm.vo.LoginUserVO;
 import xmu.ghct.crm.service.UserService;
 
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 /**
  * @author SongLingbing
- * @date 2018/12/24 8:55
  */
 @Service
 public class JwtUserDetailsService implements UserDetailsService {

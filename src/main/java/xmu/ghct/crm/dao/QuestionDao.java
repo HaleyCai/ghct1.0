@@ -1,14 +1,15 @@
 package xmu.ghct.crm.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xmu.ghct.crm.VO.QuestionListVO;
-import xmu.ghct.crm.VO.QuestionVO;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.mapper.QuestionMapper;
 import xmu.ghct.crm.entity.Question;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author gfj
+ */
 @Component
 public class QuestionDao {
     @Autowired

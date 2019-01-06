@@ -3,6 +3,9 @@ package xmu.ghct.crm.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+/**
+ * @author caiyq
+ */
 public class Share implements Serializable {
     private BigInteger shareId;
     private String shareType;//1.team,2.seminar

@@ -2,12 +2,8 @@ package xmu.ghct.crm.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import sun.rmi.runtime.NewThreadAction;
-import xmu.ghct.crm.VO.ScoreVO;
-import xmu.ghct.crm.VO.SeminarScoreVO;
-import xmu.ghct.crm.entity.Round;
+import xmu.ghct.crm.vo.ScoreVO;
 import xmu.ghct.crm.entity.Score;
-import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.mapper.RoundMapper;
 import xmu.ghct.crm.mapper.ScoreMapper;
@@ -17,6 +13,9 @@ import xmu.ghct.crm.mapper.TeamMapper;
 import java.math.BigInteger;
 import java.util.*;
 
+/**
+ * @author hzm,caiyq
+ */
 @Component
 public class ScoreDao {
     @Autowired

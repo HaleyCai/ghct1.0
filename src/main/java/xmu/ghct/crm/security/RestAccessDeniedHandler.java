@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
  * @author SongLingbing
- * @date 2018/12/24 8:58
  */
 @Component
 public class RestAccessDeniedHandler implements AccessDeniedHandler {

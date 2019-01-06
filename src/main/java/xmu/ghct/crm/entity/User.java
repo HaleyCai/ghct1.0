@@ -3,6 +3,9 @@ package xmu.ghct.crm.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+/**
+ * @author caiyq
+ */
 public class User implements Serializable {
     private BigInteger id;
     private String account;

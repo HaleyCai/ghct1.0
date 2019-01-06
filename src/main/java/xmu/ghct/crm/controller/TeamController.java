@@ -2,10 +2,8 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.*;
-import xmu.ghct.crm.entity.Course;
+import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.entity.Team;
-import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.exception.ParamErrorException;
 import xmu.ghct.crm.security.JwtTokenUtil;
@@ -17,6 +15,10 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+/**
+ * @author caiyq
+ */
 @CrossOrigin
 @RestController
 public class TeamController {

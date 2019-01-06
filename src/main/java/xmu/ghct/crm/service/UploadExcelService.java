@@ -21,6 +21,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author hzm
+ */
 @Service
 public class UploadExcelService {
 
@@ -129,9 +132,8 @@ public class UploadExcelService {
                 wb=null;
             }
         } catch (FileNotFoundException e) {
-           // logger.error("FileNotFoundException", e);
+
         } catch (IOException e) {
-           // logger.error("IOException", e);
         }
         return wb;
     }

@@ -6,16 +6,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.LoginUserVO;
+import xmu.ghct.crm.vo.LoginUserVO;
 import xmu.ghct.crm.dao.StudentDao;
 import xmu.ghct.crm.dao.TeacherDao;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.exception.NotFoundException;
 import java.math.BigInteger;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

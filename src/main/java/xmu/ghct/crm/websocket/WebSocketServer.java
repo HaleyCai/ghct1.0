@@ -7,6 +7,9 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * @author gfj
+ */
 @ServerEndpoint("/websocket")
 @Component
 public class WebSocketServer {
@@ -74,30 +77,37 @@ public class WebSocketServer {
     public void onMessage(String message,Session session){
         System.out.println("来自客户端的信息"+message);
         for(WebSocketServer webSocketServer:webSocketSet){
+            System.out.println("in for");
             try{
-                if("提问".equals(message))
+                System.out.println("in try");
+                if(message.equals("提问"))
                 {
                     questionCount++;
                     message=String.valueOf(questionCount);
+                    System.out.println("后端给前端 "+message);
                     webSocketServer.sendMessage(message);
                 }
-                else if("下一组".equals(message)){
+                else if(message.equals("下一组")){
                     questionCount=0;
+                    System.out.println("后端给前端 "+message);
                     webSocketServer.sendMessage(message);
                 }
-                else if("提问人数-1".equals(message))
+                else if(message.equals("提问人数-1"))
                 {
-                    questionCount--;
+                    if(questionCount!=0) {
+                        questionCount--;
+                    }
                     message=String.valueOf(questionCount);
+                    System.out.println("后端给前端 "+message);
                     webSocketServer.sendMessage(message);
                 }
-                else if("断开".equals(message))
+                else if(message.equals("断开"))
                 {
                     questionCount=0;
                     onClose(session);
                     message="断开";
+                    System.out.println("后端给前端 "+message);
                     webSocketServer.sendMessage(message);
-
                 }
                 else{
                     webSocketServer.sendMessage(message);

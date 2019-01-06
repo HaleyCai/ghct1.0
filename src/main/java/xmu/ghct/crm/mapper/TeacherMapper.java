@@ -13,7 +13,7 @@ import java.util.List;
  * @author caiyq
  */
 
-@Mapper     //声明是一个Mapper
+@Mapper
 @Repository
 public interface TeacherMapper {
     /**

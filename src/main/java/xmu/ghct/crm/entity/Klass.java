@@ -3,6 +3,9 @@ package xmu.ghct.crm.entity;
 import java.io.Serializable;
 import java.math.BigInteger;
 
+/**
+ * @author hzm
+ */
 public class Klass implements Serializable{
     private BigInteger klassId;
     private BigInteger courseId;

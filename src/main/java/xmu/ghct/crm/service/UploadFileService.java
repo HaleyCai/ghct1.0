@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author hzm
+ */
 @Service
 public class UploadFileService {
 

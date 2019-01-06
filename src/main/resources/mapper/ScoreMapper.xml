@@ -41,7 +41,7 @@
         where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
     </select>
 
-    <update id="updateRoundScoreByRoundIdAndTeamId" parameterType="xmu.ghct.crm.VO.ScoreVO">
+    <update id="updateRoundScoreByRoundIdAndTeamId" parameterType="xmu.ghct.crm.vo.ScoreVO">
         update round_score
         set presentation_score=#{presentationScore},
             question_score=#{questionScore},
@@ -56,7 +56,7 @@
         where round_id=#{roundId}
     </select>
 
-    <insert id="insertRoundScore" parameterType="xmu.ghct.crm.VO.ScoreVO">
+    <insert id="insertRoundScore" parameterType="xmu.ghct.crm.vo.ScoreVO">
         insert into round_score(
                                 round_id,
                                 team_id,
@@ -74,7 +74,7 @@
                          )
     </insert>
 
-    <resultMap id="roundScoreMap" type="xmu.ghct.crm.VO.ScoreVO">
+    <resultMap id="roundScoreMap" type="xmu.ghct.crm.vo.ScoreVO">
         <result property="roundId" column="round_id"/>
         <result property="teamId" column="team_id"/>
         <result property="presentationScore" column="presentation_score"/>

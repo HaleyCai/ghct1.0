@@ -3,7 +3,7 @@ package xmu.ghct.crm.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.NotFoundException;
@@ -17,6 +17,9 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.*;
 
+/**
+ * @author hzm
+ */
 @Service
 public class SeminarService {
     @Autowired

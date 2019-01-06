@@ -7,10 +7,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.LoginUserVO;
+import xmu.ghct.crm.vo.LoginUserVO;
 import xmu.ghct.crm.entity.User;
 import xmu.ghct.crm.exception.NotFoundException;
-import xmu.ghct.crm.mapper.StudentMapper;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.UserService;
 

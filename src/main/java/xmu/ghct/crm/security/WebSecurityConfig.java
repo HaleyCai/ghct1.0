@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * @author SongLingbing
- * @date 2018/12/24 9:01
  */
 @Configuration
 @EnableWebSecurity

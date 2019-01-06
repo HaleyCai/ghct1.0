@@ -8,6 +8,9 @@ import xmu.ghct.crm.entity.Attendance;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author hzm
+ */
 @Mapper
 @Repository
 public interface PresentationMapper {

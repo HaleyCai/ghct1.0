@@ -1,25 +1,24 @@
 package xmu.ghct.crm.service;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.ScoreVO;
-import xmu.ghct.crm.VO.SeminarScoreVO;
-import xmu.ghct.crm.VO.SeminarSimpleVO;
-import xmu.ghct.crm.VO.SeminarVO;
+import xmu.ghct.crm.vo.ScoreVO;
+import xmu.ghct.crm.vo.SeminarSimpleVO;
+import xmu.ghct.crm.vo.SeminarVO;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.entity.Seminar;
-import xmu.ghct.crm.entity.Team;
 import xmu.ghct.crm.exception.NotFoundException;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author hzm
+ */
 @Service
 public class ScoreService {
 

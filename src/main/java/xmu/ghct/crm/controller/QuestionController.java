@@ -2,8 +2,7 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.QuestionListVO;
-import xmu.ghct.crm.VO.QuestionVO;
+import xmu.ghct.crm.vo.QuestionListVO;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.QuestionService;
@@ -12,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.util.Map;
 import java.util.List;
+
+/**
+ * @author gfj
+ */
 @CrossOrigin
 @RestController
 public class QuestionController {

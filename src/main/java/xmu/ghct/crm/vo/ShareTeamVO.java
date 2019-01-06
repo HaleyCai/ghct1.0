@@ -1,11 +1,8 @@
-package xmu.ghct.crm.vo;
+package xmu.ghct.crm.VO;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 
-/**
- * @author caiyq
- */
 public class ShareTeamVO implements Serializable {
     private BigInteger mainCourseId;
     private BigInteger subCourseId;

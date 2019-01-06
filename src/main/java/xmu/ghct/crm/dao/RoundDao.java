@@ -1,9 +1,8 @@
 package xmu.ghct.crm.dao;
 
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Seminar;

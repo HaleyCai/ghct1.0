@@ -2,10 +2,9 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.Klass;
-import xmu.ghct.crm.entity.Round;
 import xmu.ghct.crm.entity.Seminar;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
@@ -17,6 +16,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+
+/**
+ * @author hzm
+ */
 @CrossOrigin
 @RestController
 public class SeminarController {

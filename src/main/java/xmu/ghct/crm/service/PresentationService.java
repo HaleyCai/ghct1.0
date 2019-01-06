@@ -2,7 +2,7 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.SeminarVO;
+import xmu.ghct.crm.vo.SeminarVO;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.Attendance;
 import xmu.ghct.crm.entity.Klass;
@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author hzm
+ */
 @Service
 public class PresentationService {
 

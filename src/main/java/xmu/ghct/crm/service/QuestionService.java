@@ -1,14 +1,9 @@
 package xmu.ghct.crm.service;
 
-import org.codehaus.jackson.map.JsonSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.QuestionListVO;
+import xmu.ghct.crm.vo.QuestionListVO;
 import xmu.ghct.crm.dao.*;
-import xmu.ghct.crm.VO.QuestionVO;
 import xmu.ghct.crm.entity.Question;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.exception.NotFoundException;
@@ -16,10 +11,10 @@ import xmu.ghct.crm.exception.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.math.BigInteger;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.util.Map;
 
+/**
+ * @author gfj
+ */
 @Service
 public class QuestionService {
     @Autowired

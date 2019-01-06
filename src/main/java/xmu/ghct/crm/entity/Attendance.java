@@ -2,6 +2,9 @@ package xmu.ghct.crm.entity;
 
 import java.math.BigInteger;
 
+/**
+ * @author hzm
+ */
 public class Attendance {
 
     BigInteger attendanceId;

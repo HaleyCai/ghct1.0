@@ -8,6 +8,9 @@ import xmu.ghct.crm.mapper.CourseMapper;
 
 import java.math.BigInteger;
 
+/**
+ * @author hzm
+ */
 @Component
 public class TotalScoreDao {
 

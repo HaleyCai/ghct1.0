@@ -109,7 +109,7 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <resultMap id="teamApplicationMap" type="xmu.ghct.crm.VO.TeamApplicationVO">
+    <resultMap id="teamApplicationMap" type="xmu.ghct.crm.vo.TeamApplicationVO">
         <id property="teamValidId" column="id"/>
         <result property="teamId" column="team_id"/>
         <result property="teacherId" column="teacher_id"/>
@@ -117,7 +117,7 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <insert id="launchTeamRequest" parameterType="xmu.ghct.crm.VO.TeamApplicationVO">
+    <insert id="launchTeamRequest" parameterType="xmu.ghct.crm.vo.TeamApplicationVO">
         insert into team_valid_application(
                                           team_id,
                                           teacher_id,

@@ -2,23 +2,21 @@ package xmu.ghct.crm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.ghct.crm.VO.*;
+import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.dao.CourseDao;
 import xmu.ghct.crm.dao.ShareDao;
 import xmu.ghct.crm.dao.TeacherDao;
-import xmu.ghct.crm.dao.TeamDao;
 import xmu.ghct.crm.entity.Course;
-import xmu.ghct.crm.entity.Klass;
 import xmu.ghct.crm.entity.Share;
-import xmu.ghct.crm.exception.ClassNotFoundException;
 import xmu.ghct.crm.exception.NotFoundException;
-import xmu.ghct.crm.mapper.ShareMapper;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * @author caiyq
+ */
 @Service
 public class ShareService {
     @Autowired

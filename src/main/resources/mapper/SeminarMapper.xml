@@ -117,7 +117,7 @@
     </select>
 
 
-    <resultMap id="klassSeminarResultMap" type="xmu.ghct.crm.VO.SeminarVO">
+    <resultMap id="klassSeminarResultMap" type="xmu.ghct.crm.vo.SeminarVO">
         <id property="klassSeminarId" column="id"/>
         <result property="klassId" column="klass_id"/>
         <result property="seminarId" column="seminar_id"/>

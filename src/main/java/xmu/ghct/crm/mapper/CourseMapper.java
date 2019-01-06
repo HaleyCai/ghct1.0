@@ -1,16 +1,18 @@
 package xmu.ghct.crm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import xmu.ghct.crm.VO.CourseStudentVO;
-import xmu.ghct.crm.VO.CourseVO;
-import xmu.ghct.crm.VO.StudentCourseVO;
+import xmu.ghct.crm.vo.CourseStudentVO;
+import xmu.ghct.crm.vo.CourseVO;
+import xmu.ghct.crm.vo.StudentCourseVO;
 import xmu.ghct.crm.entity.*;
 
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author hzm
+ */
 @Mapper
 @Repository
 public interface CourseMapper {

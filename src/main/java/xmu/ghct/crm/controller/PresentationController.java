@@ -1,33 +1,28 @@
 package xmu.ghct.crm.controller;
 
-import com.alibaba.fastjson.support.odps.udf.CodecCheck;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import xmu.ghct.crm.VO.ScoreVO;
-import xmu.ghct.crm.VO.SeminarVO;
+import xmu.ghct.crm.vo.ScoreVO;
+import xmu.ghct.crm.vo.SeminarVO;
 import xmu.ghct.crm.dao.*;
 import xmu.ghct.crm.entity.*;
 import xmu.ghct.crm.exception.NotFoundException;
 import xmu.ghct.crm.security.JwtTokenUtil;
 import xmu.ghct.crm.service.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import static xmu.ghct.crm.dao.DownloadFileDao.encodeURIComponent;
 
+/**
+ * @author hzm
+ */
 @CrossOrigin
 @RestController
 public class PresentationController {
@@ -293,8 +288,6 @@ public class PresentationController {
                 System.out.println(id);
                 presentationService.updatePresentByAttendanceId(id,new Integer(1));
             }
-       // List<Question> questionList=questionDao.listQuestionByKlassSeminarIdAndAttendanceId(new BigInteger(klassSeminarId),id);
-        //presentationMap.put("questionList",questionList);
         List<Map> maps=new ArrayList<>();
         for(Attendance item:attendanceList){
             Map<String,Object> presentationMap=new HashMap<>();

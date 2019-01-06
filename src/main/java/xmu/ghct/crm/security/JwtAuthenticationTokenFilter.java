@@ -19,7 +19,6 @@ import java.io.IOException;
 
 /**
  * @author SongLingbing
- * @date 2018/12/24 8:57
  */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
