@@ -22,10 +22,15 @@ public class SeminarDao {
     SeminarMapper seminarMapper;
 
     public int creatSeminar(Seminar seminar) throws SQLException {
-        Seminar seminar1=seminarMapper.getSeminarByCourseIdAndRoundId(seminar.getCourseId(),seminar.getRoundId());
-        if(seminar1!=null)
-        {
-            throw new SQLException("存在该讨论课");
+        List<Seminar> seminarList=seminarMapper.getSeminarByCourseIdAndRoundId(seminar.getCourseId(),seminar.getRoundId());
+        if(seminarList!=null&&seminarList.size()>0){
+            for(Seminar seminar1:seminarList){
+                if(seminar1.getSeminarName().equals(seminar.getSeminarName()))
+                {
+                    System.out.println("存在该讨论课");
+                    return 0;
+                }
+            }
         }
         return seminarMapper.creatSeminar(seminar);
     }

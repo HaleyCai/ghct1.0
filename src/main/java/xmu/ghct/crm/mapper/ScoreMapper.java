@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import xmu.ghct.crm.vo.ScoreVO;
 import xmu.ghct.crm.entity.Score;
+import xmu.ghct.crm.vo.SeminarScoreVO;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -77,4 +78,13 @@ public interface ScoreMapper {
      * @return
      */
     int insertRoundScore(ScoreVO scoreVO);
+
+
+    /**
+     *创建讨论课成绩
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+    int insertSeminarScore(BigInteger klassSeminarId,BigInteger teamId);
 }

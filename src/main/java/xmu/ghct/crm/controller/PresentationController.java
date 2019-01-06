@@ -360,6 +360,7 @@ public class PresentationController {
                                      @PathVariable("klassSeminarId")String klassSeminarId,
                                      @RequestBody Map<String,Object> attendanceMap) throws org.apache.ibatis.javassist.NotFoundException, SQLException, NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        System.out.println(id);
         List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
         System.out.println("teamIdList "+teamIdList);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
@@ -402,6 +403,7 @@ public class PresentationController {
         int endJudge=enrollEndTime.compareTo(nowTime);
         if(startJudge>0||endJudge<0) {
             //throw new OutTimeScopeException;
+            System.out.println("超时");
             return false;
         }
         else{
@@ -409,6 +411,7 @@ public class PresentationController {
             if(flag>0) {
                 return true;
             } else {
+                System.out.println("报名失败");
                 return false;
             }
         }

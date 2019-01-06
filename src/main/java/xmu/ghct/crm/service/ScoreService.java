@@ -3,6 +3,7 @@ package xmu.ghct.crm.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.ghct.crm.vo.ScoreVO;
+import xmu.ghct.crm.vo.SeminarScoreVO;
 import xmu.ghct.crm.vo.SeminarSimpleVO;
 import xmu.ghct.crm.vo.SeminarVO;
 import xmu.ghct.crm.dao.*;
@@ -203,5 +204,15 @@ public class ScoreService {
     {
         Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
         return score;
+    }
+
+    /**
+     * 创建讨论课成绩
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+    public int insertSeminarScore(BigInteger klassSeminarId,BigInteger teamId){
+        return scoreDao.insertSeminarScore(klassSeminarId,teamId);
     }
 }

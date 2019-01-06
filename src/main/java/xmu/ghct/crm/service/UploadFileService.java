@@ -17,9 +17,11 @@ public class UploadFileService {
     public Map<String,String> uploadFile(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         if(fileName.contains("\\")){
+            System.out.println("\\\\\\\\\\");
             fileName=fileName.substring(fileName.lastIndexOf("\\")+1);
         }
         else if(fileName.contains("/")){
+            System.out.println("////////////////////");
             fileName=fileName.substring(fileName.lastIndexOf("/")+1);
         }
         File fileDir = new File("tmp");

@@ -74,6 +74,24 @@
                          )
     </insert>
 
+    <insert id="insertSeminarScore" parameterType="xmu.ghct.crm.vo.SeminarScoreVO">
+        insert into seminar_score(
+                                  klass_seminar_id,
+                                  team_id,
+                                  total_score,
+                                  presentation_score,
+                                  question_score,
+                                  report_score
+        ) values (
+                  #{klassSeminarId},
+                  #{teamId},
+                  0,
+                  0,
+                  0,
+                  0
+                         )
+    </insert>
+
     <resultMap id="roundScoreMap" type="xmu.ghct.crm.vo.ScoreVO">
         <result property="roundId" column="round_id"/>
         <result property="teamId" column="team_id"/>

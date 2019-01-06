@@ -156,7 +156,7 @@ public interface SeminarMapper {
      * @param roundId
      * @return
      */
-    Seminar getSeminarByCourseIdAndRoundId(BigInteger courseId,BigInteger roundId);
+    List<Seminar> getSeminarByCourseIdAndRoundId(BigInteger courseId,BigInteger roundId);
 
     /**
      * 获取讨论课所属班级ID

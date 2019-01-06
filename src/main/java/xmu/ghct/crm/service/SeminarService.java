@@ -103,7 +103,12 @@ public class SeminarService {
         int flag= seminarDao.creatSeminar(seminar);
         List<Klass> klassList=klassDao.listKlassByCourseId(courseId);
         for(Klass item:klassList){
+            List<Team> teamList=teamDao.listTeamByKlassId(item.getKlassId());
             seminarDao.insertKlassSeminarBySeminarIdAndKlassId(seminar.getSeminarId(),item.getKlassId());
+            BigInteger klassSeminarId=seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(seminar.getSeminarId(),item.getKlassId());
+            for(Team team:teamList){
+                scoreDao.insertSeminarScore(klassSeminarId,team.getTeamId());
+            }
         }
         return flag;
     }

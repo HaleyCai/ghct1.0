@@ -9,6 +9,7 @@ import xmu.ghct.crm.mapper.RoundMapper;
 import xmu.ghct.crm.mapper.ScoreMapper;
 import xmu.ghct.crm.mapper.SeminarMapper;
 import xmu.ghct.crm.mapper.TeamMapper;
+import xmu.ghct.crm.vo.SeminarScoreVO;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -209,4 +210,14 @@ public class ScoreDao {
     //public int insertRoundScore(ScoreVO scoreVO){
     //       return scoreMapper.insertRoundScore(scoreVO);
     //  }
+
+    /**
+     * 创建讨论课成绩
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+    public int insertSeminarScore(BigInteger klassSeminarId,BigInteger teamId){
+        return scoreMapper.insertSeminarScore(klassSeminarId,teamId);
+    }
 }
