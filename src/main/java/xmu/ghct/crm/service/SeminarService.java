@@ -50,6 +50,9 @@ public class SeminarService {
     CourseDao courseDao;
 
     @Autowired
+    ShareDao shareDao;
+
+    @Autowired
     ScoreCalculationDao scoreCalculationDao;
 
     @Autowired
@@ -57,6 +60,9 @@ public class SeminarService {
 
     @Autowired
     TotalScoreDao totalScoreDao;
+
+    @Autowired
+    CourseService courseService;
 
 
     @Autowired
@@ -401,20 +407,33 @@ public class SeminarService {
 
     public List<Map> listStudentKlassSeminarByKlassSeminarId(HttpServletRequest request,BigInteger klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
+        System.out.println("id为"+id);
         List<BigInteger> teamIdList=teamDao.listTeamIdByStudentId(id);
-        SeminarVO seminarVo=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
-        BigInteger courseId=courseDao.getCourseIdByKlassId(seminarVo.getKlassId());
-        BigInteger teamId=new BigInteger("0");
-        for(BigInteger teamIdItem:teamIdList){
-            BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) {
-                teamId=teamIdItem;
-            }
-        }
-        List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
-        System.out.println(attendanceList);
+        System.out.println("teamIdList "+teamIdList);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
+        BigInteger courseId=courseService.getCourseIdByRoundId(seminar.getRoundId());
+        BigInteger teamId=new BigInteger("0");
+        Share share=shareDao.getSubTeamShare(courseId);
+        System.out.println("share "+share);
+        BigInteger mainCourseId=new BigInteger("0");
+        if(share!=null) {
+            mainCourseId=share.getMainCourseId();
+        }
+        else{
+            System.out.println("in else");
+            mainCourseId=courseId;
+        }
+        System.out.println("mainCourseId "+mainCourseId);
+        for(BigInteger teamIdItem:teamIdList){
+            BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamIdItem);
+            if(mainCourseId.equals(courseIdItem)) {
+                teamId=teamIdItem;break;
+            }
+        }
+        System.out.println("teamId "+teamId);
+        List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminarId);
+        System.out.println(attendanceList);
         BigInteger klassId=seminarDao.getKlassIdByKlassSeminarId(klassSeminarId);
         Klass klass=klassDao.getKlassByKlassId(klassId);
         int klassSerial=klass.getKlassSerial();
@@ -444,7 +463,6 @@ public class SeminarService {
             i++;
             BigInteger teamID=item.getTeamId();
             Team team=teamDao.getTeamInfoByTeamId(teamID);
-
             oneMap.put("attendanceId",item.getAttendanceId());
             oneMap.put("klassSerial",klassSerial);
             oneMap.put("teamSerial",team.getTeamSerial());

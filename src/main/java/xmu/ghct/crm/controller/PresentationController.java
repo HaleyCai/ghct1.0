@@ -360,17 +360,31 @@ public class PresentationController {
                                      @PathVariable("klassSeminarId")String klassSeminarId,
                                      @RequestBody Map<String,Object> attendanceMap) throws org.apache.ibatis.javassist.NotFoundException, SQLException, NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        List<BigInteger> teamIdList=teamDao.listTeamIdByStudentId(id);
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        System.out.println("teamIdList "+teamIdList);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
-        BigInteger courseId=courseService.getCourseIdByKlassId(seminarVO.getKlassId());
+        Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
+        BigInteger courseId=courseService.getCourseIdByRoundId(seminar.getRoundId());
         BigInteger teamId=new BigInteger("0");
+        Share share=shareDao.getSubTeamShare(courseId);
+        System.out.println("share "+share);
+        BigInteger mainCourseId=new BigInteger("0");
+        if(share!=null) {
+            mainCourseId=share.getMainCourseId();
+        }
+        else{
+            System.out.println("in else");
+            mainCourseId=courseId;
+        }
+        System.out.println("mainCourseId "+mainCourseId);
+
         for(BigInteger teamIdItem:teamIdList){
-            BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) {
-                teamId=teamIdItem;
+            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
+            if(mainCourseId.equals(courseIdItem)) {
+                teamId=teamIdItem;break;
             }
         }
-        Seminar seminar=seminarDao.getSeminarBySeminarId(seminarVO.getSeminarId());
+        System.out.println("teamId "+teamId);
         List<Attendance> attendanceList=presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
         for(Attendance attendance:attendanceList){
             if(teamId.equals(attendance.getTeamId())) {
