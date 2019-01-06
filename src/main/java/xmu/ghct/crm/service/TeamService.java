@@ -186,16 +186,21 @@ public class TeamService {
      */
     public boolean addTeamMember(BigInteger teamId,List<BigInteger> studentIdList)throws NotFoundException{
         List<BigInteger> studentIdS=teamDao.getStudentIdByTeamId(teamId);
+        System.out.println(studentIdS);
         for(BigInteger item:studentIdList){
+            System.out.println(item);
+            boolean flag=false;
             if(studentIdS!=null&&studentIdS.size()>0){
-                for(BigInteger studentId:studentIdS){
-                    if(studentId.equals(item))
-                        continue;
-                    else if(teamDao.insertTeamStudent(teamId,item)<0) {
-                        return false;
+                for(BigInteger studentId:studentIdS) {
+                    System.out.println(studentId);
+                    if (studentId.equals(item)) {
+                        System.out.println(studentId);
+                        flag=true;
+                        break;
                     }
                 }
-            }
+                if(!flag)  teamDao.insertTeamStudent(teamId,item);
+                }
             else {
                 teamDao.insertTeamStudent(teamId,item);
             }
