@@ -184,11 +184,20 @@ public class TeamService {
      * @param studentIdList
      * @return
      */
-    public boolean addTeamMember(BigInteger teamId,List<BigInteger> studentIdList)
-    {
+    public boolean addTeamMember(BigInteger teamId,List<BigInteger> studentIdList)throws NotFoundException{
+        List<BigInteger> studentIdS=teamDao.getStudentIdByTeamId(teamId);
         for(BigInteger item:studentIdList){
-            if(teamDao.insertTeamStudent(teamId,item)<0) {
-                return false;
+            if(studentIdS!=null&&studentIdS.size()>0){
+                for(BigInteger studentId:studentIdS){
+                    if(studentId.equals(item))
+                        continue;
+                    else if(teamDao.insertTeamStudent(teamId,item)<0) {
+                        return false;
+                    }
+                }
+            }
+            else {
+                teamDao.insertTeamStudent(teamId,item);
             }
         }
         return true;

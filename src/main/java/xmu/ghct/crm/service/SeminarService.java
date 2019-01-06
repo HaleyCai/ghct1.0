@@ -68,6 +68,7 @@ public class SeminarService {
         Seminar seminar=new Seminar();
         seminar.setCourseId(courseId);
         if(NOTCHOICE.equals(seminarMap.get("roundId").toString())){
+            System.out.println("讨论课轮次默认为0");
             Round round=new Round();
             round.setCourseId(courseId);
             round.setPresentationScoreMethod(1);
@@ -76,6 +77,7 @@ public class SeminarService {
             //默认创建，序号为最大序号+1
             round.setRoundSerial(roundDao.getNewRoundNum(round.getCourseId()));
             roundDao.insertRound(round,courseId);
+            System.out.println("roundId"+round.getRoundId());
             seminar.setRoundId(round.getRoundId());
             //默认创建每个班每轮允许报名次数为1
             roundDao.defaultEnrollNumber(seminar.getCourseId(),seminar.getRoundId());
