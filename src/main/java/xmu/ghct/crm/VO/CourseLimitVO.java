@@ -6,7 +6,7 @@ public class CourseLimitVO {
 
     BigInteger courseLimitId;
     BigInteger courseId;
-    String CourseName;
+    String courseName;
     private int minMember;
     private int maxMember;
 
@@ -23,7 +23,7 @@ public class CourseLimitVO {
     }
 
     public void setCourseName(String courseName) {
-        CourseName = courseName;
+        this.courseName = courseName;
     }
 
     public void setMinMember(int minMember) {
@@ -39,7 +39,7 @@ public class CourseLimitVO {
     }
 
     public String getCourseName() {
-        return CourseName;
+        return courseName;
     }
 
     public int getMinMember() {
@@ -54,7 +54,7 @@ public class CourseLimitVO {
     public String toString() {
         return "CourseLimitVO{" +
                 "courseId=" + courseId +
-                ", CourseName='" + CourseName + '\'' +
+                ", courseName='" + courseName + '\'' +
                 ", minMember=" + minMember +
                 ", maxMember=" + maxMember +
                 '}';
