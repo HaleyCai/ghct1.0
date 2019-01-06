@@ -257,6 +257,7 @@ public class CourseController {
             }
             if(myTeamId.equals(attendance.getTeamId())){
                 oneMap.put("myAttendanceStatus",true);
+                oneMap.put("myAttendanceId",attendance.getAttendanceId());
             }
             else {
                 oneMap.put("myAttendanceStatus",false);
