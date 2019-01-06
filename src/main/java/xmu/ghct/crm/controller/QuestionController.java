@@ -23,7 +23,7 @@ public class QuestionController {
     private JwtTokenUtil jwtTokenUtil;
 
     /**
-     *前端传入klassSeminarId和attendanceId,教师提问界面右边显示所有提问学生
+     *前端传入klassSeminarId和attendanceId,教师提问界面右边显示所有已提问学生
      * @return
      */
     @RequestMapping(value="/seminar/{attendanceId}/question",

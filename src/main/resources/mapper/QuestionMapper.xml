@@ -36,7 +36,7 @@
     <select id="listQuestionByAttendanceId" resultMap="QuestionResult">
         select *
         from question
-        where attendance_id=#{attendanceId}
+        where attendance_id=#{attendanceId} and is_selected=1
     </select>
 
     <resultMap id="QuestionResult" type="xmu.ghct.crm.entity.Question">
