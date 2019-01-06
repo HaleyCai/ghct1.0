@@ -99,7 +99,9 @@ public class QuestionService {
 
             questionListVO.setQuestionScore(question.getQuestionScore());
         }
-        else questionListVO=null;
+        else {
+            questionListVO=null;
+        }
         return questionListVO;
 
     }
