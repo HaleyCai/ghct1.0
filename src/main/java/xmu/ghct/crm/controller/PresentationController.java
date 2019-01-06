@@ -316,30 +316,13 @@ public class PresentationController {
     }
 
     /**
-     * 修改展示成绩(需要展示现有成绩)
-     * @param klassSeminarId
-     * @return
-     */
-    /*
-    @GetMapping("/presentation/{klassSeminarId}/team/modifyScore")
-    public Score modifyScore(HttpServletRequest request,
-                             @PathVariable("klassSeminarId") String klassSeminarId) throws NotFoundException {
-        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        BigInteger teamId=teamDao.listTeamIdByStudentId(id);
-        Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),teamId);
-        return score;
-    }
-    */
-
-    /**
      * 修改展示成绩（展示给分）
      * @param klassSeminarId
      * @param presentationScoreMap
      * @return
      */
     @PutMapping("/presentation/{klassSeminarId}/attendance/{teamId}")
-    public boolean updatePresentationScore(HttpServletRequest request,
-                                           @PathVariable("klassSeminarId") String klassSeminarId,
+    public boolean updatePresentationScore(@PathVariable("klassSeminarId") String klassSeminarId,
                                            @PathVariable("teamId")String teamId,
                                            @RequestBody  Map<String,Object> presentationScoreMap) throws NotFoundException{
         Double presentationScore=new Double(presentationScoreMap.get("presentationScore").toString());

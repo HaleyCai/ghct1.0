@@ -255,24 +255,24 @@ public class SeminarService {
         BigInteger courseId=courseDao.getCourseIdByTeamId(teamId);
         Course course=courseDao.getCourseByCourseId(courseId);
 
-        double presentationScore;
+        Double presentationScore;
         String presentation=seminarScoreMap.get("presentationScore").toString();
         if(presentation==null) {
-            presentationScore=0;
+            presentationScore=0.0;
         }
         presentationScore=new Double(presentation);
 
-        double questionScore;
+        Double questionScore;
         String question=seminarScoreMap.get("questionScore").toString();
         if(question==null) {
-            questionScore=0;
+            questionScore=0.0;
         }
         questionScore=new Double(question);
 
-        double reportScore;
+        Double reportScore;
         String report=seminarScoreMap.get("reportScore").toString();
         if(report==null) {
-            reportScore=0;
+            reportScore=0.0;
         }
         reportScore=new Double(report);
         score.setTeamId(teamId);
