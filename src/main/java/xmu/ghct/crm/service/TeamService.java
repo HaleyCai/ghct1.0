@@ -392,15 +392,9 @@ public class TeamService {
        Map<String,Object> map=new HashMap<>(16);
        List<BigInteger> teamIdList=teamDao.listTeamIdByStudentId(id);
        if(teamIdList!=null){
-           for(BigInteger teamId:teamIdList){
-               BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamId);
-               if(courseId.equals(courseIdItem))
-               {
-                   map.put("isTeam",true);
-                   map.put("myTeamId",teamId);
-                   return map;
-               }
-           }
+           map.put("isTeam",true);
+           map.put("myTeamId",teamIdList.get(0));
+           return map;
        }
        else{
            map.put("isTeam",false);

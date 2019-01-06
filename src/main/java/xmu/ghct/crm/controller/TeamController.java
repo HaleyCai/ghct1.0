@@ -42,7 +42,6 @@ public class TeamController {
         Map<String,Object> map=new HashMap<>(16);
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         map.put("teams",teamSimpleInfos);
-        //开始时间，结束时间，是否组队，
         Map<String,Object> team=teamService.getUserTeamStatusById(new BigInteger(courseId),id);
         map.put("isTeam",team.get("isTeam"));
         map.put("myTeamId",team.get("myTeamId"));

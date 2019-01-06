@@ -198,6 +198,7 @@ public class SeminarController {
     @GetMapping("/seminar/{seminarId}/klass/{klassId}")
     public SeminarVO getKlassSeminarByKlassIdAndSeminarId(@PathVariable("seminarId") String seminarId,
                                                           @PathVariable("klassId") String klassId) throws NotFoundException {
+
         return seminarService.getKlassSeminarByKlassIdAndSeminarId(new BigInteger(klassId),new BigInteger(seminarId));
 
     }

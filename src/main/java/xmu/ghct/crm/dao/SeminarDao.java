@@ -44,21 +44,13 @@ public class SeminarDao {
         return max+1;
     }
 
-    public int updateSeminarBySeminarId(Seminar seminar) throws NotFoundException {
+    public int updateSeminarBySeminarId(Seminar seminar){
         int count=seminarMapper.updateSeminarBySeminarId(seminar);
-        if(count<=0)
-        {
-            throw new NotFoundException("未找到该讨论课");
-        }
         return count;
     }
 
-    public int deleteSeminarBySeminarId(BigInteger seminarId) throws NotFoundException {
+    public int deleteSeminarBySeminarId(BigInteger seminarId){
         int count=seminarMapper.deleteSeminarBySeminarId(seminarId);
-        if(count<=0)
-        {
-            throw new NotFoundException("该讨论课不在表中");
-        }
         return count;
     }
 
@@ -67,12 +59,8 @@ public class SeminarDao {
         return count;
     }
 
-    public Seminar getSeminarBySeminarId(BigInteger seminarId) throws NotFoundException {
+    public Seminar getSeminarBySeminarId(BigInteger seminarId){
         Seminar seminar=seminarMapper.getSeminarBySeminarId(seminarId);
-        if(seminar==null)
-        {
-            throw new NotFoundException("未找到讨论课");
-        }
         return seminar;
     }
 

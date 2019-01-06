@@ -147,9 +147,7 @@ public class SeminarService {
         seminar.setEnrollEndTime(enrollEndTime);
         seminar.setIntroduction(seminarMap.get("introduction").toString());
         seminar.setMaxTeam(new Integer(seminarMap.get("maxTeam").toString()));
-        seminar.setSeminarSerial(new Integer(seminarMap.get("seminarSerial").toString()));
         seminar.setRoundId(new BigInteger(seminarMap.get("roundId").toString()));
-        seminar.setCourseId(new BigInteger(seminarMap.get("courseId").toString()));
         seminar.setSeminarName(seminarMap.get("seminarName").toString());
         seminar.setSeminarId(seminarId);
         seminar.setVisible(new Integer(seminarMap.get("visible").toString()));
@@ -193,6 +191,7 @@ public class SeminarService {
         BigInteger klassSeminarId=seminarMapper.getKlassSeminarIdBySeminarIdAndKlassId(seminarId,klassId);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
         Seminar seminar=seminarDao.getSeminarBySeminarId(seminarId);
+        System.out.println("seminar "+seminar);
         Integer roundSerial=roundDao.getRoundSerialByRoundId(seminar.getRoundId());
         seminarVO.setKlassSerial(klassDao.getKlassSerialByKlassId(klassId));
         seminarVO.setRoundSerial(roundSerial);
