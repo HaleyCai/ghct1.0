@@ -32,13 +32,12 @@ public class ShareController {
     ShareDao shareDao;
 
     /**
-     * 共享设置界面：根据teacherId获得，已同意的，共享组队请求+共享讨论课请求信息，包括本课程是主还是从
+     * 共享设置界面：路径上多传入一个courseId，已同意的，共享组队请求+共享讨论课请求信息，包括本课程是主还是从
      * @return
      */
-    @GetMapping(value="/share/successShare")
-    public List<ShareVO> getSuccessShare(HttpServletRequest request) throws NotFoundException {
-        BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        return shareService.getAllSuccessShare(id);
+    @GetMapping(value="/share/{courseId}/successShare")
+    public List<ShareVO> getSuccessShare(@PathVariable String courseId) throws NotFoundException {
+        return shareService.getAllSuccessShare(new BigInteger(courseId));
     }
 
     /**
@@ -46,8 +45,8 @@ public class ShareController {
      * @return
      */
     @DeleteMapping(value="/share/deleteShare/{shareId}")
-    public boolean deleteShare(@PathVariable String shareId,@RequestParam int shareType) throws NotFoundException {
-       return shareService.deleteShare(new BigInteger(shareId),shareType);
+    public boolean deleteShare(@PathVariable String shareId,@RequestParam String myCourseId,@RequestParam int shareType) throws NotFoundException {
+       return shareService.deleteShare(new BigInteger(shareId),new BigInteger(myCourseId),shareType);
     }
 
 
@@ -118,8 +117,8 @@ public class ShareController {
         int type=(int)inMap.get("type");
         if(type==1)
         {
-            BigInteger shareId=shareDao.getSubTeamShare(share.getMainCourseId()).getShareId();
-            if(shareId!=null) {
+            Share share1=shareDao.getSubTeamShare(share.getMainCourseId());
+            if(share1!=null) {
                 return false;
             }
             else {
@@ -128,8 +127,8 @@ public class ShareController {
         }
         else if(type==2)
         {
-            BigInteger shareId=shareDao.getSubSeminarShare(share.getMainCourseId()).getShareId();
-            if(shareId!=null) {
+            Share share1=shareDao.getSubSeminarShare(share.getMainCourseId());
+            if(share1!=null) {
                 return false;
             }
             else{

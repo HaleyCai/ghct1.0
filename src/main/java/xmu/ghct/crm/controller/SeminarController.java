@@ -42,7 +42,7 @@ public class SeminarController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
     /**
-     * 根据轮次id获取该轮次下所有的讨论课的简略信息
+     * 根据轮次id获取该轮次下所有的讨论课的简略信息  学生
      * @param roundId
      * @return
      */
@@ -53,7 +53,19 @@ public class SeminarController {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         BigInteger courseId=roundDao.getCourseIdByRoundId(new BigInteger(roundId));
         BigInteger klassId=klassService.getKlassIdByCourseIdAndStudentId(courseId,id);
+        System.out.println("klassId "+klassId);
         return seminarService.getSeminarByRoundId(klassId,new BigInteger(roundId));
+    }
+
+    /**
+     * 根据轮次id获取该轮次下所有的讨论课的简略信息 教师
+     * @param roundId
+     * @return
+     */
+    @RequestMapping(value="/round/{roundId}/teacherSeminar",method = RequestMethod.GET)
+    @ResponseBody
+    public List<SeminarSimpleVO> getTeacherSeminarByRoundId(@PathVariable("roundId") String roundId) throws NotFoundException {
+        return seminarService.getTeacherSeminarByRoundId(new BigInteger(roundId));
     }
 
     /**

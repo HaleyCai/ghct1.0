@@ -32,32 +32,30 @@ public class ShareService {
 
     /**
      * 获取所有已同意的共享申请，查teacher的所有课程，再查课程的所有相关的某状态共享，不管是主还是从
-     * @param teacherId
+     * @param courseId
      * @return
      */
-    public List<ShareVO> getAllSuccessShare(BigInteger teacherId) throws NotFoundException {
+    public List<ShareVO> getAllSuccessShare(BigInteger courseId) throws NotFoundException {
         List<ShareVO> allShare=new ArrayList<>();
-        List<CourseTeacherVO> courseTeacherVOS=courseDao.listCourseByTeacherId(teacherId);
-        for(CourseTeacherVO oneCourse:courseTeacherVOS)
-        {
-            allShare.addAll(shareDao.getAllSuccessShare(oneCourse.getCourseId(),oneCourse.getCourseName(),teacherId));
-        }
+        Course course=courseDao.getCourseByCourseId(courseId);
+        allShare.addAll(shareDao.getAllSuccessShare(course.getCourseId(),course.getCourseName(),course.getTeacherId()));
         return allShare;
     }
 
     /**
      * 删除共享，删除记录
      * @param shareId
+     * @param myCourseId
      * @param type
      * @return
      */
-    public boolean deleteShare(BigInteger shareId,int type) throws NotFoundException {
+    public boolean deleteShare(BigInteger shareId,BigInteger myCourseId,int type) throws NotFoundException {
         //"共享分组"
         if(type==1) {
-            return shareDao.deleteTeamShareByShareId(shareId);
+            return shareDao.deleteTeamShareByShareId(shareId,myCourseId);
         }//"共享讨论课"
         else if(type==2) {
-            return shareDao.deleteSeminarShareByShareId(shareId);
+            return shareDao.deleteSeminarShareByShareId(shareId,myCourseId);
         }
         return false;
     }

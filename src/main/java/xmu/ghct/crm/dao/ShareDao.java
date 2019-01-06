@@ -133,7 +133,7 @@ public class ShareDao {
         return shareMapper.getSubSeminarShare(courseId);
     }
 
-    public boolean deleteTeamShareByShareId(BigInteger shareId) throws NotFoundException {
+    public boolean deleteTeamShareByShareId(BigInteger shareId,BigInteger courseId) throws NotFoundException {
         Share share=shareMapper.getTeamShareByShareId(shareId);
         if(shareMapper.deleteTeamShareByShareId(shareId)>0){
             //course从课程中的team_main置为null
@@ -163,7 +163,7 @@ public class ShareDao {
         }
     }
 
-    public boolean deleteSeminarShareByShareId(BigInteger shareId) throws NotFoundException {
+    public boolean deleteSeminarShareByShareId(BigInteger shareId,BigInteger myCourseId) throws NotFoundException {
         Share share=shareMapper.getSeminarShareByShareId(shareId);
         if(shareMapper.deleteSeminarShareByShareId(shareId)>0){
             //course从课程中的seminar_main置为null

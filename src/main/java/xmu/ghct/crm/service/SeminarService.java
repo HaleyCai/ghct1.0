@@ -95,7 +95,7 @@ public class SeminarService {
 
 
     /**
-     * 获取某轮次下所有讨论课的简略信息
+     * 获取某轮次下所有讨论课的简略信息  学生
      * @param roundId
      * @return
      */
@@ -105,6 +105,20 @@ public class SeminarService {
             SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassIdAndSeminarId(klassId,item.getId());
             item.setKlassSeminarId(seminarVO.getKlassSeminarId());
         }
+        if(list==null||list.isEmpty())
+        {
+            throw new NotFoundException("未查找到该轮次下的讨论课信息！");
+        }
+        return list;
+    }
+
+    /**
+     * 获取某轮次下所有讨论课的简略信息  教师
+     * @param roundId
+     * @return
+     */
+    public List<SeminarSimpleVO> getTeacherSeminarByRoundId(BigInteger roundId) throws NotFoundException {
+        List<SeminarSimpleVO> list = roundDao.getSeminarByRoundId(roundId);
         if(list==null||list.isEmpty())
         {
             throw new NotFoundException("未查找到该轮次下的讨论课信息！");
