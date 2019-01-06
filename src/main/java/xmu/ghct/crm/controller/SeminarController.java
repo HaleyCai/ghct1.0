@@ -2,6 +2,7 @@ package xmu.ghct.crm.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.vo.*;
 import xmu.ghct.crm.dao.RoundDao;
 import xmu.ghct.crm.entity.Klass;
@@ -283,9 +284,9 @@ public class SeminarController {
      * @returnm
      */
     @PostMapping("/seminar/{klassSeminarId}/updateReportScore")
-    public boolean updateReportScoreByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,@RequestBody List<Map> reportMapList) throws NotFoundException{
-        System.out.println("reportMapList "+reportMapList);
-        return seminarService.updateReportScoreByKlassSeminarId(new BigInteger(klassSeminarId),reportMapList);
+    public boolean updateReportScoreByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,
+                                                     @RequestBody List<Score> scoreList) throws NotFoundException{
+        return seminarService.updateReportScoreByKlassSeminarId(new BigInteger(klassSeminarId),scoreList);
     }
 
 

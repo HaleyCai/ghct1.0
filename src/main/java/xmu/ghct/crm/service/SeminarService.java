@@ -339,15 +339,15 @@ public class SeminarService {
     }
 
 
-    public boolean updateReportScoreByKlassSeminarId(BigInteger klassSeminarId,List<Map> reportMapList) throws NotFoundException{
-        for(Map<String,Object> reportMap:reportMapList)
+    public boolean updateReportScoreByKlassSeminarId(BigInteger klassSeminarId,List<Score> scoreList) throws NotFoundException{
+        for(Score scoreItem:scoreList)
         {
-            BigInteger teamId=new BigInteger(reportMap.get("teamId").toString());
+            BigInteger teamId=scoreItem.getTeamId();
             BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
             BigInteger seminarId=seminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId).getSeminarId();
             BigInteger roundId=seminarDao.getRoundIdBySeminarId(seminarId);
             Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId,teamId);
-            Double reportScore=new Double(reportMap.get("reportScore").toString());
+            Double reportScore=scoreItem.getReportScore();
             score.setReportScore(reportScore);
             Score seminarScore=totalScoreDao.totalScoreCalculation(score,courseId);
             int flag=scoreDao.updateSeminarScoreBySeminarIdAndTeamId(seminarScore);

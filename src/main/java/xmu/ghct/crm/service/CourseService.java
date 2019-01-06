@@ -47,9 +47,6 @@ public class CourseService {
     TeamDao teamDao;
 
     @Autowired
-    TeamService teamService;
-
-    @Autowired
     StrategyDao strategyDao;
 
     @Autowired
@@ -211,7 +208,7 @@ public class CourseService {
                 i++;
             }
             BigInteger teamId=attendance.getTeamId();
-            Team team=teamService.getTeamInfoByTeamId(teamId);
+            Team team=teamDao.getTeamInfoByTeamId(teamId);
             Klass klass=klassDao.getKlassByKlassId(team.getKlassId());
             User user=userService.getInformation(team.getLeaderId(),"student");
             oneMap.put("klassId",team.getKlassId());
