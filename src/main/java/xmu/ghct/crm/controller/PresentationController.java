@@ -206,12 +206,12 @@ public class PresentationController {
      * 批量下载report
      * @param response
      */
-    @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/report", method = RequestMethod.GET)
+    @RequestMapping(value = "/seminar/{klassSeminarId}/klass/report", method = RequestMethod.GET)
     public void multiReportDownload(HttpServletResponse response,HttpServletRequest request,
-                                    @PathVariable("seminarId") String seminarId,
-                                    @PathVariable("klassId")String klassId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException, NotFoundException {
-        BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(new BigInteger(seminarId), new BigInteger(klassId));
-        List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
+                                    @PathVariable("klassSeminarId") String klassSeminarId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException, NotFoundException {
+
+        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
+        List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
         List<String> names = new ArrayList<String>();
         List<String> paths = new ArrayList<String>();
         for (Attendance item : listAttendance) {
@@ -226,7 +226,7 @@ public class PresentationController {
                 System.out.println(item.getReportUrl());
             }
         }
-        downloadFileDao.multiFileDownload(new BigInteger(seminarId),response,request,paths);
+        downloadFileDao.multiFileDownload(seminarVO.getSeminarId(),response,request,paths);
     }
 
 
@@ -235,17 +235,18 @@ public class PresentationController {
      * 批量下载ppt
      * @param response
      */
-    @RequestMapping(value = "/seminar/{seminarId}/klass/{klassId}/ppt", method = RequestMethod.GET)
-    public void multiPPTDownload(HttpServletResponse response,HttpServletRequest request,@PathVariable("seminarId") String seminarId,@PathVariable("klassId") String klassId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException, NotFoundException {
-        BigInteger klassSeminarId = seminarDao.getKlassSeminarIdBySeminarIdAndKlassId(new BigInteger(seminarId), new BigInteger(klassId));
-        List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(klassSeminarId);
+    @RequestMapping(value = "/seminar/{klassSeminarId}/klass/ppt", method = RequestMethod.GET)
+    public void multiPPTDownload(HttpServletResponse response,HttpServletRequest request,
+                                 @PathVariable("klassSeminarId") String klassSeminarId) throws UnsupportedEncodingException, org.apache.ibatis.javassist.NotFoundException, NotFoundException {
+        SeminarVO seminarVO=seminarService.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
+        List<Attendance> listAttendance = presentationService.listAttendanceByKlassSeminarId(new BigInteger(klassSeminarId));
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> paths = new ArrayList<>();
         for (Attendance item : listAttendance) {
             names.add(item.getPptName());
             paths.add(item.getPptUrl());
         }
-        downloadFileDao.multiFileDownload(new BigInteger(seminarId),response,request,paths);
+        downloadFileDao.multiFileDownload(seminarVO.getSeminarId(),response,request,paths);
     }
 
     /**
