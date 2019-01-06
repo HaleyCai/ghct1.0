@@ -266,7 +266,7 @@ public class CourseService {
                     newCourse.setTeacherName(user.getName());
                     newCourse.setCourseId(courseIdItem);
                     newCourse.setCourseName(course1.getCourseName());
-                    courses.add(course1);
+                    courses.add(newCourse);
                 }
                 courseList.add(courses);
             }

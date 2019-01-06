@@ -28,14 +28,6 @@ public class NewCourseVO {
     private List<CourseLimitVO> courseLimitVOS;
     private List<List<Course>> conflictCourseIdS;
 
-    public BigInteger getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(BigInteger courseId) {
-        this.courseId = courseId;
-    }
-
     public String getCourseName() {
         return courseName;
     }
