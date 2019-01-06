@@ -196,6 +196,7 @@ public class TeamDao {
     }
 
     public int getTeamSerialByTeamId(BigInteger teamId) throws NotFoundException {
+        System.out.println(teamId);
         int count=teamMapper.getTeamSerialByTeamId(teamId);
         if(count<=0)
         {

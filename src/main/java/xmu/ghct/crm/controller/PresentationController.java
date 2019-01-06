@@ -67,6 +67,9 @@ public class PresentationController {
     KlassService klassService;
 
     @Autowired
+    ShareDao shareDao;
+
+    @Autowired
     JwtTokenUtil jwtTokenUtil;
 
     /**
@@ -406,16 +409,31 @@ public class PresentationController {
     @GetMapping("/seminar/{klassSeminarId}/seminarInfo")
     public Map<String,Object> getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(HttpServletRequest request,@PathVariable("klassSeminarId")String klassSeminarId) throws NotFoundException, org.apache.ibatis.javassist.NotFoundException {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
-        List<BigInteger> teamIdList=teamDao.listTeamIdByStudentId(id);
+        List<BigInteger> teamIdList=teamService.listTeamIdByStudentId(id);
+        System.out.println("teamIdList "+teamIdList);
         SeminarVO seminarVO=seminarDao.getKlassSeminarByKlassSeminarId(new BigInteger(klassSeminarId));
-        BigInteger courseId=courseService.getCourseIdByKlassId(seminarVO.getKlassId());
+        Seminar seminar=seminarService.getSeminarBySeminarId(seminarVO.getSeminarId());
+        BigInteger courseId=courseService.getCourseIdByRoundId(seminar.getRoundId());
         BigInteger teamId=new BigInteger("0");
+        Share share=shareDao.getSubTeamShare(courseId);
+        System.out.println("share "+share);
+        BigInteger mainCourseId=new BigInteger("0");
+        if(share!=null) {
+            mainCourseId=share.getMainCourseId();
+        }
+        else{
+            System.out.println("in else");
+            mainCourseId=courseId;
+        }
+        System.out.println("mainCourseId "+mainCourseId);
+
         for(BigInteger teamIdItem:teamIdList){
-            BigInteger courseIdItem=teamDao.getCourseIdByTeamId(teamIdItem);
-            if(courseId.equals(courseIdItem)) {
-                teamId=teamIdItem;
+            BigInteger courseIdItem=teamService.getCourseIdByTeamId(teamIdItem);
+            if(mainCourseId.equals(courseIdItem)) {
+                teamId=teamIdItem;break;
             }
         }
+        System.out.println("teamId "+teamId);
         return presentationService.getTeamKlassSeminarInfoByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),teamId);
     }
 
