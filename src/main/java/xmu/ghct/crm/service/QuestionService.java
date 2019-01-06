@@ -56,6 +56,7 @@ public class QuestionService {
             questionListVO.setTeamSerial(teamDao.getTeamSerialByTeamId(teamId));
             questionListVO.setStudentName(questionDao.getStudentNameByStudentId(item.getStudentId()));
             questionListVO.setSelected(item.getSelected());
+            questionListVO.setQuestionScore(item.getQuestionScore());
             questionListVOList.add(questionListVO);
         }
         return questionListVOList;
@@ -94,6 +95,8 @@ public class QuestionService {
         questionListVO.setAttendanceId(question.getAttendanceId());
 
         questionListVO.setSelected(question.getSelected());
+
+        questionListVO.setQuestionScore(question.getQuestionScore());
 
         return questionListVO;
     }

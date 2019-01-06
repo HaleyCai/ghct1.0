@@ -11,6 +11,7 @@ public class QuestionListVO implements Serializable{
     private String studentName;
     private BigInteger attendanceId;
     private int selected;
+    private double questionScore;
 
     public BigInteger getQuestionId() { return questionId; }
 
@@ -40,6 +41,10 @@ public class QuestionListVO implements Serializable{
 
     public void setSelected(int selected) { this.selected= selected; }
 
+    public double getQuestionScore(){return questionScore;}
+
+    public void setQuestionScore(double questionScore){this.questionScore=questionScore;}
+
 
     @Override
     public String toString() {
@@ -50,7 +55,8 @@ public class QuestionListVO implements Serializable{
                 ", studentId=" + studentId + '\'' +
                 ", studentName=" + studentName + '\'' +
                 ", attendanceId=" + attendanceId + '\'' +
-                ", selected=" + selected +
+                ", selected=" + selected + '\'' +
+                ", questionScore=" + questionScore +
                 '}';
     }
 }
