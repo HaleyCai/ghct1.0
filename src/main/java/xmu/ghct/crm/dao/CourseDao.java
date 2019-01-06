@@ -93,12 +93,12 @@ public class CourseDao {
         return (flag1&flag2);
     }
 
-    public List<CourseTeacherVO> listCourseByTeacherId(BigInteger teacherId) throws NotFoundException {
+    public List<CourseTeacherVO> listCourseByTeacherId(BigInteger teacherId){
         //根据teacherId查course
         List<CourseTeacherVO> courseTeachers = new ArrayList<>();
         List<Course> courses = courseMapper.listCourseByTeacherId(teacherId);
         if(courses==null||courses.isEmpty()){
-            throw new NotFoundException("未找到该教师的课程信息！");
+           return null;
         }
         for (Course item : courses) {
             CourseTeacherVO courseTeacherVO = new CourseTeacherVO();
@@ -109,10 +109,10 @@ public class CourseDao {
         return courseTeachers;
     }
 
-    public List<CourseStudentVO> listCourseByStudentId(BigInteger studentId) throws NotFoundException {
+    public List<CourseStudentVO> listCourseByStudentId(BigInteger studentId) {
         List<CourseStudentVO> courseStudentVOList=courseMapper.listCourseByStudentId(studentId);
         if(courseStudentVOList==null||courseStudentVOList.isEmpty()){
-            throw new NotFoundException("未找到该学生用户的课程信息！");
+            return null;
         }
         for(CourseStudentVO item:courseStudentVOList)
         {
@@ -130,7 +130,7 @@ public class CourseDao {
     public Course getCourseByCourseId(BigInteger courseId) throws NotFoundException {
         Course course = courseMapper.getCourseByCourseId(courseId);
         if (course == null) {
-            throw new NotFoundException("未查找该课程");
+            return null;
         }
         return course;
     }
@@ -138,7 +138,7 @@ public class CourseDao {
     public int deleteCourseByCourseId(BigInteger courseId) throws NotFoundException {
         if(courseMapper.getCourseByCourseId(courseId)==null)
         {
-            throw new NotFoundException("未查找该课程");
+            return 0;
         }
         return courseMapper.deleteCourseByCourseId(courseId);
     }
@@ -147,7 +147,7 @@ public class CourseDao {
         BigInteger id=courseMapper.getCourseIdByTeamId(teamId);
         if(id==null)
         {
-            throw new NotFoundException("未查找该课程");
+            return null;
         }
         return id;
     }
@@ -156,7 +156,7 @@ public class CourseDao {
         BigInteger id=courseMapper.getCourseIdByKlassId(klassId);
         if(id==null)
         {
-            throw new NotFoundException("未查找该课程");
+            return null;
         }
         return id;
     }
@@ -164,7 +164,7 @@ public class CourseDao {
     public List<BigInteger> listCourseIdByTeacherId(BigInteger teacherId) throws NotFoundException {
         List<BigInteger> list = courseMapper.listCourseIdByTeacherId(teacherId);
         if (list == null && list.isEmpty()) {
-            throw new NotFoundException("未找到该教师的课程列表");
+            return null;
         }
         return list;
     }
@@ -174,7 +174,7 @@ public class CourseDao {
         List<BigInteger> list=courseMapper.listKlassIdByCourseId(courseId);
         if(list==null&&list.isEmpty())
         {
-            throw new NotFoundException("未找到该课程下的班级列表");
+           return null;
         }
         return list;
     }
@@ -188,7 +188,7 @@ public class CourseDao {
         BigInteger teacherId=courseMapper.getCourseByCourseId(courseId).getTeacherId();
         if(teacherId==null)
         {
-            throw new NotFoundException("未找到该教师");
+            return null;
         }
         return teacherMapper.getTeacherById(teacherId).getName();
     }
@@ -198,7 +198,7 @@ public class CourseDao {
         List<CourseVO> courseVO=courseMapper.getAllCourse();
         if(courseVO==null&&courseVO.isEmpty())
         {
-            throw new NotFoundException("尚未有课程");
+            return null;
         }
         return courseVO;
     }
