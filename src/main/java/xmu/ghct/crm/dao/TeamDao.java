@@ -121,6 +121,7 @@ public class TeamDao {
         int v1=teamMapper.deleteTeamInfo(teamId);
         int v2=teamMapper.deleteKlassTeam(teamId);
         int v3=teamMapper.deleteStudentTeam(teamId);
+
         if(v1+v2+v3>0)
             return true;
         else
