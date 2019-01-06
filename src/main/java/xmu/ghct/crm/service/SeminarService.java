@@ -339,8 +339,9 @@ public class SeminarService {
     }
 
 
-    public boolean updateReportScoreByKlassSeminarId(BigInteger klassSeminarId,List<Score> scoreList) throws NotFoundException{
-        for(Score scoreItem:scoreList)
+    public boolean updateReportScoreByKlassSeminarId(BigInteger klassSeminarId,ScoreVO scoreVO) throws NotFoundException{
+        List<SeminarScoreVO> scoreList=scoreVO.getScoreList();
+        for(SeminarScoreVO scoreItem:scoreList)
         {
             BigInteger teamId=scoreItem.getTeamId();
             BigInteger courseId=teamDao.getCourseIdByTeamId(teamId);
