@@ -33,7 +33,6 @@ public interface ScoreMapper {
 
 
     /**
-     * @author hzm
      * 根据seminarId和teamId更新讨论课成绩
      * @param score
      * @return
@@ -42,7 +41,6 @@ public interface ScoreMapper {
 
 
     /**
-     * @author hzm
      * 根据seminarId和teamId获得讨论课成绩
      * @param klassSeminarId
      * @param teamId
@@ -51,7 +49,6 @@ public interface ScoreMapper {
     Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId);
 
     /**
-     * @author hzm
      * 根据roundId和teamId获得小组轮次成绩
      * @param roundId
      * @param teamId
@@ -60,7 +57,6 @@ public interface ScoreMapper {
     ScoreVO getTeamRoundScore(BigInteger roundId,BigInteger teamId);
 
     /**
-     * @author hzm
      * 根据roundId和teamId修改轮次成绩
      * @param scoreVO
      * @return
@@ -68,7 +64,6 @@ public interface ScoreMapper {
     int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO);
 
     /**
-     * @author hzm
      *根据roundId获得轮次下所有小组的轮次成绩
      * @param roundId
      * @return
@@ -77,7 +72,6 @@ public interface ScoreMapper {
 
 
     /**
-     * @author hzm
      * 创建轮次成绩
      * @param scoreVO
      * @return

@@ -10,8 +10,7 @@ public class SeminarSimpleVO implements Serializable {
     private BigInteger seminarId;
     private BigInteger klassSeminarId;
     private String topic;
-    //讨论课
-    private int order;
+    private Integer order;
 
 
     public void setKlassSeminarId(BigInteger klassSeminarId) {

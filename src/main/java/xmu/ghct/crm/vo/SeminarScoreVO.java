@@ -12,15 +12,15 @@ public class SeminarScoreVO {
     private BigInteger teamId;
     private String teamName;
     private String seminarName;
-    private int seminarSerial;
+    private Integer seminarSerial;
     private String introduction;
-    private int grade;
-    private int klassSerial;
-    private double teamSerial;
-    private double presentationScore;
-    private double questionScore;
-    private double reportScore;
-    private double totalScore;
+    private Integer grade;
+    private Integer klassSerial;
+    private Double teamSerial;
+    private Double presentationScore;
+    private Double questionScore;
+    private Double reportScore;
+    private Double totalScore;
 
     public BigInteger getKlassSeminarId() {
         return klassSeminarId;

@@ -28,6 +28,7 @@ public interface CourseMapper {
     /**
      * 获取某课程名的课程ID
      * @param courseName
+     * @param teacherId
      * @return
      */
     BigInteger getCourseIdByCourseNameAndTeacherId(String courseName,BigInteger teacherId);
@@ -64,7 +65,6 @@ public interface CourseMapper {
     int deleteCourseByCourseId(BigInteger courseId);
 
     /**
-     * @author hzm
      * 根据teamId获得courseId
      * @param teamId
      * @return
@@ -72,7 +72,6 @@ public interface CourseMapper {
     BigInteger getCourseIdByTeamId(BigInteger teamId);
 
     /**
-     * @author hzm
      * 根据klassId获取课程ID
      * @param klassId
      * @return
@@ -80,7 +79,6 @@ public interface CourseMapper {
     BigInteger getCourseIdByKlassId(BigInteger klassId);
 
     /**
-     * @author hzm
      * 根据teacherId获取所有课程id
      * @param teacherId
      * @return
@@ -88,7 +86,6 @@ public interface CourseMapper {
     List<BigInteger> listCourseIdByTeacherId(BigInteger teacherId);
 
     /**
-     * @author hzm
      * 根据courseId获取所有班级的ID
      * @param courseId
      * @return
@@ -96,7 +93,6 @@ public interface CourseMapper {
     List<BigInteger> listKlassIdByCourseId(BigInteger courseId);
 
     /**
-     *
      * 获取学生所有的
      * @param studentId
      * @return
@@ -111,8 +107,17 @@ public interface CourseMapper {
      */
     List<StudentCourseVO> listKlassStudentByStudentId(BigInteger studentId);
 
+    /**
+     * 获得所有课程的信息
+     * @return
+     */
     List<CourseVO> getAllCourse();
 
+    /**
+     * 获取教师的全部课程
+     * @param teacherId
+     * @return
+     */
     List<Course> getCourseByTeacherId(BigInteger teacherId);
 
     /**

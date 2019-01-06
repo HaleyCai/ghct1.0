@@ -30,12 +30,17 @@ public interface ShareMapper {
     List<Share> getAllSeminarShare(BigInteger courseId);
 
     /**
-     * 检查该课程是否已经成为其他课的从课程
+     * 检查该课程是否已经成为其他课的组队从课程
      * @param courseId
      * @return
      */
     Share getSubTeamShare(BigInteger courseId);
 
+    /**
+     * 检查该课程是否已经成为其他课的讨论课从课程
+     * @param courseId
+     * @return
+     */
     Share getSubSeminarShare(BigInteger courseId);
 
     /**
@@ -53,12 +58,17 @@ public interface ShareMapper {
     List<Share> getSeminarShareRequest(BigInteger subCourseId);
 
     /**
-     * 获取一个共享的信息
+     * 获取一个共享组队的信息
      * @param shareId
      * @return
      */
     Share getTeamShareByShareId(BigInteger shareId);
 
+    /**
+     * 获取一个共享讨论课的信息
+     * @param shareId
+     * @return
+     */
     Share getSeminarShareByShareId(BigInteger shareId);
 
     /**
@@ -68,10 +78,25 @@ public interface ShareMapper {
      */
     int deleteTeamShareByShareId(BigInteger shareId);
 
+    /**
+     * 删除一个共享讨论课的信息
+     * @param shareId
+     * @return
+     */
     int deleteSeminarShareByShareId(BigInteger shareId);
 
+    /**
+     * 删除从课程中的共享组队主课程
+     * @param subCourseId
+     * @return
+     */
     int deleteTeamShareInCourse(BigInteger subCourseId);
 
+    /**
+     * 删除从课程中的共享讨论课主课程
+     * @param subCourseId
+     * @return
+     */
     int deleteSeminarShareInCourse(BigInteger subCourseId);
 
     /**
@@ -120,6 +145,7 @@ public interface ShareMapper {
     /**
      * 修改共享组队的状态
      * @param shareId
+     * @param status
      * @return
      */
     int updateTeamShareStatusByShareId(BigInteger shareId,int status);
@@ -127,6 +153,7 @@ public interface ShareMapper {
     /**
      * 修改共享讨论课的状态
      * @param shareId
+     * @param status
      * @return
      */
     int updateSeminarShareStatusByShareId(BigInteger shareId,int status);

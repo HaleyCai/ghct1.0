@@ -29,7 +29,6 @@ public interface TeamMapper {
     List<BigInteger> getStudentIdByTeamId(BigInteger teamId);
 
     /**
-     * @author hzm
      * 根据teamId获得队伍信息
      * @param teamId
      * @return
@@ -37,7 +36,6 @@ public interface TeamMapper {
     Team getTeamInfoByTeamId(BigInteger teamId);
 
     /**
-     * @author cyq
      * 根据klassId获得班级下的所有teamId
      * @param klassId
      * @return
@@ -45,7 +43,6 @@ public interface TeamMapper {
     List<BigInteger> listTeamIdByKlassId(BigInteger klassId);
 
     /**
-     * @cyq
      * 删除team表中的记录
      * @param teamId
      * @return
@@ -53,7 +50,6 @@ public interface TeamMapper {
     int deleteTeamInfo(BigInteger teamId);
 
     /**
-     * @cyq
      * 删除team_student表，team和student的关联关系
      * @param teamId
      * @return
@@ -61,7 +57,6 @@ public interface TeamMapper {
     int deleteStudentTeam(BigInteger teamId);
 
     /**
-     * @cyq
      * 删除klass_team表
      * @param teamId
      * @return
@@ -69,7 +64,6 @@ public interface TeamMapper {
     int deleteKlassTeam(BigInteger teamId);
 
     /**
-     * @cyq
      * 删team_student表，移除小组成员
      * @param teamId
      * @param studentId
@@ -78,7 +72,6 @@ public interface TeamMapper {
     int removeTeamMember(BigInteger teamId,BigInteger studentId);
 
     /**
-     * @author hzm
      * 根据teamId获得klassId
      * @param teamId
      * @return
@@ -86,13 +79,13 @@ public interface TeamMapper {
     BigInteger getKlassIdByTeamId(BigInteger teamId);
 
     /**
-     * @cyq
      * 小组加成员
      * @param teamId
      * @param studentId
      * @return
      */
     int addTeamMember(BigInteger teamId,BigInteger studentId);
+
     /**
      * 根据teamId获得课程ID
      * @param teamId
@@ -102,7 +95,6 @@ public interface TeamMapper {
 
 
     /**
-     * @author hzm
      * 获取课程下所有队伍的id
      * @param courseId
      * @retur
@@ -110,7 +102,6 @@ public interface TeamMapper {
     List<BigInteger> listTeamIdByCourseId(BigInteger courseId);
 
     /**
-     * @author hzm
      * 获取队伍序号
      * @param teamId
      * @return

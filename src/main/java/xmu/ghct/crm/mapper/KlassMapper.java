@@ -63,7 +63,6 @@ public interface KlassMapper {
    List<BigInteger> listKlassIdBySeminarId(BigInteger seminarId);
 
     /**
-     * @cyq
      * 根据courseId和klassSerial获取klassId
      * @param grade
      * @param klassSerial
@@ -72,7 +71,6 @@ public interface KlassMapper {
    Klass getKlassByGradeAndKlassSerial(int grade,int klassSerial);
 
     /**
-     * @author hzm
      * 根据班级id获取所有班级讨论课的status
      * @param klassId
      * @return
@@ -81,7 +79,6 @@ public interface KlassMapper {
 
 
     /**
-     * @author hzm
      * 根据klassId获取课次序号
      * @param klassId
      * @return
@@ -113,6 +110,7 @@ public interface KlassMapper {
     /**
      * 根据klassId删除klass_team关系
      * @param klassId
+     * @return
      */
     int deleteTeamWithKlass(BigInteger klassId);
 

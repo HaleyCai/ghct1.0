@@ -15,8 +15,8 @@ public class QuestionVO implements Serializable{
     private BigInteger studentId;
     private BigInteger seminarId;
     private BigInteger klassId;
-    private int selected;
-    private double questionScore;
+    private Integer selected;
+    private Double questionScore;
 
     public BigInteger getQuestionId() {
         return questionId;

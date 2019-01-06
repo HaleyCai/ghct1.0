@@ -8,14 +8,14 @@ import java.util.List;
 public class ScoreVO {
 
     private BigInteger roundId;
-    private int roundSerial;
+    private Integer roundSerial;
     private BigInteger teamId;
-    private int teamSerial;
-    private int klassSerial;
-    private double presentationScore;
-    private double questionScore;
-    private double reportScore;
-    private double totalScore;
+    private Integer teamSerial;
+    private Integer klassSerial;
+    private Double presentationScore;
+    private Double questionScore;
+    private Double reportScore;
+    private Double totalScore;
     private List<SeminarScoreVO> scoreList;
 
     public BigInteger getRoundId() {

@@ -9,17 +9,17 @@ import java.util.Date;
 public class SeminarVO {
 
     private BigInteger klassId;
-    private int klassSerial;
+    private Integer klassSerial;
     private BigInteger klassSeminarId;
     private BigInteger seminarId;
     private String seminarName;
     private String introduction;
-    private  int status;
-    private int seminarSerial;
-    private int maxTeam;
+    private Integer status;
+    private Integer seminarSerial;
+    private Integer maxTeam;
     private Date reportDDL;
     private BigInteger roundId;
-    private int roundSerial;
+    private Integer roundSerial;
     private Date enrollStartTime;
     private Date enrollEndTime;
 

@@ -16,7 +16,6 @@ import java.util.List;
 public interface PresentationMapper {
 
     /**
-     * @author hzm
      * 根据attendanceId修改讨论课报名顺序
      * @param attendanceId
      * @param teamOrder
@@ -25,7 +24,6 @@ public interface PresentationMapper {
     int updateAttendanceOrderByAttendanceId(BigInteger attendanceId,int teamOrder);
 
     /**
-     * @author hzm
      * 根据attendanceId取消报名讨论课
      * @param attendanceId
      * @return
@@ -34,16 +32,16 @@ public interface PresentationMapper {
 
 
     /**
-     * @author hzm
      * 根据attendanceId更新报告信息
      * @param attendanceId
+     * @param reportName
+     * @param reportUrl
      * @return
      */
     int updateReportByAttendanceId(BigInteger attendanceId,String reportUrl,String reportName);
 
 
     /**
-     * @author hzm
      * 根据attendanceId更新ppt信息
      * @param attendanceId
      * @param pptUrl
@@ -53,7 +51,6 @@ public interface PresentationMapper {
     int updatePPTByAttendanceId(BigInteger attendanceId,String pptUrl,String pptName);
 
     /**
-     * @author hzm
      * 根据attendanceId获取讨论课报名信息
      * @param attendanceId
      * @return
@@ -62,7 +59,6 @@ public interface PresentationMapper {
 
 
     /**
-     * @author hzm
      * 根据klassSeminarId
      * @param klassSeminarId
      * @return
@@ -70,15 +66,14 @@ public interface PresentationMapper {
     List<Attendance> listAttendanceByKlassSeminarId(BigInteger klassSeminarId);
 
     /**
-     * @author hzm
      * 根据attendanceId修改进行状态
      * @param attendanceId
+     * @param present
      * @return
      */
     int updatePresentByAttendanceId(BigInteger attendanceId,int present);
 
     /**
-     * @author hzm
      * 创建报名信息
      * @param attendance
      * @return

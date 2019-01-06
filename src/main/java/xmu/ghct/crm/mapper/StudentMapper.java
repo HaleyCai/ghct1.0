@@ -34,6 +34,7 @@ public interface StudentMapper {
     /**
      * 根据id设置student新密码
      * @param id
+     * @param password
      * @return
      */
     int setStudentPasswordById(@Param("id") BigInteger id, @Param("password") String password);
@@ -41,6 +42,7 @@ public interface StudentMapper {
     /**
      * 根据id设置student新邮箱
      * @param id
+     * @param email
      * @return
      */
     int setStudentEmailById(@Param("id") BigInteger id, @Param("email") String email);
@@ -60,12 +62,17 @@ public interface StudentMapper {
 
     /**
      * 管理员根据学生姓名获得学生信息
+     * @param studentName
      * @return
      */
     User getStudentByStudentName(@Param("name") String studentName);
 
     /**
      * 管理员修改某一学生的信息（姓名，账号，邮箱）
+     * @param studentAccount
+     * @param studentName
+     * @param studentEmail
+     * @param studentId
      * @return
      */
     int modifyStudentByStudentId(@Param("id") BigInteger studentId, @Param("name") String studentName,
@@ -73,12 +80,14 @@ public interface StudentMapper {
 
     /**
      * 管理员重置某一学生的密码
+     * @param studentId
      * @return
      */
     int resetStudentPasswordByStudentId(@Param("id") BigInteger studentId);
 
     /**
      * 管理员按ID删除某一学生
+     * @param studentId
      * @return
      */
     int deleteStudentByStudentId(@Param("id") BigInteger studentId);
@@ -91,7 +100,6 @@ public interface StudentMapper {
     List<BigInteger> getAllStudentIdByCourseId(BigInteger courseId);
 
     /**
-     * @author hzm
      * 插入学生用户
      * @param user
      * @return

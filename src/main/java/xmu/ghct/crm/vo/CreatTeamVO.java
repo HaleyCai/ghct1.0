@@ -8,11 +8,11 @@ import java.util.List;
  */
 public class CreatTeamVO {
 
-        BigInteger klassId;
-        BigInteger courseId;
-        String teamName;
-        int klassSerial;
-        List<BigInteger> studentIdList;
+    BigInteger klassId;
+    BigInteger courseId;
+    String teamName;
+    Integer klassSerial;
+    List<BigInteger> studentIdList;
 
     @Override
     public String toString() {

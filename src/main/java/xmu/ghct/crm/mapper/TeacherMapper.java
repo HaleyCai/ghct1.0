@@ -40,6 +40,7 @@ public interface TeacherMapper {
     /**
      * 根据id设置teacher新密码
      * @param id
+     * @param password
      * @return
      */
     int setTeacherPasswordById(@Param("id") BigInteger id, @Param("password") String password);
@@ -47,6 +48,7 @@ public interface TeacherMapper {
     /**
      * 根据id设置teacher新邮箱
      * @param id
+     * @param email
      * @return
      */
     int setTeacherEmailById(@Param("id") BigInteger id, @Param("email") String email);
@@ -60,6 +62,7 @@ public interface TeacherMapper {
 
     /**
      * 管理员创建一个教师
+     * @param teacher
      */
     int createTeacher(User teacher);
 
@@ -71,12 +74,17 @@ public interface TeacherMapper {
 
     /**
      * 管理员根据教师姓名获得教师信息
+     * @param teacherName
      * @return
      */
     User getTeacherByTeacherName(@Param("name") String teacherName);
 
     /**
      * 管理员修改某一教师的信息（姓名，账号，邮箱）
+     * @param teacherId
+     * @param teacherName
+     * @param teacherAccount
+     * @param teacherEmail
      * @return
      */
     int modifyTeacherByTeacherId(@Param("id") BigInteger teacherId,@Param("name") String teacherName,
@@ -84,12 +92,14 @@ public interface TeacherMapper {
 
     /**
      * 管理员重置某一教师的密码
+     * @param teacherId
      * @return
      */
     int resetTeacherPasswordByTeacherId(@Param("id") BigInteger teacherId);
 
     /**
      * 管理员按ID删除某一教师
+     * @param teacherId
      * @return
      */
     int deleteTeacherByTeacherId(@Param("id") BigInteger teacherId);

@@ -7,9 +7,9 @@ import java.math.BigInteger;
  */
 public class RoundEnrollVO {
     private BigInteger klassId;
-    private int klassSerial;
-    private int grade;
-    private int enroll;
+    private Integer klassSerial;
+    private Integer grade;
+    private Integer enroll;
 
     public BigInteger getKlassId() {
         return klassId;

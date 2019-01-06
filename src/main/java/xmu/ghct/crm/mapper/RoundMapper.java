@@ -18,7 +18,6 @@ import java.util.List;
 public interface RoundMapper {
 
     /**
-     * @cyq
      * 根据roundId获取该轮次下的所有讨论课
      * @param roundId
      * @return
@@ -26,14 +25,13 @@ public interface RoundMapper {
     List<Seminar> getSeminarByRoundId(BigInteger roundId);
 
     /**
-     * @cyq
      * 根据roundId获得轮次信息
      * @param roundId
      * @return
      */
     Round getRoundByRoundId(@Param("roundId") BigInteger roundId);
 
-    /**@cyq
+    /**
      * 根据roundId修改轮次信息（成绩评定方式）
      * @param roundId
      * @param presentationScoreMethod
@@ -62,7 +60,6 @@ public interface RoundMapper {
     int insertRound(Round round);
 
     /**
-     * @cyq
      * 查找一个课程下，轮次的最大值
      * @param courseId
      * @return
@@ -70,7 +67,6 @@ public interface RoundMapper {
     Integer getRoundNumByCourseId(BigInteger courseId);
 
     /**
-     * @cyq
      * 默认创建允许报名次数为1
      * @param klassId
      * @param roundId
@@ -79,7 +75,6 @@ public interface RoundMapper {
     int createDefaultEnrollNumber(BigInteger klassId, BigInteger roundId);
 
     /**
-     * @cyq
      * 获得某班级，某轮次最大报名次数
      * @param klassId
      * @param roundId
@@ -88,7 +83,6 @@ public interface RoundMapper {
     Integer getEnrollNum(BigInteger klassId, BigInteger roundId);
 
     /**
-     * @cyq
      * 修改某轮，某班，最大报名次数
      * @param klassId
      * @param roundId
@@ -98,13 +92,18 @@ public interface RoundMapper {
     int modifyEnrollNum(BigInteger klassId,BigInteger roundId,int num);
 
     /**
-     * @author hzm
      * 获取轮次序号
      * @param roundId
      * @return
      */
     Integer getRoundSerialByRoundId(BigInteger roundId);
 
+    /**
+     * 获得某个轮次的信息
+     * @param courseId
+     * @param roundSerial
+     * @return
+     */
     Round getRoundByCourseIdAndRoundSerial(BigInteger courseId,int roundSerial);
 
     /**

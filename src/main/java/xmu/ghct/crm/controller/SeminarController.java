@@ -44,6 +44,7 @@ public class SeminarController {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
     /**
      * 根据轮次id获取该轮次下所有的讨论课的简略信息  学生
      * @param roundId

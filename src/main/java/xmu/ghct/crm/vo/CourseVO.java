@@ -18,10 +18,10 @@ public class CourseVO {
     private Double reportPercentage;
     private Date teamStartTime;
     private Date teamEndTime;
-    private int minMember;
-    private int maxMember;
+    private Integer minMember;
+    private Integer maxMember;
     private BigInteger memberLimitId;
-    private boolean flag;
+    private Boolean flag;
     private List<CourseLimitVO> courseLimitVOS;
     private List<List<BigInteger>> conflictCourseIdS;
 

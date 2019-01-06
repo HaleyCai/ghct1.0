@@ -9,9 +9,9 @@ public class CourseStudentVO {
     private BigInteger studentId;
     private BigInteger courseId;
     private String courseName;
-    private int grade;
+    private Integer grade;
     private BigInteger klassId;
-    private int klassSerial;
+    private Integer klassSerial;
 
     public BigInteger getStudentId() {
         return studentId;

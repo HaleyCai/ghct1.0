@@ -7,14 +7,14 @@ import java.math.BigInteger;
  */
 public class ShareRequestVO {
     private BigInteger shareId;
-    private int shareType;
+    private Integer shareType;
     private BigInteger mainCourseId;
     private String mainCourseName;
     private String mainTeacherName;
     private BigInteger subCourseId;
     private String subCourseName;
     private BigInteger subTeacherId;
-    private int status;
+    private Integer status;
 
     public BigInteger getShareId() {
         return shareId;

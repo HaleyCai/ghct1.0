@@ -6,11 +6,10 @@ import java.math.BigInteger;
  * @author hzm
  */
 public class TeamStrategyVO {
-    BigInteger courseId;
-    int strategySerial;
-    BigInteger strategyId;
-    String strategyName;
-
+    private BigInteger courseId;
+    private Integer strategySerial;
+    private BigInteger strategyId;
+    private String strategyName;
 
     public void setCourseId(BigInteger courseId) {
         this.courseId = courseId;

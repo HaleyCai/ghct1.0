@@ -7,11 +7,11 @@ import java.math.BigInteger;
  */
 public class StudentCourseVO {
 
-    BigInteger courseId;
-    String courseName;
-    BigInteger klassId;
-    int  klassSerial;
-    int grade;
+    private BigInteger courseId;
+    private String courseName;
+    private BigInteger klassId;
+    private Integer  klassSerial;
+    private Integer grade;
 
     public BigInteger getCourseId() {
         return courseId;

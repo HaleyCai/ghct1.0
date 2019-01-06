@@ -10,8 +10,8 @@ public class CourseLimitVO {
     BigInteger courseLimitId;
     BigInteger courseId;
     String courseName;
-    private int minMember;
-    private int maxMember;
+    private Integer minMember;
+    private Integer maxMember;
 
     public void setCourseLimitId(BigInteger courseLimitId) {
         this.courseLimitId = courseLimitId;

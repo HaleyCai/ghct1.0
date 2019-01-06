@@ -8,13 +8,13 @@ import java.math.BigInteger;
  */
 public class QuestionListVO implements Serializable{
     private BigInteger questionId;
-    private int klassSerial;
-    private int teamSerial;
+    private Integer klassSerial;
+    private Integer teamSerial;
     private BigInteger studentId;
     private String studentName;
     private BigInteger attendanceId;
-    private int selected;
-    private double questionScore;
+    private Integer selected;
+    private Double questionScore;
 
     public BigInteger getQuestionId() { return questionId; }
 

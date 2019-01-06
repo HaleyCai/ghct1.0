@@ -8,12 +8,12 @@ import java.math.BigInteger;
  */
 public class TeamApplicationVO implements Serializable {
     private BigInteger teamValidId;
-    private int klassSerial;
+    private Integer klassSerial;
     private BigInteger teamId;
-    private int teamSerial;
+    private Integer teamSerial;
     private BigInteger teacherId;
     private String reason;
-    private int status;
+    private Integer status;
 
     public BigInteger getTeamValidId() {
         return teamValidId;

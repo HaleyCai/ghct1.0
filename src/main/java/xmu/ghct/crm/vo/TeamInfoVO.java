@@ -12,9 +12,9 @@ public class TeamInfoVO implements Serializable {
     private BigInteger teamId;
     private String teamName;
     private BigInteger klassId;
-    private int klassSerial;
-    private int teamSerial;
-    private int status;
+    private Integer klassSerial;
+    private Integer teamSerial;
+    private Integer status;
     private StudentVO teamLeader;
     private List<StudentVO> members;
 

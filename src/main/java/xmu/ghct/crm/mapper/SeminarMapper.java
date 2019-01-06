@@ -60,16 +60,15 @@ public interface SeminarMapper {
     Seminar getSeminarBySeminarId(BigInteger seminarId);
 
     /**
-     * @author hzm
      * 根据klassId和seminarId修改班级里讨论课报告提交ddl
      * @param klassSeminarId
+     * @param reportDDL
      * @return
      */
     int updateKlassSeminarByKlassSeminarId(BigInteger klassSeminarId, Date reportDDL);
 
 
     /**
-     * @author hzm
      * 根据klassId和seminarId删除班级讨论课
      * @param klassId
      * @param seminarId
@@ -78,7 +77,6 @@ public interface SeminarMapper {
     int deleteKlassSeminarBySeminarIdAndKlassId(BigInteger klassId, BigInteger seminarId);
 
     /**
-     * @author hzm
      * 根据klassId和semianrId获取班级讨论课信息
      * @param klassId
      * @param seminarId
@@ -88,16 +86,15 @@ public interface SeminarMapper {
 
 
     /**
-     * @author hzm
      * 修改班级讨论课的讨论课状态
      * @param klassSeminarId
+     * @param status
      * @return
      */
     int updateKlassSeminarStatus(BigInteger klassSeminarId,Integer status);
 
 
     /**
-     * @author hzm
      * 根据seminarId获得讨论课所属轮次id
      * @param seminarId
      * @return
@@ -106,7 +103,6 @@ public interface SeminarMapper {
 
 
     /**
-     *
      * 根据klassId & seminarId 获得klassSeminarId
      * @param seminarId
      * @param klassId
@@ -116,7 +112,6 @@ public interface SeminarMapper {
 
 
     /**
-     * @author hzm
      * 根据klassSeminarId获得班级讨论课信息
      * @param klassSeminarId
      * @return
@@ -125,7 +120,6 @@ public interface SeminarMapper {
 
 
     /**
-     * @author hzm
      * 根据klassSeminarId获得klassId
      * @param klassSeminarId
      * @return
@@ -134,7 +128,6 @@ public interface SeminarMapper {
 
 
     /**
-     * @author hzm
      * 获取某班级下所有班级讨论课
      * @param klassId
      * @return
@@ -143,7 +136,6 @@ public interface SeminarMapper {
 
 
     /**
-     * @author hzm
      * 创建班级讨论课(klass_seminar)
      * @param seminarId
      * @param klassId
@@ -151,6 +143,12 @@ public interface SeminarMapper {
      */
     int insertKlassSeminarBySeminarIdAndKlassId(BigInteger seminarId,BigInteger klassId);
 
+    /**
+     * 获取某课程某轮次的讨论课
+     * @param courseId
+     * @param roundId
+     * @return
+     */
     Seminar getSeminarByCourseIdAndRoundId(BigInteger courseId,BigInteger roundId);
 
     /**
