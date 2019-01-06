@@ -53,6 +53,7 @@ public class QuestionController {
         if(questionListVO!=null)
         {
             questionService.updateQuestionSelected(questionListVO.getQuestionId());
+            questionListVO.setSelected(1);
         }
         return questionListVO;
     }
