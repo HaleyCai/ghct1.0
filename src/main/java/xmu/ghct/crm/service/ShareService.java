@@ -28,6 +28,9 @@ public class ShareService {
     @Autowired
     TeacherDao teacherDao;
 
+    private static final Integer SHARE_TEAM=1;
+    private static final Integer SHARE_SEMINAR=2;
+
     /**
      * 获取所有已同意的共享申请，查teacher的所有课程，再查课程的所有相关的某状态共享，不管是主还是从
      * @param courseId
@@ -48,10 +51,10 @@ public class ShareService {
      */
     public boolean deleteShare(BigInteger shareId,int type) throws NotFoundException {
         //"共享分组"
-        if(type==1) {
+        if(type==SHARE_TEAM) {
             return shareDao.deleteTeamShareByShareId(shareId);
         }//"共享讨论课"
-        else if(type==2) {
+        else if(type==SHARE_SEMINAR) {
             return shareDao.deleteSeminarShareByShareId(shareId);
         }
         return false;
@@ -126,8 +129,7 @@ public class ShareService {
      * @return
      */
     public boolean dealShare(BigInteger shareId,int type,int status) throws NotFoundException {
-        //共享组队请求
-        if(type==1) {
+        if(type==SHARE_TEAM) {
             boolean success=shareDao.dealTeamShare(shareId,status);
             if(status==1)
             {
@@ -135,7 +137,7 @@ public class ShareService {
             }
             return success;
         }//共享讨论课请求
-        else if(type==2) {
+        else if(type==SHARE_SEMINAR) {
             return shareDao.dealSeminarShare(shareId,status);
         }
         return false;

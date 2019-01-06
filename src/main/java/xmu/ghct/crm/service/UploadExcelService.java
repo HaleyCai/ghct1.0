@@ -34,7 +34,7 @@ public class UploadExcelService {
     KlassDao klassDao;
 
     public boolean addStudentInfo(BigInteger klassId,MultipartFile file) {
-        Map<Integer, Map<Integer,Object>> map = new HashMap<>();
+        Map<Integer, Map<Integer,Object>> map = new HashMap<>(16);
         try {
             boolean flag=readExcelContentz(klassId,file);
             return flag;
@@ -89,7 +89,11 @@ public class UploadExcelService {
         return true;
     }
 
-    //根据Cell类型设置数据
+    /**
+     * 根据Cell类型设置数据
+     * @param cell
+     * @return
+     */
     private static Object getCellFormatValue(Cell cell) {
         Object cellvalue = "";
         if (cell != null) {

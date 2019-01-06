@@ -100,7 +100,6 @@ public interface CourseMapper {
     List<BigInteger> listCourseIdByStudentId(BigInteger studentId);
 
     /**
-     * @author hzm
      * 获取学生相应班级ID和课程ID
      * @param studentId
      * @return

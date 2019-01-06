@@ -98,7 +98,7 @@ public class PresentationService {
         seminarVO.setRoundId(seminar.getRoundId());
         seminarVO.setRoundSerial(roundDao.getRoundSerialByRoundId(seminar.getRoundId()));
         seminarVO.setSeminarSerial(seminar.getSeminarSerial());
-        Map<String,Object> map=new HashMap<>();
+        Map<String,Object> map=new HashMap<>(16);
         map.put("seminarVO",seminarVO);
         if(isAttendance==false){
             //未报名讨论课

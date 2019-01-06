@@ -28,7 +28,7 @@ public class UploadFileService {
         file.transferTo(new File(fileDir.getAbsolutePath(),fileName));
         String filePath=fileDir.getAbsolutePath()+"\\"+fileName;
         System.out.println(filePath);
-        Map<String,String> uploadMap=new HashMap<>();
+        Map<String,String> uploadMap=new HashMap<>(16);
         uploadMap.put("name",fileName);
         uploadMap.put("path",filePath);
         return uploadMap;

@@ -44,6 +44,7 @@ public class ShareDao {
 
     @Autowired
     TeamDao teamDao;
+
     /**
      * 获取已同意的，共享组队和共享讨论课信息
      * @param courseId

@@ -62,10 +62,12 @@ public class SeminarService {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+    private static final String NOTCHOICE="0";
+
     public int creatSeminar(BigInteger courseId,Map<String,Object> seminarMap) throws ParseException, NotFoundException, SQLException {
         Seminar seminar=new Seminar();
         seminar.setCourseId(courseId);
-        if("0".equals(seminarMap.get("roundId").toString())){
+        if(NOTCHOICE.equals(seminarMap.get("roundId").toString())){
             Round round=new Round();
             round.setCourseId(courseId);
             round.setPresentationScoreMethod(1);
@@ -374,7 +376,7 @@ public class SeminarService {
             Team team=teamDao.getTeamInfoByTeamId(item.getTeamId());
             Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),team.getTeamId());
             System.out.println(team);
-            Map<String,Object> oneMap=new HashMap<>();
+            Map<String,Object> oneMap=new HashMap<>(16);
             oneMap.put("attendanceId",item.getAttendanceId());
             oneMap.put("teamId",item.getTeamId());
             oneMap.put("teamSerial",team.getTeamSerial());
@@ -421,7 +423,7 @@ public class SeminarService {
 
             }
             System.out.println(item);
-            Map<String,Object> oneMap=new HashMap<>();
+            Map<String,Object> oneMap=new HashMap<>(16);
             account++;
             System.out.println(account);
             if(item.getTeamOrder()>account){
@@ -451,12 +453,12 @@ public class SeminarService {
             map.add(oneMap);
         }
         while(account<seminar.getMaxTeam()){
-            Map<String,Object> oneMap=new HashMap<>();
+            Map<String,Object> oneMap=new HashMap<>(16);
             oneMap.put("attendanceStatus",false);
             map.add(oneMap);
             account++;
         }
-        Map<String,Object> oneMap=new HashMap<>();
+        Map<String,Object> oneMap=new HashMap<>(16);
         oneMap.put("myTeamAttendance",myTeamAttendance);
         oneMap.put("myAttendanceId",myAttendanceId);
         map.add(oneMap);

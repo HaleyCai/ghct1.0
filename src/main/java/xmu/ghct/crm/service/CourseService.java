@@ -198,7 +198,7 @@ public class CourseService {
             account++;
             System.out.println(account);
             Attendance attendance=attendanceList.get(i);
-            Map<String,Object> oneMap=new HashMap<>();
+            Map<String,Object> oneMap=new HashMap<>(16);
             if(attendance.getTeamOrder()>account){
                 System.out.println(attendance.getTeamOrder());
                 oneMap.put("attendanceStatus",false);
@@ -242,7 +242,7 @@ public class CourseService {
         }
         while(account<maxTeam){
             account++;
-            Map<String,Object> oneMap=new HashMap<>();
+            Map<String,Object> oneMap=new HashMap<>(16);
             oneMap.put("attendanceStatus",false);
             map.add(oneMap);
         }
@@ -419,7 +419,7 @@ public class CourseService {
          List<Map> map=new ArrayList<>();
          for(CourseVO item:courseList)
          {
-             Map<String,Object> oneMap=new HashMap<>();
+             Map<String,Object> oneMap=new HashMap<>(16);
              oneMap.put("CourseId",item.getCourseId());
              oneMap.put("CourseName",item.getCourseName());
              oneMap.put("TeacherId",item.getTeacherId());

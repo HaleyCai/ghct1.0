@@ -210,7 +210,7 @@ public class TeamDao {
      * @param klassId
      * @return
      */
-    public int getMaxTeamSerialOfTeam(BigInteger klassId){
+    public Integer getMaxTeamSerialOfTeam(BigInteger klassId){
         Integer maxTeamSerial=teamMapper.getMaxTeamSerialOfTeam(klassId);
         if(maxTeamSerial==null){
             return maxTeamSerial=1;

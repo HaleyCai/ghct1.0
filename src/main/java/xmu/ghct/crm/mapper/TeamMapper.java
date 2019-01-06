@@ -97,7 +97,7 @@ public interface TeamMapper {
     /**
      * 获取课程下所有队伍的id
      * @param courseId
-     * @retur
+     * @return
      */
     List<BigInteger> listTeamIdByCourseId(BigInteger courseId);
 

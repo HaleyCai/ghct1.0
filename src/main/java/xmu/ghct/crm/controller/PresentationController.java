@@ -291,7 +291,7 @@ public class PresentationController {
             }
         List<Map> maps=new ArrayList<>();
         for(Attendance item:attendanceList){
-            Map<String,Object> presentationMap=new HashMap<>();
+            Map<String,Object> presentationMap=new HashMap<>(16);
             presentationMap.put("attendanceId",item.getAttendanceId());
             presentationMap.put("teamId",item.getTeamId());
             presentationMap.put("klassSeminarId",item.getKlassSeminarId());
@@ -352,7 +352,6 @@ public class PresentationController {
      * @param attendanceMap
      * @return
      */
-    //需要teamId，但是应该是根据jwt获得，所以这里teamId用于测试用
     @RequestMapping(value="/seminar/{klassSeminarId}/attendance" ,method = RequestMethod.POST)
     public boolean attendanceSeminar(HttpServletRequest request,
                                      @PathVariable("klassSeminarId")String klassSeminarId,
@@ -400,7 +399,6 @@ public class PresentationController {
 
 
     /**
-     * @author hzm
      * 获取讨论课小组的班级讨论课信息(包括报名、未报名等各种情况)
      * @param klassSeminarId
      * @return

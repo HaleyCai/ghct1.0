@@ -39,7 +39,7 @@ public class TeamController {
     @RequestMapping(value="/course/{courseId}/team",method = RequestMethod.GET)
     public Map<String,Object> listTeamByCourseId(HttpServletRequest request, @PathVariable("courseId") String courseId) throws NotFoundException {
         List<TeamSimpleInfo> teamSimpleInfos=teamService.listTeamByCourseId(new BigInteger(courseId));
-        Map<String,Object> map=new HashMap<>();
+        Map<String,Object> map=new HashMap<>(16);
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         map.put("teams",teamSimpleInfos);
         //开始时间，结束时间，是否组队，
@@ -115,7 +115,7 @@ public class TeamController {
      * @param creatTeamVO
      */
     @RequestMapping(value="/team/{teamId}/add",method = RequestMethod.PUT)
-    public boolean addTeamMember(@PathVariable("teamId") String teamId,
+    public Boolean addTeamMember(@PathVariable("teamId") String teamId,
                               @RequestBody CreatTeamVO creatTeamVO) throws NotFoundException {
         Boolean flag=teamService.addTeamMember(new BigInteger(teamId),creatTeamVO.getStudentIdList());
         if(teamService.judgeIllegal(new BigInteger(teamId))){

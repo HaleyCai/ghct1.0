@@ -64,7 +64,7 @@ public class UserController {
     @GetMapping(value = "/user/index")
     public Map<String,String> index(HttpServletRequest request) throws NotFoundException
     {
-        Map<String,String> map=new HashMap<>();
+        Map<String,String> map=new HashMap<>(16);
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         String role=jwtTokenUtil.getRoleFromRequest(request);
         User user=userService.getInformation(id,role);
@@ -81,7 +81,7 @@ public class UserController {
     @RequestMapping(value="/teacher/active",method = RequestMethod.PUT)
     public Map<String,Object> teacherActive(HttpServletRequest request,
                                             @RequestBody Map<String,Object> inMap){
-        Map<String,Object> map=new HashMap<>();
+        Map<String,Object> map=new HashMap<>(16);
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         System.out.println("id"+id);
         if(userService.teacherActive(id, inMap.get("password").toString())) {
@@ -100,7 +100,7 @@ public class UserController {
     @RequestMapping(value="/student/active",method = RequestMethod.PUT)
     public Map<String,Object> studentActive(HttpServletRequest request,
                                             @RequestBody Map<String,Object> inMap){
-        Map<String,Object> map=new HashMap<>();
+        Map<String,Object> map=new HashMap<>(16);
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         if(userService.studentActive(id, inMap.get("password").toString(),inMap.get("email").toString())) {
             map.put("message",true);

@@ -104,7 +104,7 @@ public class ScoreService {
         List<ScoreVO> scoreVOList=new ArrayList<>();
         List<Map<String,Object>> map=new ArrayList<>();
         for(Round item:roundList){
-            Map<String,Object> oneMap=new HashMap<>();
+            Map<String,Object> oneMap=new HashMap<>(16);
             ScoreVO scoreVO=scoreDao.getTeamRoundScoreByRoundIdAndTeamId(item.getRoundId(),teamId);
             oneMap.put("roundId",item.getRoundId());
             oneMap.put("roundTotalScore",scoreVO.getTotalScore());

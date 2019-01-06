@@ -26,6 +26,10 @@ public class UserService {
     @Autowired
     private StudentDao studentDao;
 
+    private static final String ADMIN="admin";
+    private static final String TEACHER="teacher";
+    private static final String STUDENT="student";
+
     public LoginUserVO getUserByUserAccount(String account)
     {
         User user=teacherDao.getAdminByAccount(account);
@@ -33,16 +37,16 @@ public class UserService {
         if(user!=null)
         {
             BeanUtils.copyProperties(user,userVO);
-            System.out.println("admin"+userVO);
-            userVO.setRole("admin");
+            System.out.println(ADMIN+userVO);
+            userVO.setRole(ADMIN);
         }
         else {
             user=teacherDao.getTeacherByAccount(account);
             if(user!=null)
             {
                 BeanUtils.copyProperties(user,userVO);
-                System.out.println("teacher"+userVO);
-                userVO.setRole("teacher");
+                System.out.println(TEACHER+userVO);
+                userVO.setRole(TEACHER);
             }
             else
             {
@@ -50,8 +54,8 @@ public class UserService {
                 if(user!=null)
                 {
                     BeanUtils.copyProperties(user,userVO);
-                    System.out.println("student"+userVO);
-                    userVO.setRole("student");
+                    System.out.println(STUDENT+userVO);
+                    userVO.setRole(STUDENT);
                 }
             }
         }
@@ -91,7 +95,7 @@ public class UserService {
     public User getInformation(BigInteger id,String role) throws NotFoundException
     {
         User user;
-        if("teacher".equals(role)) {
+        if(TEACHER.equals(role)) {
             user=teacherDao.getTeacherById(id);
         } else {
             user=studentDao.getStudentById(id);
@@ -148,7 +152,7 @@ public class UserService {
     public boolean modifyPassword(BigInteger id, String newPassword, String role) throws SQLException
     {
         boolean success=false;
-        if("teacher".equals(role)) {
+        if(TEACHER.equals(role)) {
             success=teacherDao.setPasswordById(id,newPassword);
         } else {
             success=studentDao.setPasswordById(id,newPassword);
@@ -165,9 +169,8 @@ public class UserService {
      */
     public boolean modifyEmail(BigInteger id, String newEmail,String role) throws SQLException
     {
-        Map<String,Object> resultMap=new HashMap<>();
         boolean success=false;
-        if("teacher".equals(role)) {
+        if(TEACHER.equals(role)) {
             success=teacherDao.setEmailById(id,newEmail);
         } else {
             success=studentDao.setEmailById(id,newEmail);

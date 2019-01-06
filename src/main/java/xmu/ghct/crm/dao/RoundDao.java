@@ -20,10 +20,10 @@ import java.util.*;
 public class RoundDao {
 
     @Autowired
-    private RoundMapper roundMapper;
+    RoundMapper roundMapper;
 
     @Autowired
-    private KlassMapper klassMapper;
+    KlassMapper klassMapper;
 
     @Autowired
     TeamMapper teamMapper;
@@ -33,6 +33,10 @@ public class RoundDao {
 
     @Autowired
     SeminarMapper seminarMapper;
+
+    private static final String AVERAGE="平均分";
+    private static final String HIGHEST="最高分";
+
     /**
      * @cyq
      * 根据roundId获取该轮次下所有seminar的简单信息
@@ -80,9 +84,9 @@ public class RoundDao {
     private String intToString(int i)
     {
         if(i==0) {
-            return "平均分";
+            return AVERAGE;
         } else {
-            return "最高分";
+            return HIGHEST;
         }
     }
 
@@ -93,7 +97,7 @@ public class RoundDao {
      */
     private int stringToInt(String s)
     {
-        if("平均分".equals(s)) {
+        if(AVERAGE.equals(s)) {
             return 0;
         } else {
             return 1;

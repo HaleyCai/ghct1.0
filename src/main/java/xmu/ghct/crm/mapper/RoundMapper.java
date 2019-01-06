@@ -37,6 +37,7 @@ public interface RoundMapper {
      * @param presentationScoreMethod
      * @param reportScoreMethod
      * @param questionScoreMethod
+     * @param courseId
      * @return
      */
     int modifyRoundByRoundId(@Param("roundId") BigInteger roundId,

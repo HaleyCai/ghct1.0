@@ -68,6 +68,8 @@ public class ScoreController {
     public List<Score> listKlassSeminarScoreByRoundIdAndTeamId(@PathVariable("roundId")String roundId,
                                                                @PathVariable("teamId")String teamId) throws NotFoundException
     {
+        System.out.println("roundId"+roundId);
+        System.out.println("teamId"+teamId);
         return scoreService.listKlassSeminarScoreByRoundIdAndTeamId(new BigInteger(roundId),new BigInteger(teamId));
     }
 

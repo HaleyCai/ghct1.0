@@ -31,6 +31,9 @@ public class ShareController {
     @Autowired
     ShareDao shareDao;
 
+    private static final Integer SHARE_TEAM=1;
+    private static final Integer SHARE_SEMINAR=2;
+
     /**
      * 共享设置界面：路径上多传入一个courseId，已同意的，共享组队请求+共享讨论课请求信息，包括本课程是主还是从
      * @return
@@ -60,7 +63,7 @@ public class ShareController {
         BigInteger id=jwtTokenUtil.getIDFromRequest(request);
         List<ShareRequestVO> shareRequestVOS=shareService.getUntreatedShare(id);
         List<TeamApplicationVO> teamApplicationVOS=shareService.getUntreatedTeam(id);
-        Map<String,Object> map=new HashMap<>();
+        Map<String,Object> map=new HashMap<>(16);
         map.put("share",shareRequestVOS);
         map.put("team",teamApplicationVOS);
         return map;
@@ -118,7 +121,7 @@ public class ShareController {
         share.setSubCourseTeacherId(new BigInteger(inMap.get("subCourseTeacherId").toString()));
         //判断自己课程是否已成为其他课程的从课程，若是则不能发起
         int type=(int)inMap.get("type");
-        if(type==1)
+        if(type==SHARE_TEAM)
         {
             Share share1=shareDao.getSubTeamShare(share.getMainCourseId());
             if(share1!=null) {
@@ -128,7 +131,7 @@ public class ShareController {
                 share.setShareType("共享组队");
             }
         }
-        else if(type==2)
+        else if(type==SHARE_SEMINAR)
         {
             Share share1=shareDao.getSubSeminarShare(share.getMainCourseId());
             if(share1!=null) {

@@ -9,9 +9,13 @@ import java.math.BigInteger;
 public class Round implements Serializable {
     private BigInteger roundId;
     private BigInteger courseId;
-    //轮次序号
+    /**
+     * 轮次序号
+     */
     private int roundSerial;
-    //本轮次成绩计算方法，0代表平均分，1代表最高分
+    /**
+     * 本轮次成绩计算方法，0代表平均分，1代表最高分
+     */
     private int presentationScoreMethod;
     private int reportScoreMethod;
     private int questionScoreMethod;

@@ -178,13 +178,13 @@ public class CourseController {
         List<List<Map>> map=new ArrayList<>();
         for(Round round:roundList){
             List<Map> mapList=new ArrayList<>();
-            Map<String,Object> roundMap=new HashMap<>();
+            Map<String,Object> roundMap=new HashMap<>(16);
             roundMap.put("roundId",round.getRoundId());
             roundMap.put("roundSerial",round.getRoundSerial());
             mapList.add(roundMap);
             List<Seminar> seminarList=seminarService.listSeminarByRoundId(round.getRoundId());
             for(Seminar item:seminarList){
-                Map<String,Object> oneMap=new HashMap<>();
+                Map<String,Object> oneMap=new HashMap<>(16);
                 oneMap.put("seminarId",item.getSeminarId());
                 oneMap.put("seminarName",item.getSeminarName());
                 oneMap.put("seminarSerial",item.getSeminarSerial());
@@ -206,7 +206,7 @@ public class CourseController {
         Seminar seminar=seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
         List<Klass> klassList=klassService.listKlassBySeminarId(new BigInteger(seminarId));
         List<Map> map=new ArrayList<>();
-        Map<String, Object> oneMap=new HashMap<>();
+        Map<String, Object> oneMap=new HashMap<>(16);
         oneMap.put("seminarId",seminar.getSeminarId());
         oneMap.put("seminarSerial",seminar.getSeminarSerial());
         oneMap.put("seminarName",seminar.getSeminarName());
@@ -215,7 +215,7 @@ public class CourseController {
         oneMap.put("enrollEndTime",seminar.getEnrollEndTime());
         map.add(oneMap);
         for(Klass klass:klassList){
-            Map<String,Object> klassMap=new HashMap<>();
+            Map<String,Object> klassMap=new HashMap<>(16);
             klassMap.put("klassSerial",klass.getKlassSerial());
             klassMap.put("klassId",klass.getKlassId());
             map.add(klassMap);
@@ -274,7 +274,7 @@ public class CourseController {
         for(int i=0;i<attendanceList.size();){
             account++;
             Attendance attendance=attendanceList.get(i);
-            Map<String,Object> oneMap=new HashMap<>();
+            Map<String,Object> oneMap=new HashMap<>(16);
             if(attendance.getTeamOrder()>account){
                 System.out.println(attendance.getTeamOrder());
                 oneMap.put("attendanceStatus",false);
@@ -328,7 +328,7 @@ public class CourseController {
         }
         while(account<maxTeam){
             account++;
-            Map<String,Object> oneMap=new HashMap<>();
+            Map<String,Object> oneMap=new HashMap<>(16);
             oneMap.put("attendanceStatus",false);
             oneMap.put("status",klassSeminar.getStatus());
             oneMap.put("klassSeminarId",klassSeminar.getKlassSeminarId());
@@ -350,7 +350,7 @@ public class CourseController {
         List<Klass> klassList=klassService.listKlassByCourseId(new BigInteger(courseId));
         List<Map> map=new ArrayList<>();
         for(Klass klass:klassList){
-            Map<String,Object> oneMap=new HashMap<>();
+            Map<String,Object> oneMap=new HashMap<>(16);
             int studentNumber=klassService.getStudentNumber(klass.getKlassId());
             if(studentNumber>0) {
                 oneMap.put("submitStatus",true);
@@ -381,7 +381,7 @@ public class CourseController {
         for(ScoreVO scoreVO:scoreVOList){
             List<Score> scoreList=scoreService.listKlassSeminarScoreByRoundIdAndTeamId(new BigInteger(roundId),scoreVO.getTeamId());
             for(Score score:scoreList){
-                Map<String,Object> oneMap=new HashMap<>();
+                Map<String,Object> oneMap=new HashMap<>(16);
                 oneMap.put("roundTotalScore",scoreVO.getTotalScore());
                 oneMap.put("seminarName",score.getSeminarName());
                 oneMap.put("presentationScore",score.getPresentationScore());

@@ -63,6 +63,7 @@ public interface TeacherMapper {
     /**
      * 管理员创建一个教师
      * @param teacher
+     * @return
      */
     int createTeacher(User teacher);
 
