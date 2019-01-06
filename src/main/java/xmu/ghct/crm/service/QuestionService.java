@@ -80,7 +80,8 @@ public class QuestionService {
     public QuestionListVO getOneQuestion(BigInteger attendanceId) throws NotFoundException {
         QuestionListVO questionListVO=new QuestionListVO();
         Question question=questionDao.getOneQuestion(attendanceId);
-
+        if(question==null)
+            return null;
         questionListVO.setQuestionId(question.getQuestionId());
 
         BigInteger klassId=seminarDao.getKlassIdByKlassSeminarId(question.getKlassSeminarId());
