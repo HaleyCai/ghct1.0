@@ -375,6 +375,7 @@ public class SeminarService {
             Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(item.getKlassSeminarId(),team.getTeamId());
             System.out.println(team);
             Map<String,Object> oneMap=new HashMap<>();
+            oneMap.put("attendanceId",item.getAttendanceId());
             oneMap.put("teamId",item.getTeamId());
             oneMap.put("teamSerial",team.getTeamSerial());
             oneMap.put("klassSerial",team.getKlassSerial());

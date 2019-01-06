@@ -279,7 +279,7 @@ public class SeminarController {
      * 教师给报告成绩
      * @param klassSeminarId
      * @param reportMapList
-     * @return
+     * @returnm
      */
     @PostMapping("/seminar/{klassSeminarId}/updateReportScore")
     public boolean updateReportScoreByKlassSeminarId(@PathVariable("klassSeminarId") String klassSeminarId,@RequestBody List<Map> reportMapList) throws NotFoundException{
