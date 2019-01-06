@@ -113,6 +113,11 @@ public class QuestionService {
             return false;
         }
 
+        if(questionDao.getQuestionByAttendanceIdAndStudentId(attendanceId,studentId)!=null)
+        {
+            return false;
+        }
+
         Question question=new Question();
 
         question.setKlassSeminarId(klassSeminarId);

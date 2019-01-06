@@ -126,4 +126,8 @@ public interface QuestionMapper {
      */
     List<Question> listQuestionByAttendanceId(BigInteger attendanceId);
 
+    /**
+     * 判断一个人是否重复提问
+     */
+    Question getQuestionByAttendanceIdAndStudentId(BigInteger attendanceId,BigInteger studentId);
 }

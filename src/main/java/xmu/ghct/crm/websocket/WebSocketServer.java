@@ -83,8 +83,6 @@ public class WebSocketServer {
                 if("提问".equals(message))
                 {
                     questionCount++;
-                    message=String.valueOf(questionCount);
-                    System.out.println("后端给前端 "+message);
                     webSocketServer.sendMessage(message);
                 }
                 else if("下一组".equals(message)){
@@ -97,7 +95,7 @@ public class WebSocketServer {
                     if(questionCount!=0) {
                         questionCount--;
                     }
-                    message=String.valueOf(questionCount);
+                    message="提问人数"+String.valueOf(questionCount);
                     System.out.println("后端给前端 "+message);
                     webSocketServer.sendMessage(message);
                 }

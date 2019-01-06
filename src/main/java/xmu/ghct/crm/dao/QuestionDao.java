@@ -97,4 +97,10 @@ public class QuestionDao {
     {
         return questionMapper.listQuestionByAttendanceId(attendanceId);
     }
+
+
+    public Question getQuestionByAttendanceIdAndStudentId(BigInteger attendanceId,BigInteger studentId)
+    {
+        return questionMapper.getQuestionByAttendanceIdAndStudentId(attendanceId,studentId);
+    }
 }
