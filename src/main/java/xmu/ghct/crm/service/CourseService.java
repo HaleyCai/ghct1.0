@@ -191,11 +191,12 @@ public class CourseService {
         List<Attendance> attendanceList=presentationDao.listAttendanceByKlassSeminarId(klassSeminar.getKlassSeminarId());
         int maxTeam=klassSeminar.getMaxTeam();
         int account=0;
-        for(Attendance attendance:attendanceList){
+        for(int i=0;i<attendanceList.size();){
             account++;
             System.out.println(account);
+            Attendance attendance=attendanceList.get(i);
             Map<String,Object> oneMap=new HashMap<>();
-            if(account!=attendance.getTeamOrder()){
+            if(attendance.getTeamOrder()>account){
                 System.out.println(attendance.getTeamOrder());
                 oneMap.put("attendanceStatus",false);
                 map.add(oneMap);
@@ -203,6 +204,7 @@ public class CourseService {
             }
             else {
                 oneMap.put("attendanceStatus",true);
+                i++;
             }
             BigInteger teamId=attendance.getTeamId();
             Team team=teamService.getTeamInfoByTeamId(teamId);
@@ -234,7 +236,7 @@ public class CourseService {
             oneMap.put("reportUrl",reportUrl);
             map.add(oneMap);
         }
-        if(account<maxTeam){
+        while(account<maxTeam){
             account++;
             Map<String,Object> oneMap=new HashMap<>();
             oneMap.put("attendanceStatus",false);

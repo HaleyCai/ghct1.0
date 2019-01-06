@@ -262,11 +262,11 @@ public class CourseController {
         int maxTeam=klassSeminar.getMaxTeam();
         System.out.println(maxTeam);
         int account=0;
-        for(Attendance attendance:attendanceList){
+        for(int i=0;i<attendanceList.size();){
             account++;
-            System.out.println(account);
+            Attendance attendance=attendanceList.get(i);
             Map<String,Object> oneMap=new HashMap<>();
-            if(account!=attendance.getTeamOrder()){
+            if(attendance.getTeamOrder()>account){
                 System.out.println(attendance.getTeamOrder());
                 oneMap.put("attendanceStatus",false);
                 oneMap.put("status",klassSeminar.getStatus());
@@ -276,6 +276,7 @@ public class CourseController {
             }
             else {
                 oneMap.put("attendanceStatus",true);
+                i++;
             }
             if(myTeamId.equals(attendance.getTeamId())){
                 oneMap.put("myAttendanceStatus",true);
