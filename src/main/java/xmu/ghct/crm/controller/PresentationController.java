@@ -315,14 +315,13 @@ public class PresentationController {
     /**
      * 修改展示成绩（展示给分）
      * @param klassSeminarId
-     * @param presentationScoreMap
      * @return
      */
     @PutMapping("/presentation/{klassSeminarId}/attendance/{teamId}")
     public boolean updatePresentationScore(@PathVariable("klassSeminarId") String klassSeminarId,
                                            @PathVariable("teamId")String teamId,
-                                           @RequestBody  Map<String,Object> presentationScoreMap) throws NotFoundException{
-        Double presentationScore=new Double(presentationScoreMap.get("presentationScore").toString());
+                                           @RequestBody  Score scores) throws NotFoundException{
+        Double presentationScore=scores.getPresentationScore();
         //---------此處有報錯
         System.out.println("presentationScore"+presentationScore);
         Score score=scoreDao.getSeminarScoreByKlassSeminarIdAndTeamId(new BigInteger(klassSeminarId),new BigInteger(teamId));

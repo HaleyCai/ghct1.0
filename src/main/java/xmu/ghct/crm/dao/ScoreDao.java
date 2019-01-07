@@ -11,6 +11,7 @@ import xmu.ghct.crm.mapper.SeminarMapper;
 import xmu.ghct.crm.mapper.TeamMapper;
 import xmu.ghct.crm.vo.SeminarScoreVO;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -144,13 +145,15 @@ public class ScoreDao {
 
     public int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO) throws NotFoundException
     {
-        int count=scoreMapper.updateRoundScoreByRoundIdAndTeamId(scoreVO);
+        BigDecimal count=scoreMapper.updateRoundScoreByRoundIdAndTeamId(
+                scoreVO.getRoundId(),
+                scoreVO.getTeamId(),
+                new BigDecimal(scoreVO.getPresentationScore().toString()),
+                new BigDecimal("0"),
+                new BigDecimal("0"),
+                new BigDecimal("0"));
         System.out.println(scoreVO);
-        if(count<=0)
-        {
-           return 0;
-        }
-        return count;
+        return 0;
     }
 
     public Score getSeminarScoreByKlassSeminarIdAndTeamId(BigInteger klassSeminarId,BigInteger teamId) throws NotFoundException

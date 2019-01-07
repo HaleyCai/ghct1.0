@@ -7,6 +7,7 @@ import xmu.ghct.crm.vo.ScoreVO;
 import xmu.ghct.crm.entity.Score;
 import xmu.ghct.crm.vo.SeminarScoreVO;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -59,11 +60,20 @@ public interface ScoreMapper {
 
     /**
      * 根据roundId和teamId修改轮次成绩
-     * @param scoreVO
+     * @param roundId
+     * @param teamId
+     * @param presentationScore
+     * @param questionScore
+     * @param reportScore
+     * @param totalScore
      * @return
      */
-    int updateRoundScoreByRoundIdAndTeamId(ScoreVO scoreVO);
-
+    BigDecimal updateRoundScoreByRoundIdAndTeamId(BigInteger roundId,
+                                           BigInteger teamId,
+                                           BigDecimal presentationScore,
+                                           BigDecimal questionScore,
+                                           BigDecimal reportScore,
+                                           BigDecimal totalScore);
     /**
      *根据roundId获得轮次下所有小组的轮次成绩
      * @param roundId

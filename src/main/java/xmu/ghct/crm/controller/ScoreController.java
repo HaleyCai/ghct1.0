@@ -145,10 +145,14 @@ public class ScoreController {
         BigInteger teamId=new BigInteger("0");
         for(BigInteger teamIdItem:teamIdList)
         {
-            BigInteger tKlassId=teamService.getKlassIdByTeamId(teamIdItem);
-            if(klassId.equals(tKlassId))
-            {
-                teamId=teamIdItem;
+            ///找到该队伍的班级
+            List<BigInteger> klassIds=teamService.listKlassIdByTeamId(teamIdItem);
+            System.out.println("队伍所有klass："+klassIds);
+            for(BigInteger klassId2:klassIds) {
+                if(klassId.equals(klassId2))
+                {
+                    teamId=teamIdItem;
+                }
             }
         }
         System.out.println("teamId "+teamId);

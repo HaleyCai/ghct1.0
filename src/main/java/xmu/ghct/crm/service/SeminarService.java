@@ -12,6 +12,7 @@ import xmu.ghct.crm.mapper.SeminarMapper;
 import xmu.ghct.crm.security.JwtTokenUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -314,7 +315,13 @@ public class SeminarService {
         roundScoreVO.setTotalScore(roundScore.getTotalScore());
         roundScoreVO.setRoundId(roundId);
         roundScoreVO.setTeamId(teamId);
-        scoreMapper.updateRoundScoreByRoundIdAndTeamId(roundScoreVO);
+        scoreMapper.updateRoundScoreByRoundIdAndTeamId(
+                roundScoreVO.getRoundId(),
+                roundScoreVO.getTeamId(),
+                new BigDecimal(roundScoreVO.getPresentationScore()),
+                new BigDecimal(roundScoreVO.getQuestionScore()),
+                new BigDecimal(roundScoreVO.getReportScore()),
+                new BigDecimal(roundScoreVO.getTotalScore()));
         return flag;
     }
 
@@ -384,7 +391,13 @@ public class SeminarService {
                 roundScoreVO.setTotalScore(roundScore.getTotalScore());
                 roundScoreVO.setRoundId(roundId);
                 roundScoreVO.setTeamId(teamId);
-                scoreMapper.updateRoundScoreByRoundIdAndTeamId(roundScoreVO);
+                scoreMapper.updateRoundScoreByRoundIdAndTeamId(
+                        roundScoreVO.getRoundId(),
+                        roundScoreVO.getTeamId(),
+                        new BigDecimal(roundScoreVO.getPresentationScore()),
+                        new BigDecimal(roundScoreVO.getQuestionScore()),
+                        new BigDecimal(roundScoreVO.getReportScore()),
+                        new BigDecimal(roundScoreVO.getTotalScore()));
                 if(flag<0) {
                     return false;
                 }
